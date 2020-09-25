@@ -41,7 +41,7 @@ class Company {
   @Column({ name: 'is_active', default: true })
   isActive: boolean
 
-  @OneToOne(() => User, { nullable: false })
+  @OneToOne(() => User)
   @JoinColumn({ name: 'admin_id' })
   admin: User
 
