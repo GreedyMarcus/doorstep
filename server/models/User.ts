@@ -24,7 +24,7 @@ class User {
   @Column({ unique: true })
   email: string
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   password: string
 
   @Column({ name: 'is_active', default: true })
