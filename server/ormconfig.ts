@@ -1,6 +1,6 @@
 import config from './config'
 
-const isProd = config.env === 'production'
+const isProd = config.server.env === 'production'
 const entitiesDir = 'server/models'
 const migrationsDir = 'server/migrations'
 

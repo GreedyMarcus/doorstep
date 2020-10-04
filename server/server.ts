@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import config from './config'
 import apiRouter from './routes'
+import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware'
 import { createConnection } from 'typeorm'
 const ormconfig = require('./ormconfig')
 
@@ -12,8 +13,8 @@ class Server {
 
   constructor() {
     this.app = express()
-    this.port = config.port
-    this.env = config.env
+    this.port = config.server.port
+    this.env = config.server.env
   }
 
   configure() {
@@ -26,6 +27,7 @@ class Server {
     )
     this.app.use(express.json())
     this.app.use('/api', apiRouter)
+    this.app.use(errorHandlerMiddleware)
   }
 
   start() {

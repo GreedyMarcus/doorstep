@@ -2,8 +2,10 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export default {
-  env: process.env.NODE_ENV || 'development',
-  port: Number(process.env.PORT) || 5000,
+  server: {
+    env: process.env.NODE_ENV || 'development',
+    port: Number(process.env.PORT) || 5000
+  },
   database: {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
