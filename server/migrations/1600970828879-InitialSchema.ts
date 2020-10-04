@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm"
 import UserRole from '../models/UserRole'
 import UserPermission from '../models/UserPermission'
-import UserRolePermissionsSeed from '../seed/UserRolePermissionsSeed'
+import UserRolePermissionsSeed from '../data/seeds/UserRolePermissionsSeed'
 
 export class InitialSchema1600970828879 implements MigrationInterface {
   name = 'InitialSchema1600970828879'
