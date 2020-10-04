@@ -1,6 +1,7 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import cors from 'cors'
 import config from './config'
+import apiRouter from './routes'
 import { createConnection } from 'typeorm'
 const ormconfig = require('./ormconfig')
 
@@ -24,8 +25,7 @@ class Server {
       })
     )
     this.app.use(express.json())
-
-    this.app.get('/', (req: Request, res: Response) => res.send('Doorstep'))
+    this.app.use('/api', apiRouter)
   }
 
   start() {
