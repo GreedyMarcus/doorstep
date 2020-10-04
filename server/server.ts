@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import cors from 'cors'
 import config from './config'
 import { createConnection } from 'typeorm'
+const ormconfig = require('./ormconfig')
 
 class Server {
   private app: express.Application
@@ -9,11 +10,9 @@ class Server {
   private env: string
 
   constructor() {
-    createConnection()
-
     this.app = express()
-    this.port = config.PORT
-    this.env = config.NODE_ENV
+    this.port = config.port
+    this.env = config.env
   }
 
   configure() {
@@ -30,9 +29,13 @@ class Server {
   }
 
   start() {
-    this.app.listen(this.port, () => {
-      console.log(`Server running in ${this.env} mode on port ${this.port}!`)
-    })
+    createConnection(ormconfig)
+      .then(() => {
+        this.app.listen(this.port, () => {
+          console.log(`Server running in ${this.env} mode on port ${this.port}!`)
+        })
+      })
+      .catch(error => console.log(error))
   }
 }
 
