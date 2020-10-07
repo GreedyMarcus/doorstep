@@ -10,11 +10,6 @@ const authRouter = express.Router()
 const authController = container.get<AuthController>(TYPES.Controller)
 
 authRouter.post('/login', validationMiddleware(UserLoginSchema), authController.login)
-authRouter.post('/logout', authController.logout)
-authRouter.post(
-  '/register',
-  validationMiddleware(OfficeBuildingRegistrationSchema),
-  authController.register
-)
+authRouter.post('/register', validationMiddleware(OfficeBuildingRegistrationSchema), authController.register)
 
 export default authRouter

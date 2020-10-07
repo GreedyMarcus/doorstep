@@ -21,10 +21,6 @@ class AuthController {
     res.json(token)
   }
 
-  public logout = async (req: Request, res: Response, next: NextFunction) => {
-    res.send('LOGOUT')
-  }
-
   public register = async (req: Request, res: Response, next: NextFunction) => {
     try {
       await this.authService.registerOfficeBuilding(req.body)

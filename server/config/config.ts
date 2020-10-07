@@ -16,7 +16,7 @@ export default {
     logger: process.env.DB_LOGGER || 'advanced-console'
   },
   auth: {
-    tokenSecret: process.env.TOKEN_SECRET,
-    tokenExpiration: process.env.TOKEN_EXPIRATION
+    tokenSecret: process.env.TOKEN_SECRET || 'secret',
+    tokenExpiration: process.env.TOKEN_EXPIRATION || '3600s'
   }
 }

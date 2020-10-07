@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import Joi from 'joi'
 import Boom from '@hapi/boom'
 
-export default (validationSchema: Joi.ObjectSchema) => async (
+export default (validationSchema: Joi.ObjectSchema) => (
   req: Request,
   res: Response,
   next: NextFunction

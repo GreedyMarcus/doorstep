@@ -35,8 +35,9 @@ class AuthService implements AuthServiceInterface {
       throw Boom.badRequest('Invalid password')
     }
 
+    // Create jwt token
     const { tokenSecret, tokenExpiration } = config.auth
-    return jwt.sign({ userId: user.id }, tokenSecret, { expiresIn: tokenExpiration })
+    return jwt.sign({ user: user.id }, tokenSecret, { expiresIn: tokenExpiration })
   }
 
   public registerOfficeBuilding = async (registration: OfficeBuildingRegistrationDTO): Promise<void> => {
@@ -50,15 +51,19 @@ class AuthService implements AuthServiceInterface {
       throw Boom.badRequest('Office building already exists')
     }
 
+    // Hash password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(registration.buildingAdmin.password, salt)
 
+
+    // Save admin with hashed password
     const adminData = { ...registration.buildingAdmin, password: hashedPassword }
     const createdAdmin = await this.userRepository.createUser(adminData, UserRoleType.ADMIN)
     if (!createdAdmin) {
       throw Boom.internal('Admin user was not created')
     }
 
+    // Save office building with admin
     const createdBuilding = await this.officeBuildingRepository.createBuilding(registration.buildingAddress, createdAdmin)
     if (!createdBuilding) {
       throw Boom.internal('Office building was not created')
