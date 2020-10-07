@@ -1,10 +1,10 @@
+const ormconfig = require('./ormconfig')
 import express from 'express'
 import cors from 'cors'
 import config from './config'
 import apiRouter from './routes'
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware'
 import { createConnection } from 'typeorm'
-const ormconfig = require('./ormconfig')
 
 class Server {
   private app: express.Application
@@ -17,7 +17,7 @@ class Server {
     this.env = config.server.env
   }
 
-  configure() {
+  public configure() {
     this.app.use(
       cors({
         origin: true,
@@ -30,7 +30,7 @@ class Server {
     this.app.use(errorHandlerMiddleware)
   }
 
-  start() {
+  public start() {
     createConnection(ormconfig)
       .then(() => {
         this.app.listen(this.port, () => {
