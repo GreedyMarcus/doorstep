@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import { inject, injectable } from 'inversify'
 import { AuthServiceInterface } from 'server/services/auth'
 import TYPES from '../config/types'
-import Boom from '@hapi/boom'
 
 @injectable()
 class AuthController {
@@ -13,7 +12,13 @@ class AuthController {
   }
 
   public login = async (req: Request, res: Response, next: NextFunction) => {
-    res.send('LOGIN')
+    let token: string
+    try {
+      token = await this.authService.loginUser(req.body)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(token)
   }
 
   public logout = async (req: Request, res: Response, next: NextFunction) => {
@@ -24,11 +29,7 @@ class AuthController {
     try {
       await this.authService.registerOfficeBuilding(req.body)
     } catch (err) {
-      console.log(err)
-      if (Boom.isBoom(err)) {
-        return next(err)
-      }
-      return next(Boom.internal(err.message))
+      return next(err)
     }
     res.sendStatus(200)
   }

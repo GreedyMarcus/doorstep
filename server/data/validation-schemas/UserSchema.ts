@@ -7,3 +7,8 @@ export const UserInfoSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required()
 })
+
+export const UserLoginSchema = Joi.object({
+  email: Joi.string().pattern(REGEXP.EMAIL).required(),
+  password: Joi.string().pattern(REGEXP.PASSWORD).required()
+})

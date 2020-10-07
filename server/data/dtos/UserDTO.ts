@@ -4,3 +4,8 @@ export interface UserInfoDTO {
   firstName: string
   lastName: string
 }
+
+export interface UserLoginDTO {
+  email: string
+  password: string
+}

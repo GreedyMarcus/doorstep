@@ -14,5 +14,9 @@ export default {
     pass: process.env.DB_PASS,
     logging: process.env.DB_LOGGING,
     logger: process.env.DB_LOGGER || 'advanced-console'
+  },
+  auth: {
+    tokenSecret: process.env.TOKEN_SECRET,
+    tokenExpiration: process.env.TOKEN_EXPIRATION
   }
 }
