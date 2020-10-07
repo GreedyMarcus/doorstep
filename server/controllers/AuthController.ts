@@ -1,18 +1,36 @@
 import { Request, Response, NextFunction } from 'express'
+import { inject, injectable } from 'inversify'
+import { AuthServiceInterface } from 'server/services/auth'
+import TYPES from '../config/types'
+import Boom from '@hapi/boom'
 
+@injectable()
 class AuthController {
-  constructor() {}
+  private readonly authService: AuthServiceInterface
 
-  public async login(req: Request, res: Response, next: NextFunction) {
+  constructor(@inject(TYPES.AuthService) authService: AuthServiceInterface) {
+    this.authService = authService
+  }
+
+  public login = async (req: Request, res: Response, next: NextFunction) => {
     res.send('LOGIN')
   }
 
-  public async logout(req: Request, res: Response, next: NextFunction) {
+  public logout = async (req: Request, res: Response, next: NextFunction) => {
     res.send('LOGOUT')
   }
 
-  public async register(req: Request, res: Response, next: NextFunction) {
-    res.send('REGISTER')
+  public register = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.authService.registerOfficeBuilding(req.body)
+    } catch (err) {
+      console.log(err)
+      if (Boom.isBoom(err)) {
+        return next(err)
+      }
+      return next(Boom.internal(err.message))
+    }
+    res.sendStatus(200)
   }
 }
 
