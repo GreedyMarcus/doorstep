@@ -8,8 +8,8 @@ import {
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { IdentifierCardType } from '../enums/IdentifierCardType'
-import { GuestParticipationStatus } from '../enums/GuestParticipationStatus'
+import { IdentifierCardType } from '../data/enums/IdentifierCardType'
+import { GuestParticipationStatus } from '../data/enums/GuestParticipationStatus'
 import Address from './Address'
 import User from './User'
 import GuestCard from './GuestCard'

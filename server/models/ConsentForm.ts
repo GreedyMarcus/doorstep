@@ -8,7 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { ConsentFormType } from '../enums/ConsentFormType'
+import { ConsentFormType } from '../data/enums/ConsentFormType'
 import ConsentFormVersion from './ConsentFormVersion'
 import OfficeBuilding from './OfficeBuilding'
 import Company from './Company'

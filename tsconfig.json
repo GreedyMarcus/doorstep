@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "lib": ["es5", "es6", "dom"],
+    "types": ["reflect-metadata"],
     "allowJs": true,
     "jsx": "react",
     "sourceMap": true,

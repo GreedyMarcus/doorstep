@@ -1,18 +1,18 @@
 import config from './config'
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = config.server.env === 'production'
 const entitiesDir = 'server/models'
 const migrationsDir = 'server/migrations'
 
 export = {
   type: 'mysql',
-  host: config.DB_HOST,
-  port: config.DB_PORT,
-  username: config.DB_USER,
-  password: config.DB_PASS,
-  database: config.DB_NAME,
+  host: config.database.host,
+  port: config.database.port,
+  username: config.database.user,
+  password: config.database.pass,
+  database: config.database.name,
   synchronize: false,
-  logging: config.DB_LOGGING,
+  logging: config.database.logging,
   entities: [isProd ? `build/${entitiesDir}/**/*.js` : `${entitiesDir}/**/*.ts`],
   migrations: [isProd ? `build/${migrationsDir}/**/*.js` : `${migrationsDir}/**/*.ts`],
   subscribers: [],

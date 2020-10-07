@@ -7,7 +7,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { VisitPurpose } from '../enums/VisitPurpose'
+import { VisitPurpose } from '../data/enums/VisitPurpose'
 import ConsentFormVersion from './ConsentFormVersion'
 import Guest from './Guest'
 import User from './User'

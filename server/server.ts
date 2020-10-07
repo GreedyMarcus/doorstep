@@ -1,6 +1,9 @@
-import express, { Request, Response } from 'express'
+const ormconfig = require('./ormconfig')
+import express from 'express'
 import cors from 'cors'
 import config from './config'
+import apiRouter from './routes'
+import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware'
 import { createConnection } from 'typeorm'
 
 class Server {
@@ -9,14 +12,12 @@ class Server {
   private env: string
 
   constructor() {
-    createConnection()
-
     this.app = express()
-    this.port = config.PORT
-    this.env = config.NODE_ENV
+    this.port = config.server.port
+    this.env = config.server.env
   }
 
-  configure() {
+  public configure() {
     this.app.use(
       cors({
         origin: true,
@@ -25,14 +26,18 @@ class Server {
       })
     )
     this.app.use(express.json())
-
-    this.app.get('/', (req: Request, res: Response) => res.send('Doorstep'))
+    this.app.use('/api', apiRouter)
+    this.app.use(errorHandlerMiddleware)
   }
 
-  start() {
-    this.app.listen(this.port, () => {
-      console.log(`Server running in ${this.env} mode on port ${this.port}!`)
-    })
+  public start() {
+    createConnection(ormconfig)
+      .then(() => {
+        this.app.listen(this.port, () => {
+          console.log(`Server running in ${this.env} mode on port ${this.port}!`)
+        })
+      })
+      .catch(error => console.log(error))
   }
 }
 
