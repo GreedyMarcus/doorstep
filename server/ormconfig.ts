@@ -5,7 +5,7 @@ const isProd = config.server.env === 'production'
 const entitiesDir = 'server/models'
 const migrationsDir = 'server/migrations'
 
-export const ormconfig: ConnectionOptions = {
+const ormconfig: ConnectionOptions = {
   type: 'mysql',
   url: config.database.url,
   synchronize: false,
@@ -18,3 +18,5 @@ export const ormconfig: ConnectionOptions = {
     migrationsDir
   }
 }
+
+export = ormconfig

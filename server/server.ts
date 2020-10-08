@@ -2,9 +2,9 @@ import express, { Request, Response } from 'express'
 import path from 'path'
 import cors from 'cors'
 import config from './config'
+import ormconfig from './ormconfig'
 import apiRouter from './routes'
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware'
-import { ormconfig } from './ormconfig'
 import { createConnection } from 'typeorm'
 
 class Server {
