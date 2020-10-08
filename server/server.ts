@@ -1,5 +1,6 @@
 const ormconfig = require('./ormconfig')
-import express from 'express'
+import express, { Request, Response } from 'express'
+import path from 'path'
 import cors from 'cors'
 import config from './config'
 import apiRouter from './routes'
@@ -27,6 +28,15 @@ class Server {
     )
     this.app.use(express.json())
     this.app.use('/api', apiRouter)
+
+    // Server static assets in production
+    if (config.server.env === 'production') {
+      this.app.use(express.static('client/build'))
+      this.app.use('*', (req: Request, res: Response) => {
+        res.sendFile(path.join(__dirname + '/client/build/index.html'))
+      })
+    }
+
     this.app.use(errorHandlerMiddleware)
   }
 

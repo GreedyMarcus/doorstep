@@ -6,11 +6,7 @@ const migrationsDir = 'server/migrations'
 
 export = {
   type: 'mysql',
-  host: config.database.host,
-  port: config.database.port,
-  username: config.database.user,
-  password: config.database.pass,
-  database: config.database.name,
+  url: config.database.url,
   synchronize: false,
   logging: config.database.logging,
   entities: [isProd ? `build/${entitiesDir}/**/*.js` : `${entitiesDir}/**/*.ts`],

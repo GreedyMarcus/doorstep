@@ -20,7 +20,8 @@
     "lint": "eslint . --ext .ts",
     "migration:generate": "sh -c 'ts-node ./node_modules/typeorm/cli.js -f ./server/ormconfig.ts migration:generate -n $0'",
     "migration:up": "ts-node ./node_modules/typeorm/cli.js -f ./server/ormconfig.ts migration:run",
-    "migration:down": "ts-node ./node_modules/typeorm/cli.js -f ./server/ormconfig.ts migration:revert"
+    "migration:down": "ts-node ./node_modules/typeorm/cli.js -f ./server/ormconfig.ts migration:revert",
+    "heroku-postbuild": "npm run install-server && npm run install-client && npm run build"
   },
   "dependencies": {
     "@hapi/boom": "^9.1.0",
