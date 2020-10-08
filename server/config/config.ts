@@ -8,7 +8,7 @@ export default {
   },
   database: {
     url: process.env.DB_URL,
-    logging: process.env.DB_LOGGING,
+    logging: process.env.DB_LOGGING === 'true',
     logger: process.env.DB_LOGGER || 'advanced-console'
   },
   auth: {

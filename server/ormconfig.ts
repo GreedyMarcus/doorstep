@@ -1,10 +1,11 @@
+import { ConnectionOptions } from 'typeorm'
 import config from './config'
 
 const isProd = config.server.env === 'production'
 const entitiesDir = 'server/models'
 const migrationsDir = 'server/migrations'
 
-export = {
+export const ormconfig: ConnectionOptions = {
   type: 'mysql',
   url: config.database.url,
   synchronize: false,
