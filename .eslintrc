@@ -12,6 +12,7 @@
     "no-debugger": 1,
     "no-extra-boolean-cast": 1,
     "no-unused-vars": 1,
-    "no-empty-function": 1
+    "no-empty-function": 1,
+    "no-useless-escape": 1
   }
 }
