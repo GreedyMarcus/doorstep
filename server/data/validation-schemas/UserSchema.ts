@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { default as REGEXP } from '../../utils/RegexpConstants'
+import REGEXP from '../../utils/regexp'
 
 export const UserInfoSchema = Joi.object({
   email: Joi.string().pattern(REGEXP.EMAIL).required(),
