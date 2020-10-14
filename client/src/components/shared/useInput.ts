@@ -5,13 +5,16 @@ type InputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 const useInput = (value: string, required: boolean, validator?: RegExp) => {
   const [input, setInput] = useState({ value, error: false })
 
-  const onChange = useCallback((event: InputChangeEvent): void => {
-    const newValue = event.target.value
-    const isValid = validator ? !validator.test(newValue) : true
-    const hasError = required ? newValue === '' || !isValid : false
+  const onChange = useCallback(
+    (event: InputChangeEvent): void => {
+      const newValue = event.target.value
+      const isValid = validator ? validator.test(newValue) : true
+      const hasError = required ? newValue === '' || !isValid : false
 
-    setInput({ value: newValue, error: hasError })
-  }, [])
+      setInput({ value: newValue, error: hasError })
+    },
+    [required, validator]
+  )
 
   const reset = () => setInput({ value, error: false })
 
