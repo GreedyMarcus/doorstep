@@ -4,6 +4,7 @@ import App from './app/App'
 import theme from './app/theme'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core'
+import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>

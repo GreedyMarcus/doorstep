@@ -3,10 +3,11 @@ import { makeStyles } from '@material-ui/core/styles'
 
 export default makeStyles(theme => ({
   container: {
-    paddingTop: theme.spacing(8)
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8)
   },
   paper: {
-    padding: theme.spacing(2, 2, 3),
+    padding: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -16,7 +17,7 @@ export default makeStyles(theme => ({
     color: blueGrey[300]
   },
   welcome: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: 600,
     marginTop: theme.spacing(1)
   },
