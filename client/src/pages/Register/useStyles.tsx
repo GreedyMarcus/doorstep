@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 export default makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
+    paddingBottom: theme.spacing(4)
   },
   paper: {
     padding: theme.spacing(3),
@@ -25,8 +25,7 @@ export default makeStyles(theme => ({
     padding: theme.spacing(3, 1, 3)
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
+    width: '100%' // Fix IE 11 issue.
   },
   button: {
     marginTop: theme.spacing(3),

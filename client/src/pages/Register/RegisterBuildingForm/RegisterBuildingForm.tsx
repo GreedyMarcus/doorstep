@@ -30,7 +30,7 @@ const RegisterBuildingForm: React.FC<Props> = ({
           <TextField
             {...countryBinding}
             id="building-details-country"
-            label="Email Address"
+            label="Country"
             variant="outlined"
             fullWidth
           />

@@ -17,10 +17,14 @@ const Login: React.FC = () => {
   const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
   const [password, bindPassword, resetPassword] = useInput('', true)
 
+  const isLoginDataValid = (): boolean => {
+    return !!email.value && !email.error && !!password.value && !password.error
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
 
-    if (!email.error && !password.error) {
+    if (isLoginDataValid()) {
       // TODO: Make API call later...
       console.log(`Email: ${email.value}`)
       console.log(`Password: ${password.value}`)

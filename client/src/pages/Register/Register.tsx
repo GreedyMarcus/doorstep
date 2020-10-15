@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import RegisterAdminForm from './RegisterAdminForm'
 import RegisterBuildingForm from './RegisterBuildingForm'
+import RegisterReview from './RegisterReview'
 import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
@@ -27,21 +28,33 @@ const Register: React.FC = () => {
   const [streetAddress, bindStreetAddress, resetStreetAddress] = useInput('', true)
 
   const [activeStep, setActiveStep] = useState(0)
-  const stepLabels = ['Admin details', 'Office building details', 'Review registration']
+  const steps = ['Admin details', 'Office building details', 'Review registration']
+
+  const isRegisterDataValid = (): boolean => {
+    return (
+      !!email.value &&
+      !email.error &&
+      !!password.value &&
+      !password.error &&
+      !!firstName.value &&
+      !firstName.error &&
+      !!lastName.value &&
+      !lastName.error &&
+      !!country.value &&
+      !country.error &&
+      !!zipCode.value &&
+      !zipCode.error &&
+      !!city.value &&
+      !city.error &&
+      !!streetAddress.value &&
+      !streetAddress.error
+    )
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
 
-    if (
-      !email.error &&
-      !password.error &&
-      !firstName.error &&
-      !lastName.error &&
-      !country.error &&
-      !zipCode.error &&
-      !city.error &&
-      !streetAddress.error
-    ) {
+    if (isRegisterDataValid() && activeStep === steps.length - 1) {
       // TODO: Make API call later...
       console.log('Registered')
       resetEmail()
@@ -64,7 +77,7 @@ const Register: React.FC = () => {
         </Typography>
 
         <Stepper className={classes.stepper} activeStep={activeStep} alternativeLabel>
-          {stepLabels.map((label, index) => (
+          {steps.map((label: string, index: number) => (
             <Step key={index}>
               <StepLabel>{label}</StepLabel>
             </Step>
@@ -72,44 +85,61 @@ const Register: React.FC = () => {
         </Stepper>
 
         <form className={classes.form} onSubmit={handleSubmit} noValidate autoComplete="off">
-          {activeStep === 0 && (
+          <div style={{ display: activeStep === 0 ? 'block' : 'none' }}>
             <RegisterAdminForm
               emailBinding={bindEmail}
               passwordBinding={bindPassword}
               firstNameBinding={bindFirstName}
               lastNameBinding={bindLastName}
             />
-          )}
-          {activeStep === 1 && (
+          </div>
+          <div style={{ display: activeStep === 1 ? 'block' : 'none' }}>
             <RegisterBuildingForm
               countryBinding={bindCountry}
               zipCodeBinding={bindZipCode}
               cityBinding={bindCity}
               streetAddressBinding={bindStreetAddress}
             />
-          )}
-
+          </div>
+          <div style={{ display: activeStep === 2 ? 'block' : 'none' }}>
+            <RegisterReview
+              email={email.value}
+              firstName={firstName.value}
+              lastName={lastName.value}
+              country={country.value}
+              zipCode={zipCode.value}
+              city={city.value}
+              streetAddress={streetAddress.value}
+            />
+          </div>
           <Grid container justify="flex-end">
-            {activeStep !== 0 && (
-              <Button onClick={() => setActiveStep(activeStep - 1)} className={classes.button}>
-                Back
-              </Button>
-            )}
+            <Button
+              style={{ display: activeStep !== 0 ? 'block' : 'none' }}
+              onClick={() => setActiveStep(activeStep - 1)}
+              className={classes.button}
+            >
+              Back
+            </Button>
 
-            {activeStep === stepLabels.length - 1 ? (
-              <Button type="submit" variant="contained" color="primary" className={classes.button}>
-                Sign up
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => setActiveStep(activeStep + 1)}
-                className={classes.button}
-              >
-                Next
-              </Button>
-            )}
+            <Button
+              style={{ display: activeStep !== steps.length - 1 ? 'block' : 'none' }}
+              variant="contained"
+              color="primary"
+              onClick={() => setActiveStep(activeStep + 1)}
+              className={classes.button}
+            >
+              Next
+            </Button>
+
+            <Button
+              style={{ display: activeStep === steps.length - 1 ? 'block' : 'none' }}
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              Sign up
+            </Button>
           </Grid>
         </form>
       </Paper>
