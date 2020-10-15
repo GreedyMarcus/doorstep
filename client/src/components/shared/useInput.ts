@@ -1,6 +1,12 @@
 import { useState, useCallback, ChangeEvent } from 'react'
 
-type InputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+export type InputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+export type InputBinding = {
+  value: string
+  error: boolean
+  required: boolean
+  onChange: (event: InputChangeEvent) => void
+}
 
 const useInput = (value: string, required: boolean, validator?: RegExp) => {
   const [input, setInput] = useState({ value, error: false })
