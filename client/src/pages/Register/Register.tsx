@@ -8,12 +8,14 @@ import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import Link from '@material-ui/core/Link'
 import RegisterAdminForm from './RegisterAdminForm'
 import RegisterBuildingForm from './RegisterBuildingForm'
 import RegisterReview from './RegisterReview'
 import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
+import AuthService from '../../services/AuthService'
 
 const Register: React.FC = () => {
   const classes = useStyles()
@@ -55,8 +57,17 @@ const Register: React.FC = () => {
     event.preventDefault()
 
     if (isRegisterDataValid() && activeStep === steps.length - 1) {
-      // TODO: Make API call later...
-      console.log('Registered')
+      AuthService.registerBuilding(
+        email.value,
+        password.value,
+        firstName.value,
+        lastName.value,
+        country.value,
+        zipCode.value,
+        city.value,
+        streetAddress.value
+      )
+
       resetEmail()
       resetPassword()
       resetFirstName()
@@ -142,6 +153,11 @@ const Register: React.FC = () => {
             </Button>
           </Grid>
         </form>
+        <Grid container justify="center">
+          <Link href="/login" variant="body2">
+            Back to login
+          </Link>
+        </Grid>
       </Paper>
     </Container>
   )

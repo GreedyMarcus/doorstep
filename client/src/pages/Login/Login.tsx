@@ -10,6 +10,7 @@ import Link from '@material-ui/core/Link'
 import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
+import AuthService from '../../services/AuthService'
 
 const Login: React.FC = () => {
   const classes = useStyles()
@@ -21,13 +22,11 @@ const Login: React.FC = () => {
     return !!email.value && !email.error && !!password.value && !password.error
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
     if (isLoginDataValid()) {
-      // TODO: Make API call later...
-      console.log(`Email: ${email.value}`)
-      console.log(`Password: ${password.value}`)
+      AuthService.loginUser(email.value, password.value)
 
       resetEmail()
       resetPassword()
