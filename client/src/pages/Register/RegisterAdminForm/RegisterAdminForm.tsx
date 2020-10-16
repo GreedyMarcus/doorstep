@@ -10,18 +10,20 @@ type Props = {
   passwordBinding: InputBinding
   firstNameBinding: InputBinding
   lastNameBinding: InputBinding
+  visible: boolean
 }
 
 const RegisterAdminForm: React.FC<Props> = ({
   emailBinding,
   passwordBinding,
   firstNameBinding,
-  lastNameBinding
+  lastNameBinding,
+  visible
 }) => {
-  const classes = useStyles()
+  const classes = useStyles({ visible })
 
   return (
-    <React.Fragment>
+    <div className={classes.wrapper}>
       <Typography className={classes.title} component="h1">
         Admin details
       </Typography>
@@ -64,7 +66,7 @@ const RegisterAdminForm: React.FC<Props> = ({
           />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </div>
   )
 }
 

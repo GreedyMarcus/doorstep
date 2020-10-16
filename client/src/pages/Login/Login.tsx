@@ -11,6 +11,7 @@ import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
 import AuthService from '../../services/AuthService'
+import { Link as RouteLink } from 'react-router-dom'
 
 const Login: React.FC = () => {
   const classes = useStyles()
@@ -18,18 +19,18 @@ const Login: React.FC = () => {
   const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
   const [password, bindPassword, resetPassword] = useInput('', true)
 
-  const isLoginDataValid = (): boolean => {
-    return !!email.value && !email.error && !!password.value && !password.error
+  const clearInputs = () => {
+    resetEmail()
+    resetPassword()
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (isLoginDataValid()) {
-      AuthService.loginUser(email.value, password.value)
-
-      resetEmail()
-      resetPassword()
+    const isLoginDataValid = [email, password].every(param => param.isValid)
+    if (isLoginDataValid) {
+      await AuthService.loginUser(email.value, password.value)
+      clearInputs()
     }
   }
 
@@ -51,6 +52,7 @@ const Login: React.FC = () => {
                 {...bindEmail}
                 id="sign-in-email"
                 label="Email Address"
+                autoComplete="email"
                 variant="outlined"
                 fullWidth
               />
@@ -77,7 +79,7 @@ const Login: React.FC = () => {
                 Sign In
               </Button>
               <Grid container justify="center">
-                <Link href="/register" variant="body2">
+                <Link component={RouteLink} to="/register">
                   Register office building
                 </Link>
               </Grid>

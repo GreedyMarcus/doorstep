@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express'
-import path from 'path'
 import cors from 'cors'
 import config from './config'
 import ormconfig from './ormconfig'
@@ -31,9 +30,9 @@ class Server {
 
     // Server static assets in production
     if (config.server.env === 'production') {
-      this.app.use(express.static('client/build'))
-      this.app.use('*', (req: Request, res: Response) => {
-        res.sendFile(path.join(__dirname + '/client/build/index.html'))
+      this.app.use(express.static(__dirname.replace('build/server', 'client/build')))
+      this.app.get('*', (req: Request, res: Response) => {
+        res.sendFile(__dirname.replace('build/server', 'client/build/index.html'))
       })
     }
 

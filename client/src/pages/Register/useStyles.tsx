@@ -25,10 +25,12 @@ export default makeStyles(theme => ({
     padding: theme.spacing(3, 1, 3)
   },
   form: {
-    width: '100%' // Fix IE 11 issue.
+    width: '100%'
+  },
+  buttons: {
+    margin: theme.spacing(3, 0)
   },
   button: {
-    marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1)
   }
 }))

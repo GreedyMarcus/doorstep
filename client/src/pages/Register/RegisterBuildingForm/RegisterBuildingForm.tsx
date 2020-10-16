@@ -10,18 +10,20 @@ type Props = {
   zipCodeBinding: InputBinding
   cityBinding: InputBinding
   streetAddressBinding: InputBinding
+  visible: boolean
 }
 
 const RegisterBuildingForm: React.FC<Props> = ({
   countryBinding,
   zipCodeBinding,
   cityBinding,
-  streetAddressBinding
+  streetAddressBinding,
+  visible
 }) => {
-  const classes = useStyles()
+  const classes = useStyles({ visible })
 
   return (
-    <React.Fragment>
+    <div className={classes.wrapper}>
       <Typography className={classes.title} component="h1">
         Office building details
       </Typography>
@@ -63,7 +65,7 @@ const RegisterBuildingForm: React.FC<Props> = ({
           />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </div>
   )
 }
 
