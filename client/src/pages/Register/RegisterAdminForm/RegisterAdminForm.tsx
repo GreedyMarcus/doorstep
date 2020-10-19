@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import useStyles from './useStyles'
+import { useTranslation } from 'react-i18next'
 import { InputBinding } from '../../../components/shared/useInput'
 
 type Props = {
@@ -21,18 +22,19 @@ const RegisterAdminForm: React.FC<Props> = ({
   visible
 }) => {
   const classes = useStyles({ visible })
+  const [t] = useTranslation()
 
   return (
     <div className={classes.wrapper}>
       <Typography className={classes.title} component="h1">
-        Admin details
+        {t('auth.registerAdminDetails')}
       </Typography>
       <Grid container spacing={2}>
         <Grid item sm={6} xs={12}>
           <TextField
             {...emailBinding}
-            id="admin-details-email"
-            label="Email Address"
+            id="admin-email"
+            label={t('auth.email')}
             variant="outlined"
             fullWidth
           />
@@ -40,8 +42,8 @@ const RegisterAdminForm: React.FC<Props> = ({
         <Grid item sm={6} xs={12}>
           <TextField
             {...passwordBinding}
-            id="admin-details-password"
-            label="Password"
+            id="admin-password"
+            label={t('auth.password')}
             type="password"
             variant="outlined"
             fullWidth
@@ -50,8 +52,8 @@ const RegisterAdminForm: React.FC<Props> = ({
         <Grid item sm={6} xs={12}>
           <TextField
             {...firstNameBinding}
-            id="admin-details-first-name"
-            label="First Name"
+            id="admin-first-name"
+            label={t('auth.firstName')}
             variant="outlined"
             fullWidth
           />
@@ -59,8 +61,8 @@ const RegisterAdminForm: React.FC<Props> = ({
         <Grid item sm={6} xs={12}>
           <TextField
             {...lastNameBinding}
-            id="admin-details-last-name"
-            label="Last Name"
+            id="admin-last-name"
+            label={t('auth.lastName')}
             variant="outlined"
             fullWidth
           />

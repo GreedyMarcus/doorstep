@@ -2,6 +2,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import useStyles from './useStyles'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   email: string
@@ -25,35 +26,38 @@ const RegisterAdminForm: React.FC<Props> = ({
   visible
 }) => {
   const classes = useStyles({ visible })
+  const [t] = useTranslation()
+
+  const emailText = `${t('auth.email')}: ${email}`
+  const firstNameText = `${t('general.firstName')}: ${firstName}`
+  const lastNameText = `${t('general.lastName')}: ${lastName}`
+  const countryText = `${t('general.country')}: ${country}`
+  const zipCodeText = `${t('general.zipCode')}: ${zipCode}`
+  const cityText = `${t('general.city')}: ${city}`
+  const streetAddressText = `${t('general.streetAddress')}: ${streetAddress}`
 
   return (
     <div className={classes.wrapper}>
       <Typography className={classes.title} component="h1">
-        Review registration
+        {t('auth.registerReview')}
       </Typography>
       <Grid container spacing={2}>
         <Grid item sm={6} xs={12}>
           <Typography variant="h2" className={classes.sectionTitle}>
-            Admin details
+            {t('auth.registerAdminDetails')}
           </Typography>
-          <Typography className={classes.item} gutterBottom>{`Email: ${email}`}</Typography>
-          <Typography
-            className={classes.item}
-            gutterBottom
-          >{`First Name: ${firstName}`}</Typography>
-          <Typography className={classes.item} gutterBottom>{`Last Name: ${lastName}`}</Typography>
+          <Typography className={classes.item} gutterBottom>{emailText}</Typography>
+          <Typography className={classes.item} gutterBottom>{firstNameText}</Typography>
+          <Typography className={classes.item} gutterBottom>{lastNameText}</Typography>
         </Grid>
         <Grid item sm={6} xs={12}>
           <Typography variant="h2" className={classes.sectionTitle}>
-            Office building details
+            {t('auth.registerBuildingDetails')}
           </Typography>
-          <Typography className={classes.item} gutterBottom>{`Country: ${country}`}</Typography>
-          <Typography className={classes.item} gutterBottom>{`Zip Code: ${zipCode}`}</Typography>
-          <Typography className={classes.item} gutterBottom>{`City: ${city}`}</Typography>
-          <Typography
-            className={classes.item}
-            gutterBottom
-          >{`Street Address: ${streetAddress}`}</Typography>
+          <Typography className={classes.item} gutterBottom>{countryText}</Typography>
+          <Typography className={classes.item} gutterBottom>{zipCodeText}</Typography>
+          <Typography className={classes.item} gutterBottom>{cityText}</Typography>
+          <Typography className={classes.item} gutterBottom>{streetAddressText}</Typography>
         </Grid>
       </Grid>
     </div>

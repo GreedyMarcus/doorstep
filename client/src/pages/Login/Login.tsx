@@ -11,6 +11,7 @@ import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
 import { Link as RouteLink, useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { loginUser } from '../../store/user'
 
@@ -18,6 +19,7 @@ const Login: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
+  const [t] = useTranslation()
 
   const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
   const [password, bindPassword, resetPassword] = useInput('', true)
@@ -43,10 +45,10 @@ const Login: React.FC = () => {
       <Paper className={classes.paper} elevation={3}>
         <MeetingRoomRoundedIcon className={classes.icon} />
         <Typography className={classes.welcome} component="h1">
-          Welcome to Doorstep
+          {t('auth.loginWelcome')}
         </Typography>
         <Typography className={classes.welcomeHelper} component="h2">
-          Sign in to continue
+          {t('auth.loginWelcomeHelper')}
         </Typography>
 
         <form className={classes.form} onSubmit={handleSubmit} noValidate autoComplete="off">
@@ -54,8 +56,8 @@ const Login: React.FC = () => {
             <Grid item xs={12}>
               <TextField
                 {...bindEmail}
-                id="sign-in-email"
-                label="Email Address"
+                id="login-email"
+                label={t('auth.email')}
                 autoComplete="email"
                 variant="outlined"
                 fullWidth
@@ -64,8 +66,8 @@ const Login: React.FC = () => {
             <Grid item xs={12}>
               <TextField
                 {...bindPassword}
-                id="sign-in-password"
-                label="Password"
+                id="login-password"
+                label={t('auth.password')}
                 type="password"
                 variant="outlined"
                 fullWidth
@@ -80,11 +82,11 @@ const Login: React.FC = () => {
                 size="large"
                 fullWidth
               >
-                Sign In
+                {t('auth.loginSubmit')}
               </Button>
               <Grid container justify="center">
                 <Link component={RouteLink} to="/register">
-                  Register office building
+                  {t('auth.registerTitle')}
                 </Link>
               </Grid>
             </Grid>

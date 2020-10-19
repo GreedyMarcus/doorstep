@@ -17,10 +17,12 @@ import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
 import AuthService from '../../services/AuthService'
 import { Link as RouteLink, useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const Register: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
+  const [t] = useTranslation()
 
   const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
   const [password, bindPassword, resetPassword] = useInput('', true, REGEXP.PASSWORD)
@@ -32,7 +34,7 @@ const Register: React.FC = () => {
   const [streetAddress, bindStreetAddress, resetStreetAddress] = useInput('', true)
   const [activeStep, setActiveStep] = useState(0)
 
-  const steps = ['Admin details', 'Office building details', 'Review registration']
+  const steps = ['auth.registerAdminDetails', 'auth.registerBuildingDetails', 'auth.registerReview']
   const isFormFinished = activeStep === steps.length - 1
 
   const clearInputs = () => {
@@ -81,13 +83,13 @@ const Register: React.FC = () => {
       <Paper className={classes.paper} elevation={3}>
         <MeetingRoomRoundedIcon className={classes.icon} />
         <Typography className={classes.title} component="h1">
-          Register office building
+          {t('auth.registerTitle')}
         </Typography>
 
         <Stepper className={classes.stepper} activeStep={activeStep} alternativeLabel>
           {steps.map((label: string, index: number) => (
             <Step key={index}>
-              <StepLabel>{label}</StepLabel>
+              <StepLabel>{t(label)}</StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -123,7 +125,7 @@ const Register: React.FC = () => {
               onClick={() => setActiveStep(activeStep - 1)}
               className={classes.button}
             >
-              Back
+              {t('general.back')}
             </Button>
 
             <Button
@@ -133,7 +135,7 @@ const Register: React.FC = () => {
               onClick={() => setActiveStep(activeStep + 1)}
               className={classes.button}
             >
-              Next
+              {t('general.next')}
             </Button>
 
             <Button
@@ -143,13 +145,13 @@ const Register: React.FC = () => {
               color="primary"
               className={classes.button}
             >
-              Sign up
+              {t('auth.registerSubmit')}
             </Button>
           </Grid>
         </form>
         <Grid container justify="center">
           <Link component={RouteLink} to="/login">
-            Back to login
+            {t('auth.loginRedirect')}
           </Link>
         </Grid>
       </Paper>

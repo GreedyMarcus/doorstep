@@ -1,0 +1,25 @@
+{
+  "general": {
+    "back": "Back",
+    "next": "Next",
+    "country": "Country",
+    "zipCode": "Zip Code",
+    "city": "city",
+    "streetAddress": "Street Address"
+  },
+  "auth": {
+    "email": "Email Address",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "loginWelcome": "Welcome to Doorstep",
+    "loginWelcomeHelper": "Sign in to continue",
+    "loginSubmit": "Sign in",
+    "loginRedirect": "Back to login",
+    "registerTitle": "Register office building",
+    "registerAdminDetails": "Admin details",
+    "registerBuildingDetails": "Office building details",
+    "registerReview": "Review registration",
+    "registerSubmit": "Sign up"
+  }
+}
