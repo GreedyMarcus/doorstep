@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/office-building'
 import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
-import { UserLoginDTO } from '../../data/dtos/UserDTO'
+import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 import AuthServiceInterface from './AuthServiceInterface'
 import TYPES from '../../config/types'
@@ -24,7 +24,7 @@ class AuthService implements AuthServiceInterface {
     this.officeBuildingRepository = officeBuildingRepository
   }
 
-  public loginUser = async ({ email, password }: UserLoginDTO): Promise<string> => {
+  public loginUser = async ({ email, password }: UserLoginDTO): Promise<UserLoginResultDTO> => {
     const user = await this.userRepository.findUserByEmail(email)
     if (!user) {
       throw Boom.badRequest('User does not exist')
@@ -37,7 +37,18 @@ class AuthService implements AuthServiceInterface {
 
     // Create jwt token
     const { tokenSecret, tokenExpiration } = config.auth
-    return jwt.sign({ user: user.id }, tokenSecret, { expiresIn: tokenExpiration })
+    const token = jwt.sign({ user: user.id }, tokenSecret, { expiresIn: tokenExpiration })
+
+    const loggedInUser: UserLoginResultDTO = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role.name,
+      token
+    }
+
+    return loggedInUser
   }
 
   public registerOfficeBuilding = async (registration: OfficeBuildingRegistrationDTO): Promise<void> => {

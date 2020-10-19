@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { inject, injectable } from 'inversify'
-import { AuthServiceInterface } from 'server/services/auth'
+import { UserLoginResultDTO } from '../data/dtos/UserDTO'
+import { AuthServiceInterface } from '../services/auth'
 import TYPES from '../config/types'
 
 @injectable()
@@ -12,13 +13,13 @@ class AuthController {
   }
 
   public login = async (req: Request, res: Response, next: NextFunction) => {
-    let token: string
+    let user: UserLoginResultDTO
     try {
-      token = await this.authService.loginUser(req.body)
+      user = await this.authService.loginUser(req.body)
     } catch (err) {
       return next(err)
     }
-    res.json(token)
+    res.json(user)
   }
 
   public register = async (req: Request, res: Response, next: NextFunction) => {
