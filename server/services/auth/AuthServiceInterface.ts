@@ -1,8 +1,8 @@
-import { UserLoginDTO } from '../../data/dtos/UserDTO'
+import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
 import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
 
 interface AuthServiceInterface {
-  loginUser(loginCredentials: UserLoginDTO): Promise<string>
+  loginUser(loginCredentials: UserLoginDTO): Promise<UserLoginResultDTO>
   registerOfficeBuilding(registration: OfficeBuildingRegistrationDTO): Promise<void>
 }
 

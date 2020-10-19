@@ -16,9 +16,11 @@ import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
 import AuthService from '../../services/AuthService'
+import { Link as RouteLink, useHistory } from 'react-router-dom'
 
 const Register: React.FC = () => {
   const classes = useStyles()
+  const history = useHistory()
 
   const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
   const [password, bindPassword, resetPassword] = useInput('', true, REGEXP.PASSWORD)
@@ -28,36 +30,38 @@ const Register: React.FC = () => {
   const [zipCode, bindZipCode, resetZipCode] = useInput('', true)
   const [city, bindCity, resetCity] = useInput('', true)
   const [streetAddress, bindStreetAddress, resetStreetAddress] = useInput('', true)
-
   const [activeStep, setActiveStep] = useState(0)
-  const steps = ['Admin details', 'Office building details', 'Review registration']
 
-  const isRegisterDataValid = (): boolean => {
-    return (
-      !!email.value &&
-      !email.error &&
-      !!password.value &&
-      !password.error &&
-      !!firstName.value &&
-      !firstName.error &&
-      !!lastName.value &&
-      !lastName.error &&
-      !!country.value &&
-      !country.error &&
-      !!zipCode.value &&
-      !zipCode.error &&
-      !!city.value &&
-      !city.error &&
-      !!streetAddress.value &&
-      !streetAddress.error
-    )
+  const steps = ['Admin details', 'Office building details', 'Review registration']
+  const isFormFinished = activeStep === steps.length - 1
+
+  const clearInputs = () => {
+    resetEmail()
+    resetPassword()
+    resetFirstName()
+    resetLastName()
+    resetCountry()
+    resetZipCode()
+    resetCity()
+    resetStreetAddress()
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (isRegisterDataValid() && activeStep === steps.length - 1) {
-      AuthService.registerBuilding(
+    const isRegisterDataValid = [
+      email,
+      password,
+      firstName,
+      lastName,
+      country,
+      zipCode,
+      city,
+      streetAddress
+    ].every(param => param.isValid)
+
+    if (isFormFinished && isRegisterDataValid) {
+      await AuthService.registerBuilding(
         email.value,
         password.value,
         firstName.value,
@@ -67,15 +71,8 @@ const Register: React.FC = () => {
         city.value,
         streetAddress.value
       )
-
-      resetEmail()
-      resetPassword()
-      resetFirstName()
-      resetLastName()
-      resetCountry()
-      resetZipCode()
-      resetCity()
-      resetStreetAddress()
+      clearInputs()
+      history.push('/login')
     }
   }
 
@@ -96,34 +93,31 @@ const Register: React.FC = () => {
         </Stepper>
 
         <form className={classes.form} onSubmit={handleSubmit} noValidate autoComplete="off">
-          <div style={{ display: activeStep === 0 ? 'block' : 'none' }}>
-            <RegisterAdminForm
-              emailBinding={bindEmail}
-              passwordBinding={bindPassword}
-              firstNameBinding={bindFirstName}
-              lastNameBinding={bindLastName}
-            />
-          </div>
-          <div style={{ display: activeStep === 1 ? 'block' : 'none' }}>
-            <RegisterBuildingForm
-              countryBinding={bindCountry}
-              zipCodeBinding={bindZipCode}
-              cityBinding={bindCity}
-              streetAddressBinding={bindStreetAddress}
-            />
-          </div>
-          <div style={{ display: activeStep === 2 ? 'block' : 'none' }}>
-            <RegisterReview
-              email={email.value}
-              firstName={firstName.value}
-              lastName={lastName.value}
-              country={country.value}
-              zipCode={zipCode.value}
-              city={city.value}
-              streetAddress={streetAddress.value}
-            />
-          </div>
-          <Grid container justify="flex-end">
+          <RegisterAdminForm
+            emailBinding={bindEmail}
+            passwordBinding={bindPassword}
+            firstNameBinding={bindFirstName}
+            lastNameBinding={bindLastName}
+            visible={activeStep === 0}
+          />
+          <RegisterBuildingForm
+            countryBinding={bindCountry}
+            zipCodeBinding={bindZipCode}
+            cityBinding={bindCity}
+            streetAddressBinding={bindStreetAddress}
+            visible={activeStep === 1}
+          />
+          <RegisterReview
+            email={email.value}
+            firstName={firstName.value}
+            lastName={lastName.value}
+            country={country.value}
+            zipCode={zipCode.value}
+            city={city.value}
+            streetAddress={streetAddress.value}
+            visible={activeStep === 2}
+          />
+          <Grid className={classes.buttons} container justify="flex-end">
             <Button
               style={{ display: activeStep !== 0 ? 'block' : 'none' }}
               onClick={() => setActiveStep(activeStep - 1)}
@@ -133,7 +127,7 @@ const Register: React.FC = () => {
             </Button>
 
             <Button
-              style={{ display: activeStep !== steps.length - 1 ? 'block' : 'none' }}
+              style={{ display: !isFormFinished ? 'block' : 'none' }}
               variant="contained"
               color="primary"
               onClick={() => setActiveStep(activeStep + 1)}
@@ -143,7 +137,7 @@ const Register: React.FC = () => {
             </Button>
 
             <Button
-              style={{ display: activeStep === steps.length - 1 ? 'block' : 'none' }}
+              style={{ display: isFormFinished ? 'block' : 'none' }}
               type="submit"
               variant="contained"
               color="primary"
@@ -154,7 +148,7 @@ const Register: React.FC = () => {
           </Grid>
         </form>
         <Grid container justify="center">
-          <Link href="/login" variant="body2">
+          <Link component={RouteLink} to="/login">
             Back to login
           </Link>
         </Grid>

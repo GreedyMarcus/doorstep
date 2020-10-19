@@ -9,10 +9,11 @@ import User from '../../models/User'
 @injectable()
 @EntityRepository(User)
 class UserRepository extends Repository<User> implements UserRepositoryInterface {
-  
-  public async findUserByEmail(email: string): Promise<User> {
+
+  public findUserByEmail(email: string): Promise<User> {
     return getRepository(User)
       .createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
       .where('user.email = :email', { email })
       .getOne()
   }

@@ -1,20 +1,20 @@
 import axios from 'axios'
 
 class AuthService {
-  public static loginUser(email: string, password: string) {
-    return axios.post('/api/auth/login', { email, password }).then(response => {
-      if (response.data) {
-        localStorage.setItem('token', JSON.stringify(response.data))
-      }
-      return response.data
-    })
+  public static async loginUser(email: string, password: string) {
+    const result = await axios.post('/api/auth/login', { email, password })
+
+    if (result.data) {
+      localStorage.setItem('doorstep-token', JSON.stringify(result.data.token))
+    }
+    return result.data
   }
 
   public static logoutUser() {
     localStorage.removeItem('token')
   }
 
-  public static registerBuilding(
+  public static async registerBuilding(
     email: string,
     password: string,
     firstName: string,
@@ -24,14 +24,16 @@ class AuthService {
     city: string,
     streetAddress: string
   ) {
-    return axios.post('/api/auth/register', {
+    const result = await axios.post('/api/auth/register', {
       buildingAdmin: { email, password, firstName, lastName },
       buildingAddress: { country, zipCode, city, streetAddress }
     })
+
+    return result.status === 200
   }
 
   public static getToken(): string | null {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('doorstep-token')
     return token ? JSON.parse(token) : null
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import Dashboard from '../pages/Dashboard'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import ProtectedRoute from '../components/ProtectedRoute'
@@ -9,8 +10,9 @@ const App = () => (
   <React.Fragment>
     <CssBaseline />
     <Switch>
-      <ProtectedRoute exact path="/login" Component={Login} />
-      <ProtectedRoute exact path="/register" Component={Register} />
+      <ProtectedRoute exact path="/" Component={Dashboard} />
+      <ProtectedRoute exact path="/login" noAuth Component={Login} />
+      <ProtectedRoute exact path="/register" noAuth Component={Register} />
     </Switch>
   </React.Fragment>
 )
