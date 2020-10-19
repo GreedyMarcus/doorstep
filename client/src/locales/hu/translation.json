@@ -1,0 +1,25 @@
+{
+  "general": {
+    "back": "Vissza",
+    "next": "Tovább",
+    "country": "Ország",
+    "zipCode": "Irányítószám",
+    "city": "Város",
+    "streetAddress": "Utca, házszám"
+  },
+  "auth": {
+    "email": "Email cím",
+    "password": "Jelszó",
+    "firstName": "Keresztnév",
+    "lastName": "Vezetéknév",
+    "loginWelcome": "Üdvözöl a Doorstep",
+    "loginWelcomeHelper": "Jelentkezz be a folytatáshoz",
+    "loginSubmit": "Bejelentkezés",
+    "loginRedirect": "Vissza a bejelentkezéshez",
+    "registerTitle": "Irodaház regisztrálása",
+    "registerAdminDetails": "Admin adatai",
+    "registerBuildingDetails": "Irodaház adatai",
+    "registerReview": "Adatok ellenőrzése",
+    "registerSubmit": "Regisztrálás"
+  }
+}
