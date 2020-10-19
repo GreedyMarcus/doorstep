@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Dashboard: React.FC = () => {
-  return <div>USER LOGGED IN!</div>
+  return <h1>USER LOGGED IN!</h1>
 }
 
 export default Dashboard
