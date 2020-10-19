@@ -10,11 +10,14 @@ import Link from '@material-ui/core/Link'
 import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
-import AuthService from '../../services/AuthService'
-import { Link as RouteLink } from 'react-router-dom'
+import { Link as RouteLink, useHistory } from 'react-router-dom'
+import { useAppDispatch } from '../../store'
+import { loginUser } from '../../store/user'
 
 const Login: React.FC = () => {
   const classes = useStyles()
+  const history = useHistory()
+  const dispatch = useAppDispatch()
 
   const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
   const [password, bindPassword, resetPassword] = useInput('', true)
@@ -29,8 +32,9 @@ const Login: React.FC = () => {
 
     const isLoginDataValid = [email, password].every(param => param.isValid)
     if (isLoginDataValid) {
-      await AuthService.loginUser(email.value, password.value)
+      dispatch(loginUser(email.value, password.value))
       clearInputs()
+      history.push('/')
     }
   }
 

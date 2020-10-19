@@ -5,7 +5,7 @@ class AuthService {
     const result = await axios.post('/api/auth/login', { email, password })
 
     if (result.data) {
-      localStorage.setItem('token', JSON.stringify(result.data))
+      localStorage.setItem('doorstep-token', JSON.stringify(result.data.token))
     }
     return result.data
   }
@@ -33,7 +33,7 @@ class AuthService {
   }
 
   public static getToken(): string | null {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('doorstep-token')
     return token ? JSON.parse(token) : null
   }
 }
