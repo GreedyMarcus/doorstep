@@ -6,6 +6,7 @@ import theme from './app/theme'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@material-ui/core'
+import './plugins/i18n'
 import './index.css'
 
 ReactDOM.render(
