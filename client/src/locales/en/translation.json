@@ -21,5 +21,15 @@
     "registerBuildingDetails": "Office building details",
     "registerReview": "Review registration",
     "registerSubmit": "Sign up"
+  },
+  "notification": {
+    "invalidLoginData": "Invalid email address or password format",
+    "invalidAdminData": "Invalid admin details format",
+    "invalidBuildingData": "Invalid building details format",
+    "loginSuccess": "Successful login",
+    "loginFailure": "Incorrect email address or password",
+    "logoutSuccess": "Successful logout",
+    "registerSuccess": "Successful registration",
+    "registerFailure": "Registration failed (It is possible that a user account already exists with these credentials)"
   }
 }

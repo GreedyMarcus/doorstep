@@ -18,10 +18,14 @@ import REGEXP from '../../utils/regexp'
 import AuthService from '../../services/AuthService'
 import { Link as RouteLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAppDispatch } from '../../store'
+import { registerUser } from '../../store/user'
+import { addNotification } from '../../store/action'
 
 const Register: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
+  const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
   const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
@@ -48,30 +52,48 @@ const Register: React.FC = () => {
     resetStreetAddress()
   }
 
+  const validateAdminData = (): boolean => {
+    const isDataValid = [email, password, firstName, lastName].every(param => param.isValid)
+    if (!isDataValid) {
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidAdminData') }))
+      return false
+    }
+    return true
+  }
+
+  const validateBuildingData = (): boolean => {
+    const isDataValid = [country, zipCode, city, streetAddress].every(param => param.isValid)
+    if (!isDataValid) {
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidBuildingData') }))
+      return false
+    }
+    return true
+  }
+
+  const handleNextClick = () => {
+    let canStep = false
+
+    if (activeStep === 0) canStep = validateAdminData()
+    if (activeStep === 1) canStep = validateBuildingData()
+
+    if (canStep) setActiveStep(activeStep + 1)
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    const isRegisterDataValid = [
-      email,
-      password,
-      firstName,
-      lastName,
-      country,
-      zipCode,
-      city,
-      streetAddress
-    ].every(param => param.isValid)
-
-    if (isFormFinished && isRegisterDataValid) {
-      await AuthService.registerBuilding(
-        email.value,
-        password.value,
-        firstName.value,
-        lastName.value,
-        country.value,
-        zipCode.value,
-        city.value,
-        streetAddress.value
+    if (isFormFinished) {
+      dispatch(
+        registerUser(
+          email.value,
+          password.value,
+          firstName.value,
+          lastName.value,
+          country.value,
+          zipCode.value,
+          city.value,
+          streetAddress.value
+        )
       )
       clearInputs()
       history.push('/login')
@@ -132,7 +154,7 @@ const Register: React.FC = () => {
               style={{ display: !isFormFinished ? 'block' : 'none' }}
               variant="contained"
               color="primary"
-              onClick={() => setActiveStep(activeStep + 1)}
+              onClick={handleNextClick}
               className={classes.button}
             >
               {t('general.next')}
