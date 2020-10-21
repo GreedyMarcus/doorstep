@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-type Notification = {
-  type: 'error' | 'warning' | 'info' | 'success'
-  message: string
-  duration?: number
-}
+import { Notification } from '../../data/types/General'
 
 type SliceState = {
   isLoading: boolean

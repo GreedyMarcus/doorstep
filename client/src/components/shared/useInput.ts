@@ -1,6 +1,6 @@
-import { useState, useCallback, ChangeEvent } from 'react'
+import { useState, useCallback } from 'react'
+import { InputChangeEvent } from '../../data/types/Event'
 
-export type InputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 export type InputBinding = {
   value: string
   error: boolean

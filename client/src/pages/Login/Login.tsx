@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
     resetPassword()
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const isLoginDataValid = [email, password].every(param => param.isValid)

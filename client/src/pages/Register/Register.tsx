@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, FormEvent } from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
@@ -15,7 +15,6 @@ import RegisterReview from './RegisterReview'
 import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
-import AuthService from '../../services/AuthService'
 import { Link as RouteLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
@@ -79,21 +78,21 @@ const Register: React.FC = () => {
     if (canStep) setActiveStep(activeStep + 1)
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (isFormFinished) {
       dispatch(
-        registerUser(
-          email.value,
-          password.value,
-          firstName.value,
-          lastName.value,
-          country.value,
-          zipCode.value,
-          city.value,
-          streetAddress.value
-        )
+        registerUser({
+          email: email.value,
+          password: password.value,
+          firstName: firstName.value,
+          lastName: lastName.value,
+          country: country.value,
+          zipCode: zipCode.value,
+          city: city.value,
+          streetAddress: streetAddress.value
+        })
       )
       clearInputs()
       history.push('/login')
