@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import { reducer as userReducer } from './user'
+import { reducer as actionReducer } from './action'
 
 const store = configureStore({
   reducer: {
-    user: userReducer
+    user: userReducer,
+    action: actionReducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware(),
   devTools: process.env.NODE_ENV === 'development'

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
@@ -14,6 +14,7 @@ import { Link as RouteLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { loginUser } from '../../store/user'
+import { addNotification } from '../../store/action'
 
 const Login: React.FC = () => {
   const classes = useStyles()
@@ -29,15 +30,18 @@ const Login: React.FC = () => {
     resetPassword()
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const isLoginDataValid = [email, password].every(param => param.isValid)
-    if (isLoginDataValid) {
-      dispatch(loginUser(email.value, password.value))
-      clearInputs()
-      history.push('/')
+    if (!isLoginDataValid) {
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidLoginData') }))
+      return
     }
+
+    dispatch(loginUser(email.value, password.value))
+    clearInputs()
+    history.push('/')
   }
 
   return (
@@ -51,7 +55,7 @@ const Login: React.FC = () => {
           {t('auth.loginWelcomeHelper')}
         </Typography>
 
-        <form className={classes.form} onSubmit={handleSubmit} noValidate autoComplete="off">
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField

@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import XHR from 'i18next-xhr-backend'
-import translationHun from '../locales/hu/translation.json'
-import translationEng from '../locales/en/translation.json'
+import translationHun from '../data/locales/hu/translation.json'
+import translationEng from '../data/locales/en/translation.json'
 import { initReactI18next } from 'react-i18next'
 
 i18n

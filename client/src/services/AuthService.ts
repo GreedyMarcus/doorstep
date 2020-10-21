@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { RegisterUserDetails } from '../data/types/User'
 
 class AuthService {
   public static async loginUser(email: string, password: string) {
@@ -14,16 +15,18 @@ class AuthService {
     localStorage.removeItem('token')
   }
 
-  public static async registerBuilding(
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string,
-    country: string,
-    zipCode: string,
-    city: string,
-    streetAddress: string
-  ) {
+  public static async registerBuilding(userDetails: RegisterUserDetails) {
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      country,
+      zipCode,
+      city,
+      streetAddress
+    } = userDetails
+
     const result = await axios.post('/api/auth/register', {
       buildingAdmin: { email, password, firstName, lastName },
       buildingAddress: { country, zipCode, city, streetAddress }

@@ -21,5 +21,15 @@
     "registerBuildingDetails": "Irodaház adatai",
     "registerReview": "Adatok ellenőrzése",
     "registerSubmit": "Regisztrálás"
+  },
+  "notification": {
+    "invalidLoginData": "Érvénytelen email cím vagy jelszó formátum",
+    "invalidAdminData": "Érvénytelen admin adat formátum",
+    "invalidBuildingData": "Érvénytelen irodaház adat formátum",
+    "loginSuccess": "Sikeres bejelentkezés",
+    "loginFailure": "Hibás email cím vagy jelszó",
+    "logoutSuccess": "Sikeres kijelentkezés",
+    "registerSuccess": "Sikeres regisztráció",
+    "registerFailure": "Sikertelen regisztráció (Lehetséges, hogy ezekkel az adatokkal már létezik felhasználói fiók)"
   }
 }
