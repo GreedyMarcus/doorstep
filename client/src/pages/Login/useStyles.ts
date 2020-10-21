@@ -14,7 +14,7 @@ export default makeStyles(theme => ({
   },
   icon: {
     fontSize: 75,
-    color: blueGrey[300]
+    color: blueGrey[400]
   },
   welcome: {
     fontSize: 26,

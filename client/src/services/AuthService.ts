@@ -1,18 +1,20 @@
 import axios from 'axios'
 import { RegisterUserDetails } from '../data/types/User'
 
+const TOKEN_KEY = 'doorstep-token'
+
 class AuthService {
   public static async loginUser(email: string, password: string) {
     const result = await axios.post('/api/auth/login', { email, password })
 
     if (result.data) {
-      localStorage.setItem('doorstep-token', JSON.stringify(result.data.token))
+      localStorage.setItem(TOKEN_KEY, JSON.stringify(result.data.token))
     }
     return result.data
   }
 
   public static logoutUser() {
-    localStorage.removeItem('token')
+    localStorage.removeItem(TOKEN_KEY)
   }
 
   public static async registerBuilding(userDetails: RegisterUserDetails) {
@@ -36,7 +38,7 @@ class AuthService {
   }
 
   public static getToken(): string | null {
-    const token = localStorage.getItem('doorstep-token')
+    const token = localStorage.getItem(TOKEN_KEY)
     return token ? JSON.parse(token) : null
   }
 }
