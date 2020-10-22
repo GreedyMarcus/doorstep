@@ -5,7 +5,9 @@
     "country": "Ország",
     "zipCode": "Irányítószám",
     "city": "Város",
-    "streetAddress": "Utca, házszám"
+    "streetAddress": "Utca, házszám",
+    "companies": "Cégek",
+    "consentForms": "Nyilatkozatok"
   },
   "auth": {
     "email": "Email cím",
@@ -20,7 +22,8 @@
     "registerAdminDetails": "Admin adatai",
     "registerBuildingDetails": "Irodaház adatai",
     "registerReview": "Adatok ellenőrzése",
-    "registerSubmit": "Regisztrálás"
+    "registerSubmit": "Regisztrálás",
+    "logout": "Kijelentkezés"
   },
   "notification": {
     "invalidLoginData": "Érvénytelen email cím vagy jelszó formátum",
@@ -31,5 +34,9 @@
     "logoutSuccess": "Sikeres kijelentkezés",
     "registerSuccess": "Sikeres regisztráció",
     "registerFailure": "Sikertelen regisztráció (Lehetséges, hogy ezekkel az adatokkal már létezik felhasználói fiók)"
+  },
+  "action": {
+    "addCompany": "Cég felvétele",
+    "addConsentForm": "Nyilatkozat felvétele"
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -9,9 +9,6 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { actionSelector, removeNotification } from '../../store/action'
 import { TransitionProps } from '@material-ui/core/transitions/transition'
-
-// Outside of render method achive correct behaviour
-const SlideTransition = (props: TransitionProps) => <Slide {...props} direction="up" />
 
 const ActionTracker: React.FC = () => {
   const classes = useStyles()
@@ -32,6 +29,10 @@ const ActionTracker: React.FC = () => {
       setOpenNotification(true)
     }
   }, [action.notification])
+
+  const SlideTransition = useCallback((props: TransitionProps) => {
+    return <Slide {...props} direction="up" />
+  }, [])
 
   return (
     <React.Fragment>
