@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button'
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import useStyles from './useStyles'
+import useWindowWidth from '../shared/useWindowWidth'
 import { Link as RouteLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
@@ -22,8 +23,11 @@ type Props = {
 const NavigationBar: React.FC<Props> = ({ navigations, operations }) => {
   const classes = useStyles()
   const history = useHistory()
+  const windowWidth = useWindowWidth()
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
+
+  const showNavs = windowWidth >= 600
 
   const handleLogout = () => {
     dispatch(logoutUser())
@@ -41,11 +45,12 @@ const NavigationBar: React.FC<Props> = ({ navigations, operations }) => {
             </Typography>
           </IconButton>
 
-          {navigations.map(({ id, route, label }) => (
-            <Button key={id} color="inherit" component={RouteLink} to={route}>
-              {label}
-            </Button>
-          ))}
+          {showNavs &&
+            navigations.map(({ id, route, label }) => (
+              <Button key={id} color="inherit" component={RouteLink} to={route}>
+                {label}
+              </Button>
+            ))}
 
           <div className={classes.grow} />
 
