@@ -72,6 +72,8 @@ export const registerUser = (userDetails: RegisterUserDetails) => async (dispatc
 }
 
 export const loadCurrentUser = (token: string) => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true))
+
   try {
     const user = await AuthService.getCurrentUser()
     dispatch(userLoginSucceed({ ...user, token }))
