@@ -14,13 +14,7 @@ type Props = {
   visible: boolean
 }
 
-const RegisterAdminForm: React.FC<Props> = ({
-  emailBinding,
-  passwordBinding,
-  firstNameBinding,
-  lastNameBinding,
-  visible
-}) => {
+const RegisterAdminForm: React.FC<Props> = ({ emailBinding, passwordBinding, firstNameBinding, lastNameBinding, visible }) => {
   const classes = useStyles({ visible })
   const [t] = useTranslation()
 
@@ -31,41 +25,16 @@ const RegisterAdminForm: React.FC<Props> = ({
       </Typography>
       <Grid container spacing={2}>
         <Grid item sm={6} xs={12}>
-          <TextField
-            {...emailBinding}
-            id="admin-email"
-            label={t('auth.email')}
-            variant="outlined"
-            fullWidth
-          />
+          <TextField {...emailBinding} id="admin-email" label={t('auth.email')} variant="outlined" fullWidth />
         </Grid>
         <Grid item sm={6} xs={12}>
-          <TextField
-            {...passwordBinding}
-            id="admin-password"
-            label={t('auth.password')}
-            type="password"
-            variant="outlined"
-            fullWidth
-          />
+          <TextField {...passwordBinding} id="admin-password" label={t('auth.password')} type="password" variant="outlined" fullWidth />
         </Grid>
         <Grid item sm={6} xs={12}>
-          <TextField
-            {...firstNameBinding}
-            id="admin-first-name"
-            label={t('auth.firstName')}
-            variant="outlined"
-            fullWidth
-          />
+          <TextField {...firstNameBinding} id="admin-first-name" label={t('auth.firstName')} variant="outlined" fullWidth />
         </Grid>
         <Grid item sm={6} xs={12}>
-          <TextField
-            {...lastNameBinding}
-            id="admin-last-name"
-            label={t('auth.lastName')}
-            variant="outlined"
-            fullWidth
-          />
+          <TextField {...lastNameBinding} id="admin-last-name" label={t('auth.lastName')} variant="outlined" fullWidth />
         </Grid>
       </Grid>
     </div>

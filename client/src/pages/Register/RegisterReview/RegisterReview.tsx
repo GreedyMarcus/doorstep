@@ -15,16 +15,7 @@ type Props = {
   visible: boolean
 }
 
-const RegisterAdminForm: React.FC<Props> = ({
-  email,
-  firstName,
-  lastName,
-  country,
-  zipCode,
-  city,
-  streetAddress,
-  visible
-}) => {
+const RegisterAdminForm: React.FC<Props> = ({ email, firstName, lastName, country, zipCode, city, streetAddress, visible }) => {
   const classes = useStyles({ visible })
   const [t] = useTranslation()
 
@@ -46,18 +37,32 @@ const RegisterAdminForm: React.FC<Props> = ({
           <Typography variant="h2" className={classes.sectionTitle}>
             {t('auth.registerAdminDetails')}
           </Typography>
-          <Typography className={classes.item} gutterBottom>{emailText}</Typography>
-          <Typography className={classes.item} gutterBottom>{firstNameText}</Typography>
-          <Typography className={classes.item} gutterBottom>{lastNameText}</Typography>
+          <Typography className={classes.item} gutterBottom>
+            {emailText}
+          </Typography>
+          <Typography className={classes.item} gutterBottom>
+            {firstNameText}
+          </Typography>
+          <Typography className={classes.item} gutterBottom>
+            {lastNameText}
+          </Typography>
         </Grid>
         <Grid item sm={6} xs={12}>
           <Typography variant="h2" className={classes.sectionTitle}>
             {t('auth.registerBuildingDetails')}
           </Typography>
-          <Typography className={classes.item} gutterBottom>{countryText}</Typography>
-          <Typography className={classes.item} gutterBottom>{zipCodeText}</Typography>
-          <Typography className={classes.item} gutterBottom>{cityText}</Typography>
-          <Typography className={classes.item} gutterBottom>{streetAddressText}</Typography>
+          <Typography className={classes.item} gutterBottom>
+            {countryText}
+          </Typography>
+          <Typography className={classes.item} gutterBottom>
+            {zipCodeText}
+          </Typography>
+          <Typography className={classes.item} gutterBottom>
+            {cityText}
+          </Typography>
+          <Typography className={classes.item} gutterBottom>
+            {streetAddressText}
+          </Typography>
         </Grid>
       </Grid>
     </div>

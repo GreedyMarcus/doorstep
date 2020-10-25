@@ -58,34 +58,13 @@ const Login: React.FC = () => {
         <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <TextField
-                {...bindEmail}
-                id="login-email"
-                label={t('auth.email')}
-                autoComplete="email"
-                variant="outlined"
-                fullWidth
-              />
+              <TextField {...bindEmail} id="login-email" label={t('auth.email')} autoComplete="email" variant="outlined" fullWidth />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                {...bindPassword}
-                id="login-password"
-                label={t('auth.password')}
-                type="password"
-                variant="outlined"
-                fullWidth
-              />
+              <TextField {...bindPassword} id="login-password" label={t('auth.password')} type="password" variant="outlined" fullWidth />
             </Grid>
             <Grid item xs={12}>
-              <Button
-                className={classes.submit}
-                type="submit"
-                variant="contained"
-                color="primary"
-                size="large"
-                fullWidth
-              >
+              <Button className={classes.submit} type="submit" variant="contained" color="primary" size="large" fullWidth>
                 {t('auth.loginSubmit')}
               </Button>
               <Grid container justify="center">

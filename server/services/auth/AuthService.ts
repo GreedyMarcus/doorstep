@@ -1,15 +1,14 @@
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import Boom from '@hapi/boom'
+import config from '../../config'
+import TYPES from '../../config/types'
+import AuthServiceInterface from './AuthServiceInterface'
 import { inject, injectable } from 'inversify'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/office-building'
 import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
 import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
-import { UserRoleType } from '../../data/enums/UserRoleType'
-import AuthServiceInterface from './AuthServiceInterface'
-import TYPES from '../../config/types'
-import config from '../../config'
-import Boom from '@hapi/boom'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 
 @injectable()
 class AuthService implements AuthServiceInterface {
@@ -35,11 +34,9 @@ class AuthService implements AuthServiceInterface {
       throw Boom.badRequest('Invalid password')
     }
 
-    // Create jwt token
-    const { tokenSecret, tokenExpiration } = config.auth
-    const token = jwt.sign({ user: user.id }, tokenSecret, { expiresIn: tokenExpiration })
-
-    const loggedInUser: UserLoginResultDTO = {
+    // Create jwt token and assign it to user
+    const token = jwt.sign({ user: user.id }, config.auth.tokenSecret, { expiresIn: config.auth.tokenExpiration })
+    const authenticatedUser: UserLoginResultDTO = {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -48,37 +45,46 @@ class AuthService implements AuthServiceInterface {
       token
     }
 
-    return loggedInUser
+    return authenticatedUser
   }
 
-  public registerOfficeBuilding = async (registration: OfficeBuildingRegistrationDTO): Promise<void> => {
-    const adminExists = await this.userRepository.findUserByEmail(registration.buildingAdmin.email)
+  public registerOfficeBuilding = async ({ buildingAdmin, buildingAddress }: OfficeBuildingRegistrationDTO): Promise<void> => {
+    const adminExists = await this.userRepository.findUserByEmail(buildingAdmin.email)
     if (adminExists) {
       throw Boom.badRequest('Admin already exists')
     }
 
-    const buildingExistsWithAddress = await this.officeBuildingRepository.findBuildingByAddress(registration.buildingAddress)
+    const buildingExistsWithAddress = await this.officeBuildingRepository.findBuildingByAddress(buildingAddress)
     if (buildingExistsWithAddress) {
-      throw Boom.badRequest('Office building already exists')
+      throw Boom.badRequest('Office building already exists with address')
     }
 
     // Hash password
     const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(registration.buildingAdmin.password, salt)
-
-
-    // Save admin with hashed password
-    const adminData = { ...registration.buildingAdmin, password: hashedPassword }
-    const createdAdmin = await this.userRepository.createUser(adminData, UserRoleType.ADMIN)
-    if (!createdAdmin) {
-      throw Boom.internal('Admin user was not created')
-    }
+    const hashedPassword = await bcrypt.hash(buildingAdmin.password, salt)
 
     // Save office building with admin
-    const createdBuilding = await this.officeBuildingRepository.createBuilding(registration.buildingAddress, createdAdmin)
+    const adminData = { ...buildingAdmin, password: hashedPassword }
+    const createdBuilding = await this.officeBuildingRepository.createBuilding(buildingAddress, adminData)
     if (!createdBuilding) {
-      throw Boom.internal('Office building was not created')
+      throw Boom.internal('Could not register office building')
     }
+  }
+
+  public getCurrentUser = async (userId: number): Promise<UserLoginResultDTO> => {
+    const user = await this.userRepository.findUserById(userId)
+    if (!user) {
+      throw Boom.badRequest('User does not exist')
+    }
+
+    const currentUser: UserLoginResultDTO = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role.name
+    }
+    return currentUser
   }
 }
 

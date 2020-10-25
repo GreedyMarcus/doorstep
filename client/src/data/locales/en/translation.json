@@ -3,15 +3,19 @@
     "back": "Back",
     "next": "Next",
     "country": "Country",
-    "zipCode": "Zip Code",
-    "city": "city",
-    "streetAddress": "Street Address"
+    "zipCode": "Zip code",
+    "city": "City",
+    "streetAddress": "Street address",
+    "companies": "Companies",
+    "consentForms": "Consent forms",
+    "businessHosts": "Business hosts",
+    "visits": "Visits"
   },
   "auth": {
-    "email": "Email Address",
+    "email": "Email address",
     "password": "Password",
-    "firstName": "First Name",
-    "lastName": "Last Name",
+    "firstName": "First name",
+    "lastName": "Last name",
     "loginWelcome": "Welcome to Doorstep",
     "loginWelcomeHelper": "Sign in to continue",
     "loginSubmit": "Sign in",
@@ -20,7 +24,8 @@
     "registerAdminDetails": "Admin details",
     "registerBuildingDetails": "Office building details",
     "registerReview": "Review registration",
-    "registerSubmit": "Sign up"
+    "registerSubmit": "Sign up",
+    "logout": "Logout"
   },
   "notification": {
     "invalidLoginData": "Invalid email address or password format",
@@ -31,5 +36,11 @@
     "logoutSuccess": "Successful logout",
     "registerSuccess": "Successful registration",
     "registerFailure": "Registration failed (It is possible that a user account already exists with these credentials)"
+  },
+  "action": {
+    "addCompany": "Add company",
+    "addConsentForm": "Add consent form",
+    "addBusinessHost": "Add business host",
+    "addVisit": "Add visit"
   }
 }

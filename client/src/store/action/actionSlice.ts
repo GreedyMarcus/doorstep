@@ -7,7 +7,7 @@ type SliceState = {
 }
 
 const initialState: SliceState = {
-  isLoading: false,
+  isLoading: true, // First thing the app do is loading the user
   notification: null
 }
 

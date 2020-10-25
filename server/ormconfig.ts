@@ -1,5 +1,5 @@
-import { ConnectionOptions } from 'typeorm'
 import config from './config'
+import { ConnectionOptions } from 'typeorm'
 
 const isProd = config.server.env === 'production'
 const entitiesDir = 'server/models'

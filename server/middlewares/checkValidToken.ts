@@ -11,10 +11,9 @@ export default (req: Request, res: Response, next: NextFunction) => {
     return next(Boom.unauthorized())
   }
 
-  // Verify jwt token
   try {
-    const user = jwt.verify(token, config.auth.tokenSecret)
-    res.locals.user = user
+    const data = jwt.verify(token, config.auth.tokenSecret)
+    res.locals.userId = data['user']
     return next()
   } catch (err) {
     return next(Boom.forbidden())

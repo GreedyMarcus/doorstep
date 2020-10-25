@@ -17,7 +17,7 @@ class Server {
     this.env = config.server.env
   }
 
-  public configure() {
+  public configure(): void {
     this.app.use(
       cors({
         origin: true,
@@ -39,7 +39,7 @@ class Server {
     this.app.use(errorHandlerMiddleware)
   }
 
-  public start() {
+  public start(): void {
     createConnection(ormconfig)
       .then(() => {
         this.app.listen(this.port, () => {
