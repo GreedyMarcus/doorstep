@@ -6,8 +6,10 @@
     "zipCode": "Zip code",
     "city": "City",
     "streetAddress": "Street address",
-    "companies": "Cégek",
-    "consentForms": "Nyilatkozatok"
+    "companies": "Companies",
+    "consentForms": "Consent forms",
+    "businessHosts": "Business hosts",
+    "visits": "Visits"
   },
   "auth": {
     "email": "Email address",
@@ -37,6 +39,8 @@
   },
   "action": {
     "addCompany": "Add company",
-    "addConsentForm": "Add consent form"
+    "addConsentForm": "Add consent form",
+    "addBusinessHost": "Add business host",
+    "addVisit": "Add visit"
   }
 }

@@ -7,7 +7,9 @@
     "city": "Város",
     "streetAddress": "Utca, házszám",
     "companies": "Cégek",
-    "consentForms": "Nyilatkozatok"
+    "consentForms": "Nyilatkozatok",
+    "businessHosts": "Céges fogadók",
+    "visits": "Látogatások"
   },
   "auth": {
     "email": "Email cím",
@@ -37,6 +39,8 @@
   },
   "action": {
     "addCompany": "Cég felvétele",
-    "addConsentForm": "Nyilatkozat felvétele"
+    "addConsentForm": "Nyilatkozat felvétele",
+    "addBusinessHost": "Céges fogadó felvétele",
+    "addVisit": "Látogatás felvétele"
   }
 }

@@ -2,6 +2,8 @@ import React, { useCallback } from 'react'
 import NavigationBar from '../../components/NavigationBar'
 import BusinessCenterRoundedIcon from '@material-ui/icons/BusinessCenterRounded'
 import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded'
+import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded'
+import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { userRoleSelector } from '../../store/user'
@@ -15,20 +17,24 @@ const Dashboard: React.FC = () => {
     if (userRole === UserRole.ADMIN) {
       return [
         { id: 'ADMIN-NAV-1', route: '/companies', label: t('general.companies') },
-        { id: 'ADMIN-NAV-2', route: '/consent-forms', label: t('general.consentForms') }
+        { id: 'ADMIN-NAV-2', route: '/consents', label: t('general.consentForms') }
       ]
     }
 
     if (userRole === UserRole.COMPANY_ADMIN) {
-      return []
+      return [
+        { id: 'COMPANY-ADMIN-NAV-1', route: '/visits', label: t('general.visits') },
+        { id: 'COMPANY-ADMIN-NAV-2', route: '/hosts', label: t('general.businessHosts') },
+        { id: 'COMPANY-ADMIN-NAV-3', route: '/consents', label: t('general.consentForms') }
+      ]
     }
 
     if (userRole === UserRole.BUSINESS_HOST) {
-      return []
+      return [{ id: 'BUSINESS-HOST-NAV-1', route: '/planned-visits', label: t('general.visits') }]
     }
 
     if (userRole === UserRole.RECEPTIONIST) {
-      return []
+      return [{ id: 'RECEPTIONIST-NAV-1', route: '/invitations', label: t('general.visits') }]
     }
 
     return []
@@ -43,15 +49,18 @@ const Dashboard: React.FC = () => {
     }
 
     if (userRole === UserRole.COMPANY_ADMIN) {
-      return []
+      return [
+        { id: 'COMPANY-ADMIN-OP-1', icon: <PersonAddRoundedIcon />, title: t('action.addBusinessHost') },
+        { id: 'COMPANY-ADMIN-OP-2', icon: <PostAddRoundedIcon />, title: t('action.addConsentForm') }
+      ]
     }
 
     if (userRole === UserRole.BUSINESS_HOST) {
-      return []
+      return [{ id: 'BUSINESS-HOST-OP-1', icon: <InsertInvitationRoundedIcon />, title: t('action.addVisit') }]
     }
 
     if (userRole === UserRole.RECEPTIONIST) {
-      return []
+      return [{ id: 'RECEPTIONIST-OP-1', icon: <InsertInvitationRoundedIcon />, title: t('action.addVisit') }]
     }
 
     return []
