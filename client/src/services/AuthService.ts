@@ -1,20 +1,19 @@
 import axios from 'axios'
-import { RegisterUserDetails } from '../data/types/User'
-
-const TOKEN_KEY = 'doorstep-token'
+import config from '../app/config'
+import { RegisterUserDetails, UserLoginResult } from '../data/types/User'
 
 class AuthService {
   public static async loginUser(email: string, password: string) {
     const result = await axios.post('/api/auth/login', { email, password })
 
     if (result.data) {
-      localStorage.setItem(TOKEN_KEY, JSON.stringify(result.data.token))
+      localStorage.setItem(config.auth.tokenKey, JSON.stringify(result.data.token))
     }
     return result.data
   }
 
   public static logoutUser() {
-    localStorage.removeItem(TOKEN_KEY)
+    localStorage.removeItem(config.auth.tokenKey)
   }
 
   public static async registerBuilding(userDetails: RegisterUserDetails) {
@@ -28,9 +27,19 @@ class AuthService {
     return result.status === 200
   }
 
+  public static async getCurrentUser(): Promise<UserLoginResult> {
+    const user = await axios.get('/api/auth/whoami', { headers: AuthService.getAuthHeader() })
+    return user.data
+  }
+
   public static getToken(): string | null {
-    const token = localStorage.getItem(TOKEN_KEY)
+    const token = localStorage.getItem(config.auth.tokenKey)
     return token ? JSON.parse(token) : null
+  }
+
+  public static getAuthHeader() {
+    const token = AuthService.getToken()
+    return token ? { Authorization: `Bearer ${token}` } : {}
   }
 }
 

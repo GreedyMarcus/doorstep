@@ -30,11 +30,11 @@ const userSlice = createSlice({
   }
 })
 
+const { userLoginSucceed, userLogoutSucceed } = userSlice.actions
+
 export const { reducer } = userSlice
 
 export const loginUser = (email: string, password: string) => async (dispatch: AppDispatch) => {
-  const { userLoginSucceed } = userSlice.actions
-
   dispatch(setLoading(true))
 
   try {
@@ -42,16 +42,13 @@ export const loginUser = (email: string, password: string) => async (dispatch: A
     dispatch(userLoginSucceed(user))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.loginSuccess') }))
   } catch (error) {
-    console.log(error)
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.loginSuccess') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.loginFailure') }))
   }
 
   dispatch(setLoading(false))
 }
 
 export const logoutUser = () => (dispatch: AppDispatch) => {
-  const { userLogoutSucceed } = userSlice.actions
-
   AuthService.logoutUser()
   dispatch(userLogoutSucceed())
   dispatch(addNotification({ type: 'success', message: i18n.t('notification.logoutSuccess') }))
@@ -61,14 +58,26 @@ export const registerUser = (userDetails: RegisterUserDetails) => async (dispatc
   dispatch(setLoading(true))
 
   try {
-    const created = await AuthService.registerBuilding(userDetails)
-    if (created) {
+    const isBuildingCreated = await AuthService.registerBuilding(userDetails)
+    if (isBuildingCreated) {
       dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerSuccess') }))
     } else {
       dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerFailure') }))
     }
   } catch (error) {
-    console.log(error)
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const loadCurrentUser = (token: string) => async (dispatch: AppDispatch) => {
+  try {
+    const user = await AuthService.getCurrentUser()
+    dispatch(userLoginSucceed({ ...user, token }))
+  } catch (error) {
+    AuthService.logoutUser()
+    dispatch(userLogoutSucceed())
   }
 
   dispatch(setLoading(false))

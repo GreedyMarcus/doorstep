@@ -16,23 +16,16 @@ const ActionTracker: React.FC = () => {
   const action = useSelector(actionSelector)
   const [openNotification, setOpenNotification] = useState(false)
 
-  const handleNotificationClose = () => {
-    setOpenNotification(false)
-  }
+  const SlideTransition = useCallback((props: TransitionProps) => <Slide {...props} direction="up" />, [])
 
-  const handleNotificationRemoval = () => {
-    dispatch(removeNotification())
-  }
+  const handleNotificationClose = () => setOpenNotification(false)
+  const handleNotificationRemoval = () => dispatch(removeNotification())
 
   useEffect(() => {
     if (action.notification) {
       setOpenNotification(true)
     }
   }, [action.notification])
-
-  const SlideTransition = useCallback((props: TransitionProps) => {
-    return <Slide {...props} direction="up" />
-  }, [])
 
   return (
     <React.Fragment>
