@@ -47,11 +47,7 @@ const ActionTracker: React.FC = () => {
         onExited={handleNotificationRemoval}
         key={SlideTransition.name}
       >
-        <Alert
-          variant="filled"
-          severity={action.notification?.type}
-          onClose={handleNotificationClose}
-        >
+        <Alert variant="filled" severity={action.notification?.type} onClose={handleNotificationClose}>
           {action.notification?.message}
         </Alert>
       </Snackbar>

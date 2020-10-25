@@ -1,14 +1,13 @@
+import User from '../../models/User'
+import Address from '../../models/Address'
+import OfficeBuilding from '../../models/OfficeBuilding'
+import OfficeBuildingRepositoryInterface from './OfficeBuildingRepositoryInterface'
 import { EntityRepository, getRepository, Repository } from 'typeorm'
 import { injectable } from 'inversify'
-import OfficeBuildingRepositoryInterface from './OfficeBuildingRepositoryInterface'
-import OfficeBuilding from '../../models/OfficeBuilding'
-import Address from '../../models/Address'
-import User from '../../models/User'
 
 @injectable()
 @EntityRepository(OfficeBuilding)
 class OfficeBuildingRepository extends Repository<OfficeBuilding> implements OfficeBuildingRepositoryInterface {
-
   public findBuildingByAddress(address: Partial<Address>): Promise<OfficeBuilding> {
     return getRepository(OfficeBuilding)
       .createQueryBuilder('building')

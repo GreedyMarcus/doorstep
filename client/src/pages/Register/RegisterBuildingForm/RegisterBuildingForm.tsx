@@ -14,13 +14,7 @@ type Props = {
   visible: boolean
 }
 
-const RegisterBuildingForm: React.FC<Props> = ({
-  countryBinding,
-  zipCodeBinding,
-  cityBinding,
-  streetAddressBinding,
-  visible
-}) => {
+const RegisterBuildingForm: React.FC<Props> = ({ countryBinding, zipCodeBinding, cityBinding, streetAddressBinding, visible }) => {
   const classes = useStyles({ visible })
   const [t] = useTranslation()
 
@@ -31,31 +25,13 @@ const RegisterBuildingForm: React.FC<Props> = ({
       </Typography>
       <Grid container spacing={2}>
         <Grid item sm={6} xs={12}>
-          <TextField
-            {...countryBinding}
-            id="building-country"
-            label={t('general.country')}
-            variant="outlined"
-            fullWidth
-          />
+          <TextField {...countryBinding} id="building-country" label={t('general.country')} variant="outlined" fullWidth />
         </Grid>
         <Grid item sm={6} xs={12}>
-          <TextField
-            {...zipCodeBinding}
-            id="building-zip-code"
-            label={t('general.zipCode')}
-            variant="outlined"
-            fullWidth
-          />
+          <TextField {...zipCodeBinding} id="building-zip-code" label={t('general.zipCode')} variant="outlined" fullWidth />
         </Grid>
         <Grid item sm={6} xs={12}>
-          <TextField
-            {...cityBinding}
-            id="building-city"
-            label={t('general.city')}
-            variant="outlined"
-            fullWidth
-          />
+          <TextField {...cityBinding} id="building-city" label={t('general.city')} variant="outlined" fullWidth />
         </Grid>
         <Grid item sm={6} xs={12}>
           <TextField

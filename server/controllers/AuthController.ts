@@ -1,8 +1,8 @@
+import TYPES from '../config/types'
 import { Request, Response, NextFunction } from 'express'
 import { inject, injectable } from 'inversify'
 import { UserLoginResultDTO } from '../data/dtos/UserDTO'
 import { AuthServiceInterface } from '../services/auth'
-import TYPES from '../config/types'
 
 @injectable()
 class AuthController {

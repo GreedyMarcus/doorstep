@@ -18,16 +18,7 @@ class AuthService {
   }
 
   public static async registerBuilding(userDetails: RegisterUserDetails) {
-    const {
-      email,
-      password,
-      firstName,
-      lastName,
-      country,
-      zipCode,
-      city,
-      streetAddress
-    } = userDetails
+    const { email, password, firstName, lastName, country, zipCode, city, streetAddress } = userDetails
 
     const result = await axios.post('/api/auth/register', {
       buildingAdmin: { email, password, firstName, lastName },

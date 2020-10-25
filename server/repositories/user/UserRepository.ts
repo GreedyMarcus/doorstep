@@ -1,15 +1,14 @@
+import User from '../../models/User'
+import UserRole from '../../models/UserRole'
+import UserRepositoryInterface from './UserRepositoryInterface'
 import { EntityRepository, getRepository, Repository } from 'typeorm'
 import { injectable } from 'inversify'
 import { UserInfoDTO } from '../../data/dtos/UserDTO'
 import { UserRoleType } from '../../data/enums/UserRoleType'
-import UserRepositoryInterface from './UserRepositoryInterface'
-import UserRole from '../../models/UserRole'
-import User from '../../models/User'
 
 @injectable()
 @EntityRepository(User)
 class UserRepository extends Repository<User> implements UserRepositoryInterface {
-
   public findUserByEmail(email: string): Promise<User> {
     return getRepository(User)
       .createQueryBuilder('user')

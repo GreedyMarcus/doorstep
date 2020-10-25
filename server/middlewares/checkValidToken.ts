@@ -11,7 +11,6 @@ export default (req: Request, res: Response, next: NextFunction) => {
     return next(Boom.unauthorized())
   }
 
-  // Verify jwt token
   try {
     const user = jwt.verify(token, config.auth.tokenSecret)
     res.locals.user = user

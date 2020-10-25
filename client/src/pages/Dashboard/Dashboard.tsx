@@ -14,16 +14,8 @@ const Dashboard: React.FC = () => {
   const getNavigations = useCallback(() => {
     if (userRole === UserRole.ADMIN) {
       return [
-        {
-          id: 'ADMIN-NAV-1',
-          route: '/companies',
-          label: t('general.companies')
-        },
-        {
-          id: 'ADMIN-NAV-2',
-          route: '/consent-forms',
-          label: t('general.consentForms')
-        }
+        { id: 'ADMIN-NAV-1', route: '/companies', label: t('general.companies') },
+        { id: 'ADMIN-NAV-2', route: '/consent-forms', label: t('general.consentForms') }
       ]
     }
 
@@ -45,16 +37,8 @@ const Dashboard: React.FC = () => {
   const getOperations = useCallback(() => {
     if (userRole === UserRole.ADMIN) {
       return [
-        {
-          id: 'ADMIN-OP-1',
-          icon: <BusinessCenterRoundedIcon />,
-          title: t('action.addCompany')
-        },
-        {
-          id: 'ADMIN-OP-2',
-          icon: <PostAddRoundedIcon />,
-          title: t('action.addConsentForm')
-        }
+        { id: 'ADMIN-OP-1', icon: <BusinessCenterRoundedIcon />, title: t('action.addCompany') },
+        { id: 'ADMIN-OP-2', icon: <PostAddRoundedIcon />, title: t('action.addConsentForm') }
       ]
     }
 
