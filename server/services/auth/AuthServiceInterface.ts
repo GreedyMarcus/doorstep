@@ -4,6 +4,7 @@ import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO
 interface AuthServiceInterface {
   loginUser(loginCredentials: UserLoginDTO): Promise<UserLoginResultDTO>
   registerOfficeBuilding(registration: OfficeBuildingRegistrationDTO): Promise<void>
+  getCurrentUser(userId: number): Promise<UserLoginResultDTO>
 }
 
 export default AuthServiceInterface

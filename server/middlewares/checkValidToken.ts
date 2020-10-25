@@ -12,8 +12,8 @@ export default (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const user = jwt.verify(token, config.auth.tokenSecret)
-    res.locals.user = user
+    const data = jwt.verify(token, config.auth.tokenSecret)
+    res.locals.userId = data['user']
     return next()
   } catch (err) {
     return next(Boom.forbidden())

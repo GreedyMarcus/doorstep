@@ -70,6 +70,22 @@ class AuthService implements AuthServiceInterface {
       throw Boom.internal('Could not register office building')
     }
   }
+
+  public getCurrentUser = async (userId: number): Promise<UserLoginResultDTO> => {
+    const user = await this.userRepository.findUserById(userId)
+    if (!user) {
+      throw Boom.badRequest('User does not exist')
+    }
+
+    const currentUser: UserLoginResultDTO = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role.name
+    }
+    return currentUser
+  }
 }
 
 export default AuthService

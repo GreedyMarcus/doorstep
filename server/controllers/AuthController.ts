@@ -30,6 +30,16 @@ class AuthController {
     }
     res.sendStatus(200)
   }
+
+  public whoami = async (req: Request, res: Response, next: NextFunction) => {
+    let user: UserLoginResultDTO
+    try {
+      user = await this.authService.getCurrentUser(res.locals.userId)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(user)
+  }
 }
 
 export default AuthController

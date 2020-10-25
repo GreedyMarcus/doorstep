@@ -16,5 +16,5 @@ export interface UserLoginResultDTO {
   lastName: string
   email: string
   role: string
-  token: string
+  token?: string
 }
