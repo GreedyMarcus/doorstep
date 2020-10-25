@@ -9,7 +9,6 @@ import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/office-building'
 import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
 import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
-import { UserRoleType } from '../../data/enums/UserRoleType'
 
 @injectable()
 class AuthService implements AuthServiceInterface {
@@ -57,24 +56,18 @@ class AuthService implements AuthServiceInterface {
 
     const buildingExistsWithAddress = await this.officeBuildingRepository.findBuildingByAddress(buildingAddress)
     if (buildingExistsWithAddress) {
-      throw Boom.badRequest('Office building already exists')
+      throw Boom.badRequest('Office building already exists with address')
     }
 
     // Hash password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(buildingAdmin.password, salt)
 
-    // Save admin with hashed password
-    const adminData = { ...buildingAdmin, password: hashedPassword }
-    const createdAdmin = await this.userRepository.createUser(adminData, UserRoleType.ADMIN)
-    if (!createdAdmin) {
-      throw Boom.internal('Admin user was not created')
-    }
-
     // Save office building with admin
-    const createdBuilding = await this.officeBuildingRepository.createBuilding(buildingAddress, createdAdmin)
+    const adminData = { ...buildingAdmin, password: hashedPassword }
+    const createdBuilding = await this.officeBuildingRepository.createBuilding(buildingAddress, adminData)
     if (!createdBuilding) {
-      throw Boom.internal('Office building was not created')
+      throw Boom.internal('Could not register office building')
     }
   }
 }
