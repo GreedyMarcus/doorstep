@@ -1,10 +1,12 @@
+import TYPES from './types'
+import AuthController from '../controllers/AuthController'
+import EmailController from '../controllers/EmailController'
 import { Repository } from 'typeorm'
 import { Container, decorate, injectable } from 'inversify'
 import { AuthService, AuthServiceInterface } from '../services/auth'
+import { EmailService, EmailServiceInterface } from '../services/email'
 import { UserRepository, UserRepositoryInterface } from '../repositories/user'
 import { OfficeBuildingRepository, OfficeBuildingRepositoryInterface } from '../repositories/office-building'
-import AuthController from '../controllers/AuthController'
-import TYPES from './types'
 
 decorate(injectable(), Repository)
 const container = new Container()
@@ -15,8 +17,10 @@ container.bind<OfficeBuildingRepositoryInterface>(TYPES.OfficeBuildingRepository
 
 // Services
 container.bind<AuthServiceInterface>(TYPES.AuthService).to(AuthService).inSingletonScope()
+container.bind<EmailServiceInterface>(TYPES.EmailService).to(EmailService).inSingletonScope()
 
 // Controllers
 container.bind(TYPES.Controller).to(AuthController)
+container.bind(TYPES.Controller).to(EmailController)
 
 export default container

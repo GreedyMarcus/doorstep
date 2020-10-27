@@ -14,5 +14,10 @@ export default {
   auth: {
     tokenSecret: process.env.TOKEN_SECRET || 'secret',
     tokenExpiration: process.env.TOKEN_EXPIRATION || '3600s'
+  },
+  email: {
+    sendgridApiKey: process.env.SENDGRID_API_KEY,
+    testEmailFrom: process.env.TEST_EMAIL_FROM,
+    testEmailTo: process.env.TEST_EMAIL_TO
   }
 }
