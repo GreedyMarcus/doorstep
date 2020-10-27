@@ -4,7 +4,8 @@ dotenv.config()
 export default {
   server: {
     env: process.env.NODE_ENV || 'development',
-    port: Number(process.env.PORT) || 5000
+    port: Number(process.env.PORT) || 5000,
+    baseUrl: process.env.BASE_URL
   },
   database: {
     url: process.env.DB_URL,
@@ -17,7 +18,6 @@ export default {
   },
   email: {
     sendgridApiKey: process.env.SENDGRID_API_KEY,
-    testEmailFrom: process.env.TEST_EMAIL_FROM,
-    testEmailTo: process.env.TEST_EMAIL_TO
+    noreplyEmail: process.env.NOREPLY_EMAIL
   }
 }

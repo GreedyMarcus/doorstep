@@ -1,6 +1,5 @@
 import TYPES from './types'
 import AuthController from '../controllers/AuthController'
-import EmailController from '../controllers/EmailController'
 import { Repository } from 'typeorm'
 import { Container, decorate, injectable } from 'inversify'
 import { AuthService, AuthServiceInterface } from '../services/auth'
@@ -21,6 +20,5 @@ container.bind<EmailServiceInterface>(TYPES.EmailService).to(EmailService).inSin
 
 // Controllers
 container.bind(TYPES.Controller).to(AuthController)
-container.bind(TYPES.Controller).to(EmailController)
 
 export default container

@@ -8,6 +8,7 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "no-console": 1,
     "no-debugger": 1,
     "no-extra-boolean-cast": 1,
