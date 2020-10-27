@@ -30,6 +30,9 @@ class User {
   @Column({ name: 'is_active', default: true })
   isActive: boolean
 
+  @Column({ name: 'password_token', nullable: true })
+  passwordToken: string
+
   @ManyToOne(() => UserRole, role => role.users, { eager: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'role_id' })
   role: UserRole
