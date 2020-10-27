@@ -84,3 +84,20 @@ export const loadCurrentUser = (token: string) => async (dispatch: AppDispatch) 
 
   dispatch(setLoading(false))
 }
+
+export const sendForgotPassword = (email: string) => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true))
+
+  try {
+    const emailSent = await AuthService.sendForgotPassword(email)
+    if (!emailSent) {
+      dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordResetFailure') }))
+      return
+    }
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordResetSuccess') }))
+  } catch (error) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordResetFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}

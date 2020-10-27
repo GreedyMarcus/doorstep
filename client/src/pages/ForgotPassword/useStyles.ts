@@ -16,23 +16,21 @@ export default makeStyles(theme => ({
     fontSize: 75,
     color: blueGrey[400]
   },
-  welcome: {
+  title: {
     fontSize: 26,
     fontWeight: 600,
     marginTop: theme.spacing(1)
   },
-  welcomeHelper: {
+  helper: {
     fontSize: 16,
-    color: blueGrey[300]
+    color: blueGrey[300],
+    textAlign: 'center'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3)
   },
-  forgotPasswordLink: {
-    padding: theme.spacing(0.5, 1.5)
-  },
   submit: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(3)
   }
 }))

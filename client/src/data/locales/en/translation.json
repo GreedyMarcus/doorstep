@@ -25,7 +25,11 @@
     "registerBuildingDetails": "Office building details",
     "registerReview": "Review registration",
     "registerSubmit": "Sign up",
-    "logout": "Logout"
+    "logout": "Logout",
+    "forgotPasswordQuestion": "Forgot your password?",
+    "forgotPasswordTitle": "Forgot password",
+    "forgotPasswordHelper": "Enter your email and we'll send you a link to reset your password.",
+    "forgotPasswordSubmit": "Reset password"
   },
   "notification": {
     "invalidLoginData": "Invalid email address or password format",
@@ -35,7 +39,9 @@
     "loginFailure": "Incorrect email address or password",
     "logoutSuccess": "Successful logout",
     "registerSuccess": "Successful registration",
-    "registerFailure": "Registration failed (It is possible that a user account already exists with these credentials)"
+    "registerFailure": "Registration failed (it is possible that a user account already exists with these credentials).",
+    "passwordResetSuccess": "We've sent you a link to reset your password. You will receive an email shortly.",
+    "passwordResetFailure": "Password reset failed"
   },
   "action": {
     "addCompany": "Add company",

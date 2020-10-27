@@ -28,7 +28,7 @@ export default makeStyles(theme => ({
     width: '100%' // Fix IE 11 issue.
   },
   buttons: {
-    margin: theme.spacing(3, 0)
+    margin: theme.spacing(3, 0, 2)
   },
   button: {
     marginLeft: theme.spacing(1)

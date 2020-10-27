@@ -25,7 +25,11 @@
     "registerBuildingDetails": "Irodaház adatai",
     "registerReview": "Adatok ellenőrzése",
     "registerSubmit": "Regisztrálás",
-    "logout": "Kijelentkezés"
+    "logout": "Kijelentkezés",
+    "forgotPasswordQuestion": "Elfelejtette a jelszavát?",
+    "forgotPasswordTitle": "Elfelejtett jelszó",
+    "forgotPasswordHelper": "Add meg az email címed és máris küldünk egy linket a jelszó visszaállításhoz.",
+    "forgotPasswordSubmit": "Jelszó visszaállítása"
   },
   "notification": {
     "invalidLoginData": "Érvénytelen email cím vagy jelszó formátum",
@@ -35,7 +39,9 @@
     "loginFailure": "Hibás email cím vagy jelszó",
     "logoutSuccess": "Sikeres kijelentkezés",
     "registerSuccess": "Sikeres regisztráció",
-    "registerFailure": "Sikertelen regisztráció (Lehetséges, hogy ezekkel az adatokkal már létezik felhasználói fiók)"
+    "registerFailure": "Sikertelen regisztráció (lehetséges, hogy ezekkel az adatokkal már létezik felhasználói fiók).",
+    "passwordResetSuccess": "Kiküldtük a linket a jelszó visszaállításhoz. Hamarosan megérkezik az email fiókodba.",
+    "passwordResetFailure": "Sikertelen jelszó visszaállítás"
   },
   "action": {
     "addCompany": "Cég felvétele",

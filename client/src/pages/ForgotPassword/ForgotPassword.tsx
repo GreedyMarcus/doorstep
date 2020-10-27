@@ -1,7 +1,7 @@
 import React, { FormEvent } from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
-import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
+import LockRoundedIcon from '@material-ui/icons/LockRounded'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -13,70 +13,53 @@ import REGEXP from '../../utils/regexp'
 import { Link as RouteLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
-import { loginUser } from '../../store/user'
+import { sendForgotPassword } from '../../store/user'
 import { addNotification } from '../../store/action'
 
-const Login: React.FC = () => {
+const ForgotPassword: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
   const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
-  const [password, bindPassword, resetPassword] = useInput('', true)
-
-  const clearInputs = () => {
-    resetEmail()
-    resetPassword()
-  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const isLoginDataValid = [email, password].every(param => param.isValid)
-    if (!isLoginDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidLoginData') }))
+    if (!email.isValid) {
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidEmailFormat') }))
       return
     }
 
-    dispatch(loginUser(email.value, password.value))
-    clearInputs()
-    history.push('/')
+    dispatch(sendForgotPassword(email.value))
+    resetEmail()
+    history.push('/login')
   }
 
   return (
     <Container className={classes.container} component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
-        <MeetingRoomRoundedIcon className={classes.icon} />
-        <Typography className={classes.welcome} component="h1">
-          {t('auth.loginWelcome')}
+        <LockRoundedIcon className={classes.icon} />
+        <Typography className={classes.title} component="h1">
+          {t('auth.forgotPasswordTitle')}
         </Typography>
-        <Typography className={classes.welcomeHelper} component="h2">
-          {t('auth.loginWelcomeHelper')}
+        <Typography className={classes.helper} component="h2">
+          {t('auth.forgotPasswordHelper')}
         </Typography>
 
         <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <TextField {...bindEmail} id="login-email" label={t('auth.email')} autoComplete="email" variant="outlined" fullWidth />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField {...bindPassword} id="login-password" label={t('auth.password')} type="password" variant="outlined" fullWidth />
-            </Grid>
-            <Grid xs={12} className={classes.forgotPasswordLink}>
-              <Grid container justify="flex-end">
-                <Link component={RouteLink} to="/forgot-password">
-                  {t('auth.forgotPasswordQuestion')}
-                </Link>
-              </Grid>
+              <TextField {...bindEmail} id="forgot-password-email" label={t('auth.email')} autoComplete="email" variant="outlined" fullWidth />
             </Grid>
             <Grid item xs={12}>
               <Button className={classes.submit} type="submit" variant="contained" color="primary" size="large" fullWidth>
-                {t('auth.loginSubmit')}
+                {t('auth.forgotPasswordSubmit')}
               </Button>
               <Grid container justify="center">
-                <Link component={RouteLink} to="/register">
-                  {t('auth.registerTitle')}
+                <Link component={RouteLink} to="/login">
+                  {t('auth.loginRedirect')}
                 </Link>
               </Grid>
             </Grid>
@@ -87,4 +70,4 @@ const Login: React.FC = () => {
   )
 }
 
-export default Login
+export default ForgotPassword

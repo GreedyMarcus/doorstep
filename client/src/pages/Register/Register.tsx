@@ -1,7 +1,7 @@
 import React, { useState, FormEvent } from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
-import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
+import BusinessRoundedIcon from '@material-ui/icons/BusinessRounded'
 import Typography from '@material-ui/core/Typography'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
@@ -102,7 +102,7 @@ const Register: React.FC = () => {
   return (
     <Container className={classes.container} component="main" maxWidth="sm">
       <Paper className={classes.paper} elevation={3}>
-        <MeetingRoomRoundedIcon className={classes.icon} />
+        <BusinessRoundedIcon className={classes.icon} />
         <Typography className={classes.title} component="h1">
           {t('auth.registerTitle')}
         </Typography>

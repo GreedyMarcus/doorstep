@@ -41,6 +41,11 @@ class AuthService {
     const token = AuthService.getToken()
     return token ? { Authorization: `Bearer ${token}` } : {}
   }
+
+  public static async sendForgotPassword(email: string): Promise<boolean> {
+    const result = await axios.post('/api/auth/forgot-password', { email })
+    return result.status === 200
+  }
 }
 
 export default AuthService
