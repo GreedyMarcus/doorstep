@@ -50,6 +50,16 @@ class AuthController {
     }
     res.sendStatus(200)
   }
+
+  public resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+    let authenticatedUser: UserLoginResultDTO
+    try {
+      authenticatedUser = await this.authService.resetUserPassword(req.body.token, req.body.password)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(authenticatedUser)
+  }
 }
 
 export default AuthController

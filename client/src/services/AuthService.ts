@@ -52,6 +52,15 @@ class AuthService {
     const result = await axios.post('/api/auth/forgot-password', { email }, { headers: AuthService.getClientLanguageHeader() })
     return result.status === 200
   }
+
+  public static async resetPassword(token: string, password: string): Promise<UserLoginResult> {
+    const result = await axios.post('/api/auth/reset-password', { token, password })
+
+    if (result.data) {
+      localStorage.setItem(config.auth.tokenKey, JSON.stringify(result.data.token))
+    }
+    return result.data
+  }
 }
 
 export default AuthService

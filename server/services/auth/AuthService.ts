@@ -106,6 +106,24 @@ class AuthService implements AuthServiceInterface {
     // Send password reset link to user via email
     await this.emailService.sendPasswordResetLink(email, token, language)
   }
+
+  public resetUserPassword = async (token: string, password: string): Promise<UserLoginResultDTO> => {
+    const user = await this.userRepository.findUserByPasswordToken(token)
+    if (!user) {
+      throw Boom.badRequest('User does not exist')
+    }
+
+    // Hash the new password and reset password token
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    user.passwordToken = null
+    user.password = hashedPassword
+    await this.userRepository.saveUser(user)
+
+    // Login user
+    return this.loginUser({ email: user.email, password })
+  }
 }
 
 export default AuthService

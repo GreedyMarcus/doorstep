@@ -13,7 +13,7 @@ import REGEXP from '../../utils/regexp'
 import { Link as RouteLink, useHistory, RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
-import { resetPassword } from '../../store/user'
+import { resetUserPassword } from '../../store/user'
 import { addNotification } from '../../store/action'
 
 const ResetPassword: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
@@ -32,7 +32,7 @@ const ResetPassword: React.FC<RouteComponentProps> = ({ match: { params: routePa
       return
     }
 
-    dispatch(resetPassword(routeParams.token, password.value))
+    dispatch(resetUserPassword(routeParams['token'], password.value))
     resetPassword()
     history.push('/')
   }

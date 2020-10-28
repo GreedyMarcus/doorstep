@@ -91,9 +91,27 @@ export const sendForgotPassword = (email: string) => async (dispatch: AppDispatc
   try {
     const emailSent = await AuthService.sendForgotPassword(email)
     if (!emailSent) {
+      dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordForgetFailure') }))
+      return
+    }
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordForgetSuccess') }))
+  } catch (error) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordForgetFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const resetUserPassword = (token: string, email: string) => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true))
+
+  try {
+    const authenticatedUser = await AuthService.resetPassword(token, email)
+    if (!authenticatedUser) {
       dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordResetFailure') }))
       return
     }
+    dispatch(userLoginSucceed(authenticatedUser))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordResetSuccess') }))
   } catch (error) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordResetFailure') }))
