@@ -10,31 +10,31 @@ import Link from '@material-ui/core/Link'
 import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
-import { Link as RouteLink, useHistory } from 'react-router-dom'
+import { Link as RouteLink, useHistory, RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
-import { sendForgotPassword } from '../../store/user'
+import { resetPassword } from '../../store/user'
 import { addNotification } from '../../store/action'
 
-const ForgotPassword: React.FC = () => {
+const ResetPassword: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
-  const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
+  const [password, bindPassword, resetPassword] = useInput('', true, REGEXP.PASSWORD)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (!email.isValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidEmailFormat') }))
+    if (!password.isValid) {
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidPasswordFormat') }))
       return
     }
 
-    dispatch(sendForgotPassword(email.value))
-    resetEmail()
-    history.push('/login')
+    dispatch(resetPassword(routeParams.token, password.value))
+    resetPassword()
+    history.push('/')
   }
 
   return (
@@ -42,27 +42,20 @@ const ForgotPassword: React.FC = () => {
       <Paper className={classes.paper} elevation={3}>
         <LockRoundedIcon className={classes.icon} />
         <Typography className={classes.title} component="h1">
-          {t('auth.forgotPasswordTitle')}
+          {t('auth.resetPasswordTitle')}
         </Typography>
         <Typography className={classes.helper} component="h2">
-          {t('auth.forgotPasswordHelper')}
+          {t('auth.resetPasswordHelper')}
         </Typography>
 
         <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <TextField
-                {...bindEmail}
-                id="forgot-password-email"
-                label={t('auth.email')}
-                autoComplete="email"
-                variant="outlined"
-                fullWidth
-              />
+              <TextField {...bindPassword} id="reset-password-pass" label={t('auth.password')} variant="outlined" fullWidth />
             </Grid>
             <Grid item xs={12}>
               <Button className={classes.submit} type="submit" variant="contained" color="primary" size="large" fullWidth>
-                {t('auth.forgotPasswordSubmit')}
+                {t('auth.resetPasswordSubmit')}
               </Button>
               <Grid container justify="center">
                 <Link component={RouteLink} to="/login">
@@ -77,4 +70,4 @@ const ForgotPassword: React.FC = () => {
   )
 }
 
-export default ForgotPassword
+export default ResetPassword
