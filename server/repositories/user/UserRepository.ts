@@ -21,6 +21,10 @@ class UserRepository extends Repository<User> implements UserRepositoryInterface
       .where('user.email = :email', { email })
       .getOne()
   }
+
+  public saveUser(user: User): Promise<User> {
+    return getRepository(User).save(user)
+  }
 }
 
 export default UserRepository

@@ -40,6 +40,15 @@ class AuthController {
     }
     res.json(user)
   }
+
+  public forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.authService.forgotUserPassword(req.body.email)
+    } catch (err) {
+      return next(err)
+    }
+    res.sendStatus(200)
+  }
 }
 
 export default AuthController

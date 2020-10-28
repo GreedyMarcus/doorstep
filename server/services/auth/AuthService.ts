@@ -4,7 +4,9 @@ import Boom from '@hapi/boom'
 import config from '../../config'
 import TYPES from '../../config/types'
 import AuthServiceInterface from './AuthServiceInterface'
+import { v4 as uuidv4 } from 'uuid'
 import { inject, injectable } from 'inversify'
+import { EmailServiceInterface } from '../email'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/office-building'
 import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
@@ -12,13 +14,16 @@ import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
 
 @injectable()
 class AuthService implements AuthServiceInterface {
+  private readonly emailService: EmailServiceInterface
   private readonly userRepository: UserRepositoryInterface
   private readonly officeBuildingRepository: OfficeBuildingRepositoryInterface
 
   constructor(
+    @inject(TYPES.EmailService) emailService: EmailServiceInterface,
     @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface,
     @inject(TYPES.OfficeBuildingRepository) officeBuildingRepository: OfficeBuildingRepositoryInterface
   ) {
+    this.emailService = emailService
     this.userRepository = userRepository
     this.officeBuildingRepository = officeBuildingRepository
   }
@@ -85,6 +90,21 @@ class AuthService implements AuthServiceInterface {
       role: user.role.name
     }
     return currentUser
+  }
+
+  public forgotUserPassword = async (email: string): Promise<void> => {
+    const user = await this.userRepository.findUserByEmail(email)
+    if (!user) {
+      throw Boom.badRequest('User does not exist')
+    }
+
+    // Generate and save password token
+    const token = uuidv4()
+    user.passwordToken = token
+    await this.userRepository.saveUser(user)
+
+    // Send password reset link to user via email
+    await this.emailService.sendPasswordResetLink(email, token)
   }
 }
 

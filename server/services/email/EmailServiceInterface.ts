@@ -1,5 +1,5 @@
 interface EmailServiceInterface {
-  sendTestEmail(): Promise<void>
+  sendPasswordResetLink(email: string, token: string): Promise<void>
 }
 
 export default EmailServiceInterface

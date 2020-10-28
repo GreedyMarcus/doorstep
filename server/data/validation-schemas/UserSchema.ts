@@ -12,3 +12,7 @@ export const UserLoginSchema = Joi.object({
   email: Joi.string().pattern(REGEXP.EMAIL).required(),
   password: Joi.string().pattern(REGEXP.PASSWORD).required()
 })
+
+export const ForgotPasswordSchema = Joi.object({
+  email: Joi.string().pattern(REGEXP.EMAIL).required()
+})

@@ -10,21 +10,19 @@ class EmailService implements EmailServiceInterface {
     sendgrid.setApiKey(config.email.sendgridApiKey)
   }
 
-  public sendTestEmail = async (): Promise<void> => {
-    const testMessage = {
-      from: config.email.testEmailFrom,
-      to: config.email.testEmailTo,
-      subject: '[TEST]',
-      text: 'Email service tester email.',
-      html: '<strong>Email service tester email.</strong>'
+  public sendPasswordResetLink = async (email: string, token: string): Promise<void> => {
+    const message = {
+      from: config.email.noreplyEmail,
+      to: email,
+      subject: '[RESET-PASSWORD]',
+      html: `<strong><a href="${config.server.baseUrl}/reset-password/${token}" target="_blank">Reset link</a></strong>`
     }
 
-    sendgrid
-      .send(testMessage)
-      .then(() => console.log('Test email sent.'))
-      .catch(error => {
-        throw Boom.internal(error.message)
-      })
+    try {
+      await sendgrid.send(message)
+    } catch (error) {
+      throw Boom.internal('Could not send password reset link email')
+    }
   }
 }
 
