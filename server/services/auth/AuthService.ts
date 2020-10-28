@@ -92,7 +92,7 @@ class AuthService implements AuthServiceInterface {
     return currentUser
   }
 
-  public forgotUserPassword = async (email: string): Promise<void> => {
+  public forgotUserPassword = async (email: string, language: string): Promise<void> => {
     const user = await this.userRepository.findUserByEmail(email)
     if (!user) {
       throw Boom.badRequest('User does not exist')
@@ -104,7 +104,7 @@ class AuthService implements AuthServiceInterface {
     await this.userRepository.saveUser(user)
 
     // Send password reset link to user via email
-    await this.emailService.sendPasswordResetLink(email, token)
+    await this.emailService.sendPasswordResetLink(email, token, language)
   }
 }
 

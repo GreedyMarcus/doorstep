@@ -5,7 +5,7 @@ interface AuthServiceInterface {
   loginUser(loginCredentials: UserLoginDTO): Promise<UserLoginResultDTO>
   registerOfficeBuilding(registration: OfficeBuildingRegistrationDTO): Promise<void>
   getCurrentUser(userId: number): Promise<UserLoginResultDTO>
-  forgotUserPassword(email: string): Promise<void>
+  forgotUserPassword(email: string, language: string): Promise<void>
 }
 
 export default AuthServiceInterface

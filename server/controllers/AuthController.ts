@@ -42,8 +42,9 @@ class AuthController {
   }
 
   public forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+    const clientLanguage = (req.headers['client-language'] as string) || 'en'
     try {
-      await this.authService.forgotUserPassword(req.body.email)
+      await this.authService.forgotUserPassword(req.body.email, clientLanguage)
     } catch (err) {
       return next(err)
     }
