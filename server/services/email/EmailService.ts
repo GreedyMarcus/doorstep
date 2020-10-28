@@ -28,7 +28,7 @@ class EmailService implements EmailServiceInterface {
       }
       await sendgrid.send(message)
     } catch (err) {
-      throw Boom.internal('Could not send password reset link email')
+      throw Boom.internal('Could not send password reset email')
     }
   }
 }

@@ -29,7 +29,10 @@
     "forgotPasswordQuestion": "Elfelejtette a jelszavát?",
     "forgotPasswordTitle": "Elfelejtett jelszó",
     "forgotPasswordHelper": "Add meg az email címed és máris küldünk egy linket a jelszó visszaállításhoz.",
-    "forgotPasswordSubmit": "Jelszó visszaállítása"
+    "forgotPasswordSubmit": "Jelszó visszaállítása",
+    "resetPasswordTitle": "Jelszó visszaállítás",
+    "resetPasswordHelper": "Add meg az új jelszavad és jelentkezz be.",
+    "resetPasswordSubmit": "Mentés és bejelentkezés"
   },
   "notification": {
     "invalidLoginData": "Érvénytelen email cím vagy jelszó formátum",
@@ -40,7 +43,9 @@
     "logoutSuccess": "Sikeres kijelentkezés",
     "registerSuccess": "Sikeres regisztráció",
     "registerFailure": "Sikertelen regisztráció (lehetséges, hogy ezekkel az adatokkal már létezik felhasználói fiók).",
-    "passwordResetSuccess": "Kiküldtük a linket a jelszó visszaállításhoz. Hamarosan megérkezik az email fiókodba.",
+    "passwordForgetSuccess": "Kiküldtük a linket a jelszó visszaállításhoz. Hamarosan megérkezik az email fiókodba.",
+    "passwordForgetFailure": "Nem tudtuk elküldeni a jelszó visszaállításhoz szükséges emailt.",
+    "passwordResetSuccess": "Sikeresen megváltoztattad a jelszavad.",
     "passwordResetFailure": "Sikertelen jelszó visszaállítás"
   },
   "action": {
