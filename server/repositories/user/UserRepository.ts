@@ -21,6 +21,18 @@ class UserRepository extends Repository<User> implements UserRepositoryInterface
       .where('user.email = :email', { email })
       .getOne()
   }
+
+  public findUserByPasswordToken(token: string): Promise<User> {
+    return getRepository(User)
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('user.passwordToken = :token', { token })
+      .getOne()
+  }
+
+  public saveUser(user: User): Promise<User> {
+    return getRepository(User).save(user)
+  }
 }
 
 export default UserRepository

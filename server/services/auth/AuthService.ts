@@ -4,7 +4,9 @@ import Boom from '@hapi/boom'
 import config from '../../config'
 import TYPES from '../../config/types'
 import AuthServiceInterface from './AuthServiceInterface'
+import { v4 as uuidv4 } from 'uuid'
 import { inject, injectable } from 'inversify'
+import { EmailServiceInterface } from '../email'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/office-building'
 import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
@@ -12,13 +14,16 @@ import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
 
 @injectable()
 class AuthService implements AuthServiceInterface {
+  private readonly emailService: EmailServiceInterface
   private readonly userRepository: UserRepositoryInterface
   private readonly officeBuildingRepository: OfficeBuildingRepositoryInterface
 
   constructor(
+    @inject(TYPES.EmailService) emailService: EmailServiceInterface,
     @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface,
     @inject(TYPES.OfficeBuildingRepository) officeBuildingRepository: OfficeBuildingRepositoryInterface
   ) {
+    this.emailService = emailService
     this.userRepository = userRepository
     this.officeBuildingRepository = officeBuildingRepository
   }
@@ -85,6 +90,39 @@ class AuthService implements AuthServiceInterface {
       role: user.role.name
     }
     return currentUser
+  }
+
+  public forgotUserPassword = async (email: string, language: string): Promise<void> => {
+    const user = await this.userRepository.findUserByEmail(email)
+    if (!user) {
+      throw Boom.badRequest('User does not exist')
+    }
+
+    // Generate and save password token
+    const token = uuidv4()
+    user.passwordToken = token
+    await this.userRepository.saveUser(user)
+
+    // Send password reset link to user via email
+    await this.emailService.sendPasswordResetLink(email, token, language)
+  }
+
+  public resetUserPassword = async (token: string, password: string): Promise<UserLoginResultDTO> => {
+    const user = await this.userRepository.findUserByPasswordToken(token)
+    if (!user) {
+      throw Boom.badRequest('User does not exist')
+    }
+
+    // Hash the new password and reset password token
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    user.passwordToken = null
+    user.password = hashedPassword
+    await this.userRepository.saveUser(user)
+
+    // Login user
+    return this.loginUser({ email: user.email, password })
   }
 }
 

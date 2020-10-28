@@ -40,6 +40,26 @@ class AuthController {
     }
     res.json(user)
   }
+
+  public forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+    const clientLanguage = (req.headers['client-language'] as string) || 'en'
+    try {
+      await this.authService.forgotUserPassword(req.body.email, clientLanguage)
+    } catch (err) {
+      return next(err)
+    }
+    res.sendStatus(200)
+  }
+
+  public resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+    let authenticatedUser: UserLoginResultDTO
+    try {
+      authenticatedUser = await this.authService.resetUserPassword(req.body.token, req.body.password)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(authenticatedUser)
+  }
 }
 
 export default AuthController

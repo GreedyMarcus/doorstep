@@ -1,5 +1,6 @@
 import axios from 'axios'
 import config from '../app/config'
+import i18n from '../plugins/i18n'
 import { RegisterUserDetails, UserLoginResult } from '../data/types/User'
 
 class AuthService {
@@ -40,6 +41,25 @@ class AuthService {
   public static getAuthHeader() {
     const token = AuthService.getToken()
     return token ? { Authorization: `Bearer ${token}` } : {}
+  }
+
+  public static getClientLanguageHeader() {
+    const language = i18n.language
+    return { 'client-language': language }
+  }
+
+  public static async sendForgotPassword(email: string): Promise<boolean> {
+    const result = await axios.post('/api/auth/forgot-password', { email }, { headers: AuthService.getClientLanguageHeader() })
+    return result.status === 200
+  }
+
+  public static async resetPassword(token: string, password: string): Promise<UserLoginResult> {
+    const result = await axios.post('/api/auth/reset-password', { token, password })
+
+    if (result.data) {
+      localStorage.setItem(config.auth.tokenKey, JSON.stringify(result.data.token))
+    }
+    return result.data
   }
 }
 
