@@ -14,7 +14,7 @@ class EmailService implements EmailServiceInterface {
   }
 
   public sendPasswordResetLink = async (email: string, token: string, language: string): Promise<void> => {
-    const emailTemplatePath = path.resolve(__dirname, '../..', `templates/email/password-reset-${language}.ejs`)
+    const emailTemplatePath = path.resolve(__dirname.replace('/build', ''), '../..', `templates/email/password-reset-${language}.ejs`)
     const resetPasswordLink = `${config.server.baseUrl}/reset-password/${token}`
 
     try {
