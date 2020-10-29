@@ -20,8 +20,8 @@ const RegisterAdminForm: React.FC<Props> = ({ email, firstName, lastName, countr
   const [t] = useTranslation()
 
   const emailText = `${t('auth.email')}: ${email}`
-  const firstNameText = `${t('general.firstName')}: ${firstName}`
-  const lastNameText = `${t('general.lastName')}: ${lastName}`
+  const firstNameText = `${t('auth.firstName')}: ${firstName}`
+  const lastNameText = `${t('auth.lastName')}: ${lastName}`
   const countryText = `${t('general.country')}: ${country}`
   const zipCodeText = `${t('general.zipCode')}: ${zipCode}`
   const cityText = `${t('general.city')}: ${city}`
