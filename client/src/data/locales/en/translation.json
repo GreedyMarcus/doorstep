@@ -9,7 +9,19 @@
     "companies": "Companies",
     "consentForms": "Consent forms",
     "businessHosts": "Business hosts",
-    "visits": "Visits"
+    "visits": "Visits",
+    "details": "Details"
+  },
+  "company": {
+    "name": "Company name",
+    "registrationNumber": "Registration number",
+    "admin": "Admin",
+    "joiningDate": "Joining date",
+    "address": "Company address",
+    "companyDetails": "Company details",
+    "adminDetails": "Company admin details",
+    "adminName": "Admin name",
+    "adminEmail": "Admin email"
   },
   "auth": {
     "email": "Email address",

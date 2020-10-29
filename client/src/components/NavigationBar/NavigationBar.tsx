@@ -103,12 +103,18 @@ const NavigationBar: React.FC = () => {
   useEffect(() => {
     if (navigations.length) {
       history.push(navigations[0].route)
+    } else {
+      history.push('/login')
     }
   }, [userRole])
 
   const showNavs = windowWidth >= 600
   const navigations = getNavigations()
   const operations = getOperations()
+
+  if (!userRole || !userRole.length) {
+    return null
+  }
 
   return (
     <React.Fragment>

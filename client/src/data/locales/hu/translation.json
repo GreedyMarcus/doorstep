@@ -9,7 +9,19 @@
     "companies": "Cégek",
     "consentForms": "Nyilatkozatok",
     "businessHosts": "Céges fogadók",
-    "visits": "Látogatások"
+    "visits": "Látogatások",
+    "details": "Részletek"
+  },
+  "company": {
+    "name": "Cégnév",
+    "registrationNumber": "Cégjegyzékszám",
+    "admin": "Admin",
+    "joiningDate": "Csatlakozási dátum",
+    "address": "Cég címe",
+    "companyDetails": "Cég adatai",
+    "adminDetails": "Céges admin adatai",
+    "adminName": "Admin neve",
+    "adminEmail": "Admin email"
   },
   "auth": {
     "email": "Email cím",
