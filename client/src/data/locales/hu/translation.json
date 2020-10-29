@@ -21,7 +21,8 @@
     "companyDetails": "Cég adatai",
     "adminDetails": "Céges admin adatai",
     "adminName": "Admin neve",
-    "adminEmail": "Admin email"
+    "adminEmail": "Admin email",
+    "noCompanyInfo": "Még nem vettél fel cégeket."
   },
   "auth": {
     "email": "Email cím",

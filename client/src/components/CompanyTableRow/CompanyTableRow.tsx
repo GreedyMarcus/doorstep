@@ -19,17 +19,17 @@ type Props = {
 const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
   const classes = useStyles({ collapseRowIndent: showMore ? 'medium' : 'small' })
   const [isOpen, setOpen] = useState(false)
-  const [t] = useTranslation()
+  const [t, i18n] = useTranslation()
 
   const handleExpand = () => setOpen(!isOpen)
 
   const companyNameText = `${t('company.name')}: ${company.name}`
   const companyRegistrationNumberText = `${t('company.registrationNumber')}: ${company.registrationNumber}`
   const companyAddressText = `${t('company.address')}: ${company.address}`
-  const companyJoiningDateText = `${t('company.joiningDate')}: ${company.joiningDate}`
+  const companyJoiningDateText = `${t('company.joiningDate')}: ${company.joiningDate.toLocaleDateString(i18n.language)}`
   const companyAdminNameText = `${t('company.adminName')}: ${company.adminName}`
   const companyAdminEmailText = `${t('company.adminEmail')}: ${company.adminEmail}`
-  const companyAdminJoiningDateText = `${t('company.joiningDate')}: ${company.adminJoiningDate}`
+  const companyAdminJoiningDateText = `${t('company.joiningDate')}: ${company.adminJoiningDate.toLocaleDateString(i18n.language)}`
 
   return (
     <React.Fragment>
@@ -51,7 +51,7 @@ const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
               {company.adminName}
             </TableCell>
             <TableCell className={classes.tableCell} onClick={handleExpand}>
-              {company.joiningDate.toLocaleDateString()}
+              {company.joiningDate.toLocaleDateString(i18n.language)}
             </TableCell>
           </React.Fragment>
         )}

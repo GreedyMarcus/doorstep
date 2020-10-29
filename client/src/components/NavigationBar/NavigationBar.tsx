@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, ChangeEvent } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Container from '@material-ui/core/Container'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -16,7 +16,7 @@ import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded'
 import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
 import useStyles from './useStyles'
 import useWindowWidth from '../shared/useWindowWidth'
-import { Link as RouteLink, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
@@ -90,7 +90,7 @@ const NavigationBar: React.FC = () => {
     history.push('/login')
   }
 
-  const handleMobileNavChange = (event: ChangeEvent<{}>, value: any) => {
+  const handleMobileNavChange = (e, value: number) => {
     setMobileNav(value)
     history.push(navigations[value].route)
   }
@@ -101,9 +101,13 @@ const NavigationBar: React.FC = () => {
   }, [history.location])
 
   useEffect(() => {
+    // Redirect for authorized users
     if (navigations.length) {
       history.push(navigations[0].route)
-    } else {
+    }
+
+    // Redirect unauthorized users from root route
+    if (history.location.pathname === '/') {
       history.push('/login')
     }
   }, [userRole])
@@ -112,6 +116,7 @@ const NavigationBar: React.FC = () => {
   const navigations = getNavigations()
   const operations = getOperations()
 
+  // Show navigation only for authorized users
   if (!userRole || !userRole.length) {
     return null
   }
@@ -121,7 +126,7 @@ const NavigationBar: React.FC = () => {
       <AppBar position="static">
         <Container maxWidth="lg" disableGutters>
           <Toolbar>
-            <IconButton color="inherit" aria-label="home">
+            <IconButton color="inherit" aria-label="home" onClick={() => history.push(navigations[0].route)}>
               <MeetingRoomRoundedIcon className={classes.homeIcon} />
               <Typography className={classes.homeTitle} variant="h6">
                 Doorstep
@@ -130,7 +135,7 @@ const NavigationBar: React.FC = () => {
 
             {showNavs &&
               navigations.map(({ id, route, label }) => (
-                <Button key={id} color="inherit" component={RouteLink} to={route}>
+                <Button key={id} color="inherit" onClick={() => history.push(route)}>
                   {label}
                 </Button>
               ))}

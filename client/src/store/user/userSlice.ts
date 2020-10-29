@@ -1,5 +1,5 @@
-import AuthService from '../../services/AuthService'
 import i18n from '../../plugins/i18n'
+import AuthService from '../../services/AuthService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch } from '..'
 import { setLoading, addNotification } from '../action'

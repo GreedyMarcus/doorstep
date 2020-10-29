@@ -21,7 +21,8 @@
     "companyDetails": "Company details",
     "adminDetails": "Company admin details",
     "adminName": "Admin name",
-    "adminEmail": "Admin email"
+    "adminEmail": "Admin email",
+    "noCompanyInfo": "You have not added any companies yet."
   },
   "auth": {
     "email": "Email address",
