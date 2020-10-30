@@ -10,8 +10,9 @@ import TableCell from '@material-ui/core/TableCell'
 import Typography from '@material-ui/core/Typography'
 import InfoIcon from '@material-ui/icons/Info'
 import CompanyTableRow from '../../components/CompanyTableRow'
-import useWindowWidth from '../../components/shared/useWindowWidth'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
+import { Theme } from '@material-ui/core/styles/createMuiTheme'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
@@ -20,11 +21,9 @@ import { companiesSelector, fetchCompanies } from '../../store/company'
 const Companies: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
-  const windowWidth = useWindowWidth()
+  const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
   const companies = useSelector(companiesSelector)
   const [t] = useTranslation()
-
-  const showMore = windowWidth >= 600
 
   useEffect(() => {
     dispatch(fetchCompanies())

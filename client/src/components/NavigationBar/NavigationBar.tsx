@@ -14,8 +14,9 @@ import BusinessCenterRoundedIcon from '@material-ui/icons/BusinessCenterRounded'
 import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded'
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded'
 import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
-import useWindowWidth from '../shared/useWindowWidth'
+import { Theme } from '@material-ui/core/styles/createMuiTheme'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
@@ -26,7 +27,7 @@ import { userRoleSelector, logoutUser } from '../../store/user'
 const NavigationBar: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
-  const windowWidth = useWindowWidth()
+  const showNavs = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
   const dispatch = useAppDispatch()
   const userRole = useSelector(userRoleSelector)
   const [mobileNav, setMobileNav] = useState(0)
@@ -112,7 +113,6 @@ const NavigationBar: React.FC = () => {
     }
   }, [userRole])
 
-  const showNavs = windowWidth >= 600
   const navigations = getNavigations()
   const operations = getOperations()
 
