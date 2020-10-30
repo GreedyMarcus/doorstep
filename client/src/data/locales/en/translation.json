@@ -24,6 +24,12 @@
     "adminEmail": "Admin email",
     "noCompanyInfo": "You have not added any companies yet."
   },
+  "consentForm": {
+    "title": "Consent form title",
+    "activeVersion": "Active version",
+    "createdDate": "Created date",
+    "noConsentFormsInfo": "You have not added any consent forms yet."
+  },
   "auth": {
     "email": "Email address",
     "password": "Password",
@@ -59,7 +65,8 @@
     "passwordForgetSuccess": "We've sent you a link to reset your password. You will receive an email shortly.",
     "passwordForgetFailure": "Could not send password reset email.",
     "passwordResetSuccess": "You've successfully updated your password.",
-    "passwordResetFailure": "Password reset failed"
+    "passwordResetFailure": "Password reset failed",
+    "fetchCompaniesFailure": "Could not load companies."
   },
   "action": {
     "addCompany": "Add company",

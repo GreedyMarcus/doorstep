@@ -4,6 +4,7 @@ import Register from '../pages/Register'
 import ForgotPassword from '../pages/ForgotPassword'
 import ResetPassword from '../pages/ResetPassword'
 import Companies from '../pages/Companies'
+import ConsentForms from '../pages/ConsentForms'
 import NavigationBar from '../components/NavigationBar'
 import ProtectedRoute from '../components/ProtectedRoute'
 import ActionTracker from '../components/ActionTracker'
@@ -34,6 +35,7 @@ const App = () => {
         <ProtectedRoute exact path="/forgot-password" noAuth Component={ForgotPassword} />
         <ProtectedRoute exact path="/reset-password/:token" noAuth Component={ResetPassword} />
         <ProtectedRoute exact path="/companies" auth={[UserRole.ADMIN]} Component={Companies} />
+        <ProtectedRoute exact path="/consent-forms" auth={[UserRole.ADMIN]} Component={ConsentForms} />
       </Switch>
       <ActionTracker />
     </React.Fragment>

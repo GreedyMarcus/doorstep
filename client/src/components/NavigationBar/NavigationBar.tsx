@@ -105,10 +105,11 @@ const NavigationBar: React.FC = () => {
     // Redirect for authorized users
     if (navigations.length) {
       history.push(navigations[0].route)
+      return
     }
-
-    // Redirect unauthorized users from root route
-    if (history.location.pathname === '/') {
+    
+    // Redirect unauthorized users or redirect from root route
+    if (!userRole || history.location.pathname === '/') {
       history.push('/login')
     }
   }, [userRole])
@@ -117,7 +118,7 @@ const NavigationBar: React.FC = () => {
   const operations = getOperations()
 
   // Show navigation only for authorized users
-  if (!userRole || !userRole.length) {
+  if (!userRole) {
     return null
   }
 
