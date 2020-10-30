@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { inject, injectable } from 'inversify'
 import { EmailServiceInterface } from '../email'
 import { UserRepositoryInterface } from '../../repositories/user'
-import { OfficeBuildingRepositoryInterface } from '../../repositories/office-building'
+import { OfficeBuildingRepositoryInterface } from '../../repositories/officeBuilding'
 import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
 import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
 
