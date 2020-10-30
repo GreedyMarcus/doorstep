@@ -5,8 +5,8 @@ type Props = {
 }
 
 export default makeStyles(theme => ({
-  wrapper: (props: Props) => ({
-    display: props.visible ? 'block' : 'none'
+  wrapper: ({ visible }: Props) => ({
+    display: visible ? 'block' : 'none'
   }),
   title: {
     fontSize: 20,

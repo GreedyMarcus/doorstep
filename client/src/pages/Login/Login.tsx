@@ -63,7 +63,7 @@ const Login: React.FC = () => {
             <Grid item xs={12}>
               <TextField {...bindPassword} id="login-password" label={t('auth.password')} type="password" variant="outlined" fullWidth />
             </Grid>
-            <Grid xs={12} className={classes.forgotPasswordLink}>
+            <Grid item xs={12} className={classes.forgotPasswordLink}>
               <Grid container justify="flex-end">
                 <Link component={RouteLink} to="/forgot-password">
                   {t('auth.forgotPasswordQuestion')}

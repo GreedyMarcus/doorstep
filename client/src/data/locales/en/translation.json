@@ -9,7 +9,26 @@
     "companies": "Companies",
     "consentForms": "Consent forms",
     "businessHosts": "Business hosts",
-    "visits": "Visits"
+    "visits": "Visits",
+    "details": "Details"
+  },
+  "company": {
+    "name": "Company name",
+    "registrationNumber": "Registration number",
+    "admin": "Admin",
+    "joiningDate": "Joining date",
+    "address": "Company address",
+    "companyDetails": "Company details",
+    "adminDetails": "Company admin details",
+    "adminName": "Admin name",
+    "adminEmail": "Admin email",
+    "noCompanyInfo": "You have not added any companies yet."
+  },
+  "consentForm": {
+    "title": "Consent form title",
+    "activeVersion": "Active version",
+    "createdDate": "Created date",
+    "noConsentFormsInfo": "You have not added any consent forms yet."
   },
   "auth": {
     "email": "Email address",
@@ -46,7 +65,9 @@
     "passwordForgetSuccess": "We've sent you a link to reset your password. You will receive an email shortly.",
     "passwordForgetFailure": "Could not send password reset email.",
     "passwordResetSuccess": "You've successfully updated your password.",
-    "passwordResetFailure": "Password reset failed"
+    "passwordResetFailure": "Password reset failed",
+    "fetchCompaniesFailure": "Could not load companies.",
+    "fetchConsentFormsFailure": "Could not load consent forms"
   },
   "action": {
     "addCompany": "Add company",

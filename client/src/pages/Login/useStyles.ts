@@ -30,7 +30,7 @@ export default makeStyles(theme => ({
     marginTop: theme.spacing(3)
   },
   forgotPasswordLink: {
-    padding: theme.spacing(0.5, 1.5)
+    padding: `${theme.spacing(0.5, 1.5)} !important` as string // Workaround to use !important
   },
   submit: {
     marginBottom: theme.spacing(2)

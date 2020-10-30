@@ -9,7 +9,26 @@
     "companies": "Cégek",
     "consentForms": "Nyilatkozatok",
     "businessHosts": "Céges fogadók",
-    "visits": "Látogatások"
+    "visits": "Látogatások",
+    "details": "Részletek"
+  },
+  "company": {
+    "name": "Cégnév",
+    "registrationNumber": "Cégjegyzékszám",
+    "admin": "Admin",
+    "joiningDate": "Csatlakozás dátuma",
+    "address": "Cég címe",
+    "companyDetails": "Cég adatai",
+    "adminDetails": "Céges admin adatai",
+    "adminName": "Admin neve",
+    "adminEmail": "Admin email",
+    "noCompanyInfo": "Még nem vettél fel cégeket."
+  },
+  "consentForm": {
+    "title": "Nyilatkozat címe",
+    "activeVersion": "Aktív verziószám",
+    "createdDate": "Létrehozás dátuma",
+    "noConsentFormsInfo": "Még nem vettél fel nyilatkozatokat."
   },
   "auth": {
     "email": "Email cím",
@@ -46,7 +65,9 @@
     "passwordForgetSuccess": "Kiküldtük a linket a jelszó visszaállításhoz. Hamarosan megérkezik az email fiókodba.",
     "passwordForgetFailure": "Nem tudtuk elküldeni a jelszó visszaállításhoz szükséges emailt.",
     "passwordResetSuccess": "Sikeresen megváltoztattad a jelszavad.",
-    "passwordResetFailure": "Sikertelen jelszó visszaállítás"
+    "passwordResetFailure": "Sikertelen jelszó visszaállítás",
+    "fetchCompaniesFailure": "Nem sikerült betölteni a cégeket.",
+    "fetchConsentFormsFailure": "Nem sikerült betölteni a nyilatkozatokat."
   },
   "action": {
     "addCompany": "Cég felvétele",
