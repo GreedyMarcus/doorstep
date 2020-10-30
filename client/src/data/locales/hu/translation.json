@@ -66,7 +66,8 @@
     "passwordForgetFailure": "Nem tudtuk elküldeni a jelszó visszaállításhoz szükséges emailt.",
     "passwordResetSuccess": "Sikeresen megváltoztattad a jelszavad.",
     "passwordResetFailure": "Sikertelen jelszó visszaállítás",
-    "fetchCompaniesFailure": "Nem sikerült betölteni a cégeket."
+    "fetchCompaniesFailure": "Nem sikerült betölteni a cégeket.",
+    "fetchConsentFormsFailure": "Nem sikerült betölteni a nyilatkozatokat."
   },
   "action": {
     "addCompany": "Cég felvétele",

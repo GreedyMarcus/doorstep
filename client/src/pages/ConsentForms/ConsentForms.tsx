@@ -12,31 +12,21 @@ import InfoIcon from '@material-ui/icons/Info'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
-import { ConsentFormInfo } from '../../data/types/ConsentForm'
 import { useTranslation } from 'react-i18next'
-// import { useSelector } from 'react-redux'
-// import { useAppDispatch } from '../../store'
-// import { consentFormsSelector, fetchConsentForms } from '../../store/consentForm'
+import { useSelector } from 'react-redux'
+import { useAppDispatch } from '../../store'
+import { consentFormsSelector, fetchConsentForms } from '../../store/consentForm'
 
 const ConsentForms: React.FC = () => {
   const classes = useStyles()
-  // const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
   const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
-  // const consentForms = useSelector(consentFormsSelector)
+  const consentForms = useSelector(consentFormsSelector)
   const [t, i18n] = useTranslation()
 
-  // useEffect(() => {
-  //   dispatch(fetchConsentForms())
-  // }, [])
-
-  const consentForms: ConsentFormInfo[] = [
-    {
-      id: 1,
-      title: 'Globális teszt nyilatkozat a vendégek biztonságáról',
-      activeVersion: 1,
-      createdAt: new Date()
-    }
-  ]
+  useEffect(() => {
+    dispatch(fetchConsentForms())
+  }, [])
 
   return (
     <Container className={classes.container} component="main" maxWidth="lg">

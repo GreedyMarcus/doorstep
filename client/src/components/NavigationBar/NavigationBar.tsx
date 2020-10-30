@@ -37,7 +37,7 @@ const NavigationBar: React.FC = () => {
     if (userRole === UserRole.ADMIN) {
       return [
         { id: 'ADMIN-NAV-1', route: '/companies', label: t('general.companies') },
-        { id: 'ADMIN-NAV-2', route: '/consents', label: t('general.consentForms') }
+        { id: 'ADMIN-NAV-2', route: '/consent-forms', label: t('general.consentForms') }
       ]
     }
 
@@ -45,7 +45,7 @@ const NavigationBar: React.FC = () => {
       return [
         { id: 'COMPANY-ADMIN-NAV-1', route: '/visits', label: t('general.visits') },
         { id: 'COMPANY-ADMIN-NAV-2', route: '/hosts', label: t('general.businessHosts') },
-        { id: 'COMPANY-ADMIN-NAV-3', route: '/consents', label: t('general.consentForms') }
+        { id: 'COMPANY-ADMIN-NAV-3', route: '/consent-forms', label: t('general.consentForms') }
       ]
     }
 

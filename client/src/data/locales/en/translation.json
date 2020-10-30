@@ -66,7 +66,8 @@
     "passwordForgetFailure": "Could not send password reset email.",
     "passwordResetSuccess": "You've successfully updated your password.",
     "passwordResetFailure": "Password reset failed",
-    "fetchCompaniesFailure": "Could not load companies."
+    "fetchCompaniesFailure": "Could not load companies.",
+    "fetchConsentFormsFailure": "Could not load consent forms"
   },
   "action": {
     "addCompany": "Add company",
