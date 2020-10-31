@@ -39,7 +39,7 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
         newAddress.city = address.city
         newAddress.streetAddress = address.streetAddress
 
-        buildingAddress = await getRepository(Address).save(newAddress)
+        buildingAddress = await transactionEntityManager.getRepository(Address).save(newAddress)
       }
 
       // Save building admin

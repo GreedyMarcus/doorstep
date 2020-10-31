@@ -26,7 +26,7 @@ class Company {
   @Column({ name: 'registration_number', unique: true })
   registrationNumber: string
 
-  @ManyToOne(() => Address, address => address.companies, { onDelete: 'SET NULL' })
+  @ManyToOne(() => Address, address => address.companies, { eager: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'address_id' })
   address: Address
 
@@ -41,7 +41,7 @@ class Company {
   @Column({ name: 'is_active', default: true })
   isActive: boolean
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, { eager: true })
   @JoinColumn({ name: 'admin_id' })
   admin: User
 
