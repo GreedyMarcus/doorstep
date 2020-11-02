@@ -21,6 +21,26 @@ class CompaniesController {
     }
     res.json(companies)
   }
+
+  public registerCompany = async (req: Request, res: Response, next: NextFunction) => {
+    let registeredCompany: CompanyInfoDTO
+    try {
+      registeredCompany = await this.companyService.registerCompany(req.body, res.locals.userId)
+    } catch (err) {
+      return next(err)
+    }
+    res.status(201).json(registeredCompany)
+  }
+
+  public updateCompany = async (req: Request, res: Response, next: NextFunction) => {
+    let updatedCompany: CompanyInfoDTO
+    try {
+      updatedCompany = await this.companyService.updateCompany(req.body)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(updatedCompany)
+  }
 }
 
 export default CompaniesController

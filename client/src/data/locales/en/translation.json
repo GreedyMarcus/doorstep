@@ -10,7 +10,9 @@
     "consentForms": "Consent forms",
     "businessHosts": "Business hosts",
     "visits": "Visits",
-    "details": "Details"
+    "details": "Details",
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "company": {
     "name": "Company name",
@@ -22,7 +24,8 @@
     "adminDetails": "Company admin details",
     "adminName": "Admin name",
     "adminEmail": "Admin email",
-    "noCompanyInfo": "You have not added any companies yet."
+    "noCompanyInfo": "You have not added any companies yet.",
+    "changeAdminText": "I would like to replace the current admin."
   },
   "consentForm": {
     "title": "Consent form title",
@@ -57,6 +60,8 @@
     "invalidLoginData": "Invalid email address or password format",
     "invalidAdminData": "Invalid admin details format",
     "invalidBuildingData": "Invalid building details format",
+    "invalidEmailFormat": "Invalid email format",
+    "invalidCompanyData": "Invalid company details format",
     "loginSuccess": "Successful login",
     "loginFailure": "Incorrect email address or password",
     "logoutSuccess": "Successful logout",
@@ -67,12 +72,17 @@
     "passwordResetSuccess": "You've successfully updated your password.",
     "passwordResetFailure": "Password reset failed",
     "fetchCompaniesFailure": "Could not load companies.",
-    "fetchConsentFormsFailure": "Could not load consent forms"
+    "fetchConsentFormsFailure": "Could not load consent forms",
+    "registerCompanySuccess": "Successful company registration",
+    "registerCompanyFailure": "Could not register company",
+    "updateCompanySuccess": "Successful company update",
+    "updateCompanyFailure": "Could not update company"
   },
   "action": {
     "addCompany": "Add company",
     "addConsentForm": "Add consent form",
     "addBusinessHost": "Add business host",
-    "addVisit": "Add visit"
+    "addVisit": "Add visit",
+    "editCompany": "Edit company"
   }
 }

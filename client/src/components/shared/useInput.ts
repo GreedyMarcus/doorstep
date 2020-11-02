@@ -9,7 +9,7 @@ export type InputBinding = {
 }
 
 const useInput = (value: string, required: boolean, validator?: RegExp) => {
-  const [input, setInput] = useState({ value, isValid: !required, error: false })
+  const [input, setInput] = useState({ value, isValid: value || !required, error: false })
 
   const onChange = useCallback(
     (event: InputChangeEvent): void => {

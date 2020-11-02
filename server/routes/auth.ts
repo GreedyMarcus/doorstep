@@ -3,8 +3,8 @@ import container from '../config/inversify.config'
 import AuthController from '../controllers/AuthController'
 import validationMiddleware from '../middlewares/validationMiddleware'
 import checkValidToken from '../middlewares/checkValidToken'
-import { UserLoginSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../data/validation-schemas/UserSchema'
-import { OfficeBuildingRegistrationSchema } from '../data/validation-schemas/OfficeBuildingSchema'
+import { UserLoginSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../data/validationSchemas/UserSchema'
+import { OfficeBuildingRegistrationSchema } from '../data/validationSchemas/OfficeBuildingSchema'
 
 const authRouter = express.Router()
 const authController = container.resolve(AuthController)

@@ -1,3 +1,6 @@
+import { LongAddressDTO } from './AddressDTO'
+import { UserInfoDTO } from './UserDTO'
+
 export interface CompanyInfoDTO {
   id: number
   name: string
@@ -7,4 +10,19 @@ export interface CompanyInfoDTO {
   adminName: string
   adminEmail: string
   adminJoiningDate: Date
+}
+
+export interface CompanyRegistrationDTO {
+  name: string
+  registrationNumber: string
+  address: LongAddressDTO
+  admin: UserInfoDTO
+}
+
+export interface CompanyUpdateDTO {
+  id: number
+  name: string
+  registrationNumber: string
+  address: LongAddressDTO
+  admin?: UserInfoDTO
 }

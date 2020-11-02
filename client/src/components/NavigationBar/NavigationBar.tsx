@@ -10,10 +10,6 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
-import BusinessCenterRoundedIcon from '@material-ui/icons/BusinessCenterRounded'
-import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded'
-import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded'
-import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
@@ -21,8 +17,8 @@ import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
-import { UserRole } from '../../data/enums/UserRole'
 import { userRoleSelector, logoutUser } from '../../store/user'
+import { navigationAuthConfig } from './navigationAuthConfig'
 
 const NavigationBar: React.FC = () => {
   const classes = useStyles()
@@ -30,61 +26,12 @@ const NavigationBar: React.FC = () => {
   const showNavs = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
   const dispatch = useAppDispatch()
   const userRole = useSelector(userRoleSelector)
+  const [activeActionId, setActiveActionId] = useState('')
   const [mobileNav, setMobileNav] = useState(0)
   const [t] = useTranslation()
 
-  const getNavigations = useCallback(() => {
-    if (userRole === UserRole.ADMIN) {
-      return [
-        { id: 'ADMIN-NAV-1', route: '/companies', label: t('general.companies') },
-        { id: 'ADMIN-NAV-2', route: '/consent-forms', label: t('general.consentForms') }
-      ]
-    }
-
-    if (userRole === UserRole.COMPANY_ADMIN) {
-      return [
-        { id: 'COMPANY-ADMIN-NAV-1', route: '/visits', label: t('general.visits') },
-        { id: 'COMPANY-ADMIN-NAV-2', route: '/hosts', label: t('general.businessHosts') },
-        { id: 'COMPANY-ADMIN-NAV-3', route: '/consent-forms', label: t('general.consentForms') }
-      ]
-    }
-
-    if (userRole === UserRole.BUSINESS_HOST) {
-      return [{ id: 'BUSINESS-HOST-NAV-1', route: '/planned-visits', label: t('general.visits') }]
-    }
-
-    if (userRole === UserRole.RECEPTIONIST) {
-      return [{ id: 'RECEPTIONIST-NAV-1', route: '/invitations', label: t('general.visits') }]
-    }
-
-    return []
-  }, [userRole, t])
-
-  const getOperations = useCallback(() => {
-    if (userRole === UserRole.ADMIN) {
-      return [
-        { id: 'ADMIN-OP-1', icon: <BusinessCenterRoundedIcon />, title: t('action.addCompany') },
-        { id: 'ADMIN-OP-2', icon: <PostAddRoundedIcon />, title: t('action.addConsentForm') }
-      ]
-    }
-
-    if (userRole === UserRole.COMPANY_ADMIN) {
-      return [
-        { id: 'COMPANY-ADMIN-OP-1', icon: <PersonAddRoundedIcon />, title: t('action.addBusinessHost') },
-        { id: 'COMPANY-ADMIN-OP-2', icon: <PostAddRoundedIcon />, title: t('action.addConsentForm') }
-      ]
-    }
-
-    if (userRole === UserRole.BUSINESS_HOST) {
-      return [{ id: 'BUSINESS-HOST-OP-1', icon: <InsertInvitationRoundedIcon />, title: t('action.addVisit') }]
-    }
-
-    if (userRole === UserRole.RECEPTIONIST) {
-      return [{ id: 'RECEPTIONIST-OP-1', icon: <InsertInvitationRoundedIcon />, title: t('action.addVisit') }]
-    }
-
-    return []
-  }, [userRole, t])
+  const getNavigations = useCallback(() => (userRole ? navigationAuthConfig.navigations[userRole] : []), [userRole])
+  const getActions = useCallback(() => (userRole ? navigationAuthConfig.actions[userRole] : []), [userRole])
 
   const handleLogout = () => {
     dispatch(logoutUser())
@@ -94,6 +41,13 @@ const NavigationBar: React.FC = () => {
   const handleMobileNavChange = (e, value: number) => {
     setMobileNav(value)
     history.push(navigations[value].route)
+  }
+
+  const renderActionComponent = () => {
+    const action = actions.find(action => action.id === activeActionId)
+    if (action && action.renderComponent) {
+      return action.renderComponent(() => setActiveActionId(''))
+    }
   }
 
   useEffect(() => {
@@ -107,7 +61,7 @@ const NavigationBar: React.FC = () => {
       history.push(navigations[0].route)
       return
     }
-    
+
     // Redirect unauthorized users or redirect from root route
     if (!userRole || history.location.pathname === '/') {
       history.push('/login')
@@ -115,7 +69,8 @@ const NavigationBar: React.FC = () => {
   }, [userRole])
 
   const navigations = getNavigations()
-  const operations = getOperations()
+  const actions = getActions()
+  const actionComponent = renderActionComponent()
 
   // Show navigation only for authorized users
   if (!userRole) {
@@ -143,9 +98,11 @@ const NavigationBar: React.FC = () => {
 
             <div className={classes.grow} />
 
-            {operations.map(({ id, title, icon }) => (
+            {actions.map(({ id, title, icon }) => (
               <Tooltip key={id} title={title}>
-                <IconButton color="inherit">{icon}</IconButton>
+                <IconButton color="inherit" onClick={() => setActiveActionId(id)}>
+                  {icon}
+                </IconButton>
               </Tooltip>
             ))}
 
@@ -157,6 +114,8 @@ const NavigationBar: React.FC = () => {
           </Toolbar>
         </Container>
       </AppBar>
+
+      {actionComponent}
 
       {!showNavs && (
         <AppBar position="static">

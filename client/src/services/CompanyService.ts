@@ -1,10 +1,20 @@
 import axios from 'axios'
 import AuthService from './AuthService'
-import { CompanyInfo } from '../data/types/Company'
+import { CompanyInfo, RegisterCompanyDetails } from '../data/types/Company'
 
 class CompanyService {
   public static async fetchCompanies(): Promise<CompanyInfo[]> {
     const result = await axios.get('/api/companies', { headers: AuthService.getAuthHeader() })
+    return result.data
+  }
+
+  public static async registerCompany(company: RegisterCompanyDetails): Promise<CompanyInfo> {
+    const result = await axios.post('/api/companies', company, { headers: AuthService.getAuthHeader() })
+    return result.data
+  }
+
+  public static async updateCompany(company: RegisterCompanyDetails): Promise<CompanyInfo> {
+    const result = await axios.put('/api/companies', company, { headers: AuthService.getAuthHeader() })
     return result.data
   }
 }

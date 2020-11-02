@@ -10,7 +10,9 @@
     "consentForms": "Nyilatkozatok",
     "businessHosts": "Céges fogadók",
     "visits": "Látogatások",
-    "details": "Részletek"
+    "details": "Részletek",
+    "cancel": "Mégse",
+    "save": "Mentés"
   },
   "company": {
     "name": "Cégnév",
@@ -22,7 +24,8 @@
     "adminDetails": "Céges admin adatai",
     "adminName": "Admin neve",
     "adminEmail": "Admin email",
-    "noCompanyInfo": "Még nem vettél fel cégeket."
+    "noCompanyInfo": "Még nem vettél fel cégeket.",
+    "changeAdminText": "Le szeretném cserélni a mostani céges admint."
   },
   "consentForm": {
     "title": "Nyilatkozat címe",
@@ -57,6 +60,8 @@
     "invalidLoginData": "Érvénytelen email cím vagy jelszó formátum",
     "invalidAdminData": "Érvénytelen admin adat formátum",
     "invalidBuildingData": "Érvénytelen irodaház adat formátum",
+    "invalidEmailFormat": "Érvénytelen email cím formátum",
+    "invalidCompanyData": "Érvénytelen cég adat formátum",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
     "logoutSuccess": "Sikeres kijelentkezés",
@@ -67,12 +72,17 @@
     "passwordResetSuccess": "Sikeresen megváltoztattad a jelszavad.",
     "passwordResetFailure": "Sikertelen jelszó visszaállítás",
     "fetchCompaniesFailure": "Nem sikerült betölteni a cégeket.",
-    "fetchConsentFormsFailure": "Nem sikerült betölteni a nyilatkozatokat."
+    "fetchConsentFormsFailure": "Nem sikerült betölteni a nyilatkozatokat.",
+    "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
+    "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
+    "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
+    "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait."
   },
   "action": {
     "addCompany": "Cég felvétele",
     "addConsentForm": "Nyilatkozat felvétele",
     "addBusinessHost": "Céges fogadó felvétele",
-    "addVisit": "Látogatás felvétele"
+    "addVisit": "Látogatás felvétele",
+    "editCompany": "Cég szerkesztése"
   }
 }
