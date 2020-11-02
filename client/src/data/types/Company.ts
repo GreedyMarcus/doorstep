@@ -10,6 +10,7 @@ export type CompanyInfo = {
 }
 
 export type RegisterCompanyDetails = {
+  id?: number
   name: string
   registrationNumber: string
   address: {
@@ -18,7 +19,7 @@ export type RegisterCompanyDetails = {
     city: string
     streetAddress: string
   }
-  admin: {
+  admin?: {
     email: string
     password: string
     firstName: string

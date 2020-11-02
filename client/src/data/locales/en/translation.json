@@ -24,7 +24,8 @@
     "adminDetails": "Company admin details",
     "adminName": "Admin name",
     "adminEmail": "Admin email",
-    "noCompanyInfo": "You have not added any companies yet."
+    "noCompanyInfo": "You have not added any companies yet.",
+    "changeAdminText": "I would like to replace the current admin."
   },
   "consentForm": {
     "title": "Consent form title",
@@ -73,7 +74,9 @@
     "fetchCompaniesFailure": "Could not load companies.",
     "fetchConsentFormsFailure": "Could not load consent forms",
     "registerCompanySuccess": "Successful company registration",
-    "registerCompanyFailure": "Could not register company"
+    "registerCompanyFailure": "Could not register company",
+    "updateCompanySuccess": "Successful company update",
+    "updateCompanyFailure": "Could not update company"
   },
   "action": {
     "addCompany": "Add company",

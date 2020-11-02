@@ -22,11 +22,15 @@ const companySlice = createSlice({
     },
     companyRegistered: (state, { payload }: PayloadAction<CompanyInfo>) => {
       state.companies.push(payload)
+    },
+    companyUpdated: (state, { payload }: PayloadAction<CompanyInfo>) => {
+      const index = state.companies.findIndex(company => company.id === payload.id)
+      state.companies[index] = payload
     }
   }
 })
 
-const { companiesFetched, companyRegistered } = companySlice.actions
+const { companiesFetched, companyRegistered, companyUpdated } = companySlice.actions
 
 export const { reducer } = companySlice
 
@@ -52,6 +56,20 @@ export const registerCompany = (company: RegisterCompanyDetails) => async (dispa
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerCompanySuccess') }))
   } catch (error) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerCompanyFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const editCompany = (company: RegisterCompanyDetails) => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true))
+
+  try {
+    const updatedCompany = await CompanyService.updateCompany(company)
+    dispatch(companyUpdated(updatedCompany))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanySuccess') }))
+  } catch (error) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyFailure') }))
   }
 
   dispatch(setLoading(false))

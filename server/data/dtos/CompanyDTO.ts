@@ -18,3 +18,10 @@ export interface CompanyRegistrationDTO {
   address: LongAddressDTO
   admin: UserInfoDTO
 }
+
+export interface CompanyUpdateDTO {
+  name: string
+  registrationNumber: string
+  address: LongAddressDTO
+  admin?: UserInfoDTO
+}

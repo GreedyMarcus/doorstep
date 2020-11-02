@@ -6,6 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
@@ -16,7 +18,7 @@ import { CompanyInfo, RegisterCompanyDetails } from '../../data/types/Company'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
-import { registerCompany } from '../../store/company'
+import { registerCompany, editCompany } from '../../store/company'
 
 type Props = {
   company?: CompanyInfo
@@ -31,20 +33,21 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
   const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
 
-  const [name, bindName, resetName] = useInput('', true)
-  const [registrationNumber, bindRegistrationNumber, resetRegistrationNumber] = useInput('', true, REGEXP.COMPANY_REG_NUMBER)
-  const [country, bindCountry, resetCountry] = useInput('', true)
-  const [zipCode, bindZipCode, resetZipCode] = useInput('', true)
-  const [city, bindCity, resetCity] = useInput('', true)
-  const [streetAddress, bindStreetAddress, resetStreetAddress] = useInput('', true)
-  const [firstName, bindFirstName, resetFirstName] = useInput('', true)
-  const [lastName, bindLastName, resetLastName] = useInput('', true)
-  const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
+  const [name, bindName, resetName] = useInput(company?.name || '', true)
+  const [regNumber, bindRegNumber, resetRegNumber] = useInput(company?.registrationNumber || '', true, REGEXP.COMPANY_REG_NUMBER)
+  const [country, bindCountry, resetCountry] = useInput(company?.address.split(', ')[0] || '', true)
+  const [zipCode, bindZipCode, resetZipCode] = useInput(company?.address.split(', ')[1] || '', true)
+  const [city, bindCity, resetCity] = useInput(company?.address.split(', ')[2] || '', true)
+  const [streetAddress, bindStreetAddress, resetStreetAddress] = useInput(company?.address.split(', ')[3] || '', true)
+  const [firstName, bindFirstName, resetFirstName] = useInput(company?.adminName.split(' ')[0] || '', true)
+  const [lastName, bindLastName, resetLastName] = useInput(company?.adminName.split(' ')[1] || '', true)
+  const [email, bindEmail, resetEmail] = useInput(company?.adminEmail || '', true, REGEXP.EMAIL)
   const [password, bindPassword, resetPassword] = useInput('', true, REGEXP.PASSWORD)
+  const [adminEditingChecked, setAdminEditingChecked] = useState(false)
 
   const clearInputs = () => {
     resetName()
-    resetRegistrationNumber()
+    resetRegNumber()
     resetCountry()
     resetZipCode()
     resetCity()
@@ -61,33 +64,47 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
     setTimeout(() => onClose(), 300)
   }
 
-  const handleSave = () => {
-    const inputs = [name, registrationNumber, country, zipCode, city, streetAddress, firstName, lastName, email, password]
+  const validateCompanyData = (): boolean => {
+    const companyInputs = [name, regNumber, country, zipCode, city, streetAddress]
+    const adminInputs = [firstName, lastName, email, password]
 
-    const isCompanyDataValid = inputs.every(param => param.isValid)
+    const inputsToValidate = isEditing && !adminEditingChecked ? companyInputs : [...companyInputs, ...adminInputs]
+    return inputsToValidate.every(param => param.isValid)
+  }
+
+  const handleSave = () => {
+    const isCompanyDataValid = validateCompanyData()
     if (!isCompanyDataValid) {
       dispatch(addNotification({ type: 'error', message: t('notification.invalidCompanyData') }))
       return
     }
 
+    const adminData = {
+      email: email.value,
+      password: password.value,
+      firstName: firstName.value,
+      lastName: lastName.value
+    }
+
     const companyData: RegisterCompanyDetails = {
+      id: company?.id,
       name: name.value,
-      registrationNumber: registrationNumber.value,
+      registrationNumber: regNumber.value,
       address: {
         country: country.value,
         zipCode: zipCode.value,
         city: city.value,
         streetAddress: streetAddress.value
       },
-      admin: {
-        email: email.value,
-        password: password.value,
-        firstName: firstName.value,
-        lastName: lastName.value
-      }
+      admin: isEditing && !adminEditingChecked ? undefined : adminData
     }
 
-    dispatch(registerCompany(companyData))
+    if (!isEditing) {
+      dispatch(registerCompany(companyData))
+    } else {
+      dispatch(editCompany(companyData))
+    }
+
     clearInputs()
     handleClose()
   }
@@ -105,7 +122,7 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
           </Grid>
           <Grid item sm={6} xs={12}>
             <TextField
-              {...bindRegistrationNumber}
+              {...bindRegNumber}
               id="company-registration-number"
               label={t('company.registrationNumber')}
               variant="outlined"
@@ -131,25 +148,60 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
         </Typography>
         <Grid container spacing={2}>
           <Grid item sm={6} xs={12}>
-            <TextField {...bindFirstName} id="company-admin-first-name" label={t('auth.firstName')} variant="outlined" fullWidth />
+            <TextField
+              {...bindFirstName}
+              id="company-admin-first-name"
+              label={t('auth.firstName')}
+              disabled={isEditing && !adminEditingChecked}
+              variant="outlined"
+              fullWidth
+            />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <TextField {...bindLastName} id="company-admin-last-name" label={t('auth.lastName')} variant="outlined" fullWidth />
+            <TextField
+              {...bindLastName}
+              id="company-admin-last-name"
+              label={t('auth.lastName')}
+              disabled={isEditing && !adminEditingChecked}
+              variant="outlined"
+              fullWidth
+            />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <TextField {...bindEmail} id="company-admin-email" label={t('auth.email')} variant="outlined" fullWidth />
+            <TextField
+              {...bindEmail}
+              id="company-admin-email"
+              label={t('auth.email')}
+              disabled={isEditing && !adminEditingChecked}
+              variant="outlined"
+              fullWidth
+            />
           </Grid>
           <Grid item sm={6} xs={12}>
             <TextField
               {...bindPassword}
               id="company-admin-password"
               label={t('auth.password')}
+              disabled={isEditing && !adminEditingChecked}
               type="password"
               variant="outlined"
               fullWidth
             />
           </Grid>
         </Grid>
+        {isEditing && (
+          <FormControlLabel
+            className={classes.checkbox}
+            label={t('company.changeAdminText')}
+            control={
+              <Checkbox
+                name="checked-admin-editing"
+                checked={adminEditingChecked}
+                onChange={() => setAdminEditingChecked(!adminEditingChecked)}
+              />
+            }
+          />
+        )}
       </DialogContent>
       <DialogActions>
         <Button color="primary" onClick={handleClose}>

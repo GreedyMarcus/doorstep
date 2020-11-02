@@ -56,11 +56,12 @@ const Companies: React.FC = () => {
                       <TableCell className={classes.tableCell}>{t('company.joiningDate')}</TableCell>
                     </React.Fragment>
                   )}
+                  <TableCell className={classes.emptyCell} />
                 </TableRow>
               </TableHead>
               <TableBody>
                 {companies.map(company => (
-                  <CompanyTableRow company={company} showMore={showMore} />
+                  <CompanyTableRow key={company.id} company={company} showMore={showMore} />
                 ))}
               </TableBody>
             </Table>

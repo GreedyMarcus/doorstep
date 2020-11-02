@@ -13,5 +13,8 @@ export default makeStyles(theme => ({
   },
   content: {
     padding: theme.spacing(0, 3, 3)
+  },
+  checkbox: {
+    paddingTop: theme.spacing(2)
   }
 }))

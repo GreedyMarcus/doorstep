@@ -12,6 +12,11 @@ class CompanyService {
     const result = await axios.post('/api/companies', company, { headers: AuthService.getAuthHeader() })
     return result.data
   }
+
+  public static async updateCompany(company: RegisterCompanyDetails): Promise<CompanyInfo> {
+    const result = await axios.put('/api/companies', company, { headers: AuthService.getAuthHeader() })
+    return result.data
+  }
 }
 
 export default CompanyService

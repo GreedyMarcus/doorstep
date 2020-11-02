@@ -24,7 +24,8 @@
     "adminDetails": "Céges admin adatai",
     "adminName": "Admin neve",
     "adminEmail": "Admin email",
-    "noCompanyInfo": "Még nem vettél fel cégeket."
+    "noCompanyInfo": "Még nem vettél fel cégeket.",
+    "changeAdminText": "Le szeretném cserélni a mostani céges admint."
   },
   "consentForm": {
     "title": "Nyilatkozat címe",
@@ -73,7 +74,9 @@
     "fetchCompaniesFailure": "Nem sikerült betölteni a cégeket.",
     "fetchConsentFormsFailure": "Nem sikerült betölteni a nyilatkozatokat.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
-    "registerCompanyFailure": "Nem sikerült regisztrálni a céget."
+    "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
+    "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
+    "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait."
   },
   "action": {
     "addCompany": "Cég felvétele",

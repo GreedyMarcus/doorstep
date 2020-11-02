@@ -15,7 +15,7 @@ export default makeStyles(theme => ({
   collapseTableCell: {
     padding: theme.spacing(0)
   },
-  expandTableCell: {
+  iconTableCell: {
     width: theme.spacing(5)
   },
   collapseTableRowGrid: ({ collapseRowIndent }: Props) => ({
@@ -23,13 +23,13 @@ export default makeStyles(theme => ({
   }),
   collapseContentTitle: {
     fontSize: 20,
-    fontWeight: 600,
-    marginBottom: theme.spacing(1.5)
+    fontWeight: 600
   },
   collapseSectionTitle: {
     fontSize: 16,
     fontWeight: 600,
-    marginBottom: theme.spacing(1.5)
+    marginTop: theme.spacing(2),
+    paddingBottom: theme.spacing(1.5)
   },
   collapseItem: {
     fontSize: 14,
