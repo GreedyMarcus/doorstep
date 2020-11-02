@@ -9,3 +9,11 @@ export const CompanyRegistrationSchema = Joi.object({
   address: LongAddressSchema,
   admin: UserInfoSchema
 })
+
+export const CompanyUpdateSchema = Joi.object({
+  id: Joi.number().required(),
+  name: Joi.string().required(),
+  registrationNumber: Joi.string().pattern(REGEXP.COMPANY_REG_NUMBER).required(),
+  address: LongAddressSchema,
+  admin: UserInfoSchema.optional()
+})

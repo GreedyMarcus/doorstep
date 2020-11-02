@@ -5,7 +5,7 @@ import CompanyServiceInterface from './CompanyServiceInterface'
 import { inject, injectable } from 'inversify'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { CompanyRepositoryInterface } from '../../repositories/company'
-import { CompanyInfoDTO, CompanyRegistrationDTO } from '../../data/dtos/CompanyDTO'
+import { CompanyInfoDTO, CompanyRegistrationDTO, CompanyUpdateDTO } from '../../data/dtos/CompanyDTO'
 
 @injectable()
 class CompanyService implements CompanyServiceInterface {
@@ -73,6 +73,45 @@ class CompanyService implements CompanyServiceInterface {
     }
 
     return createdCompanyInfo
+  }
+
+  public updateCompany = async (companyData: CompanyUpdateDTO): Promise<CompanyInfoDTO> => {
+    const company = await this.companyRepository.findCompanyById(companyData.id)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    // Check if admin changed
+    let companyAdmin
+    if (companyData.admin) {
+      // Hash company admin password
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(companyData.admin.password, salt)
+
+      companyAdmin = { ...companyData.admin, password: hashedPassword }
+    }
+
+    // Save company changes with optional admin data
+    const { id, name, registrationNumber, address } = companyData
+
+    const updatedCompany = await this.companyRepository.updateCompany({ id, name, registrationNumber }, address, companyAdmin)
+    if (!updatedCompany) {
+      throw Boom.internal('Could not update company')
+    }
+
+    const { createdAt, admin } = updatedCompany
+    const updatedCompanyInfo: CompanyInfoDTO = {
+      id,
+      name,
+      registrationNumber,
+      address: `${address.country}, ${address.zipCode}, ${address.city}, ${address.streetAddress}`,
+      joiningDate: createdAt,
+      adminName: `${admin.firstName} ${admin.lastName}`,
+      adminEmail: admin.email,
+      adminJoiningDate: admin.createdAt
+    }
+
+    return updatedCompanyInfo
   }
 }
 

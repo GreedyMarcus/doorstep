@@ -5,7 +5,7 @@ import checkValidToken from '../middlewares/checkValidToken'
 import hasPermission from '../middlewares/hasPermission'
 import validationMiddleware from '../middlewares/validationMiddleware'
 import { UserPermissionType } from '../data/enums/UserPermissionType'
-import { CompanyRegistrationSchema } from '../data/validationSchemas/CompanySchema'
+import { CompanyRegistrationSchema, CompanyUpdateSchema } from '../data/validationSchemas/CompanySchema'
 
 const companiesRouter = express.Router()
 const companiesController = container.resolve(CompaniesController)
@@ -17,6 +17,13 @@ companiesRouter.post(
   hasPermission([UserPermissionType.CREATE_COMPANIES, UserPermissionType.CREATE_COMPANY_ADMINS]),
   validationMiddleware(CompanyRegistrationSchema),
   companiesController.registerCompany
+)
+companiesRouter.put(
+  '/',
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_COMPANIES, UserPermissionType.CREATE_COMPANY_ADMINS]),
+  validationMiddleware(CompanyUpdateSchema),
+  companiesController.updateCompany
 )
 
 export default companiesRouter

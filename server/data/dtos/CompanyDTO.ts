@@ -20,6 +20,7 @@ export interface CompanyRegistrationDTO {
 }
 
 export interface CompanyUpdateDTO {
+  id: number
   name: string
   registrationNumber: string
   address: LongAddressDTO

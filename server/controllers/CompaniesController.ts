@@ -31,6 +31,16 @@ class CompaniesController {
     }
     res.status(201).json(registeredCompany)
   }
+
+  public updateCompany = async (req: Request, res: Response, next: NextFunction) => {
+    let updatedCompany: CompanyInfoDTO
+    try {
+      updatedCompany = await this.companyService.updateCompany(req.body)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(updatedCompany)
+  }
 }
 
 export default CompaniesController
