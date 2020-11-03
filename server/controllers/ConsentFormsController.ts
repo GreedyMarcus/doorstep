@@ -21,6 +21,16 @@ class ConsentFormsController {
     }
     res.json(globalConsentForms)
   }
+
+  public createGlobalConsentForm = async (req: Request, res: Response, next: NextFunction) => {
+    let createdConsentForm: ConsentFormInfoDTO
+    try {
+      createdConsentForm = await this.consentFormService.createGlobalConsentForm(req.body, res.locals.userId)
+    } catch (err) {
+      return next(err)
+    }
+    res.status(201).json(createdConsentForm)
+  }
 }
 
 export default ConsentFormsController
