@@ -1,3 +1,4 @@
 import { ChangeEvent } from 'react'
 
-export type InputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+type FakeEvent = { target: { value: string } } // This is a dumb type to use event-like objects
+export type InputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | FakeEvent
