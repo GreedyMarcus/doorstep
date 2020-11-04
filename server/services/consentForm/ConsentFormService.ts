@@ -90,6 +90,42 @@ class ConsentFormService implements ConsentFormServiceInterface {
 
     return createdVersionInfo
   }
+
+  public updateConsentFormVersion = async (formId: number, versionId: number, content: string): Promise<ConsentFormVersionInfoDTO> => {
+    const consentForm = await this.consentFormRepository.findConsentFormById(formId, ConsentFormType.GLOBAL)
+    if (!consentForm) {
+      throw Boom.badRequest('Consent form does not exist')
+    }
+
+    const consentFormVersion = await this.consentFormRepository.findConsentFormVersionById(versionId)
+    if (!consentFormVersion) {
+      throw Boom.badRequest('Consent form version does not exist')
+    }
+
+    // Check if this consent form version is still editable
+    if (consentForm.activeVersion) {
+      if (consentForm.activeVersion.versionNumber === consentFormVersion.versionNumber) {
+        throw Boom.badRequest('Cannot edit consent form version content because it is already activated')
+      }
+
+      if (consentForm.activeVersion.versionNumber > consentFormVersion.versionNumber) {
+        throw Boom.badRequest('Cannot edit consent form version content because a newer version is already activated')
+      }
+    }
+
+    if (consentForm.versions.length > consentFormVersion.versionNumber) {
+      throw Boom.badRequest('Cannot edit consent form version content because a newer version is already exists')
+    }
+
+    const updatedVersion = await this.consentFormRepository.updateConsentFormVersion(versionId, content)
+    const updatedVersionInfo: ConsentFormVersionInfoDTO = {
+      id: updatedVersion.id,
+      content: updatedVersion.content,
+      versionNumber: updatedVersion.versionNumber
+    }
+
+    return updatedVersionInfo
+  }
 }
 
 export default ConsentFormService

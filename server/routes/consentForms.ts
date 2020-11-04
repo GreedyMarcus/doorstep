@@ -40,4 +40,12 @@ consentFormsRouter.post(
   consentFormsController.createGlobalConsentFormVersion
 )
 
+consentFormsRouter.patch(
+  '/global/:consentFormId/versions/:versionId',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
+  validationMiddleware(ConsentFormVersionCreateSchema),
+  consentFormsController.updateGlobalConsentFormVersion
+)
+
 export default consentFormsRouter

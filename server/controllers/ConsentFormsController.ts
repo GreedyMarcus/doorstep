@@ -52,6 +52,20 @@ class ConsentFormsController {
     }
     res.status(201).json(createdVersion)
   }
+
+  public updateGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+    let updatedVersion: ConsentFormVersionInfoDTO
+
+    const consentFormId = Number(req.params.consentFormId)
+    const versionId = Number(req.params.versionId)
+
+    try {
+      updatedVersion = await this.consentFormService.updateConsentFormVersion(consentFormId, versionId, req.body.content)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(updatedVersion)
+  }
 }
 
 export default ConsentFormsController

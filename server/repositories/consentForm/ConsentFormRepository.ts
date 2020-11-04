@@ -29,6 +29,13 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
       .getMany()
   }
 
+  public findConsentFormVersionById(consentFormVersionId: number): Promise<ConsentFormVersion> {
+    return getRepository(ConsentFormVersion)
+      .createQueryBuilder('consentFormVersion')
+      .where('consentFormVersion.id = :consentFormVersionId', { consentFormVersionId })
+      .getOne()
+  }
+
   public createGlobalConsentForm(title: string, content: string, adminId: number): Promise<ConsentForm> {
     return getManager().transaction(async transactionEntityManager => {
       // Get building by admin id
@@ -65,6 +72,12 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
     newConsentFormVersion.consentForm = consentForm
 
     return getRepository(ConsentFormVersion).save(newConsentFormVersion)
+  }
+
+  public async updateConsentFormVersion(versionId: number, content: string): Promise<ConsentFormVersion> {
+    const consentFormVersion = await this.findConsentFormVersionById(versionId)
+    consentFormVersion.content = content
+    return getRepository(ConsentFormVersion).save(consentFormVersion)
   }
 }
 
