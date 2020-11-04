@@ -3,16 +3,18 @@ import ConsentFormService from '../../services/ConsentFormService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { ConsentFormInfo, ConsentFormCreate } from '../../data/types/ConsentForm'
+import { ConsentFormInfo, ConsentFormCreate, ConsentFormDetails } from '../../data/types/ConsentForm'
 import { ConsentFormType } from '../../data/enums/ConsentFormType'
 import { UserRole } from '../../data/enums/UserRole'
 
 type SliceState = {
   consentForms: ConsentFormInfo[]
+  activeConsentForm: ConsentFormDetails | null
 }
 
 const initialState: SliceState = {
-  consentForms: []
+  consentForms: [],
+  activeConsentForm: null
 }
 
 const consentFormSlice = createSlice({
@@ -24,11 +26,14 @@ const consentFormSlice = createSlice({
     },
     consentFormCreated: (state, { payload }: PayloadAction<ConsentFormInfo>) => {
       state.consentForms.push(payload)
+    },
+    singleConsentFormFetched: (state, { payload }: PayloadAction<ConsentFormDetails>) => {
+      state.activeConsentForm = payload
     }
   }
 })
 
-const { consentFormsFetched, consentFormCreated } = consentFormSlice.actions
+const { consentFormsFetched, consentFormCreated, singleConsentFormFetched } = consentFormSlice.actions
 
 export const { reducer } = consentFormSlice
 
@@ -43,6 +48,22 @@ export const fetchConsentForms = () => async (dispatch: AppDispatch, getState: (
     dispatch(consentFormsFetched(consentForms))
   } catch (error) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchConsentFormsFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const fetchConsentFormById = (consentFormId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const consentFormType = user.currentUser?.role === UserRole.ADMIN ? ConsentFormType.GLOBAL : ConsentFormType.LOCAL
+    const consentForm = await ConsentFormService.fetchConsentFormById(consentFormId, consentFormType)
+    dispatch(singleConsentFormFetched(consentForm))
+  } catch (error) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchConsentFormByIdFailure') }))
   }
 
   dispatch(setLoading(false))

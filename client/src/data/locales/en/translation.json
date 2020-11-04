@@ -12,7 +12,8 @@
     "visits": "Visits",
     "details": "Details",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "activate": "Activate"
   },
   "company": {
     "name": "Company name",
@@ -29,10 +30,14 @@
   },
   "consentForm": {
     "title": "Consent form title",
+    "content": "Consent form content",
+    "details": "Consent form details",
     "activeVersion": "Active version",
     "createdDate": "Created date",
     "noConsentFormsInfo": "You have not added any consent forms yet.",
-    "noActiveVersion": "No active version"
+    "noActiveVersion": "No active version",
+    "openedVersion": "Opened version",
+    "notFound": "Consent form does not exist."
   },
   "auth": {
     "email": "Email address",
@@ -75,16 +80,18 @@
     "passwordResetFailure": "Password reset failed",
     "fetchCompaniesFailure": "Could not load companies.",
     "fetchConsentFormsFailure": "Could not load consent forms",
+    "fetchConsentFormByIdFailure": "Could not load selected consent form",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "updateCompanySuccess": "Successful company update",
     "updateCompanyFailure": "Could not update company",
     "createConsentFormSuccess": "Successful consent form creation",
-    "createConsentFormFailure": "Could no create consent form"
+    "createConsentFormFailure": "Could not create consent form"
   },
   "action": {
     "addCompany": "Add company",
     "addConsentForm": "Add consent form",
+    "addConsentFormVersion": "Add new version",
     "addBusinessHost": "Add business host",
     "addVisit": "Add visit",
     "editCompany": "Edit company",

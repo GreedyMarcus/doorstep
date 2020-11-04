@@ -3,20 +3,20 @@ import useStyles from './useStyles'
 import config from '../../app/config'
 import { Editor } from '@tinymce/tinymce-react'
 import { InputChangeEvent } from '../../data/types/Event'
-import { useTranslation } from 'react-i18next'
 
 type Props = {
   value: string
   error: boolean
   required: boolean
+  disabled?: boolean
+  heightMultiplier?: number
   fullScreen: boolean
   onChange: (event: InputChangeEvent) => void
 }
 
-const TextEditor: React.FC<Props> = ({ value, error, required, fullScreen, onChange }) => {
+const TextEditor: React.FC<Props> = ({ value, error, required, disabled, heightMultiplier, fullScreen, onChange }) => {
   const [hasFocus, setFocus] = useState(false)
   const classes = useStyles({ error, hasFocus })
-  const [t] = useTranslation()
 
   return (
     <div className={classes.container}>
@@ -25,7 +25,7 @@ const TextEditor: React.FC<Props> = ({ value, error, required, fullScreen, onCha
         cloudChannel="5-stable"
         value={value}
         init={{
-          height: window.innerHeight * (fullScreen ? 0.65 : 0.5),
+          height: window.innerHeight * (fullScreen ? 0.65 : heightMultiplier || 0.5),
           menubar: false
         }}
         toolbar={
@@ -35,6 +35,7 @@ const TextEditor: React.FC<Props> = ({ value, error, required, fullScreen, onCha
         plugins={['lists', 'wordcount']}
         outputFormat="html"
         inline={false}
+        disabled={disabled}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         onEditorChange={(content, editor) => {
