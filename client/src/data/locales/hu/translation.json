@@ -87,6 +87,7 @@
     "addConsentForm": "Nyilatkozat felvétele",
     "addBusinessHost": "Céges fogadó felvétele",
     "addVisit": "Látogatás felvétele",
-    "editCompany": "Cég szerkesztése"
+    "editCompany": "Cég szerkesztése",
+    "openConsentForm": "Nyilatkozat megnyitása"
   }
 }

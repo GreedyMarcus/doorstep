@@ -87,6 +87,7 @@
     "addConsentForm": "Add consent form",
     "addBusinessHost": "Add business host",
     "addVisit": "Add visit",
-    "editCompany": "Edit company"
+    "editCompany": "Edit company",
+    "openConsentForm": "Open consent form"
   }
 }
