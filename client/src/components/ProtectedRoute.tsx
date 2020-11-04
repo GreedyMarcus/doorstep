@@ -30,7 +30,8 @@ const ProtectedRoute: React.FC<Props & RouteProps> = ({ Component, auth, noAuth,
       return <Redirect to={{ pathname: routes.LOGIN, state }} />
     }
 
-    if (userToken && userRole && (noAuth || !hasAccess)) {
+    if (userToken && (noAuth || !hasAccess)) {
+      if (!userRole) return null // Show empty screen while waiting for user role
       return <Redirect to={{ pathname: getAuthRedirectRoute(userRole), state }} />
     }
 
