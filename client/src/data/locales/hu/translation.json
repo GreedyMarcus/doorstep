@@ -31,7 +31,8 @@
     "title": "Nyilatkozat címe",
     "activeVersion": "Aktív verziószám",
     "createdDate": "Létrehozás dátuma",
-    "noConsentFormsInfo": "Még nem vettél fel nyilatkozatokat."
+    "noConsentFormsInfo": "Még nem vettél fel nyilatkozatokat.",
+    "noActiveVersion": "Nincs aktív verzió"
   },
   "auth": {
     "email": "Email cím",
@@ -62,6 +63,7 @@
     "invalidBuildingData": "Érvénytelen irodaház adat formátum",
     "invalidEmailFormat": "Érvénytelen email cím formátum",
     "invalidCompanyData": "Érvénytelen cég adat formátum",
+    "invalidConsentFormData": "Érvénytelen nyilatkozat formátum",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
     "logoutSuccess": "Sikeres kijelentkezés",
@@ -76,7 +78,9 @@
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
-    "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait."
+    "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait.",
+    "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
+    "createConsentFormFailure": "Nem sikerült létrehozni a nyilatkozatot."
   },
   "action": {
     "addCompany": "Cég felvétele",

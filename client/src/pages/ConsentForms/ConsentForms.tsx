@@ -56,17 +56,22 @@ const ConsentForms: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {consentForms.map(form => (
-                  <TableRow>
-                    <TableCell className={classes.tableBodyCell}>{form.title}</TableCell>
-                    {showMore && (
-                      <React.Fragment>
-                        <TableCell className={classes.tableBodyCell}>{form.activeVersion}</TableCell>
-                        <TableCell className={classes.tableBodyCell}>{form.createdAt.toLocaleDateString(i18n.language)}</TableCell>
-                      </React.Fragment>
-                    )}
-                  </TableRow>
-                ))}
+                {consentForms.map(form => {
+                  const activeVersion = form.activeVersion || t('consentForm.noActiveVersion')
+                  const createdDate = new Date(form.createdAt).toLocaleDateString(i18n.language)
+
+                  return (
+                    <TableRow key={form.id}>
+                      <TableCell className={classes.tableBodyCell}>{form.title}</TableCell>
+                      {showMore && (
+                        <React.Fragment>
+                          <TableCell className={classes.tableBodyCell}>{activeVersion}</TableCell>
+                          <TableCell className={classes.tableBodyCell}>{createdDate}</TableCell>
+                        </React.Fragment>
+                      )}
+                    </TableRow>
+                  )
+                })}
               </TableBody>
             </Table>
           </TableContainer>

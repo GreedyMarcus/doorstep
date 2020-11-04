@@ -31,7 +31,8 @@
     "title": "Consent form title",
     "activeVersion": "Active version",
     "createdDate": "Created date",
-    "noConsentFormsInfo": "You have not added any consent forms yet."
+    "noConsentFormsInfo": "You have not added any consent forms yet.",
+    "noActiveVersion": "No active version"
   },
   "auth": {
     "email": "Email address",
@@ -62,6 +63,7 @@
     "invalidBuildingData": "Invalid building details format",
     "invalidEmailFormat": "Invalid email format",
     "invalidCompanyData": "Invalid company details format",
+    "invalidConsentFormData": "Invalid consent form details format",
     "loginSuccess": "Successful login",
     "loginFailure": "Incorrect email address or password",
     "logoutSuccess": "Successful logout",
@@ -76,7 +78,9 @@
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "updateCompanySuccess": "Successful company update",
-    "updateCompanyFailure": "Could not update company"
+    "updateCompanyFailure": "Could not update company",
+    "createConsentFormSuccess": "Successful consent form creation",
+    "createConsentFormFailure": "Could no create consent form"
   },
   "action": {
     "addCompany": "Add company",

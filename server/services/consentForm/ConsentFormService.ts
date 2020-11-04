@@ -29,7 +29,7 @@ class ConsentFormService implements ConsentFormServiceInterface {
     const consentFormsInfo: ConsentFormInfoDTO[] = consentForms.map(({ id, title, activeVersion, createdAt }) => ({
       id,
       title,
-      activeVersion: activeVersion.versionNumber,
+      activeVersion: activeVersion?.versionNumber ?? null,
       createdAt
     }))
 
@@ -46,7 +46,7 @@ class ConsentFormService implements ConsentFormServiceInterface {
     const globalConsentFormInfo: ConsentFormInfoDTO = {
       id: globalConsentForm.id,
       title: globalConsentForm.title,
-      activeVersion: globalConsentForm.activeVersion.versionNumber,
+      activeVersion: null,
       createdAt: globalConsentForm.createdAt
     }
 

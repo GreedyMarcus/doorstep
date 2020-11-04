@@ -5,6 +5,7 @@ import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded'
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded'
 import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
 import CompanyEditorDialog from '../CompanyEditorDialog'
+import ConsentFormDialog from '../ConsentFormDialog'
 import { UserRole } from '../../data/enums/UserRole'
 
 type Navigation = {
@@ -17,7 +18,7 @@ type Action = {
   id: string
   title: string
   icon: JSX.Element
-  renderComponent?: (onActionFinish: () => void) => React.ElementType
+  renderComponent?: (onActionFinish: () => void) => React.ReactElement
 }
 
 type NavigationAuthConfig = {
@@ -48,7 +49,12 @@ export const navigationAuthConfig = {
         icon: <BusinessCenterRoundedIcon />,
         renderComponent: onActionFinish => <CompanyEditorDialog onClose={onActionFinish} />
       },
-      { id: 'ADMIN-ACTION-2', title: i18n.t('action.addConsentForm'), icon: <PostAddRoundedIcon /> }
+      {
+        id: 'ADMIN-ACTION-2',
+        title: i18n.t('action.addConsentForm'),
+        icon: <PostAddRoundedIcon />,
+        renderComponent: onActionFinish => <ConsentFormDialog onClose={onActionFinish} />
+      }
     ],
     [UserRole.COMPANY_ADMIN]: [
       { id: 'COMPANY-ADMIN-ACTION-1', title: i18n.t('action.addBusinessHost'), icon: <PersonAddRoundedIcon /> },
