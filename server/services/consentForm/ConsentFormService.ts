@@ -4,7 +4,8 @@ import ConsentFormServiceInterface from './ConsentFormServiceInterface'
 import { inject, injectable } from 'inversify'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
-import { ConsentFormInfoDTO, ConsentFormCreateDTO } from 'server/data/dtos/ConsentFormDTO'
+import { ConsentFormInfoDTO, ConsentFormCreateDTO, ConsentFormDetailsDTO } from '../../data/dtos/ConsentFormDTO'
+import { ConsentFormType } from '../../data/enums/ConsentFormType'
 
 @injectable()
 class ConsentFormService implements ConsentFormServiceInterface {
@@ -34,6 +35,24 @@ class ConsentFormService implements ConsentFormServiceInterface {
     }))
 
     return consentFormsInfo
+  }
+
+  public getConsentFormById = async (consentFormId: number, consentFormType: ConsentFormType): Promise<ConsentFormDetailsDTO> => {
+    const consentForm = await this.consentFormRepository.findConsentFormById(consentFormId, consentFormType)
+    if (!consentForm) {
+      throw Boom.badRequest('Consent form does not exist')
+    }
+
+    const consentFormDetails: ConsentFormDetailsDTO = {
+      id: consentForm.id,
+      title: consentForm.title,
+      type: consentForm.type,
+      activeVersion: consentForm.activeVersion,
+      createdAt: consentForm.createdAt,
+      versions: consentForm.versions
+    }
+
+    return consentFormDetails
   }
 
   public createGlobalConsentForm = async ({ title, content }: ConsentFormCreateDTO, adminId: number): Promise<ConsentFormInfoDTO> => {

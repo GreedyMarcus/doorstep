@@ -25,4 +25,11 @@ consentFormsRouter.post(
   consentFormsController.createGlobalConsentForm
 )
 
+consentFormsRouter.get(
+  '/global/:consentFormId',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
+  consentFormsController.getGlobalConsentFormById
+)
+
 export default consentFormsRouter

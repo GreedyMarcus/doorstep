@@ -10,6 +10,16 @@ import { ConsentFormType } from '../../data/enums/ConsentFormType'
 @injectable()
 @EntityRepository(ConsentForm)
 class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFormRepositoryInterface {
+  public findConsentFormById(consentFormId: number, consentFormType: ConsentFormType): Promise<ConsentForm> {
+    return getRepository(ConsentForm)
+      .createQueryBuilder('consentForm')
+      .leftJoinAndSelect('consentForm.activeVersion', 'activeVersion')
+      .leftJoinAndSelect('consentForm.versions', 'versions')
+      .where('consentForm.id = :consentFormId', { consentFormId })
+      .andWhere('consentForm.type = :consentFormType', { consentFormType })
+      .getOne()
+  }
+
   public findConsentFormsByBuildingAdminId(adminId: number): Promise<ConsentForm[]> {
     return getRepository(ConsentForm)
       .createQueryBuilder('consentForm')
@@ -24,12 +34,12 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
       // Get building by admin id
       const building = await transactionEntityManager.getRepository(OfficeBuilding).findOne({ where: { admin: { id: adminId } } })
       if (!building) throw Error // Force the transaction rollback
-      
+
       // Save global consent form
       const newGlobalConsentForm = new ConsentForm()
       newGlobalConsentForm.title = title
       newGlobalConsentForm.type = ConsentFormType.GLOBAL
-      newGlobalConsentForm.officeBuilding = building      
+      newGlobalConsentForm.officeBuilding = building
       const createdGlobalConsentForm = await transactionEntityManager.getRepository(ConsentForm).save(newGlobalConsentForm)
 
       // Save first global consent form version
