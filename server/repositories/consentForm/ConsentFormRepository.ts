@@ -3,8 +3,8 @@ import OfficeBuilding from '../../models/OfficeBuilding'
 import ConsentForm from '../../models/ConsentForm'
 import ConsentFormVersion from '../../models/ConsentFormVersion'
 import ConsentFormRepositoryInterface from './ConsentFormRepositoryInterface'
-import { EntityRepository, getManager, getRepository, Repository } from 'typeorm'
 import { injectable } from 'inversify'
+import { EntityRepository, getManager, getRepository, Repository } from 'typeorm'
 import { ConsentFormType } from '../../data/enums/ConsentFormType'
 
 @injectable()
@@ -51,6 +51,20 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
 
       return createdGlobalConsentForm
     })
+  }
+
+  public async createGlobalConsentFormVersion(formId: number, content: string, versionNumber: number): Promise<ConsentFormVersion> {
+    const consentForm = await getRepository(ConsentForm)
+      .createQueryBuilder('consentForm')
+      .where('consentForm.id = :formId', { formId })
+      .getOne()
+
+    const newConsentFormVersion = new ConsentFormVersion()
+    newConsentFormVersion.content = content
+    newConsentFormVersion.versionNumber = versionNumber
+    newConsentFormVersion.consentForm = consentForm
+
+    return getRepository(ConsentFormVersion).save(newConsentFormVersion)
   }
 }
 

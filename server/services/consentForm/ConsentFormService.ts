@@ -2,10 +2,10 @@ import Boom from '@hapi/boom'
 import TYPES from '../../config/types'
 import ConsentFormServiceInterface from './ConsentFormServiceInterface'
 import { inject, injectable } from 'inversify'
+import { ConsentFormType } from '../../data/enums/ConsentFormType'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
-import { ConsentFormInfoDTO, ConsentFormCreateDTO, ConsentFormDetailsDTO } from '../../data/dtos/ConsentFormDTO'
-import { ConsentFormType } from '../../data/enums/ConsentFormType'
+import { ConsentFormInfoDTO, ConsentFormCreateDTO, ConsentFormDetailsDTO, ConsentFormVersionInfoDTO } from '../../data/dtos/ConsentFormDTO'
 
 @injectable()
 class ConsentFormService implements ConsentFormServiceInterface {
@@ -70,6 +70,25 @@ class ConsentFormService implements ConsentFormServiceInterface {
     }
 
     return globalConsentFormInfo
+  }
+
+  public createGlobalConsentFormVersion = async (consentFormId: number, versionContent: string): Promise<ConsentFormVersionInfoDTO> => {
+    const consentForm = await this.consentFormRepository.findConsentFormById(consentFormId, ConsentFormType.GLOBAL)
+    if (!consentForm) {
+      throw Boom.badRequest('Consent form does not exist')
+    }
+
+    // Calculate next consent form version number
+    const nextVersionNum = consentForm.versions.length + 1
+
+    const createdVersion = await this.consentFormRepository.createGlobalConsentFormVersion(consentFormId, versionContent, nextVersionNum)
+    const createdVersionInfo: ConsentFormVersionInfoDTO = {
+      id: createdVersion.id,
+      content: createdVersion.content,
+      versionNumber: createdVersion.versionNumber
+    }
+
+    return createdVersionInfo
   }
 }
 

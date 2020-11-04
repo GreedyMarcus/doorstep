@@ -1,9 +1,9 @@
 import TYPES from '../config/types'
 import { Request, Response, NextFunction } from 'express'
 import { inject, injectable } from 'inversify'
-import { ConsentFormServiceInterface } from '../services/consentForm'
-import { ConsentFormInfoDTO, ConsentFormDetailsDTO } from '../data/dtos/ConsentFormDTO'
 import { ConsentFormType } from '../data/enums/ConsentFormType'
+import { ConsentFormServiceInterface } from '../services/consentForm'
+import { ConsentFormInfoDTO, ConsentFormDetailsDTO, ConsentFormVersionInfoDTO } from '../data/dtos/ConsentFormDTO'
 
 @injectable()
 class ConsentFormsController {
@@ -41,6 +41,16 @@ class ConsentFormsController {
       return next(err)
     }
     res.status(201).json(createdConsentForm)
+  }
+
+  public createGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+    let createdVersion: ConsentFormVersionInfoDTO
+    try {
+      createdVersion = await this.consentFormService.createGlobalConsentFormVersion(Number(req.params.consentFormId), req.body.content)
+    } catch (err) {
+      return next(err)
+    }
+    res.status(201).json(createdVersion)
   }
 }
 
