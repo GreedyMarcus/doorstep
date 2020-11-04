@@ -9,6 +9,7 @@ interface ConsentFormRepositoryInterface {
   createGlobalConsentForm(title: string, content: string, adminId: number): Promise<ConsentForm>
   createGlobalConsentFormVersion(formId: number, content: string, versionNumber: number): Promise<ConsentFormVersion>
   updateConsentFormVersion(versionId: number, content: string): Promise<ConsentFormVersion>
+  updateActiveConsentFormVersion(formId: number, formType: ConsentFormType, versionId: number): Promise<void>
 }
 
 export default ConsentFormRepositoryInterface

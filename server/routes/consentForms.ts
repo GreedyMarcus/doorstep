@@ -48,4 +48,11 @@ consentFormsRouter.patch(
   consentFormsController.updateGlobalConsentFormVersion
 )
 
+consentFormsRouter.put(
+  '/global/:consentFormId/versions/:versionId/activation',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
+  consentFormsController.activateGlobalConsentFormVersion
+)
+
 export default consentFormsRouter

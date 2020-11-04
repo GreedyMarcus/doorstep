@@ -6,7 +6,8 @@ interface ConsentFormServiceInterface {
   getConsentFormById(consentFormId: number, consentFormType: ConsentFormType): Promise<ConsentFormDetailsDTO>
   createGlobalConsentForm(consentFormData: ConsentFormCreateDTO, adminId: number): Promise<ConsentFormInfoDTO>
   createGlobalConsentFormVersion(consentFormId: number, versionContent: string): Promise<ConsentFormVersionInfoDTO>
-  updateConsentFormVersion(consentFormId: number, versionId: number, content: string): Promise<ConsentFormVersionInfoDTO>
+  updateConsentFormVersion(formId: number, versionId: number, content: string): Promise<ConsentFormVersionInfoDTO>
+  activateConsentFormVersion(consentFormId: number, versionId: number): Promise<void>
 }
 
 export default ConsentFormServiceInterface

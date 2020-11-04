@@ -76,8 +76,17 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
 
   public async updateConsentFormVersion(versionId: number, content: string): Promise<ConsentFormVersion> {
     const consentFormVersion = await this.findConsentFormVersionById(versionId)
+
     consentFormVersion.content = content
     return getRepository(ConsentFormVersion).save(consentFormVersion)
+  }
+
+  public async updateActiveConsentFormVersion(formId: number, formType: ConsentFormType, versionId: number): Promise<void> {
+    const consentFormVersion = await this.findConsentFormVersionById(versionId)
+    const consentForm = await this.findConsentFormById(formId, formType)
+
+    consentForm.activeVersion = consentFormVersion
+    await getRepository(ConsentForm).save(consentForm)
   }
 }
 

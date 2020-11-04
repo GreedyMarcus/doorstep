@@ -66,6 +66,15 @@ class ConsentFormsController {
     }
     res.json(updatedVersion)
   }
+
+  public activateGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.consentFormService.activateConsentFormVersion(Number(req.params.consentFormId), Number(req.params.versionId))
+    } catch (err) {
+      return next(err)
+    }
+    res.status(204).send()
+  }
 }
 
 export default ConsentFormsController

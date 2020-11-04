@@ -102,6 +102,11 @@ class ConsentFormService implements ConsentFormServiceInterface {
       throw Boom.badRequest('Consent form version does not exist')
     }
 
+    const versionBelongsToForm = consentForm.versions.find(version => version.id === consentFormVersion.id)
+    if (!versionBelongsToForm) {
+      throw Boom.badRequest('Consent form version does not belong to the provided consent form')
+    }
+
     // Check if this consent form version is still editable
     if (consentForm.activeVersion) {
       if (consentForm.activeVersion.versionNumber === consentFormVersion.versionNumber) {
@@ -125,6 +130,40 @@ class ConsentFormService implements ConsentFormServiceInterface {
     }
 
     return updatedVersionInfo
+  }
+
+  public activateConsentFormVersion = async (consentFormId: number, versionId: number): Promise<void> => {
+    const consentForm = await this.consentFormRepository.findConsentFormById(consentFormId, ConsentFormType.GLOBAL)
+    if (!consentForm) {
+      throw Boom.badRequest('Consent form does not exist')
+    }
+
+    const consentFormVersion = await this.consentFormRepository.findConsentFormVersionById(versionId)
+    if (!consentFormVersion) {
+      throw Boom.badRequest('Consent form version does not exist')
+    }
+
+    const versionBelongsToForm = consentForm.versions.find(version => version.id === consentFormVersion.id)
+    if (!versionBelongsToForm) {
+      throw Boom.badRequest('Consent form version does not belong to the provided consent form')
+    }
+
+    // Check if this consent form version can get activated
+    if (consentForm.activeVersion) {
+      if (consentForm.activeVersion.versionNumber === consentFormVersion.versionNumber) {
+        throw Boom.badRequest('Cannot activate consent form version because it is already activated')
+      }
+
+      if (consentForm.activeVersion.versionNumber > consentFormVersion.versionNumber) {
+        throw Boom.badRequest('Cannot activate consent form version because a newer version is already activated')
+      }
+    }
+
+    if (consentForm.versions.length > consentFormVersion.versionNumber) {
+      throw Boom.badRequest('Cannot activate consent form version because a newer version is already exists')
+    }
+
+    await this.consentFormRepository.updateActiveConsentFormVersion(consentFormId, consentForm.type, versionId)
   }
 }
 
