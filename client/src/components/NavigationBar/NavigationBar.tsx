@@ -55,19 +55,6 @@ const NavigationBar: React.FC = () => {
     setMobileNav(currentNavIndex === -1 ? 0 : currentNavIndex)
   }, [history.location])
 
-  useEffect(() => {
-    // Redirect for authorized users
-    if (navigations.length) {
-      history.push(navigations[0].route)
-      return
-    }
-
-    // Redirect unauthorized users or redirect from root route
-    if (!userRole || history.location.pathname === '/') {
-      history.push('/login')
-    }
-  }, [userRole])
-
   const navigations = getNavigations()
   const actions = getActions()
   const actionComponent = renderActionComponent()

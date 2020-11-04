@@ -6,6 +6,7 @@ import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded'
 import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
 import CompanyEditorDialog from '../CompanyEditorDialog'
 import { UserRole } from '../../data/enums/UserRole'
+import { routes } from '../../app/routes'
 
 type Navigation = {
   id: string
@@ -28,16 +29,16 @@ type NavigationAuthConfig = {
 export const navigationAuthConfig = {
   navigations: {
     [UserRole.ADMIN]: [
-      { id: 'ADMIN-NAV-1', route: '/companies', label: i18n.t('general.companies') },
-      { id: 'ADMIN-NAV-2', route: '/consent-forms', label: i18n.t('general.consentForms') }
+      { id: 'ADMIN-NAV-1', route: routes.COMPANIES, label: i18n.t('general.companies') },
+      { id: 'ADMIN-NAV-2', route: routes.CONSENT_FORMS, label: i18n.t('general.consentForms') }
     ],
     [UserRole.COMPANY_ADMIN]: [
-      { id: 'COMPANY-ADMIN-NAV-1', route: '/visits', label: i18n.t('general.visits') },
-      { id: 'COMPANY-ADMIN-NAV-2', route: '/hosts', label: i18n.t('general.businessHosts') },
-      { id: 'COMPANY-ADMIN-NAV-3', route: '/consent-forms', label: i18n.t('general.consentForms') }
+      { id: 'COMPANY-ADMIN-NAV-1', route: routes.VISITS, label: i18n.t('general.visits') },
+      { id: 'COMPANY-ADMIN-NAV-2', route: routes.HOSTS, label: i18n.t('general.businessHosts') },
+      { id: 'COMPANY-ADMIN-NAV-3', route: routes.CONSENT_FORMS, label: i18n.t('general.consentForms') }
     ],
-    [UserRole.BUSINESS_HOST]: [{ id: 'BUSINESS-HOST-NAV-1', route: '/planned-visits', label: i18n.t('general.visits') }],
-    [UserRole.RECEPTIONIST]: [{ id: 'RECEPTIONIST-NAV-1', route: '/invitations', label: i18n.t('general.visits') }],
+    [UserRole.BUSINESS_HOST]: [{ id: 'BUSINESS-HOST-NAV-1', route: routes.PLANNED_VISITS, label: i18n.t('general.visits') }],
+    [UserRole.RECEPTIONIST]: [{ id: 'RECEPTIONIST-NAV-1', route: routes.INVITATIONS, label: i18n.t('general.visits') }],
     [UserRole.GUEST]: []
   },
   actions: {
