@@ -86,7 +86,13 @@
     "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
     "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
-    "createConsentFormFailure": "Nem sikerült létrehozni a nyilatkozatot."
+    "createConsentFormFailure": "Nem sikerült létrehozni a nyilatkozatot.",
+    "createGlobalConsentFormVersionSuccess": "Sikeresen létrehoztad a nyilatkozat verziót.",
+    "createGlobalConsentFormVersionFailure": "Nem sikerült létrehozni a nyilatkozat verziót.",
+    "updateGlobalConsentFormVersionSuccess": "Sikeresen frissítetted a nyilatkozat verziót.",
+    "updateGlobalConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
+    "activateGlobalConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
+    "activateGlobalConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
   },
   "action": {
     "addCompany": "Cég felvétele",

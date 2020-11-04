@@ -3,9 +3,9 @@ import ConsentFormService from '../../services/ConsentFormService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { ConsentFormInfo, ConsentFormCreate, ConsentFormDetails } from '../../data/types/ConsentForm'
-import { ConsentFormType } from '../../data/enums/ConsentFormType'
 import { UserRole } from '../../data/enums/UserRole'
+import { ConsentFormType } from '../../data/enums/ConsentFormType'
+import { ConsentFormInfo, ConsentFormCreate, ConsentFormDetails, ConsentFormVersionInfo } from '../../data/types/ConsentForm'
 
 type SliceState = {
   consentForms: ConsentFormInfo[]
@@ -29,11 +29,35 @@ const consentFormSlice = createSlice({
     },
     singleConsentFormFetched: (state, { payload }: PayloadAction<ConsentFormDetails>) => {
       state.activeConsentForm = payload
+    },
+    consentFormVersionCreated: (state, { payload }: PayloadAction<ConsentFormVersionInfo>) => {
+      if (state.activeConsentForm) {
+        state.activeConsentForm.versions.push(payload)
+      }
+    },
+    consentFormVersionUpdated: (state, { payload }: PayloadAction<ConsentFormVersionInfo>) => {
+      if (state.activeConsentForm) {
+        const versionIndex = state.activeConsentForm.versions.findIndex(version => version.id === payload.id)
+        state.activeConsentForm.versions[versionIndex] = payload
+      }
+    },
+    consentFormVersionActivated: (state, { payload }: PayloadAction<number>) => {
+      if (state.activeConsentForm) {
+        const activatedIndex = state.activeConsentForm.versions.findIndex(version => version.id === payload)
+        state.activeConsentForm.activeVersion = state.activeConsentForm.versions[activatedIndex]
+      }
     }
   }
 })
 
-const { consentFormsFetched, consentFormCreated, singleConsentFormFetched } = consentFormSlice.actions
+const {
+  consentFormsFetched,
+  consentFormCreated,
+  singleConsentFormFetched,
+  consentFormVersionCreated,
+  consentFormVersionUpdated,
+  consentFormVersionActivated
+} = consentFormSlice.actions
 
 export const { reducer } = consentFormSlice
 
@@ -78,6 +102,63 @@ export const createGlobalConsentForm = (consentFormData: ConsentFormCreate) => a
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentFormSuccess') }))
   } catch (error) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.createConsentFormFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const createGlobalConsentFormVersion = (versionContent: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { consentForm } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const formId = consentForm.activeConsentForm?.id ?? -1
+    const createdVersion = await ConsentFormService.createGlobalConsentFormVersion(formId, versionContent)
+
+    dispatch(consentFormVersionCreated(createdVersion))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createGlobalConsentFormVersionSuccess') }))
+  } catch (error) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createGlobalConsentFormVersionFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const updateGlobalConsentFormVersion = (versionId: number, versionContent: string) => async (
+  dispatch: AppDispatch,
+  getState: () => RootState
+) => {
+  const { consentForm } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const formId = consentForm.activeConsentForm?.id ?? -1
+    const updatedVersion = await ConsentFormService.updateGlobalConsentFormVersion(formId, versionId, versionContent)
+
+    dispatch(consentFormVersionUpdated(updatedVersion))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGlobalConsentFormVersionSuccess') }))
+  } catch (error) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGlobalConsentFormVersionFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const activateGlobalConsentFormVersion = (versionId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { consentForm } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const formId = consentForm.activeConsentForm?.id ?? -1
+    await ConsentFormService.activateGlobalConsentFormVersion(formId, versionId)
+
+    dispatch(consentFormVersionActivated(versionId))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.activateGlobalConsentFormVersionSuccess') }))
+  } catch (error) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.activateGlobalConsentFormVersionFailure') }))
   }
 
   dispatch(setLoading(false))
