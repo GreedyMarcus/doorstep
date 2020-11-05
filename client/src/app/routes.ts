@@ -7,6 +7,7 @@ export const routes = {
   RESET_PASSWORD: '/reset-password/:token',
   COMPANIES: '/companies',
   CONSENT_FORMS: '/consent-forms',
+  CONSENT_FORM_DETAILS: '/consent-forms/:consentFormId',
   VISITS: '/visits',
   HOSTS: '/hosts',
   PLANNED_VISITS: '/planned-visits',

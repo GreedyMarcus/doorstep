@@ -12,7 +12,8 @@
     "visits": "Visits",
     "details": "Details",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "activate": "Activate"
   },
   "company": {
     "name": "Company name",
@@ -29,9 +30,14 @@
   },
   "consentForm": {
     "title": "Consent form title",
+    "content": "Consent form content",
+    "details": "Consent form details",
     "activeVersion": "Active version",
     "createdDate": "Created date",
-    "noConsentFormsInfo": "You have not added any consent forms yet."
+    "noConsentFormsInfo": "You have not added any consent forms yet.",
+    "noActiveVersion": "No active version",
+    "openedVersion": "Opened version",
+    "notFound": "Consent form does not exist."
   },
   "auth": {
     "email": "Email address",
@@ -62,6 +68,7 @@
     "invalidBuildingData": "Invalid building details format",
     "invalidEmailFormat": "Invalid email format",
     "invalidCompanyData": "Invalid company details format",
+    "invalidConsentFormData": "Invalid consent form details format",
     "loginSuccess": "Successful login",
     "loginFailure": "Incorrect email address or password",
     "logoutSuccess": "Successful logout",
@@ -73,16 +80,27 @@
     "passwordResetFailure": "Password reset failed",
     "fetchCompaniesFailure": "Could not load companies.",
     "fetchConsentFormsFailure": "Could not load consent forms",
+    "fetchConsentFormByIdFailure": "Could not load selected consent form",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "updateCompanySuccess": "Successful company update",
-    "updateCompanyFailure": "Could not update company"
+    "updateCompanyFailure": "Could not update company",
+    "createConsentFormSuccess": "Successful consent form creation",
+    "createConsentFormFailure": "Could not create consent form",
+    "createGlobalConsentFormVersionSuccess": "Successful consent form version creation",
+    "createGlobalConsentFormVersionFailure": "Could not create consent form version",
+    "updateGlobalConsentFormVersionSuccess": "Successful consent form version update",
+    "updateGlobalConsentFormVersionFailure": "Could not update consent form version",
+    "activateGlobalConsentFormVersionSuccess": "Successful consent form version activation",
+    "activateGlobalConsentFormVersionFailure": "Could not activate consent form version"
   },
   "action": {
     "addCompany": "Add company",
     "addConsentForm": "Add consent form",
+    "addConsentFormVersion": "Add new version",
     "addBusinessHost": "Add business host",
     "addVisit": "Add visit",
-    "editCompany": "Edit company"
+    "editCompany": "Edit company",
+    "openConsentForm": "Open consent form"
   }
 }

@@ -1,8 +1,9 @@
 import TYPES from '../config/types'
 import { Request, Response, NextFunction } from 'express'
 import { inject, injectable } from 'inversify'
-import { ConsentFormInfoDTO } from '../data/dtos/ConsentFormDTO'
+import { ConsentFormType } from '../data/enums/ConsentFormType'
 import { ConsentFormServiceInterface } from '../services/consentForm'
+import { ConsentFormInfoDTO, ConsentFormDetailsDTO, ConsentFormVersionInfoDTO } from '../data/dtos/ConsentFormDTO'
 
 @injectable()
 class ConsentFormsController {
@@ -20,6 +21,59 @@ class ConsentFormsController {
       return next(err)
     }
     res.json(globalConsentForms)
+  }
+
+  public getGlobalConsentFormById = async (req: Request, res: Response, next: NextFunction) => {
+    let globalConsentForm: ConsentFormDetailsDTO
+    try {
+      globalConsentForm = await this.consentFormService.getConsentFormById(Number(req.params.consentFormId), ConsentFormType.GLOBAL)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(globalConsentForm)
+  }
+
+  public createGlobalConsentForm = async (req: Request, res: Response, next: NextFunction) => {
+    let createdConsentForm: ConsentFormInfoDTO
+    try {
+      createdConsentForm = await this.consentFormService.createGlobalConsentForm(req.body, res.locals.userId)
+    } catch (err) {
+      return next(err)
+    }
+    res.status(201).json(createdConsentForm)
+  }
+
+  public createGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+    let createdVersion: ConsentFormVersionInfoDTO
+    try {
+      createdVersion = await this.consentFormService.createGlobalConsentFormVersion(Number(req.params.consentFormId), req.body.content)
+    } catch (err) {
+      return next(err)
+    }
+    res.status(201).json(createdVersion)
+  }
+
+  public updateGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+    let updatedVersion: ConsentFormVersionInfoDTO
+
+    const consentFormId = Number(req.params.consentFormId)
+    const versionId = Number(req.params.versionId)
+
+    try {
+      updatedVersion = await this.consentFormService.updateConsentFormVersion(consentFormId, versionId, req.body.content)
+    } catch (err) {
+      return next(err)
+    }
+    res.json(updatedVersion)
+  }
+
+  public activateGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.consentFormService.activateConsentFormVersion(Number(req.params.consentFormId), Number(req.params.versionId))
+    } catch (err) {
+      return next(err)
+    }
+    res.status(204).send()
   }
 }
 

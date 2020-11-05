@@ -22,6 +22,9 @@ export default makeStyles(theme => ({
     fontSize: 16,
     textAlign: 'left'
   },
+  tableEmptyCell: {
+    width: theme.spacing(5)
+  },
   infoContainer: {
     padding: theme.spacing(3),
     display: 'flex',

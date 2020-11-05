@@ -6,6 +6,7 @@ import ForgotPassword from '../pages/ForgotPassword'
 import ResetPassword from '../pages/ResetPassword'
 import Companies from '../pages/Companies'
 import ConsentForms from '../pages/ConsentForms'
+import ConsentFormDetails from '../pages/ConsentFormDetails'
 import NavigationBar from '../components/NavigationBar'
 import ProtectedRoute from '../components/ProtectedRoute'
 import ActionTracker from '../components/ActionTracker'
@@ -44,6 +45,7 @@ const App = () => {
         <ProtectedRoute exact path={routes.RESET_PASSWORD} noAuth Component={ResetPassword} />
         <ProtectedRoute exact path={routes.COMPANIES} auth={[UserRole.ADMIN]} Component={Companies} />
         <ProtectedRoute exact path={routes.CONSENT_FORMS} auth={[UserRole.ADMIN]} Component={ConsentForms} />
+        <ProtectedRoute exact path={routes.CONSENT_FORM_DETAILS} auth={[UserRole.ADMIN]} Component={ConsentFormDetails} />
         <Redirect from="*" to={routes.LOGIN} />
       </Switch>
       <ActionTracker />
