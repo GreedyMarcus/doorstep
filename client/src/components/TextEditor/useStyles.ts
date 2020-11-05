@@ -3,10 +3,11 @@ import { makeStyles } from '@material-ui/core/styles'
 type Props = {
   error: boolean
   hasFocus: boolean
+  disabled: boolean
 }
 
 export default makeStyles(theme => ({
-  container: ({ error, hasFocus }: Props) => {
+  container: ({ error, hasFocus, disabled }: Props) => {
     const grey = theme.palette.grey[400]
     const dark = theme.palette.grey[900]
     const danger = theme.palette.error.main
@@ -20,7 +21,7 @@ export default makeStyles(theme => ({
       borderRadius: theme.shape.borderRadius,
 
       '&:hover': {
-        borderColor: error ? danger : dark
+        borderColor: disabled ? grey : error ? danger : dark
       }
     }
   }

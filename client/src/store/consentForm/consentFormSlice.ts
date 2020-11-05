@@ -117,7 +117,7 @@ export const createGlobalConsentFormVersion = (versionContent: string) => async 
     const createdVersion = await ConsentFormService.createGlobalConsentFormVersion(formId, versionContent)
 
     dispatch(consentFormVersionCreated(createdVersion))
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createGlobalConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createGlobalConsentFormVersionSuccess') }))
   } catch (error) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.createGlobalConsentFormVersionFailure') }))
   }
@@ -138,7 +138,7 @@ export const updateGlobalConsentFormVersion = (versionId: number, versionContent
     const updatedVersion = await ConsentFormService.updateGlobalConsentFormVersion(formId, versionId, versionContent)
 
     dispatch(consentFormVersionUpdated(updatedVersion))
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGlobalConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateGlobalConsentFormVersionSuccess') }))
   } catch (error) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGlobalConsentFormVersionFailure') }))
   }
@@ -156,7 +156,7 @@ export const activateGlobalConsentFormVersion = (versionId: number) => async (di
     await ConsentFormService.activateGlobalConsentFormVersion(formId, versionId)
 
     dispatch(consentFormVersionActivated(versionId))
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.activateGlobalConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.activateGlobalConsentFormVersionSuccess') }))
   } catch (error) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.activateGlobalConsentFormVersionFailure') }))
   }

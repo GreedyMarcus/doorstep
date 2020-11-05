@@ -16,7 +16,7 @@ type Props = {
 
 const TextEditor: React.FC<Props> = ({ value, error, required, disabled, heightMultiplier, fullScreen, onChange }) => {
   const [hasFocus, setFocus] = useState(false)
-  const classes = useStyles({ error, hasFocus })
+  const classes = useStyles({ error, hasFocus, disabled: !!disabled })
 
   return (
     <div className={classes.container}>

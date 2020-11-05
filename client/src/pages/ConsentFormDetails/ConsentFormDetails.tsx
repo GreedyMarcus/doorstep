@@ -17,7 +17,13 @@ import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
-import { activeConsentFormSelector, fetchConsentFormById } from '../../store/consentForm'
+import {
+  activeConsentFormSelector,
+  fetchConsentFormById,
+  createGlobalConsentFormVersion,
+  updateGlobalConsentFormVersion,
+  activateGlobalConsentFormVersion
+} from '../../store/consentForm'
 
 const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
@@ -28,21 +34,48 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
 
   const [openedVersion, setOpenedVersion] = useState(1)
   const [content, bindContent] = useInput('', true)
-  const [editDisabled, setEditDisabled] = useState(false)
-  const [edited, setEdited] = useState(false)
-  const [isVersionChanged, setVersionChanged] = useState(true)
+
+  // Store active version status in local state
+  const [status, setStatus] = useState({
+    disabled: false,
+    edited: false,
+    createdNew: false,
+    openedDifferent: false
+  })
 
   const openConsentFormVersion = (versionNumber: number) => {
+    setOpenedVersion(versionNumber)
+    setStatus({ ...status, openedDifferent: true })
+
     if (activeConsentForm) {
       bindContent.onChange({ target: { value: activeConsentForm.versions[versionNumber - 1].content } })
     }
-    setOpenedVersion(versionNumber)
-    setVersionChanged(true)
   }
 
-  const dropContentChanges = () => {
-    setVersionChanged(true)
-    bindContent.onChange({ target: { value: activeConsentForm?.versions[openedVersion - 1].content || '' } })
+  const handleDropContentChanges = () => {
+    if (activeConsentForm) {
+      bindContent.onChange({ target: { value: activeConsentForm.versions[openedVersion - 1].content } })
+    }
+    setStatus({ ...status, openedDifferent: true })
+  }
+
+  const handleConsentFormVersionCreation = () => {
+    setStatus({ ...status, disabled: false, edited: false, createdNew: true })
+    dispatch(createGlobalConsentFormVersion(content.value))
+  }
+
+  const handleConsentFormVersionUpdate = () => {
+    if (activeConsentForm) {
+      dispatch(updateGlobalConsentFormVersion(activeConsentForm.versions[openedVersion - 1].id, content.value))
+    }
+    setStatus({ ...status, disabled: false, edited: false })
+  }
+
+  const handleConsentFormVersionActivation = () => {
+    if (activeConsentForm) {
+      dispatch(activateGlobalConsentFormVersion(activeConsentForm.versions[openedVersion - 1].id))
+    }
+    setStatus({ ...status, disabled: true, edited: false })
   }
 
   useEffect(() => {
@@ -51,27 +84,40 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
       return
     }
 
-    const version = activeConsentForm.activeVersion?.versionNumber ?? activeConsentForm.versions.length
-    setOpenedVersion(version)
-    bindContent.onChange({ target: { value: activeConsentForm.versions[version - 1].content } })
-
-    // Disable old and active form's editing
-    if (version <= (activeConsentForm.activeVersion?.versionNumber || 0)) {
-      setEditDisabled(true)
+    if (status.createdNew || !status.openedDifferent) {
+      const openVersionNumber = activeConsentForm.versions.length
+      setOpenedVersion(openVersionNumber)
+      setStatus({ ...status, openedDifferent: true })
+      bindContent.onChange({ target: { value: activeConsentForm.versions[openVersionNumber - 1].content } })
     }
   }, [activeConsentForm])
 
   useEffect(() => {
-    // Check if we passed mounting
     if (content.value) {
-      if (isVersionChanged) {
-        setVersionChanged(false)
-        setEdited(false)
-      } else if (!edited) {
-        setEdited(true)
+      if (status.createdNew) {
+        setStatus({ ...status, createdNew: false })
+        return
       }
+
+      if (status.openedDifferent) {
+        let disabled = true
+        if (activeConsentForm) {
+          if (!activeConsentForm.activeVersion) {
+            disabled = false
+          } else if (
+            activeConsentForm.activeVersion.versionNumber !== openedVersion &&
+            activeConsentForm.versions.length === openedVersion
+          ) {
+            disabled = false
+          }
+        }
+        setStatus({ ...status, openedDifferent: false, disabled, edited: false })
+        return
+      }
+
+      setStatus({ ...status, disabled: false, edited: true })
     }
-  }, [content.value])
+  }, [content.value, openedVersion])
 
   return (
     <Container className={classes.container} component="main" maxWidth="lg">
@@ -134,7 +180,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
                   onChange={e => openConsentFormVersion(Number(e.target.value))}
                 >
                   {activeConsentForm.versions.map(({ id, versionNumber }) => (
-                    <MenuItem key={id} value={versionNumber}>
+                    <MenuItem className={classes.menuItem} key={id} value={versionNumber}>
                       {versionNumber}
                     </MenuItem>
                   ))}
@@ -147,41 +193,46 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
             </Typography>
             <Grid className={classes.grid} container spacing={2}>
               <Grid item xs={12}>
-                <TextEditor {...bindContent} heightMultiplier={0.3} disabled={editDisabled} fullScreen={fullScreen} />
+                <TextEditor {...bindContent} heightMultiplier={0.3} disabled={status.disabled} fullScreen={fullScreen} />
               </Grid>
             </Grid>
 
             <Grid className={classes.buttons} container justify="space-between">
               <Button
-                style={{ visibility: !editDisabled && !edited ? 'visible' : 'hidden' }}
+                style={{ visibility: !status.edited && !status.disabled ? 'visible' : 'hidden' }}
                 variant="contained"
                 color="secondary"
-                onClick={() => console.log('VERSION ACTIVATED')}
+                onClick={handleConsentFormVersionActivation}
               >
                 {t('general.activate')}
               </Button>
 
               <div>
-                <Button style={{ display: edited ? 'inline' : 'none' }} className={classes.button} onClick={() => dropContentChanges()}>
+                <Button
+                  style={{ display: status.edited ? 'inline' : 'none' }}
+                  className={classes.button}
+                  onClick={handleDropContentChanges}
+                >
                   {t('general.cancel')}
                 </Button>
 
                 <Button
-                  style={{ display: edited ? 'inline' : 'none' }}
+                  style={{ display: status.edited ? 'inline' : 'none' }}
                   className={classes.button}
                   variant="contained"
                   color="primary"
-                  onClick={() => console.log('VERSION SAVED')}
+                  disabled={content.error}
+                  onClick={handleConsentFormVersionUpdate}
                 >
                   {t('general.save')}
                 </Button>
 
                 <Button
-                  style={{ display: !editDisabled && !edited ? 'inline' : 'none' }}
+                  style={{ display: !status.edited ? 'inline' : 'none' }}
                   className={classes.button}
                   variant="contained"
                   color="primary"
-                  onClick={() => console.log('NEW VERSION ADDED')}
+                  onClick={handleConsentFormVersionCreation}
                 >
                   {t('action.addConsentFormVersion')}
                 </Button>

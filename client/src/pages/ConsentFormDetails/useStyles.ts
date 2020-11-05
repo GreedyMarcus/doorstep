@@ -45,6 +45,7 @@ export default makeStyles(theme => ({
     const width = !fullScreen ? { maxWidth: 160 } : {}
     return {
       ...width,
+      textAlign: 'center',
       '& > div.MuiSelect-outlined': {
         padding: theme.spacing(1.25)
       }
@@ -54,12 +55,16 @@ export default makeStyles(theme => ({
     const width = !fullScreen ? { maxWidth: 160 } : {}
     return {
       ...width,
+      fontSize: 16,
       fontWeight: 600,
       borderRadius: theme.spacing(1),
       textAlign: 'center',
       background: theme.palette.error.main,
       color: theme.palette.background.paper
     }
+  },
+  menuItem: {
+    textAlign: 'center'
   },
   infoContainer: {
     padding: theme.spacing(3),
