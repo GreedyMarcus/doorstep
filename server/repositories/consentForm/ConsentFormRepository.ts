@@ -1,4 +1,3 @@
-import User from '../../models/User'
 import OfficeBuilding from '../../models/OfficeBuilding'
 import ConsentForm from '../../models/ConsentForm'
 import ConsentFormVersion from '../../models/ConsentFormVersion'
@@ -10,43 +9,29 @@ import { ConsentFormType } from '../../data/enums/ConsentFormType'
 @injectable()
 @EntityRepository(ConsentForm)
 class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFormRepositoryInterface {
-  public findConsentFormById(consentFormId: number, consentFormType: ConsentFormType): Promise<ConsentForm> {
+  public findConsentFormsByBuildingId(buildingId: number): Promise<ConsentForm[]> {
     return getRepository(ConsentForm)
       .createQueryBuilder('consentForm')
-      .leftJoinAndSelect('consentForm.activeVersion', 'activeVersion')
-      .leftJoinAndSelect('consentForm.versions', 'versions')
-      .where('consentForm.id = :consentFormId', { consentFormId })
-      .andWhere('consentForm.type = :consentFormType', { consentFormType })
-      .getOne()
-  }
-
-  public findConsentFormsByBuildingAdminId(adminId: number): Promise<ConsentForm[]> {
-    return getRepository(ConsentForm)
-      .createQueryBuilder('consentForm')
-      .leftJoinAndSelect(OfficeBuilding, 'building', 'building.id = consentForm.officeBuilding')
-      .leftJoinAndSelect(User, 'user', 'building.admin = user.id')
-      .where('user.id = :adminId', { adminId })
+      .where('consentForm.officeBuilding = :buildingId', { buildingId })
       .getMany()
   }
 
-  public findConsentFormVersionById(consentFormVersionId: number): Promise<ConsentFormVersion> {
-    return getRepository(ConsentFormVersion)
-      .createQueryBuilder('consentFormVersion')
-      .where('consentFormVersion.id = :consentFormVersionId', { consentFormVersionId })
+  public async createGlobalConsentForm(buildingId: number, title: string, content: string): Promise<ConsentForm> {
+    const building = await getRepository(OfficeBuilding)
+      .createQueryBuilder('building')
+      .where('building.id = :buildingId', { buildingId })
       .getOne()
-  }
 
-  public createGlobalConsentForm(title: string, content: string, adminId: number): Promise<ConsentForm> {
+    // Force rollback if building does not exist
+    if (!building) throw Error
+
     return getManager().transaction(async transactionEntityManager => {
-      // Get building by admin id
-      const building = await transactionEntityManager.getRepository(OfficeBuilding).findOne({ where: { admin: { id: adminId } } })
-      if (!building) throw Error // Force the transaction rollback
-
       // Save global consent form
       const newGlobalConsentForm = new ConsentForm()
       newGlobalConsentForm.title = title
       newGlobalConsentForm.type = ConsentFormType.GLOBAL
       newGlobalConsentForm.officeBuilding = building
+
       const createdGlobalConsentForm = await transactionEntityManager.getRepository(ConsentForm).save(newGlobalConsentForm)
 
       // Save first global consent form version
@@ -54,13 +39,30 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
       newGlobalConsentFormVersion.content = content
       newGlobalConsentFormVersion.versionNumber = 1
       newGlobalConsentFormVersion.consentForm = createdGlobalConsentForm
+
       await transactionEntityManager.getRepository(ConsentFormVersion).save(newGlobalConsentFormVersion)
 
       return createdGlobalConsentForm
     })
   }
 
-  public async createGlobalConsentFormVersion(formId: number, content: string, versionNumber: number): Promise<ConsentFormVersion> {
+  public findConsentFormById(formId: number): Promise<ConsentForm> {
+    return getRepository(ConsentForm)
+      .createQueryBuilder('consentForm')
+      .leftJoinAndSelect('consentForm.activeVersion', 'activeVersion')
+      .leftJoinAndSelect('consentForm.versions', 'versions')
+      .where('consentForm.id = :formId', { formId })
+      .getOne()
+  }
+
+  public findConsentFormVersionById(versionId: number): Promise<ConsentFormVersion> {
+    return getRepository(ConsentFormVersion)
+      .createQueryBuilder('consentFormVersion')
+      .where('consentFormVersion.id = :versionId', { versionId })
+      .getOne()
+  }
+
+  public async createConsentFormVersion(formId: number, content: string, versionNumber: number): Promise<ConsentFormVersion> {
     const consentForm = await getRepository(ConsentForm)
       .createQueryBuilder('consentForm')
       .where('consentForm.id = :formId', { formId })
@@ -81,9 +83,9 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
     return getRepository(ConsentFormVersion).save(consentFormVersion)
   }
 
-  public async updateActiveConsentFormVersion(formId: number, formType: ConsentFormType, versionId: number): Promise<void> {
+  public async updateActiveConsentFormVersion(formId: number, versionId: number): Promise<void> {
+    const consentForm = await this.findConsentFormById(formId)
     const consentFormVersion = await this.findConsentFormVersionById(versionId)
-    const consentForm = await this.findConsentFormById(formId, formType)
 
     consentForm.activeVersion = consentFormVersion
     await getRepository(ConsentForm).save(consentForm)

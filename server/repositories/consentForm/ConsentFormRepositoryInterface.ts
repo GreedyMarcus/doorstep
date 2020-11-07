@@ -1,15 +1,14 @@
 import ConsentForm from '../../models/ConsentForm'
 import ConsentFormVersion from '../../models/ConsentFormVersion'
-import { ConsentFormType } from '../../data/enums/ConsentFormType'
 
 interface ConsentFormRepositoryInterface {
-  findConsentFormById(consentFormId: number, consentFormType: ConsentFormType): Promise<ConsentForm>
-  findConsentFormsByBuildingAdminId(adminId: number): Promise<ConsentForm[]>
-  findConsentFormVersionById(consentFormVersionId: number): Promise<ConsentFormVersion>
-  createGlobalConsentForm(title: string, content: string, adminId: number): Promise<ConsentForm>
-  createGlobalConsentFormVersion(formId: number, content: string, versionNumber: number): Promise<ConsentFormVersion>
+  findConsentFormsByBuildingId(buildingId: number): Promise<ConsentForm[]>
+  createGlobalConsentForm(buildingId: number, title: string, content: string): Promise<ConsentForm>
+  findConsentFormById(formId: number): Promise<ConsentForm>
+  findConsentFormVersionById(versionId: number): Promise<ConsentFormVersion>
+  createConsentFormVersion(formId: number, content: string, versionNumber: number): Promise<ConsentFormVersion>
   updateConsentFormVersion(versionId: number, content: string): Promise<ConsentFormVersion>
-  updateActiveConsentFormVersion(formId: number, formType: ConsentFormType, versionId: number): Promise<void>
+  updateActiveConsentFormVersion(formId: number, versionId: number): Promise<void>
 }
 
 export default ConsentFormRepositoryInterface

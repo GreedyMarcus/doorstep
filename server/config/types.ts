@@ -4,11 +4,11 @@ const TYPES = {
   EmailService: Symbol.for('EmailService'),
   OfficeBuildingService: Symbol.for('OfficeBuildingService'),
   CompanyService: Symbol.for('CompanyService'),
-  // ConsentFormService: Symbol.for('ConsentFormService'),
+  ConsentFormService: Symbol.for('ConsentFormService'),
   UserRepository: Symbol.for('UserRepository'),
   OfficeBuildingRepository: Symbol.for('OfficeBuildingRepository'),
-  CompanyRepository: Symbol.for('CompanyRepository')
-  // ConsentFormRepository: Symbol.for('ConsentFormRepository')
+  CompanyRepository: Symbol.for('CompanyRepository'),
+  ConsentFormRepository: Symbol.for('ConsentFormRepository')
 }
 
 export default TYPES

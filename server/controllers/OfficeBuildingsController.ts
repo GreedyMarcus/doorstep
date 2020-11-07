@@ -39,6 +39,26 @@ class OfficeBuildingsController {
       return next(err)
     }
   }
+
+  public getGlobalConsentForms = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const buildingId = Number(req.params.buildingId)
+      const consentForms = await this.officeBuildingService.getConsentForms(buildingId)
+      res.json(consentForms)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public createGlobalConsentForm = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const buildingId = Number(req.params.buildingId)
+      const consentForm = await this.officeBuildingService.createConsentForm(buildingId, req.body)
+      res.status(201).json(consentForm)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default OfficeBuildingsController

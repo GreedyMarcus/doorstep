@@ -1,13 +1,10 @@
-import { ConsentFormInfoDTO, ConsentFormCreateDTO, ConsentFormDetailsDTO, ConsentFormVersionInfoDTO } from '../../data/dtos/ConsentFormDTO'
-import { ConsentFormType } from '../../data/enums/ConsentFormType'
+import { ConsentFormDetailsDTO, ConsentFormVersionInfoDTO } from '../../data/dtos/ConsentFormDTO'
 
 interface ConsentFormServiceInterface {
-  getConsentFormsByBuildingAdminId(adminId: number): Promise<ConsentFormInfoDTO[]>
-  getConsentFormById(consentFormId: number, consentFormType: ConsentFormType): Promise<ConsentFormDetailsDTO>
-  createGlobalConsentForm(consentFormData: ConsentFormCreateDTO, adminId: number): Promise<ConsentFormInfoDTO>
-  createGlobalConsentFormVersion(consentFormId: number, versionContent: string): Promise<ConsentFormVersionInfoDTO>
+  getConsentFormById(formId: number): Promise<ConsentFormDetailsDTO>
+  createConsentFormVersion(formId: number, content: string): Promise<ConsentFormVersionInfoDTO>
   updateConsentFormVersion(formId: number, versionId: number, content: string): Promise<ConsentFormVersionInfoDTO>
-  activateConsentFormVersion(consentFormId: number, versionId: number): Promise<void>
+  activateConsentFormVersion(formId: number, versionId: number): Promise<void>
 }
 
 export default ConsentFormServiceInterface

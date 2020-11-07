@@ -6,23 +6,28 @@ import { inject, injectable } from 'inversify'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/officeBuilding'
 import { CompanyRepositoryInterface } from '../../repositories/company'
+import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
 import { OfficeBuildingRegisterDTO } from '../../data/dtos/OfficeBuildingDTO'
 import { CompanyInfoDTO, CompanyRegisterDTO } from '../../data/dtos/CompanyDTO'
+import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 
 @injectable()
 class OfficeBuildingService implements OfficeBuildingServiceInterface {
   private readonly userRepository: UserRepositoryInterface
   private readonly officeBuildingRepository: OfficeBuildingRepositoryInterface
   private readonly companyRepository: CompanyRepositoryInterface
+  private readonly consentFormRepository: ConsentFormRepositoryInterface
 
   constructor(
     @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface,
     @inject(TYPES.OfficeBuildingRepository) officeBuildingRepository: OfficeBuildingRepositoryInterface,
-    @inject(TYPES.CompanyRepository) companyRepository: CompanyRepositoryInterface
+    @inject(TYPES.CompanyRepository) companyRepository: CompanyRepositoryInterface,
+    @inject(TYPES.ConsentFormRepository) consentFormRepository: ConsentFormRepositoryInterface
   ) {
     this.userRepository = userRepository
     this.officeBuildingRepository = officeBuildingRepository
     this.companyRepository = companyRepository
+    this.consentFormRepository = consentFormRepository
   }
 
   public registerBuilding = async ({ admin, address }: OfficeBuildingRegisterDTO): Promise<void> => {
@@ -104,6 +109,40 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
     }
 
     return createdCompanyInfo
+  }
+
+  public getConsentForms = async (buildingId: number): Promise<ConsentFormInfoDTO[]> => {
+    const building = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!building) {
+      throw Boom.badRequest('Building does not exists')
+    }
+
+    const consentForms = await this.consentFormRepository.findConsentFormsByBuildingId(buildingId)
+    const consentFormsInfo: ConsentFormInfoDTO[] = consentForms.map(({ id, title, activeVersion, createdAt }) => ({
+      id,
+      title,
+      activeVersion: activeVersion?.versionNumber ?? null,
+      createdAt
+    }))
+
+    return consentFormsInfo
+  }
+
+  public createConsentForm = async (buildingId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO> => {
+    const building = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!building) {
+      throw Boom.badRequest('Building does not exists')
+    }
+
+    const consentForm = await this.consentFormRepository.createGlobalConsentForm(buildingId, data.title, data.content)
+    const consentFormInfo: ConsentFormInfoDTO = {
+      id: consentForm.id,
+      title: consentForm.title,
+      activeVersion: null,
+      createdAt: consentForm.createdAt
+    }
+
+    return consentFormInfo
   }
 }
 
