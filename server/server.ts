@@ -28,7 +28,7 @@ class Server {
     this.app.use(express.json())
     this.app.use('/api', apiRouter)
 
-    // Server static assets in production
+    // Serve static assets in production
     if (config.server.env === 'production') {
       this.app.use(express.static(__dirname.replace('build/server', 'client/build')))
       this.app.get('*', (req: Request, res: Response) => {
