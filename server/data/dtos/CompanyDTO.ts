@@ -1,28 +1,28 @@
-import { LongAddressDTO } from './AddressDTO'
-import { UserInfoDTO } from './UserDTO'
+import { AddressDTO } from './AddressDTO'
+import { UserRegisterDTO } from './UserDTO'
 
 export interface CompanyInfoDTO {
   id: number
   name: string
   registrationNumber: string
   address: string
-  joiningDate: Date
+  createdAt: Date
   adminName: string
   adminEmail: string
-  adminJoiningDate: Date
+  adminJoinedAt: Date
 }
 
-export interface CompanyRegistrationDTO {
+export interface CompanyRegisterDTO {
   name: string
   registrationNumber: string
-  address: LongAddressDTO
-  admin: UserInfoDTO
+  address: AddressDTO
+  admin: UserRegisterDTO
 }
 
 export interface CompanyUpdateDTO {
   id: number
   name: string
   registrationNumber: string
-  address: LongAddressDTO
-  admin?: UserInfoDTO
+  address: AddressDTO
+  admin?: UserRegisterDTO
 }

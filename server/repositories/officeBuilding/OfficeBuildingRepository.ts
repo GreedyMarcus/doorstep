@@ -10,6 +10,13 @@ import { UserRoleType } from '../../data/enums/UserRoleType'
 @injectable()
 @EntityRepository(OfficeBuilding)
 class OfficeBuildingRepository extends Repository<OfficeBuilding> implements OfficeBuildingRepositoryInterface {
+  public findBuildingById(buildingId: number): Promise<OfficeBuilding> {
+    return getRepository(OfficeBuilding)
+      .createQueryBuilder('building')
+      .where('building.id = :buildingId', { buildingId })
+      .getOne()
+  }
+
   public findBuildingByAddress(address: Partial<Address>): Promise<OfficeBuilding> {
     return getRepository(OfficeBuilding)
       .createQueryBuilder('building')

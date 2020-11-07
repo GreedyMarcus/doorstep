@@ -19,6 +19,26 @@ class OfficeBuildingsController {
       return next(err)
     }
   }
+
+  public getCompaniesInOfficeBuilding = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const buildingId = Number(req.params.buildingId)
+      const companies = await this.officeBuildingService.getCompanies(buildingId)
+      res.json(companies)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public registerCompanyInOfficeBuilding = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const buildingId = Number(req.params.buildingId)
+      const company = await this.officeBuildingService.registerCompany(buildingId, req.body)
+      res.status(201).json(company)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default OfficeBuildingsController
