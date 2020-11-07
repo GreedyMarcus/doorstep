@@ -1,4 +1,4 @@
-export interface LongAddressDTO {
+export interface AddressDTO {
   country: string
   zipCode: string
   city: string

@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-export const LongAddressSchema = Joi.object({
+export const AddressSchema = Joi.object({
   country: Joi.string().required(),
   zipCode: Joi.string().required(),
   city: Joi.string().required(),

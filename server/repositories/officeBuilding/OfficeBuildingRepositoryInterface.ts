@@ -4,7 +4,7 @@ import OfficeBuilding from '../../models/OfficeBuilding'
 
 interface OfficeBuildingRepositoryInterface {
   findBuildingByAddress(address: Partial<Address>): Promise<OfficeBuilding>
-  createBuilding(address: Partial<Address>, admin: Partial<User>): Promise<OfficeBuilding>
+  createBuilding(admin: Partial<User>, address: Partial<Address>): Promise<OfficeBuilding>
 }
 
 export default OfficeBuildingRepositoryInterface

@@ -1,7 +1,7 @@
-import { UserInfoDTO } from './UserDTO'
-import { LongAddressDTO } from './AddressDTO'
+import { UserRegisterDTO } from './UserDTO'
+import { AddressDTO } from './AddressDTO'
 
-export interface OfficeBuildingRegistrationDTO {
-  buildingAdmin: UserInfoDTO
-  buildingAddress: LongAddressDTO
+export interface OfficeBuildingRegisterDTO {
+  admin: UserRegisterDTO
+  address: AddressDTO
 }

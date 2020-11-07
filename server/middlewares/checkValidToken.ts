@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express'
 import Boom from '@hapi/boom'
 import jwt from 'jsonwebtoken'
 import config from '../config'
+import { Request, Response, NextFunction } from 'express'
 
 export default (req: Request, res: Response, next: NextFunction) => {
   // Get the jwt access token from the request header
