@@ -1,28 +1,28 @@
+import { Address } from './General'
+import { UserRegister } from './User'
+
 export type CompanyInfo = {
   id: number
   name: string
   registrationNumber: string
   address: string
-  joiningDate: Date
+  createdAt: Date
   adminName: string
   adminEmail: string
-  adminJoiningDate: Date
+  adminJoinedAt: Date
 }
 
-export type RegisterCompanyDetails = {
-  id?: number
+export type CompanyRegister = {
   name: string
   registrationNumber: string
-  address: {
-    country: string
-    zipCode: string
-    city: string
-    streetAddress: string
-  }
-  admin?: {
-    email: string
-    password: string
-    firstName: string
-    lastName: string
-  }
+  address: Address
+  admin: UserRegister
+}
+
+export type CompanyUpdate = {
+  id: number
+  name: string
+  registrationNumber: string
+  address: Address
+  admin?: UserRegister
 }

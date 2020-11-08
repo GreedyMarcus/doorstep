@@ -1,65 +1,49 @@
 import axios from 'axios'
 import config from '../app/config'
 import i18n from '../plugins/i18n'
-import { RegisterUserDetails, UserLoginResult } from '../data/types/User'
+import { UserLogin, UserInfo } from '../data/types/User'
 
 class AuthService {
-  public static async loginUser(email: string, password: string) {
-    const result = await axios.post('/api/auth/login', { email, password })
-
-    if (result.data) {
-      localStorage.setItem(config.auth.tokenKey, JSON.stringify(result.data.token))
-    }
-    return result.data
-  }
-
-  public static logoutUser() {
-    localStorage.removeItem(config.auth.tokenKey)
-  }
-
-  public static async registerBuilding(userDetails: RegisterUserDetails) {
-    const { email, password, firstName, lastName, country, zipCode, city, streetAddress } = userDetails
-
-    const result = await axios.post('/api/auth/register', {
-      buildingAdmin: { email, password, firstName, lastName },
-      buildingAddress: { country, zipCode, city, streetAddress }
-    })
-
-    return result.status === 200
-  }
-
-  public static async getCurrentUser(): Promise<UserLoginResult> {
-    const user = await axios.get('/api/auth/whoami', { headers: AuthService.getAuthHeader() })
-    return user.data
-  }
-
-  public static getToken(): string | null {
-    const token = localStorage.getItem(config.auth.tokenKey)
+  public static getUserToken(): string | null {
+    const token = localStorage.getItem(config.app.tokenKeyName)
     return token ? JSON.parse(token) : null
   }
 
   public static getAuthHeader() {
-    const token = AuthService.getToken()
+    const token = AuthService.getUserToken()
     return token ? { Authorization: `Bearer ${token}` } : {}
   }
 
   public static getClientLanguageHeader() {
-    const language = i18n.language
-    return { 'client-language': language }
+    // Custom header to provide localization for the server
+    return { 'client-language': i18n.language }
   }
 
-  public static async sendForgotPassword(email: string): Promise<boolean> {
-    const result = await axios.post('/api/auth/forgot-password', { email }, { headers: AuthService.getClientLanguageHeader() })
-    return result.status === 200
+  public static async loginUser(data: UserLogin): Promise<UserInfo> {
+    const result = await axios.post<UserLogin, UserInfo>('/api/auth/login', data)
+
+    localStorage.setItem(config.app.tokenKeyName, result.token)
+    return result
   }
 
-  public static async resetPassword(token: string, password: string): Promise<UserLoginResult> {
-    const result = await axios.post('/api/auth/reset-password', { token, password })
+  public static logoutUser() {
+    localStorage.removeItem(config.app.tokenKeyName)
+  }
 
-    if (result.data) {
-      localStorage.setItem(config.auth.tokenKey, JSON.stringify(result.data.token))
-    }
-    return result.data
+  public static async getCurrentUser(): Promise<UserInfo> {
+    const authHeader = AuthService.getAuthHeader()
+    return axios.get<any, UserInfo>('/api/auth/whoami', { headers: authHeader })
+  }
+
+  public static async sendForgotPassword(email: string) {
+    await axios.post('/api/auth/forgot-password', { email })
+  }
+
+  public static async resetPassword(token: string, password: string): Promise<UserInfo> {
+    const result = await axios.post<UserPasswordReset, UserInfo>('/api/auth/reset-password', { token, password })
+
+    localStorage.setItem(config.app.tokenKeyName, result.token)
+    return result
   }
 }
 
