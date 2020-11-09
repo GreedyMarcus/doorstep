@@ -4,6 +4,7 @@ import { isDevelopment } from '../utils'
 import { reducer as userReducer } from './user'
 import { reducer as companyReducer } from './company'
 import { reducer as consentFormReducer } from './consentForm'
+import { reducer as visitReducer } from './visit'
 import { reducer as actionReducer } from './action'
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
     user: userReducer,
     company: companyReducer,
     consentForm: consentFormReducer,
+    visit: visitReducer,
     action: actionReducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware(),

@@ -40,7 +40,7 @@ export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () =
   dispatch(setLoading(true))
 
   try {
-    const buildingId = user.activeUser?.buildingId ?? 0
+    const buildingId = user.activeUser?.buildingId ?? -1
     const companies = await OfficeBuildingService.getCompaniesInBuilding(buildingId)
 
     dispatch(companiesFetched(companies))
@@ -57,7 +57,7 @@ export const registerCompany = (company: CompanyRegister) => async (dispatch: Ap
   dispatch(setLoading(true))
 
   try {
-    const buildingId = user.activeUser?.buildingId ?? 0
+    const buildingId = user.activeUser?.buildingId ?? -1
     const registeredCompany = await OfficeBuildingService.registerCompanyInBuilding(buildingId, company)
 
     dispatch(companyRegistered(registeredCompany))

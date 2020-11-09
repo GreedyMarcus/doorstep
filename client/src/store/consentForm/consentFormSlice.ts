@@ -67,7 +67,7 @@ export const fetchConsentForms = () => async (dispatch: AppDispatch, getState: (
   dispatch(setLoading(true))
 
   try {
-    const buildingId = user.activeUser?.buildingId ?? 0
+    const buildingId = user.activeUser?.buildingId ?? -1
     const consentForms = await OfficeBuildingService.getGlobalConsentForms(buildingId)
 
     dispatch(consentFormsFetched(consentForms))
@@ -101,7 +101,7 @@ export const createGlobalConsentForm = (data: ConsentFormCreate) => async (dispa
   dispatch(setLoading(true))
 
   try {
-    const buildingId = user.activeUser?.buildingId ?? 0
+    const buildingId = user.activeUser?.buildingId ?? -1
     const createdConsentForm = await OfficeBuildingService.createGlobalConsentform(buildingId, data)
 
     dispatch(consentFormCreated(createdConsentForm))
@@ -119,7 +119,7 @@ export const createGlobalConsentFormVersion = (content: string) => async (dispat
   dispatch(setLoading(true))
 
   try {
-    const formId = consentForm.activeConsentForm?.id ?? 0
+    const formId = consentForm.activeConsentForm?.id ?? -1
     const createdVersion = await ConsentFormService.createConsentFormVersion(formId, ConsentFormType.GLOBAL, content)
 
     dispatch(consentFormVersionCreated(createdVersion))
@@ -140,7 +140,7 @@ export const updateGlobalConsentFormVersion = (versionId: number, content: strin
   dispatch(setLoading(true))
 
   try {
-    const formId = consentForm.activeConsentForm?.id ?? 0
+    const formId = consentForm.activeConsentForm?.id ?? -1
     const updatedVersion = await ConsentFormService.updateConsentFormVersion(formId, versionId, ConsentFormType.GLOBAL, content)
 
     dispatch(consentFormVersionUpdated(updatedVersion))
@@ -161,7 +161,7 @@ export const activateGlobalConsentFormVersion = (versionId: number) => async (
   dispatch(setLoading(true))
 
   try {
-    const formId = consentForm.activeConsentForm?.id ?? 0
+    const formId = consentForm.activeConsentForm?.id ?? -1
     await ConsentFormService.activateGlobalConsentFormVersion(formId, ConsentFormType.GLOBAL, versionId)
 
     dispatch(consentFormVersionActivated(versionId))

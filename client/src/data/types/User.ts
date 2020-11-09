@@ -10,6 +10,7 @@ export type UserInfo = {
   email: string
   role: string
   buildingId?: number
+  companyId?: number
   token: string
 }
 

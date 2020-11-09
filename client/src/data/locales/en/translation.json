@@ -81,6 +81,7 @@
     "fetchCompaniesFailure": "Could not load companies.",
     "fetchConsentFormsFailure": "Could not load consent forms",
     "fetchConsentFormByIdFailure": "Could not load selected consent form",
+    "fetchVisitsFailure": "Could not load visits",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "updateCompanySuccess": "Successful company update",

@@ -10,6 +10,7 @@ export interface UserInfoDTO {
   email: string
   role: string
   buildingId?: number
+  companyId?: number
   token?: string
 }
 
