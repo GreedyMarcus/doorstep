@@ -4,6 +4,8 @@ import i18n from '../plugins/i18n'
 import { UserLogin, UserInfo } from '../data/types/User'
 
 class AuthService {
+  public static API_BASE = '/api/auth'
+
   public static getUserToken(): string | null {
     const token = localStorage.getItem(config.app.tokenKeyName)
     return token ? JSON.parse(token) : null
@@ -15,15 +17,17 @@ class AuthService {
   }
 
   public static getClientLanguageHeader() {
-    // Custom header to provide localization for the server
     return { 'client-language': i18n.language }
   }
 
   public static async loginUser(data: UserLogin): Promise<UserInfo> {
-    const result = await axios.post<UserLogin, UserInfo>('/api/auth/login', data)
+    const url = `${AuthService.API_BASE}/login`
 
-    localStorage.setItem(config.app.tokenKeyName, result.token)
-    return result
+    const result = await axios.post(url, data)
+    const user = result.data as UserInfo
+
+    localStorage.setItem(config.app.tokenKeyName, JSON.stringify(user.token))
+    return user
   }
 
   public static logoutUser() {
@@ -32,18 +36,33 @@ class AuthService {
 
   public static async getCurrentUser(): Promise<UserInfo> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.get<any, UserInfo>('/api/auth/whoami', { headers: authHeader })
+
+    const url = `${AuthService.API_BASE}/whoami`
+    const config = { headers: authHeader }
+
+    const result = await axios.get(url, config)
+    return result.data as UserInfo
   }
 
   public static async sendForgotPassword(email: string) {
-    await axios.post('/api/auth/forgot-password', { email })
+    const languageHeader = AuthService.getClientLanguageHeader()
+
+    const url = `${AuthService.API_BASE}/forgot-password`
+    const data = { email }
+    const config = { headers: languageHeader }
+
+    await axios.post(url, data, config)
   }
 
   public static async resetPassword(token: string, password: string): Promise<UserInfo> {
-    const result = await axios.post<any, UserInfo>('/api/auth/reset-password', { token, password })
+    const url = `${AuthService.API_BASE}/reset-password`
+    const data = { token, password }
 
-    localStorage.setItem(config.app.tokenKeyName, result.token)
-    return result
+    const result = await axios.post(url, data)
+    const user = result.data as UserInfo
+
+    localStorage.setItem(config.app.tokenKeyName, user.token)
+    return user
   }
 }
 

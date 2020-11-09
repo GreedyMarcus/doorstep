@@ -5,30 +5,40 @@ import { CompanyInfo, CompanyRegister } from '../data/types/Company'
 import { ConsentFormInfo, ConsentFormCreate } from '../data/types/ConsentForm'
 
 class OfficeBuildingService {
+  public static API_BASE = '/api/buildings'
+
   public static async registerBuilding(data: OfficeBuildingRegister): Promise<void> {
-    await axios.post('/api/buildings/register', data)
+    await axios.post(`${OfficeBuildingService.API_BASE}/register`, data)
   }
 
   public static async getCompaniesInBuilding(buildingId: number): Promise<CompanyInfo[]> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.get<any, CompanyInfo[]>(`/api/buildings/${buildingId}/companies`, { headers: authHeader })
+
+    const result = await axios.get(`${OfficeBuildingService.API_BASE}/${buildingId}/companies`, { headers: authHeader })
+    return result.data as CompanyInfo[]
   }
 
   public static async registerCompanyInBuilding(buildingId: number, data: CompanyRegister): Promise<CompanyInfo> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.post<CompanyRegister, CompanyInfo>(`/api/buildings/${buildingId}/companies`, data, { headers: authHeader })
+
+    const result = await axios.post(`${OfficeBuildingService.API_BASE}/${buildingId}/companies`, data, { headers: authHeader })
+    return result.data as CompanyInfo
   }
 
   public static async getGlobalConsentForms(buildingId: number): Promise<ConsentFormInfo[]> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.post<any, ConsentFormInfo[]>(`/api/buildings/${buildingId}/consent-forms`, { headers: authHeader })
+
+    const result = await axios.get(`${OfficeBuildingService.API_BASE}/${buildingId}/consent-forms`, { headers: authHeader })
+    return result.data as ConsentFormInfo[]
   }
 
   public static async createGlobalConsentform(buildingId: number, data: ConsentFormCreate): Promise<ConsentFormInfo> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.post<ConsentFormCreate, ConsentFormInfo>(`/api/buildings/${buildingId}/consent-forms`, data, {
+
+    const result = await axios.post(`${OfficeBuildingService.API_BASE}/${buildingId}/consent-forms`, data, {
       headers: authHeader
     })
+    return result.data as ConsentFormInfo
   }
 }
 

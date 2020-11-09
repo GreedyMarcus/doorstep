@@ -4,49 +4,62 @@ import { ConsentFormDetails, ConsentFormVersionInfo } from '../data/types/Consen
 import { ConsentFormType } from '../data/enums/ConsentFormType'
 
 class ConsentFormService {
-  public static async getConsentFormById(formId: number, formType: ConsentFormType): Promise<ConsentFormDetails> {
+  public static API_BASE = '/api/consent-forms'
+
+  public static async getConsentFormById(formId: number, type: ConsentFormType): Promise<ConsentFormDetails> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.get<any, ConsentFormDetails>(`/api/consent-forms/${formType}/${formId}`, { headers: authHeader })
+
+    const url = `${ConsentFormService.API_BASE}/${type}/${formId}`
+    const config = { headers: authHeader }
+
+    const result = await axios.get(url, config)
+    return result.data as ConsentFormDetails
   }
 
   public static async createConsentFormVersion(
     formId: number,
-    formType: ConsentFormType,
+    type: ConsentFormType,
     content: string
   ): Promise<ConsentFormVersionInfo> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.post<any, ConsentFormVersionInfo>(
-      `/api/consent-forms/${formType}/${formId}/versions`,
-      { content },
-      { headers: authHeader }
-    )
+
+    const url = `${ConsentFormService.API_BASE}/${type}/${formId}/versions`
+    const data = { content }
+    const config = { headers: authHeader }
+
+    const result = await axios.post(url, data, config)
+    return result.data as ConsentFormVersionInfo
   }
 
   public static async updateConsentFormVersion(
     formId: number,
     versionId: number,
-    formType: ConsentFormType,
+    type: ConsentFormType,
     content: string
   ): Promise<ConsentFormVersionInfo> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.patch<any, ConsentFormVersionInfo>(
-      `/api/consent-forms/${formType}/${formId}/versions/${versionId}`,
-      { content },
-      { headers: authHeader }
-    )
+
+    const url = `${ConsentFormService.API_BASE}/${type}/${formId}/versions/${versionId}`
+    const data = { content }
+    const config = { headers: authHeader }
+
+    const result = await axios.patch(url, data, config)
+    return result.data as ConsentFormVersionInfo
   }
 
   public static async activateGlobalConsentFormVersion(
     formId: number,
-    formType: ConsentFormType,
+    type: ConsentFormType,
     versionId: number
   ): Promise<ConsentFormVersionInfo> {
     const authHeader = AuthService.getAuthHeader()
-    return axios.put<any, ConsentFormVersionInfo>(
-      `/api/consent-forms/${formType}/${formId}/versions/${versionId}/activation`,
-      {},
-      { headers: authHeader }
-    )
+
+    const url = `${ConsentFormService.API_BASE}/${type}/${formId}/versions/${versionId}/activation`
+    const data = {}
+    const config = { headers: authHeader }
+
+    const result = await axios.put(url, data, config)
+    return result.data as ConsentFormVersionInfo
   }
 }
 
