@@ -26,16 +26,15 @@ const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
   const [t, i18n] = useTranslation()
 
   const handleExpand = () => setOpen(!isOpen)
+  const formatDate = (date: Date): string => new Date(date).toLocaleDateString(i18n.language)
 
   const companyNameText = `${t('company.name')}: ${company.name}`
   const companyRegistrationNumberText = `${t('company.registrationNumber')}: ${company.registrationNumber}`
   const companyAddressText = `${t('company.address')}: ${company.address}`
-  const companyJoiningDateText = `${t('company.joiningDate')}: ${new Date(company.createdAt).toLocaleDateString(i18n.language)}`
+  const companyJoiningDateText = `${t('company.joiningDate')}: ${formatDate(company.createdAt)}`
   const companyAdminNameText = `${t('company.adminName')}: ${company.adminName}`
   const companyAdminEmailText = `${t('company.adminEmail')}: ${company.adminEmail}`
-  const companyAdminJoiningDateText = `${t('company.joiningDate')}: ${new Date(company.adminJoinedAt).toLocaleDateString(
-    i18n.language
-  )}`
+  const companyAdminJoiningDateText = `${t('company.joiningDate')}: ${formatDate(company.adminJoinedAt)}`
 
   return (
     <React.Fragment>
@@ -45,9 +44,11 @@ const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
             {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
+
         <TableCell className={classes.tableCell} onClick={handleExpand}>
           {company.name}
         </TableCell>
+
         {showMore && (
           <React.Fragment>
             <TableCell className={classes.tableCell} onClick={handleExpand}>
@@ -61,6 +62,7 @@ const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
             </TableCell>
           </React.Fragment>
         )}
+
         <TableCell className={classes.iconTableCell}>
           <Tooltip key={company.id} title={t('action.editCompany').toString()}>
             <IconButton size="small" aria-label="edit company" onClick={() => setEditing(true)}>
@@ -78,6 +80,7 @@ const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
                   {t('general.details')}
                 </Typography>
               </Grid>
+
               <Grid className={classes.collapseItem} item sm={6} xs={12}>
                 <Typography variant="h2" className={classes.collapseSectionTitle}>
                   {t('company.companyDetails')}
@@ -95,6 +98,7 @@ const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
                   {companyJoiningDateText}
                 </Typography>
               </Grid>
+
               <Grid item sm={6} xs={12}>
                 <Typography variant="h2" className={classes.collapseSectionTitle}>
                   {t('company.adminDetails')}

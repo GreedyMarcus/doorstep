@@ -12,6 +12,13 @@ export type CompanyInfo = {
   adminJoinedAt: Date
 }
 
+export type CompanyInfoFormatted = {
+  name: string
+  registrationNumber: string
+  address: Address
+  admin: UserRegister
+}
+
 export type CompanyRegister = {
   name: string
   registrationNumber: string

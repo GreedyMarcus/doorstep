@@ -27,13 +27,8 @@ const ConsentFormDialog: React.FC<Props> = ({ onClose }) => {
   const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
 
-  const [title, bindTitle, resetTitle] = useInput('', true)
-  const [content, bindContent, resetContent] = useInput('', true)
-
-  const clearInputs = () => {
-    resetTitle()
-    resetContent()
-  }
+  const [title, bindTitle] = useInput('', true)
+  const [content, bindContent] = useInput('', true)
 
   const handleClose = () => {
     // This method provides smooth exit animation for the component
@@ -54,7 +49,6 @@ const ConsentFormDialog: React.FC<Props> = ({ onClose }) => {
     }
 
     dispatch(createGlobalConsentForm(consentFormData))
-    clearInputs()
     handleClose()
   }
 

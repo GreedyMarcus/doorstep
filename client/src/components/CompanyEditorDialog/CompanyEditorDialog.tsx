@@ -13,7 +13,7 @@ import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
-import { CompanyInfo } from '../../data/types/Company'
+import { CompanyInfo, CompanyInfoFormatted } from '../../data/types/Company'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
@@ -32,30 +32,41 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
   const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
 
-  const [name, bindName, resetName] = useInput(company?.name || '', true)
-  const [regNumber, bindRegNumber, resetRegNumber] = useInput(company?.registrationNumber || '', true, REGEXP.REGISTRATION_NUMBER)
-  const [country, bindCountry, resetCountry] = useInput(company?.address.split(', ')[0] || '', true)
-  const [zipCode, bindZipCode, resetZipCode] = useInput(company?.address.split(', ')[1] || '', true)
-  const [city, bindCity, resetCity] = useInput(company?.address.split(', ')[2] || '', true)
-  const [streetAddress, bindStreetAddress, resetStreetAddress] = useInput(company?.address.split(', ')[3] || '', true)
-  const [firstName, bindFirstName, resetFirstName] = useInput(company?.adminName.split(' ')[0] || '', true)
-  const [lastName, bindLastName, resetLastName] = useInput(company?.adminName.split(' ')[1] || '', true)
-  const [email, bindEmail, resetEmail] = useInput(company?.adminEmail || '', true, REGEXP.EMAIL)
-  const [password, bindPassword, resetPassword] = useInput('', true, REGEXP.PASSWORD)
-  const [adminEditingChecked, setAdminEditingChecked] = useState(false)
+  const formatCompanyData = (company: CompanyInfo | undefined): CompanyInfoFormatted => {
+    const address = company?.address.split(', ')
+    const adminName = company?.adminName.split(' ')
 
-  const clearInputs = () => {
-    resetName()
-    resetRegNumber()
-    resetCountry()
-    resetZipCode()
-    resetCity()
-    resetStreetAddress()
-    resetFirstName()
-    resetLastName()
-    resetEmail()
-    resetPassword()
+    return {
+      name: company?.name || '',
+      registrationNumber: company?.registrationNumber || '',
+      address: {
+        country: address ? address[0] : '',
+        zipCode: address ? address[1] : '',
+        city: address ? address[2] : '',
+        streetAddress: address ? address[3] : ''
+      },
+      admin: {
+        firstName: adminName ? adminName[0] : '',
+        lastName: adminName ? adminName[1] : '',
+        email: company?.adminEmail || '',
+        password: ''
+      }
+    }
   }
+
+  const companyData = formatCompanyData(company)
+
+  const [name, bindName] = useInput(companyData.name, true)
+  const [regNumber, bindRegNumber] = useInput(companyData.registrationNumber, true, REGEXP.REGISTRATION_NUMBER)
+  const [country, bindCountry] = useInput(companyData.address.country, true)
+  const [zipCode, bindZipCode] = useInput(companyData.address.zipCode, true)
+  const [city, bindCity] = useInput(companyData.address.city, true)
+  const [streetAddress, bindStreetAddress] = useInput(companyData.address.streetAddress, true)
+  const [firstName, bindFirstName] = useInput(companyData.admin.firstName, true)
+  const [lastName, bindLastName] = useInput(companyData.admin.lastName, true)
+  const [email, bindEmail] = useInput(companyData.admin.email, true, REGEXP.EMAIL)
+  const [password, bindPassword] = useInput(companyData.admin.password, true, REGEXP.PASSWORD)
+  const [adminEditingChecked, setAdminEditingChecked] = useState(false)
 
   const handleClose = () => {
     // This method provides smooth exit animation for the component
@@ -105,7 +116,6 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
       dispatch(editCompany({ ...companyData, id: companyId || 0, admin }))
     }
 
-    clearInputs()
     handleClose()
   }
 
@@ -195,6 +205,7 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
             />
           </Grid>
         </Grid>
+
         {isEditing && (
           <FormControlLabel
             className={classes.checkbox}
