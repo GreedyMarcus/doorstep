@@ -23,12 +23,12 @@ const App = () => {
   useEffect(() => {
     // Handling JWT token expiration
     const tokenInterceptor = axios.interceptors.response.use(
-      response => response,
-      error => {
-        if (error.response.status === 403) {
+      res => res,
+      err => {
+        if (err.response.status === 403) {
           dispatch(logoutUser())
         }
-        return Promise.reject(error)
+        return Promise.reject(err)
       }
     )
     return () => axios.interceptors.response.eject(tokenInterceptor)

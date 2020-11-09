@@ -8,19 +8,24 @@ import { v4 as uuidv4 } from 'uuid'
 import { inject, injectable } from 'inversify'
 import { EmailServiceInterface } from '../email'
 import { UserRepositoryInterface } from '../../repositories/user'
+import { OfficeBuildingRepositoryInterface } from '../../repositories/officeBuilding'
+import { UserRoleType } from '../../data/enums/UserRoleType'
 import { UserLoginDTO, UserInfoDTO } from '../../data/dtos/UserDTO'
 
 @injectable()
 class AuthService implements AuthServiceInterface {
   private readonly emailService: EmailServiceInterface
   private readonly userRepository: UserRepositoryInterface
+  private readonly officeBuildingRepository: OfficeBuildingRepositoryInterface
 
   constructor(
     @inject(TYPES.EmailService) emailService: EmailServiceInterface,
-    @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface
+    @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface,
+    @inject(TYPES.OfficeBuildingRepository) officeBuildingRepository: OfficeBuildingRepositoryInterface
   ) {
     this.emailService = emailService
     this.userRepository = userRepository
+    this.officeBuildingRepository = officeBuildingRepository
   }
 
   public loginUser = async ({ email, password }: UserLoginDTO): Promise<UserInfoDTO> => {
@@ -34,6 +39,12 @@ class AuthService implements AuthServiceInterface {
       throw Boom.badRequest('Invalid password')
     }
 
+    // Load building if user is admin
+    let building
+    if (user.role.name === UserRoleType.ADMIN) {
+      building = await this.officeBuildingRepository.findBuildingByAdminId(user.id)
+    }
+
     // Create new JWT token and assign it to user
     const token = jwt.sign({ user: user.id }, config.auth.tokenSecret, { expiresIn: config.auth.tokenExpiration })
     const loggedInUser: UserInfoDTO = {
@@ -42,6 +53,7 @@ class AuthService implements AuthServiceInterface {
       lastName: user.lastName,
       email: user.email,
       role: user.role.name,
+      buildingId: building?.id,
       token
     }
 
@@ -54,12 +66,19 @@ class AuthService implements AuthServiceInterface {
       throw Boom.badRequest('User does not exist')
     }
 
+    // Load building if user is admin
+    let building
+    if (user.role.name === UserRoleType.ADMIN) {
+      building = await this.officeBuildingRepository.findBuildingByAdminId(user.id)
+    }
+
     const currentUser: UserInfoDTO = {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      role: user.role.name
+      role: user.role.name,
+      buildingId: building?.id
     }
 
     return currentUser

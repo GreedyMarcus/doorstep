@@ -43,7 +43,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
 
     // Hash password for building admin
     const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(buildingAdmin.password, salt)
+    const hashedPassword = await bcrypt.hash(admin.password, salt)
 
     // Save office building
     const adminData = { ...admin, password: hashedPassword }

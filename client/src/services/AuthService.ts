@@ -40,7 +40,7 @@ class AuthService {
   }
 
   public static async resetPassword(token: string, password: string): Promise<UserInfo> {
-    const result = await axios.post<UserPasswordReset, UserInfo>('/api/auth/reset-password', { token, password })
+    const result = await axios.post<any, UserInfo>('/api/auth/reset-password', { token, password })
 
     localStorage.setItem(config.app.tokenKeyName, result.token)
     return result

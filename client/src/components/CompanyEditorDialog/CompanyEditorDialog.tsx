@@ -14,7 +14,7 @@ import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
-import { CompanyInfo, RegisterCompanyDetails } from '../../data/types/Company'
+import { CompanyInfo } from '../../data/types/Company'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
@@ -34,7 +34,7 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
   const [t] = useTranslation()
 
   const [name, bindName, resetName] = useInput(company?.name || '', true)
-  const [regNumber, bindRegNumber, resetRegNumber] = useInput(company?.registrationNumber || '', true, REGEXP.COMPANY_REG_NUMBER)
+  const [regNumber, bindRegNumber, resetRegNumber] = useInput(company?.registrationNumber || '', true, REGEXP.REGISTRATION_NUMBER)
   const [country, bindCountry, resetCountry] = useInput(company?.address.split(', ')[0] || '', true)
   const [zipCode, bindZipCode, resetZipCode] = useInput(company?.address.split(', ')[1] || '', true)
   const [city, bindCity, resetCity] = useInput(company?.address.split(', ')[2] || '', true)
@@ -79,15 +79,7 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
       return
     }
 
-    const adminData = {
-      email: email.value,
-      password: password.value,
-      firstName: firstName.value,
-      lastName: lastName.value
-    }
-
-    const companyData: RegisterCompanyDetails = {
-      id: company?.id,
+    const companyData = {
       name: name.value,
       registrationNumber: regNumber.value,
       address: {
@@ -95,14 +87,23 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
         zipCode: zipCode.value,
         city: city.value,
         streetAddress: streetAddress.value
-      },
-      admin: isEditing && !adminEditingChecked ? undefined : adminData
+      }
+    }
+
+    const adminData = {
+      email: email.value,
+      password: password.value,
+      firstName: firstName.value,
+      lastName: lastName.value
     }
 
     if (!isEditing) {
-      dispatch(registerCompany(companyData))
+      dispatch(registerCompany({ ...companyData, admin: adminData }))
     } else {
-      dispatch(editCompany(companyData))
+      const companyId = company?.id || 0
+      const admin = adminEditingChecked ? adminData : undefined
+
+      dispatch(editCompany({ ...companyData, id: companyId || 0, admin }))
     }
 
     clearInputs()
@@ -139,7 +140,13 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
             <TextField {...bindCity} id="company-city" label={t('general.city')} variant="outlined" fullWidth />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <TextField {...bindStreetAddress} id="company-street-address" label={t('general.streetAddress')} variant="outlined" fullWidth />
+            <TextField
+              {...bindStreetAddress}
+              id="company-street-address"
+              label={t('general.streetAddress')}
+              variant="outlined"
+              fullWidth
+            />
           </Grid>
         </Grid>
 

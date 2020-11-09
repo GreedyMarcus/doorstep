@@ -28,7 +28,11 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
       .getOne()
   }
 
-  public async createBuilding(address: Partial<Address>, admin: Partial<User>): Promise<OfficeBuilding> {
+  public findBuildingByAdminId(adminId: number): Promise<OfficeBuilding> {
+    return getRepository(OfficeBuilding).createQueryBuilder('building').where('building.admin = :adminId', { adminId }).getOne()
+  }
+
+  public async createBuilding(admin: Partial<User>, address: Partial<Address>): Promise<OfficeBuilding> {
     // Check if address already exists
     let buildingAddress = await getRepository(Address)
       .createQueryBuilder('address')

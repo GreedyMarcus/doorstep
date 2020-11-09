@@ -3,45 +3,47 @@ import AuthService from '../../services/AuthService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch } from '..'
 import { setLoading, addNotification } from '../action'
-import { UserLoginResult, RegisterUserDetails } from '../../data/types/User'
+import { UserInfo, UserLogin } from '../../data/types/User'
+import { OfficeBuildingRegister } from '../../data/types/OfficeBuilding'
+import OfficeBuildingService from '../../services/OfficeBuildingService'
 
-type SliceState = {
-  currentUser: UserLoginResult | null
-  token: string | null
+type UserSliceState = {
+  activeUser: UserInfo | null
+  activeUserToken: string | null
 }
 
-const initialState: SliceState = {
-  currentUser: null,
-  token: AuthService.getToken()
+const initialState: UserSliceState = {
+  activeUser: null,
+  activeUserToken: AuthService.getUserToken()
 }
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    userLoginSucceed: (state, { payload }: PayloadAction<UserLoginResult>) => {
-      state.currentUser = payload
-      state.token = payload.token
+    userLoginSucceed: (state, { payload }: PayloadAction<UserInfo>) => {
+      state.activeUser = payload
+      state.activeUserToken = payload.token
     },
     userLogoutSucceed: state => {
-      state.currentUser = null
-      state.token = null
+      state.activeUser = null
+      state.activeUserToken = null
     }
   }
 })
 
+export const { reducer } = userSlice
 const { userLoginSucceed, userLogoutSucceed } = userSlice.actions
 
-export const { reducer } = userSlice
-
-export const loginUser = (email: string, password: string) => async (dispatch: AppDispatch) => {
+export const loginUser = (data: UserLogin) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
   try {
-    const user = await AuthService.loginUser(email, password)
+    const user = await AuthService.loginUser(data)
+
     dispatch(userLoginSucceed(user))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.loginSuccess') }))
-  } catch (error) {
+  } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.loginFailure') }))
   }
 
@@ -54,17 +56,14 @@ export const logoutUser = () => (dispatch: AppDispatch) => {
   dispatch(addNotification({ type: 'success', message: i18n.t('notification.logoutSuccess') }))
 }
 
-export const registerUser = (userDetails: RegisterUserDetails) => async (dispatch: AppDispatch) => {
+export const registerAccount = (data: OfficeBuildingRegister) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
   try {
-    const isBuildingCreated = await AuthService.registerBuilding(userDetails)
-    if (isBuildingCreated) {
-      dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerSuccess') }))
-    } else {
-      dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerFailure') }))
-    }
-  } catch (error) {
+    await OfficeBuildingService.registerBuilding(data)
+
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerSuccess') }))
+  } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerFailure') }))
   }
 
@@ -77,7 +76,7 @@ export const loadCurrentUser = (token: string) => async (dispatch: AppDispatch) 
   try {
     const user = await AuthService.getCurrentUser()
     dispatch(userLoginSucceed({ ...user, token }))
-  } catch (error) {
+  } catch (err) {
     AuthService.logoutUser()
     dispatch(userLogoutSucceed())
   }
@@ -89,13 +88,10 @@ export const sendForgotPassword = (email: string) => async (dispatch: AppDispatc
   dispatch(setLoading(true))
 
   try {
-    const emailSent = await AuthService.sendForgotPassword(email)
-    if (!emailSent) {
-      dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordForgetFailure') }))
-      return
-    }
+    await AuthService.sendForgotPassword(email)
+
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordForgetSuccess') }))
-  } catch (error) {
+  } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordForgetFailure') }))
   }
 
@@ -106,14 +102,11 @@ export const resetUserPassword = (token: string, email: string) => async (dispat
   dispatch(setLoading(true))
 
   try {
-    const authenticatedUser = await AuthService.resetPassword(token, email)
-    if (!authenticatedUser) {
-      dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordResetFailure') }))
-      return
-    }
-    dispatch(userLoginSucceed(authenticatedUser))
+    const user = await AuthService.resetPassword(token, email)
+
+    dispatch(userLoginSucceed(user))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordResetSuccess') }))
-  } catch (error) {
+  } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordResetFailure') }))
   }
 

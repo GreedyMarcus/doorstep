@@ -18,7 +18,7 @@ import REGEXP from '../../utils/regexp'
 import { Link as RouteLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
-import { registerUser } from '../../store/user'
+import { registerAccount } from '../../store/user'
 import { addNotification } from '../../store/action'
 
 const Register: React.FC = () => {
@@ -82,18 +82,22 @@ const Register: React.FC = () => {
     event.preventDefault()
 
     if (isFormFinished) {
-      dispatch(
-        registerUser({
+      const account = {
+        admin: {
           email: email.value,
           password: password.value,
           firstName: firstName.value,
-          lastName: lastName.value,
+          lastName: lastName.value
+        },
+        address: {
           country: country.value,
           zipCode: zipCode.value,
           city: city.value,
           streetAddress: streetAddress.value
-        })
-      )
+        }
+      }
+
+      dispatch(registerAccount(account))
       clearInputs()
       history.push('/login')
     }

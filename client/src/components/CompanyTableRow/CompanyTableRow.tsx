@@ -30,10 +30,12 @@ const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
   const companyNameText = `${t('company.name')}: ${company.name}`
   const companyRegistrationNumberText = `${t('company.registrationNumber')}: ${company.registrationNumber}`
   const companyAddressText = `${t('company.address')}: ${company.address}`
-  const companyJoiningDateText = `${t('company.joiningDate')}: ${new Date(company.joiningDate).toLocaleDateString(i18n.language)}`
+  const companyJoiningDateText = `${t('company.joiningDate')}: ${new Date(company.createdAt).toLocaleDateString(i18n.language)}`
   const companyAdminNameText = `${t('company.adminName')}: ${company.adminName}`
   const companyAdminEmailText = `${t('company.adminEmail')}: ${company.adminEmail}`
-  const companyAdminJoiningDateText = `${t('company.joiningDate')}: ${new Date(company.adminJoiningDate).toLocaleDateString(i18n.language)}`
+  const companyAdminJoiningDateText = `${t('company.joiningDate')}: ${new Date(company.adminJoinedAt).toLocaleDateString(
+    i18n.language
+  )}`
 
   return (
     <React.Fragment>
@@ -55,7 +57,7 @@ const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
               {company.adminName}
             </TableCell>
             <TableCell className={classes.tableCell} onClick={handleExpand}>
-              {new Date(company.joiningDate).toLocaleDateString(i18n.language)}
+              {new Date(company.createdAt).toLocaleDateString(i18n.language)}
             </TableCell>
           </React.Fragment>
         )}
