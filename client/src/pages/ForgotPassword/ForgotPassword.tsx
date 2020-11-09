@@ -22,7 +22,7 @@ const ForgotPassword: React.FC = () => {
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
-  const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
+  const [email, bindEmail] = useInput('', true, REGEXP.EMAIL)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,8 +32,7 @@ const ForgotPassword: React.FC = () => {
       return
     }
 
-    dispatch(sendForgotPassword(email.value))
-    resetEmail()
+    await dispatch(sendForgotPassword(email.value))
     history.push('/login')
   }
 

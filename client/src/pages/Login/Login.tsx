@@ -22,13 +22,8 @@ const Login: React.FC = () => {
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
-  const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
-  const [password, bindPassword, resetPassword] = useInput('', true)
-
-  const clearInputs = () => {
-    resetEmail()
-    resetPassword()
-  }
+  const [email, bindEmail] = useInput('', true, REGEXP.EMAIL)
+  const [password, bindPassword] = useInput('', true)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -40,7 +35,6 @@ const Login: React.FC = () => {
     }
 
     dispatch(loginUser({ email: email.value, password: password.value }))
-    clearInputs()
     history.push('/')
   }
 
