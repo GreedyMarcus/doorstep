@@ -1,16 +1,9 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  OneToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { VisitPurpose } from '../data/enums/VisitPurpose'
 import ConsentFormVersion from './ConsentFormVersion'
 import Guest from './Guest'
 import User from './User'
+import Company from './Company'
 
 @Entity('visits')
 class Visit {
@@ -32,6 +25,10 @@ class Visit {
 
   @Column({ type: 'timestamp', nullable: true })
   expiration: Date
+
+  @ManyToOne(() => Company, company => company.consentForms, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'company_id' })
+  company: Company
 
   @ManyToMany(() => Guest, guest => guest.visits, {
     nullable: false,

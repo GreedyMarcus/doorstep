@@ -3,21 +3,21 @@ import Boom from '@hapi/boom'
 import TYPES from '../../config/types'
 import CompanyServiceInterface from './CompanyServiceInterface'
 import { inject, injectable } from 'inversify'
-import { UserRepositoryInterface } from '../../repositories/user'
 import { CompanyRepositoryInterface } from '../../repositories/company'
-import { CompanyUpdateDTO, CompanyInfoDTO } from '../../data/dtos/CompanyDTO'
+import { VisitRepositoryInterface } from '../../repositories/visit'
+import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO } from '../../data/dtos/CompanyDTO'
 
 @injectable()
 class CompanyService implements CompanyServiceInterface {
-  private readonly userRepository: UserRepositoryInterface
   private readonly companyRepository: CompanyRepositoryInterface
+  private readonly visitRepository: VisitRepositoryInterface
 
   constructor(
-    @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface,
-    @inject(TYPES.CompanyRepository) companyRepository: CompanyRepositoryInterface
+    @inject(TYPES.CompanyRepository) companyRepository: CompanyRepositoryInterface,
+    @inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface
   ) {
-    this.userRepository = userRepository
     this.companyRepository = companyRepository
+    this.visitRepository = visitRepository
   }
 
   public updateCompany = async (companyId: number, data: CompanyUpdateDTO): Promise<CompanyInfoDTO> => {
@@ -57,6 +57,24 @@ class CompanyService implements CompanyServiceInterface {
     }
 
     return updatedCompanyInfo
+  }
+
+  public getVisits = async (companyId: number): Promise<CompanyVisitInfoDTO[]> => {
+    const company = await this.companyRepository.findCompanyById(companyId)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    const visits = await this.visitRepository.findVisitsByCompanyId(companyId)
+    const visitsInfo: CompanyVisitInfoDTO[] = visits.map(({ id, businessHost, purpose, room, plannedEntry }) => ({
+      id,
+      businessHostName: `${businessHost.firstName} ${businessHost.lastName}`,
+      purpose,
+      room,
+      plannedEntry
+    }))
+
+    return visitsInfo
   }
 }
 

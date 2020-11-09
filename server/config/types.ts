@@ -8,7 +8,8 @@ const TYPES = {
   UserRepository: Symbol.for('UserRepository'),
   OfficeBuildingRepository: Symbol.for('OfficeBuildingRepository'),
   CompanyRepository: Symbol.for('CompanyRepository'),
-  ConsentFormRepository: Symbol.for('ConsentFormRepository')
+  ConsentFormRepository: Symbol.for('ConsentFormRepository'),
+  VisitRepository: Symbol.for('VisitRepository')
 }
 
 export default TYPES

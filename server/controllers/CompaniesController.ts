@@ -20,6 +20,16 @@ class CompaniesController {
       return next(err)
     }
   }
+
+  public getVisits = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const visits = await this.companyService.getVisits(companyId)
+      res.json(visits)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default CompaniesController

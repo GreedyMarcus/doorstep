@@ -18,4 +18,11 @@ companiesRouter.put(
   companiesController.updateCompany
 )
 
+companiesRouter.get(
+  '/:companyId/visits',
+  checkValidToken,
+  hasPermission([UserPermissionType.READ_VISITS]),
+  companiesController.getVisits
+)
+
 export default companiesRouter
