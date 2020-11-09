@@ -43,7 +43,7 @@ class UserRepository extends Repository<User> implements UserRepositoryInterface
       .where('user.id = :userId', { userId })
       .getOne()
 
-    return role?.permissions.map(perm => perm.name)
+    return role?.permissions.map(permission => permission.name)
   }
 }
 

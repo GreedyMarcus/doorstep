@@ -9,7 +9,7 @@ export default (permissions: UserPermissionType[]) => async (req: Request, res: 
   const userRepository = container.get<UserRepositoryInterface>(TYPES.UserRepository)
   const userPermissions = await userRepository.getPermissionsForUser(res.locals.userId)
 
-  if (!userPermissions || !permissions.every(perm => userPermissions.includes(perm))) {
+  if (!userPermissions || !permissions.every(permission => userPermissions.includes(permission))) {
     return next(Boom.forbidden())
   }
   next()

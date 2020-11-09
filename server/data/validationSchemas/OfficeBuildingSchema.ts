@@ -1,8 +1,8 @@
 import Joi from 'joi'
-import { UserInfoSchema } from './UserSchema'
-import { LongAddressSchema } from './AddressSchema'
+import { UserRegisterSchema } from './UserSchema'
+import { AddressSchema } from './AddressSchema'
 
-export const OfficeBuildingRegistrationSchema = Joi.object({
-  buildingAdmin: UserInfoSchema,
-  buildingAddress: LongAddressSchema
+export const OfficeBuildingRegisterSchema = Joi.object({
+  admin: UserRegisterSchema,
+  address: AddressSchema
 })

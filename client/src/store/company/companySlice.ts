@@ -1,15 +1,16 @@
 import i18n from '../../plugins/i18n'
 import CompanyService from '../../services/CompanyService'
+import OfficeBuildingService from '../../services/OfficeBuildingService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AppDispatch } from '..'
+import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { CompanyInfo, RegisterCompanyDetails } from '../../data/types/Company'
+import { CompanyInfo, CompanyRegister, CompanyUpdate } from '../../data/types/Company'
 
-type SliceState = {
+type CompanySliceState = {
   companies: CompanyInfo[]
 }
 
-const initialState: SliceState = {
+const initialState: CompanySliceState = {
   companies: []
 }
 
@@ -30,45 +31,53 @@ const companySlice = createSlice({
   }
 })
 
+export const { reducer } = companySlice
 const { companiesFetched, companyRegistered, companyUpdated } = companySlice.actions
 
-export const { reducer } = companySlice
+export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
 
-export const fetchCompanies = () => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
   try {
-    const companies = await CompanyService.fetchCompanies()
+    const buildingId = user.activeUser?.buildingId ?? 0
+    const companies = await OfficeBuildingService.getCompaniesInBuilding(buildingId)
+
     dispatch(companiesFetched(companies))
-  } catch (error) {
+  } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompaniesFailure') }))
   }
 
   dispatch(setLoading(false))
 }
 
-export const registerCompany = (company: RegisterCompanyDetails) => async (dispatch: AppDispatch) => {
+export const registerCompany = (company: CompanyRegister) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
   dispatch(setLoading(true))
 
   try {
-    const registeredCompany = await CompanyService.registerCompany(company)
+    const buildingId = user.activeUser?.buildingId ?? 0
+    const registeredCompany = await OfficeBuildingService.registerCompanyInBuilding(buildingId, company)
+
     dispatch(companyRegistered(registeredCompany))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerCompanySuccess') }))
-  } catch (error) {
+  } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerCompanyFailure') }))
   }
 
   dispatch(setLoading(false))
 }
 
-export const editCompany = (company: RegisterCompanyDetails) => async (dispatch: AppDispatch) => {
+export const editCompany = (company: CompanyUpdate) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
   try {
-    const updatedCompany = await CompanyService.updateCompany(company)
+    const updatedCompany = await CompanyService.updateCompany(company.id, company)
+
     dispatch(companyUpdated(updatedCompany))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanySuccess') }))
-  } catch (error) {
+  } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyFailure') }))
   }
 

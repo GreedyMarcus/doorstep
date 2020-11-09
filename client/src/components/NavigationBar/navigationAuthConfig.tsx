@@ -61,8 +61,12 @@ export const navigationAuthConfig = {
       { id: 'COMPANY-ADMIN-ACTION-1', title: i18n.t('action.addBusinessHost'), icon: <PersonAddRoundedIcon /> },
       { id: 'COMPANY-ADMIN-ACTION-2', title: i18n.t('action.addConsentForm'), icon: <PostAddRoundedIcon /> }
     ],
-    [UserRole.BUSINESS_HOST]: [{ id: 'BUSINESS-HOST-ACTION-1', title: i18n.t('action.addVisit'), icon: <InsertInvitationRoundedIcon /> }],
-    [UserRole.RECEPTIONIST]: [{ id: 'RECEPTIONIST-ACTION-1', title: i18n.t('action.addVisit'), icon: <InsertInvitationRoundedIcon /> }],
+    [UserRole.BUSINESS_HOST]: [
+      { id: 'BUSINESS-HOST-ACTION-1', title: i18n.t('action.addVisit'), icon: <InsertInvitationRoundedIcon /> }
+    ],
+    [UserRole.RECEPTIONIST]: [
+      { id: 'RECEPTIONIST-ACTION-1', title: i18n.t('action.addVisit'), icon: <InsertInvitationRoundedIcon /> }
+    ],
     [UserRole.GUEST]: []
   }
 } as NavigationAuthConfig

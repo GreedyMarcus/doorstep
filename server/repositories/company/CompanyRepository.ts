@@ -5,8 +5,8 @@ import UserRole from '../../models/UserRole'
 import OfficeBuilding from '../../models/OfficeBuilding'
 import CompanyRegisterConfig from '../../models/CompanyRegisterConfig'
 import CompanyRepositoryInterface from './CompanyRepositoryInterface'
-import { EntityRepository, getManager, getRepository, Repository } from 'typeorm'
 import { injectable } from 'inversify'
+import { EntityRepository, getManager, getRepository, Repository } from 'typeorm'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 
 @injectable()
@@ -21,27 +21,48 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
       .getOne()
   }
 
-  public findCompaniesByBuildingAdminId(adminId: number): Promise<Company[]> {
+  public findCompaniesByBuildingId(buildingId: number): Promise<Company[]> {
     return getRepository(Company)
       .createQueryBuilder('company')
       .leftJoinAndSelect('company.address', 'address')
       .leftJoinAndSelect('company.admin', 'admin')
-      .leftJoinAndSelect(OfficeBuilding, 'building', 'building.id = company.officeBuilding')
-      .leftJoinAndSelect(User, 'user', 'user.id = building.admin')
-      .where('user.id = :adminId', { adminId })
+      .where('company.officeBuilding = :buildingId', { buildingId })
       .getMany()
   }
 
-  public createCompany(company: Partial<Company>, address: Partial<Address>, admin: Partial<User>, createdBy: number): Promise<Company> {
-    return getManager().transaction(async transactionEntityManager => {
-      // Check if address exists
-      let companyAddress = await transactionEntityManager.getRepository(Address).findOne({
-        country: address.country,
-        zipCode: address.zipCode,
-        city: address.city,
-        streetAddress: address.streetAddress
-      })
+  public async createCompany(
+    buildingId: number,
+    company: Partial<Company>,
+    address: Partial<Address>,
+    admin: Partial<User>
+  ): Promise<Company> {
+    // Check if address already exists
+    let companyAddress = await getRepository(Address)
+      .createQueryBuilder('address')
+      .where('address.country = :country', { country: address.country })
+      .andWhere('address.zipCode = :zipCode', { zipCode: address.zipCode })
+      .andWhere('address.city = :city', { city: address.city })
+      .andWhere('address.streetAddress = :streetAddress', { streetAddress: address.streetAddress })
+      .getOne()
 
+    // Get company admin role for user
+    const companyAdminRole = await getRepository(UserRole)
+      .createQueryBuilder('role')
+      .where('role.name = :roleName', { roleName: UserRoleType.ADMIN })
+      .getOne()
+
+    // Force rollback if role does not exist
+    if (!companyAdminRole) throw Error
+
+    const companyBuilding = await getRepository(OfficeBuilding)
+      .createQueryBuilder('building')
+      .where('building.id = :buildingId', { buildingId })
+      .getOne()
+
+    // Force rollback if building does not exist
+    if (!companyBuilding) throw Error
+
+    return getManager().transaction(async transactionEntityManager => {
       // If address not exists create one for the building
       if (!companyAddress) {
         const newAddress = new Address()
@@ -54,9 +75,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
       }
 
       // Save company admin
-      const companyAdminRole = await transactionEntityManager.getRepository(UserRole).findOne({ name: UserRoleType.COMPANY_ADMIN })
-      if (!companyAdminRole) throw Error // Force the transaction rollback
-
       const newCompanyAdminUser = new User()
       newCompanyAdminUser.email = admin.email
       newCompanyAdminUser.password = admin.password
@@ -66,24 +84,22 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
 
       const companyAdmin = await transactionEntityManager.getRepository(User).save(newCompanyAdminUser)
 
-      // Save company register configs
+      // Save company register config
       const newCompanyRegisterConfig = new CompanyRegisterConfig()
       const registerConfig = await transactionEntityManager.getRepository(CompanyRegisterConfig).save(newCompanyRegisterConfig)
 
-      // Get building by building admin id
-      const building = await transactionEntityManager.getRepository(OfficeBuilding).findOne({ where: { admin: { id: createdBy } } })
-
-      // Save company with new company admin
+      // Save office building with new admin
       const newCompany = new Company()
       newCompany.name = company.name
       newCompany.registrationNumber = company.registrationNumber
       newCompany.address = companyAddress
       newCompany.admin = companyAdmin
       newCompany.registerConfig = registerConfig
-      newCompany.officeBuilding = building
+      newCompany.officeBuilding = companyBuilding
 
-      // Save company for user
       const createdCompany = await transactionEntityManager.getRepository(Company).save(newCompany)
+
+      // Save company for admin
       companyAdmin.company = createdCompany
       await transactionEntityManager.getRepository(User).save(companyAdmin)
 
@@ -92,19 +108,31 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
   }
 
   public async updateCompany(company: Partial<Company>, address: Partial<Address>, admin?: Partial<User>): Promise<Company> {
-    // First we find our company
     const companyToUpdate = await this.findCompanyById(company.id)
 
-    return getManager().transaction(async transactionEntityManager => {
-      // Check if address exists
-      let companyAddress = await transactionEntityManager.getRepository(Address).findOne({
-        country: address.country,
-        zipCode: address.zipCode,
-        city: address.city,
-        streetAddress: address.streetAddress
-      })
+    // Check if address already exists
+    let companyAddress = await getRepository(Address)
+      .createQueryBuilder('address')
+      .where('address.country = :country', { country: address.country })
+      .andWhere('address.zipCode = :zipCode', { zipCode: address.zipCode })
+      .andWhere('address.city = :city', { city: address.city })
+      .andWhere('address.streetAddress = :streetAddress', { streetAddress: address.streetAddress })
+      .getOne()
 
-      // If address not exists create one for the building
+    // If company admin changed get role data
+    let companyAdminRole: UserRole
+    if (admin) {
+      companyAdminRole = await getRepository(UserRole)
+        .createQueryBuilder('role')
+        .where('role.name = :roleName', { roleName: UserRoleType.ADMIN })
+        .getOne()
+
+      // Force rollback if role does not exist
+      if (!companyAdminRole) throw Error
+    }
+
+    return getManager().transaction(async transactionEntityManager => {
+      // If address not exists create one for the company
       if (!companyAddress) {
         const newAddress = new Address()
         newAddress.country = address.country
@@ -122,16 +150,12 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
         await transactionEntityManager.getRepository(User).softDelete(companyToUpdate.admin.id)
 
         // Save new company admin
-        const companyAdminRole = await transactionEntityManager.getRepository(UserRole).findOne({ name: UserRoleType.COMPANY_ADMIN })
-        if (!companyAdminRole) throw Error // Force the transaction rollback
-
         const newCompanyAdminUser = new User()
         newCompanyAdminUser.email = admin.email
         newCompanyAdminUser.password = admin.password
         newCompanyAdminUser.firstName = admin.firstName
         newCompanyAdminUser.lastName = admin.lastName
         newCompanyAdminUser.role = companyAdminRole
-
         companyAdmin = await transactionEntityManager.getRepository(User).save(newCompanyAdminUser)
       }
 

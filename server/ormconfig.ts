@@ -1,7 +1,7 @@
 import config from './config'
 import { ConnectionOptions } from 'typeorm'
+import { isDevelopment } from './utils'
 
-const isProd = config.server.env === 'production'
 const entitiesDir = 'server/models'
 const migrationsDir = 'server/migrations'
 
@@ -10,8 +10,8 @@ const ormconfig: ConnectionOptions = {
   url: config.database.url,
   synchronize: false,
   logging: config.database.logging,
-  entities: [isProd ? `build/${entitiesDir}/**/*.js` : `${entitiesDir}/**/*.ts`],
-  migrations: [isProd ? `build/${migrationsDir}/**/*.js` : `${migrationsDir}/**/*.ts`],
+  entities: [isDevelopment() ? `${entitiesDir}/**/*.ts` : `build/${entitiesDir}/**/*.js`],
+  migrations: [isDevelopment() ? `${migrationsDir}/**/*.ts` : `build/${migrationsDir}/**/*.js`],
   subscribers: [],
   cli: {
     entitiesDir,

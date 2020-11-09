@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express'
 import Joi from 'joi'
 import Boom from '@hapi/boom'
+import { Request, Response, NextFunction } from 'express'
 
 export default (validationSchema: Joi.ObjectSchema) => (req: Request, res: Response, next: NextFunction) => {
   const validationResult = validationSchema.validate(req.body)

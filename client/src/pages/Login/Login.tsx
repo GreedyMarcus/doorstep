@@ -22,13 +22,8 @@ const Login: React.FC = () => {
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
-  const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
-  const [password, bindPassword, resetPassword] = useInput('', true)
-
-  const clearInputs = () => {
-    resetEmail()
-    resetPassword()
-  }
+  const [email, bindEmail] = useInput('', true, REGEXP.EMAIL)
+  const [password, bindPassword] = useInput('', true)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -39,8 +34,7 @@ const Login: React.FC = () => {
       return
     }
 
-    dispatch(loginUser(email.value, password.value))
-    clearInputs()
+    dispatch(loginUser({ email: email.value, password: password.value }))
     history.push('/')
   }
 
@@ -58,10 +52,24 @@ const Login: React.FC = () => {
         <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <TextField {...bindEmail} id="login-email" label={t('auth.email')} autoComplete="email" variant="outlined" fullWidth />
+              <TextField
+                {...bindEmail}
+                id="login-email"
+                label={t('auth.email')}
+                autoComplete="email"
+                variant="outlined"
+                fullWidth
+              />
             </Grid>
             <Grid item xs={12}>
-              <TextField {...bindPassword} id="login-password" label={t('auth.password')} type="password" variant="outlined" fullWidth />
+              <TextField
+                {...bindPassword}
+                id="login-password"
+                label={t('auth.password')}
+                type="password"
+                variant="outlined"
+                fullWidth
+              />
             </Grid>
             <Grid item xs={12} className={classes.forgotPasswordLink}>
               <Grid container justify="flex-end">

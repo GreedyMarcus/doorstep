@@ -2,12 +2,13 @@ const TYPES = {
   Controller: Symbol.for('Controller'),
   AuthService: Symbol.for('AuthService'),
   EmailService: Symbol.for('EmailService'),
+  OfficeBuildingService: Symbol.for('OfficeBuildingService'),
   CompanyService: Symbol.for('CompanyService'),
-  CompanyRepository: Symbol.for('CompanyRepository'),
   ConsentFormService: Symbol.for('ConsentFormService'),
-  ConsentFormRepository: Symbol.for('ConsentFormRepository'),
+  UserRepository: Symbol.for('UserRepository'),
   OfficeBuildingRepository: Symbol.for('OfficeBuildingRepository'),
-  UserRepository: Symbol.for('UserRepository')
+  CompanyRepository: Symbol.for('CompanyRepository'),
+  ConsentFormRepository: Symbol.for('ConsentFormRepository')
 }
 
 export default TYPES

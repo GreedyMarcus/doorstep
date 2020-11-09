@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
+import { isDevelopment } from '../utils'
 import { reducer as userReducer } from './user'
 import { reducer as companyReducer } from './company'
 import { reducer as consentFormReducer } from './consentForm'
@@ -13,7 +14,7 @@ const store = configureStore({
     action: actionReducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware(),
-  devTools: process.env.NODE_ENV === 'development'
+  devTools: isDevelopment()
 })
 
 export type AppDispatch = typeof store.dispatch

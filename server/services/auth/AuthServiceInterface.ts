@@ -1,12 +1,10 @@
-import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
-import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
+import { UserLoginDTO, UserInfoDTO } from '../../data/dtos/UserDTO'
 
 interface AuthServiceInterface {
-  loginUser(loginCredentials: UserLoginDTO): Promise<UserLoginResultDTO>
-  registerOfficeBuilding(registration: OfficeBuildingRegistrationDTO): Promise<void>
-  getCurrentUser(userId: number): Promise<UserLoginResultDTO>
+  loginUser(data: UserLoginDTO): Promise<UserInfoDTO>
+  getCurrentUser(userId: number): Promise<UserInfoDTO>
   forgotUserPassword(email: string, language: string): Promise<void>
-  resetUserPassword(token: string, password: string): Promise<UserLoginResultDTO>
+  resetUserPassword(token: string, password: string): Promise<UserInfoDTO>
 }
 
 export default AuthServiceInterface

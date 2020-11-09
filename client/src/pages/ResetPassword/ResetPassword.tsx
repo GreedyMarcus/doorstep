@@ -21,7 +21,7 @@ const ResetPassword: React.FC<RouteComponentProps> = ({ match: { params: routePa
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
-  const [password, bindPassword, resetPassword] = useInput('', true, REGEXP.PASSWORD)
+  const [password, bindPassword] = useInput('', true, REGEXP.PASSWORD)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,7 +32,6 @@ const ResetPassword: React.FC<RouteComponentProps> = ({ match: { params: routePa
     }
 
     dispatch(resetUserPassword(routeParams['token'], password.value))
-    resetPassword()
   }
 
   return (

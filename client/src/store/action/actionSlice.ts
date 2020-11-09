@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Notification } from '../../data/types/General'
 
-type SliceState = {
+type ActionSliceState = {
   isLoading: boolean
   notification: Notification | null
 }
 
-const initialState: SliceState = {
+const initialState: ActionSliceState = {
   isLoading: false,
   notification: null
 }

@@ -18,7 +18,7 @@ import REGEXP from '../../utils/regexp'
 import { Link as RouteLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
-import { registerUser } from '../../store/user'
+import { registerAccount } from '../../store/user'
 import { addNotification } from '../../store/action'
 
 const Register: React.FC = () => {
@@ -27,29 +27,18 @@ const Register: React.FC = () => {
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
-  const [email, bindEmail, resetEmail] = useInput('', true, REGEXP.EMAIL)
-  const [password, bindPassword, resetPassword] = useInput('', true, REGEXP.PASSWORD)
-  const [firstName, bindFirstName, resetFirstName] = useInput('', true)
-  const [lastName, bindLastName, resetLastName] = useInput('', true)
-  const [country, bindCountry, resetCountry] = useInput('', true)
-  const [zipCode, bindZipCode, resetZipCode] = useInput('', true)
-  const [city, bindCity, resetCity] = useInput('', true)
-  const [streetAddress, bindStreetAddress, resetStreetAddress] = useInput('', true)
+  const [email, bindEmail] = useInput('', true, REGEXP.EMAIL)
+  const [password, bindPassword] = useInput('', true, REGEXP.PASSWORD)
+  const [firstName, bindFirstName] = useInput('', true)
+  const [lastName, bindLastName] = useInput('', true)
+  const [country, bindCountry] = useInput('', true)
+  const [zipCode, bindZipCode] = useInput('', true)
+  const [city, bindCity] = useInput('', true)
+  const [streetAddress, bindStreetAddress] = useInput('', true)
   const [activeStep, setActiveStep] = useState(0)
 
   const steps = ['auth.registerAdminDetails', 'auth.registerBuildingDetails', 'auth.registerReview']
   const isFormFinished = activeStep === steps.length - 1
-
-  const clearInputs = () => {
-    resetEmail()
-    resetPassword()
-    resetFirstName()
-    resetLastName()
-    resetCountry()
-    resetZipCode()
-    resetCity()
-    resetStreetAddress()
-  }
 
   const validateAdminData = (): boolean => {
     const isDataValid = [email, password, firstName, lastName].every(param => param.isValid)
@@ -82,19 +71,22 @@ const Register: React.FC = () => {
     event.preventDefault()
 
     if (isFormFinished) {
-      dispatch(
-        registerUser({
+      const account = {
+        admin: {
           email: email.value,
           password: password.value,
           firstName: firstName.value,
-          lastName: lastName.value,
+          lastName: lastName.value
+        },
+        address: {
           country: country.value,
           zipCode: zipCode.value,
           city: city.value,
           streetAddress: streetAddress.value
-        })
-      )
-      clearInputs()
+        }
+      }
+
+      await dispatch(registerAccount(account))
       history.push('/login')
     }
   }

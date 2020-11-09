@@ -14,11 +14,13 @@ class EmailService implements EmailServiceInterface {
   }
 
   public sendPasswordResetLink = async (email: string, token: string, language: string): Promise<void> => {
-    const emailTemplatePath = path.resolve(__dirname.replace('/build', ''), '../..', `templates/email/password-reset-${language}.ejs`)
+    const relativeTemplatePath = `templates/email/password-reset-${language}.ejs`
+    const absoluteTemplatePath = path.resolve(__dirname.replace('/build', ''), '../..', relativeTemplatePath)
+
     const resetPasswordLink = `${config.server.baseUrl}/reset-password/${token}`
 
     try {
-      const renderedHtml = await ejs.renderFile(emailTemplatePath, { resetPasswordLink }, { async: true })
+      const renderedHtml = await ejs.renderFile(absoluteTemplatePath, { resetPasswordLink }, { async: true })
 
       const message = {
         from: config.email.noreplyEmail,

@@ -9,8 +9,8 @@ import { inject, injectable } from 'inversify'
 import { EmailServiceInterface } from '../email'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/officeBuilding'
-import { OfficeBuildingRegistrationDTO } from '../../data/dtos/OfficeBuildingDTO'
-import { UserLoginDTO, UserLoginResultDTO } from '../../data/dtos/UserDTO'
+import { UserRoleType } from '../../data/enums/UserRoleType'
+import { UserLoginDTO, UserInfoDTO } from '../../data/dtos/UserDTO'
 
 @injectable()
 class AuthService implements AuthServiceInterface {
@@ -28,7 +28,7 @@ class AuthService implements AuthServiceInterface {
     this.officeBuildingRepository = officeBuildingRepository
   }
 
-  public loginUser = async ({ email, password }: UserLoginDTO): Promise<UserLoginResultDTO> => {
+  public loginUser = async ({ email, password }: UserLoginDTO): Promise<UserInfoDTO> => {
     const user = await this.userRepository.findUserByEmail(email)
     if (!user) {
       throw Boom.badRequest('User does not exist')
@@ -39,56 +39,48 @@ class AuthService implements AuthServiceInterface {
       throw Boom.badRequest('Invalid password')
     }
 
-    // Create jwt token and assign it to user
+    // Load building if user is admin
+    let building
+    if (user.role.name === UserRoleType.ADMIN) {
+      building = await this.officeBuildingRepository.findBuildingByAdminId(user.id)
+    }
+
+    // Create new JWT token and assign it to user
     const token = jwt.sign({ user: user.id }, config.auth.tokenSecret, { expiresIn: config.auth.tokenExpiration })
-    const authenticatedUser: UserLoginResultDTO = {
+    const loggedInUser: UserInfoDTO = {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       role: user.role.name,
+      buildingId: building?.id,
       token
     }
 
-    return authenticatedUser
+    return loggedInUser
   }
 
-  public registerOfficeBuilding = async ({ buildingAdmin, buildingAddress }: OfficeBuildingRegistrationDTO): Promise<void> => {
-    const adminExists = await this.userRepository.findUserByEmail(buildingAdmin.email)
-    if (adminExists) {
-      throw Boom.badRequest('Admin already exists')
-    }
-
-    const buildingExistsWithAddress = await this.officeBuildingRepository.findBuildingByAddress(buildingAddress)
-    if (buildingExistsWithAddress) {
-      throw Boom.badRequest('Office building already exists with address')
-    }
-
-    // Hash password
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(buildingAdmin.password, salt)
-
-    // Save office building with admin
-    const adminData = { ...buildingAdmin, password: hashedPassword }
-    const createdBuilding = await this.officeBuildingRepository.createBuilding(buildingAddress, adminData)
-    if (!createdBuilding) {
-      throw Boom.internal('Could not register office building')
-    }
-  }
-
-  public getCurrentUser = async (userId: number): Promise<UserLoginResultDTO> => {
+  public getCurrentUser = async (userId: number): Promise<UserInfoDTO> => {
     const user = await this.userRepository.findUserById(userId)
     if (!user) {
       throw Boom.badRequest('User does not exist')
     }
 
-    const currentUser: UserLoginResultDTO = {
+    // Load building if user is admin
+    let building
+    if (user.role.name === UserRoleType.ADMIN) {
+      building = await this.officeBuildingRepository.findBuildingByAdminId(user.id)
+    }
+
+    const currentUser: UserInfoDTO = {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      role: user.role.name
+      role: user.role.name,
+      buildingId: building?.id
     }
+
     return currentUser
   }
 
@@ -99,15 +91,15 @@ class AuthService implements AuthServiceInterface {
     }
 
     // Generate and save password token
-    const token = uuidv4()
-    user.passwordToken = token
+    const generatedToken = uuidv4()
+    user.passwordToken = generatedToken
     await this.userRepository.saveUser(user)
 
     // Send password reset link to user via email
-    await this.emailService.sendPasswordResetLink(email, token, language)
+    await this.emailService.sendPasswordResetLink(email, generatedToken, language)
   }
 
-  public resetUserPassword = async (token: string, password: string): Promise<UserLoginResultDTO> => {
+  public resetUserPassword = async (token: string, password: string): Promise<UserInfoDTO> => {
     const user = await this.userRepository.findUserByPasswordToken(token)
     if (!user) {
       throw Boom.badRequest('User does not exist')

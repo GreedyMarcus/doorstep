@@ -1,7 +1,6 @@
 import TYPES from '../config/types'
 import { Request, Response, NextFunction } from 'express'
 import { inject, injectable } from 'inversify'
-import { UserLoginResultDTO } from '../data/dtos/UserDTO'
 import { AuthServiceInterface } from '../services/auth'
 
 @injectable()
@@ -13,52 +12,39 @@ class AuthController {
   }
 
   public login = async (req: Request, res: Response, next: NextFunction) => {
-    let user: UserLoginResultDTO
     try {
-      user = await this.authService.loginUser(req.body)
+      const user = await this.authService.loginUser(req.body)
+      res.json(user)
     } catch (err) {
       return next(err)
     }
-    res.json(user)
-  }
-
-  public register = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await this.authService.registerOfficeBuilding(req.body)
-    } catch (err) {
-      return next(err)
-    }
-    res.sendStatus(200)
   }
 
   public whoami = async (req: Request, res: Response, next: NextFunction) => {
-    let user: UserLoginResultDTO
     try {
-      user = await this.authService.getCurrentUser(res.locals.userId)
+      const user = await this.authService.getCurrentUser(res.locals.userId)
+      res.json(user)
     } catch (err) {
       return next(err)
     }
-    res.json(user)
   }
 
   public forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
-    const clientLanguage = (req.headers['client-language'] as string) || 'en'
     try {
-      await this.authService.forgotUserPassword(req.body.email, clientLanguage)
+      await this.authService.forgotUserPassword(req.body.email, res.locals.clientLanguage)
+      res.sendStatus(200)
     } catch (err) {
       return next(err)
     }
-    res.sendStatus(200)
   }
 
   public resetPassword = async (req: Request, res: Response, next: NextFunction) => {
-    let authenticatedUser: UserLoginResultDTO
     try {
-      authenticatedUser = await this.authService.resetUserPassword(req.body.token, req.body.password)
+      const user = await this.authService.resetUserPassword(req.body.token, req.body.password)
+      res.json(user)
     } catch (err) {
       return next(err)
     }
-    res.json(authenticatedUser)
   }
 }
 
