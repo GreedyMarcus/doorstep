@@ -9,38 +9,39 @@ import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
-import { consentFormsSelector, fetchConsentForms } from '../../store/consentForm'
+import { visitsSelector, fetchVisits } from '../../store/visit'
 
 const ConsentForms: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
-  const consentForms = useSelector(consentFormsSelector)
+  const visits = useSelector(visitsSelector)
   const [t, i18n] = useTranslation()
 
   useEffect(() => {
-    dispatch(fetchConsentForms())
+    dispatch(fetchVisits())
   }, [])
 
   return (
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         <Typography className={classes.title} variant="h1">
-          {t('general.consentForms')}
+          {t('general.visits')}
         </Typography>
-        {!consentForms.length ? (
-          <InfoBox text={t('consentForm.noConsentFormsInfo')} />
+        {!visits.length ? (
+          <InfoBox text={t('visit.noVisitInfo')} />
         ) : (
           <ResponsiveTable
-            labels={[t('consentForm.title'), t('consentForm.activeVersion'), t('consentForm.createdDate')]}
-            data={consentForms.map(form => ({
-              id: form.id,
-              title: form.title,
-              activeVersion: form.activeVersion || t('consentForm.noActiveVersion'),
-              createdAt: new Date(form.createdAt).toLocaleDateString(i18n.language)
+            labels={[t('visit.businessHostName'), t('visit.purpose'), t('visit.room'), t('visit.plannedEntry')]}
+            data={visits.map(visit => ({
+              id: visit.id,
+              businessHostName: visit.businessHostName,
+              purpose: visit.purpose,
+              room: visit.room,
+              plannedEntry: new Date(visit.plannedEntry).toLocaleDateString(i18n.language)
             }))}
-            openLabel={t('action.openConsentForm')}
-            onOpenClick={formId => history.push(`/consent-forms/${formId}`)}
+            openLabel={t('action.openVisit')}
+            onOpenClick={visitId => history.push(`/visits/${visitId}`)}
           />
         )}
       </Paper>

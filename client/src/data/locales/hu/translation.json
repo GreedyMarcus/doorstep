@@ -39,6 +39,13 @@
     "openedVersion": "Megnyitott verzió",
     "notFound": "A nyilatkozat nem létezik."
   },
+  "visit": {
+    "businessHostName": "Céges fogadó neve",
+    "purpose": "Látogatás célja",
+    "room": "Szoba",
+    "plannedEntry": "Tervezett belépési dátum",
+    "noVisitInfo": "Még nincsenek beütemezett látogatások."
+  },
   "auth": {
     "email": "Email cím",
     "password": "Jelszó",

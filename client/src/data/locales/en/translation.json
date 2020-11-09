@@ -39,6 +39,13 @@
     "openedVersion": "Opened version",
     "notFound": "Consent form does not exist."
   },
+  "visit": {
+    "businessHostName": "Business host name",
+    "purpose": "Purpose of visit",
+    "room": "Room",
+    "plannedEntry": "Planned entry date",
+    "noVisitInfo": "There are no scheduled visits yet."
+  },
   "auth": {
     "email": "Email address",
     "password": "Password",
