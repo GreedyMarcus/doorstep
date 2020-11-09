@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import Button from '@material-ui/core/Button'
+import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
@@ -210,14 +209,7 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
           />
         )}
       </DialogContent>
-      <DialogActions>
-        <Button color="primary" onClick={handleClose}>
-          {t('general.cancel')}
-        </Button>
-        <Button color="primary" onClick={handleSave}>
-          {t('general.save')}
-        </Button>
-      </DialogActions>
+      <DefaultDialogActions onSave={handleSave} onClose={handleClose} />
     </Dialog>
   )
 }
