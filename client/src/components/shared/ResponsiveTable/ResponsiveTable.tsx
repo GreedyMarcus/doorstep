@@ -29,7 +29,9 @@ const ConsentForms: React.FC<Props> = ({ labels, data, openLabel, onOpenClick })
     (data: any[], className: string) => (
       <React.Fragment>
         {data.map(label => (
-          <TableCell className={className}>{label}</TableCell>
+          <TableCell key={label} className={className}>
+            {label}
+          </TableCell>
         ))}
       </React.Fragment>
     ),

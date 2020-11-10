@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import InfoBox from '../../components/shared/InfoBox'
+import VisitFilter from '../../components/VisitFilter'
 import ResponsiveTable from '../../components/shared/ResponsiveTable'
 import useStyles from './useStyles'
 import { useHistory } from 'react-router-dom'
@@ -15,8 +16,15 @@ const ConsentForms: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
-  const visits = useSelector(visitsSelector)
+  // const visits = useSelector(visitsSelector)
+  const visits = [
+    { id: 1, businessHostName: 'Mark Domahidi', purpose: 'Meeting', room: '312', plannedEntry: new Date() },
+    { id: 2, businessHostName: 'Akos Braun', purpose: 'Meeting', room: '233', plannedEntry: new Date() },
+    { id: 3, businessHostName: 'Michale Jackson', purpose: 'Interview', room: '422', plannedEntry: new Date() }
+  ]
   const [t, i18n] = useTranslation()
+
+  const [filteredVisits, setFilteredVisits] = useState(visits)
 
   useEffect(() => {
     dispatch(fetchVisits())
@@ -31,18 +39,21 @@ const ConsentForms: React.FC = () => {
         {!visits.length ? (
           <InfoBox text={t('visit.noVisitInfo')} />
         ) : (
-          <ResponsiveTable
-            labels={[t('visit.businessHostName'), t('visit.purpose'), t('visit.room'), t('visit.plannedEntry')]}
-            data={visits.map(visit => ({
-              id: visit.id,
-              businessHostName: visit.businessHostName,
-              purpose: visit.purpose,
-              room: visit.room,
-              plannedEntry: new Date(visit.plannedEntry).toLocaleDateString(i18n.language)
-            }))}
-            openLabel={t('action.openVisit')}
-            onOpenClick={visitId => history.push(`/visits/${visitId}`)}
-          />
+          <React.Fragment>
+            <VisitFilter visits={visits} onFilterChange={visits => setFilteredVisits(visits)} />
+            <ResponsiveTable
+              labels={[t('visit.businessHostName'), t('visit.purpose'), t('visit.room'), t('visit.plannedEntry')]}
+              data={filteredVisits.map(visit => ({
+                id: visit.id,
+                businessHostName: visit.businessHostName,
+                purpose: visit.purpose,
+                room: visit.room,
+                plannedEntry: new Date(visit.plannedEntry).toLocaleDateString(i18n.language)
+              }))}
+              openLabel={t('action.openVisit')}
+              onOpenClick={visitId => history.push(`/visits/${visitId}`)}
+            />
+          </React.Fragment>
         )}
       </Paper>
     </Container>

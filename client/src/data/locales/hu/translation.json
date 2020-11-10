@@ -13,7 +13,9 @@
     "details": "Részletek",
     "cancel": "Mégse",
     "save": "Mentés",
-    "activate": "Aktiválás"
+    "ok": "Ok",
+    "activate": "Aktiválás",
+    "clear": "Törlés"
   },
   "company": {
     "name": "Cégnév",
@@ -44,7 +46,10 @@
     "purpose": "Látogatás célja",
     "room": "Szoba",
     "plannedEntry": "Tervezett belépési dátum",
-    "noVisitInfo": "Még nincsenek beütemezett látogatások."
+    "noVisitInfo": "Még nincsenek beütemezett látogatások.",
+    "filter": "Látogatás Szűrő",
+    "fromDate": "Látogatások dátumtól",
+    "untilDate": "Látogatások dátumig"
   },
   "auth": {
     "email": "Email cím",

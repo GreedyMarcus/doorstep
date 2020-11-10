@@ -13,7 +13,9 @@
     "details": "Details",
     "cancel": "Cancel",
     "save": "Save",
-    "activate": "Activate"
+    "ok": "Ok",
+    "activate": "Activate",
+    "clear": "Clear"
   },
   "company": {
     "name": "Company name",
@@ -44,7 +46,10 @@
     "purpose": "Purpose of visit",
     "room": "Room",
     "plannedEntry": "Planned entry date",
-    "noVisitInfo": "There are no scheduled visits yet."
+    "noVisitInfo": "There are no scheduled visits yet.",
+    "filter": "Visit filter",
+    "fromDate": "Visits from date",
+    "untilDate": "Visits until date"
   },
   "auth": {
     "email": "Email address",
