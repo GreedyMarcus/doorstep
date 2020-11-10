@@ -30,6 +30,16 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
       .getMany()
   }
 
+  public findCompanyBusinessHosts(companyId: number): Promise<User[]> {
+    return getRepository(User)
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('role.name = :roleName', { roleName: UserRoleType.BUSINESS_HOST })
+      .andWhere('user.company = :companyId', { companyId })
+      .andWhere('user.deletedAt is NULL')
+      .getMany()
+  }
+
   public async createCompany(
     buildingId: number,
     company: Partial<Company>,

@@ -25,4 +25,11 @@ companiesRouter.get(
   companiesController.getVisits
 )
 
+companiesRouter.get(
+  '/:companyId/business-hosts',
+  checkValidToken,
+  hasPermission([UserPermissionType.READ_VISITS]),
+  companiesController.getBusinessHosts
+)
+
 export default companiesRouter

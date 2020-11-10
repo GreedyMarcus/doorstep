@@ -5,7 +5,7 @@ import CompanyServiceInterface from './CompanyServiceInterface'
 import { inject, injectable } from 'inversify'
 import { CompanyRepositoryInterface } from '../../repositories/company'
 import { VisitRepositoryInterface } from '../../repositories/visit'
-import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO } from '../../data/dtos/CompanyDTO'
+import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
 
 @injectable()
 class CompanyService implements CompanyServiceInterface {
@@ -75,6 +75,24 @@ class CompanyService implements CompanyServiceInterface {
     }))
 
     return visitsInfo
+  }
+
+  public getBusinessHosts = async (companyId: number): Promise<CompanyHostInfoDTO[]> => {
+    const company = await this.companyRepository.findCompanyById(companyId)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    const businessHosts = await this.companyRepository.findCompanyBusinessHosts(companyId)
+    const businessHostsInfo: CompanyHostInfoDTO[] = businessHosts.map(({ id, firstName, lastName, email, createdAt }) => ({
+      id,
+      firstName,
+      lastName,
+      email,
+      createdAt
+    }))
+
+    return businessHostsInfo
   }
 }
 

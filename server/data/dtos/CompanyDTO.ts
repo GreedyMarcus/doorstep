@@ -34,3 +34,11 @@ export interface CompanyVisitInfoDTO {
   room: string
   plannedEntry: Date
 }
+
+export interface CompanyHostInfoDTO {
+  id: number
+  firstName: string
+  lastName: string
+  email: string
+  createdAt: Date
+}

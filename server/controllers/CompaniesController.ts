@@ -30,6 +30,16 @@ class CompaniesController {
       return next(err)
     }
   }
+
+  public getBusinessHosts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const businessHosts = await this.companyService.getBusinessHosts(companyId)
+      res.json(businessHosts)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default CompaniesController
