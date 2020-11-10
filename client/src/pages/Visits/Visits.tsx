@@ -16,12 +16,7 @@ const ConsentForms: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
-  // const visits = useSelector(visitsSelector)
-  const visits = [
-    { id: 1, businessHostName: 'Mark Domahidi', purpose: 'Meeting', room: '312', plannedEntry: new Date() },
-    { id: 2, businessHostName: 'Akos Braun', purpose: 'Meeting', room: '233', plannedEntry: new Date() },
-    { id: 3, businessHostName: 'Michale Jackson', purpose: 'Interview', room: '422', plannedEntry: new Date() }
-  ]
+  const visits = useSelector(visitsSelector)
   const [t, i18n] = useTranslation()
 
   const [filteredVisits, setFilteredVisits] = useState(visits)
@@ -48,9 +43,9 @@ const ConsentForms: React.FC = () => {
                 businessHostName: visit.businessHostName,
                 purpose: visit.purpose,
                 room: visit.room,
-                plannedEntry: new Date(visit.plannedEntry).toLocaleDateString(i18n.language)
+                plannedEntry: visit.plannedEntry.toLocaleDateString(i18n.language)
               }))}
-              openLabel={t('action.openVisit')}
+              tooltipLabel={t('action.openVisit')}
               onOpenClick={visitId => history.push(`/visits/${visitId}`)}
             />
           </React.Fragment>

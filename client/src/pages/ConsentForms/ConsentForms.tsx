@@ -37,9 +37,9 @@ const ConsentForms: React.FC = () => {
               id: form.id,
               title: form.title,
               activeVersion: form.activeVersion || t('consentForm.noActiveVersion'),
-              createdAt: new Date(form.createdAt).toLocaleDateString(i18n.language)
+              createdAt: form.createdAt.toLocaleDateString(i18n.language)
             }))}
-            openLabel={t('action.openConsentForm')}
+            tooltipLabel={t('action.openConsentForm')}
             onOpenClick={formId => history.push(`/consent-forms/${formId}`)}
           />
         )}

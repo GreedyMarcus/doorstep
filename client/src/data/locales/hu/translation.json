@@ -28,7 +28,9 @@
     "adminName": "Admin neve",
     "adminEmail": "Admin email",
     "noCompanyInfo": "Még nem vettél fel cégeket.",
-    "changeAdminText": "Le szeretném cserélni a mostani céges admint."
+    "changeAdminText": "Le szeretném cserélni a mostani céges admint.",
+    "businessHostName": "Céges fogadó neve",
+    "noBusinessHostsInfo": "Még nem vettél fel céges fogadó személyeket."
   },
   "consentForm": {
     "title": "Nyilatkozat címe",
@@ -116,6 +118,7 @@
     "addVisit": "Látogatás felvétele",
     "editCompany": "Cég szerkesztése",
     "openConsentForm": "Nyilatkozat megnyitása",
-    "openVisit": "Látogatás megnyitása"
+    "openVisit": "Látogatás megnyitása",
+    "editBusinessHost": "Céges fogadó személy szerkesztése"
   }
 }

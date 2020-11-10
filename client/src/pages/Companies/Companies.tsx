@@ -8,7 +8,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Typography from '@material-ui/core/Typography'
-import InfoIcon from '@material-ui/icons/Info'
+import InfoBox from '../../components/shared/InfoBox'
 import CompanyTableRow from '../../components/CompanyTableRow'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
@@ -36,12 +36,7 @@ const Companies: React.FC = () => {
           {t('general.companies')}
         </Typography>
         {!companies.length ? (
-          <div className={classes.infoContainer}>
-            <InfoIcon className={classes.infoIcon} />
-            <Typography className={classes.infoText} variant="h1">
-              {t('company.noCompanyInfo')}
-            </Typography>
-          </div>
+          <InfoBox text={t('company.noCompanyInfo')} />
         ) : (
           <TableContainer>
             <Table aria-label="companies table">

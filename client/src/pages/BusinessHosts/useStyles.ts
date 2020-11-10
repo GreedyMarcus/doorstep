@@ -1,4 +1,3 @@
-import blueGrey from '@material-ui/core/colors/blueGrey'
 import { makeStyles } from '@material-ui/core/styles'
 
 export default makeStyles(theme => ({
@@ -9,13 +8,5 @@ export default makeStyles(theme => ({
     fontSize: 26,
     fontWeight: 500,
     padding: theme.spacing(3, 3, 2)
-  },
-  tableCell: {
-    fontSize: 16,
-    fontWeight: 600,
-    textAlign: 'left'
-  },
-  emptyCell: {
-    width: theme.spacing(5)
   }
 }))

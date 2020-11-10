@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import TableContainer from '@material-ui/core/TableContainer'
 import Table from '@material-ui/core/Table'
 import TableHead from '@material-ui/core/TableHead'
@@ -8,6 +8,7 @@ import TableCell from '@material-ui/core/TableCell'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded'
+import EditRoundedIcon from '@material-ui/icons/EditRounded'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
@@ -15,14 +16,16 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme'
 type Props = {
   labels: string[]
   data: any[]
-  openLabel: string
-  onOpenClick: (itemId: number) => void
+  tooltipLabel: string
+  editable?: boolean
+  onOpenClick?: (itemId: number) => void
 }
 
-const ConsentForms: React.FC<Props> = ({ labels, data, openLabel, onOpenClick }) => {
+const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, editable, onOpenClick }) => {
   const classes = useStyles()
   const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
 
+  const [showEditor, setShowEditor] = useState(false)
   const [firstLabel, ...otherLabels] = labels
 
   const loadAdditionalTableCells = useCallback(
@@ -45,7 +48,7 @@ const ConsentForms: React.FC<Props> = ({ labels, data, openLabel, onOpenClick })
           <TableRow>
             <TableCell className={classes.tableHeaderCell}>{firstLabel}</TableCell>
             {showMore && loadAdditionalTableCells(otherLabels, classes.tableHeaderCell)}
-            <TableCell className={classes.tableEmptyCell} />
+            {(editable || onOpenClick) && <TableCell className={classes.tableEmptyCell} />}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -55,13 +58,24 @@ const ConsentForms: React.FC<Props> = ({ labels, data, openLabel, onOpenClick })
               <TableRow key={id}>
                 <TableCell className={classes.tableBodyCell}>{firstValue}</TableCell>
                 {showMore && loadAdditionalTableCells(otherValues, classes.tableBodyCell)}
-                <TableCell className={classes.tableEmptyCell}>
-                  <Tooltip title={openLabel}>
-                    <IconButton size="small" onClick={() => onOpenClick(id)}>
-                      <OpenInNewRoundedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
+                {onOpenClick && !editable && (
+                  <TableCell className={classes.tableEmptyCell}>
+                    <Tooltip title={tooltipLabel}>
+                      <IconButton size="small" onClick={() => onOpenClick(id)}>
+                        <OpenInNewRoundedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                )}
+                {editable && !onOpenClick && (
+                  <TableCell className={classes.tableEmptyCell}>
+                    <Tooltip title={tooltipLabel}>
+                      <IconButton size="small" onClick={() => setShowEditor(true)}>
+                        <EditRoundedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                )}
               </TableRow>
             )
           })}

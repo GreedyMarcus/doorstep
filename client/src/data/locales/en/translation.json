@@ -28,7 +28,9 @@
     "adminName": "Admin name",
     "adminEmail": "Admin email",
     "noCompanyInfo": "You have not added any companies yet.",
-    "changeAdminText": "I would like to replace the current admin."
+    "changeAdminText": "I would like to replace the current admin.",
+    "businessHostName": "Business host name",
+    "noBusinessHostsInfo": "You have not added any business hosts yet."
   },
   "consentForm": {
     "title": "Consent form title",
@@ -116,6 +118,7 @@
     "addVisit": "Add visit",
     "editCompany": "Edit company",
     "openConsentForm": "Open consent form",
-    "openVisit": "Open visit"
+    "openVisit": "Open visit",
+    "editBusinessHost": "Edit business host"
   }
 }
