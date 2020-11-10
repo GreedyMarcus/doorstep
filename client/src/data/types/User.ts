@@ -20,3 +20,11 @@ export type UserRegister = {
   firstName: string
   lastName: string
 }
+
+export interface BusinessHostInfo {
+  id: number
+  firstName: string
+  lastName: string
+  email: string
+  createdAt: Date
+}

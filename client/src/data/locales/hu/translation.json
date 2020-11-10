@@ -94,6 +94,7 @@
     "fetchConsentFormsFailure": "Nem sikerült betölteni a nyilatkozatokat.",
     "fetchConsentFormByIdFailure": "Nem sikerült betölteni a kiválasztott nyilatkozatot",
     "fetchVisitsFailure": "Nem sikerült betölteni a látogatásokat.",
+    "fetchBusinessHostsFailure": "Nem sikerült betölteni a céges fogadó személyeket.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
@@ -114,6 +115,7 @@
     "addBusinessHost": "Céges fogadó felvétele",
     "addVisit": "Látogatás felvétele",
     "editCompany": "Cég szerkesztése",
-    "openConsentForm": "Nyilatkozat megnyitása"
+    "openConsentForm": "Nyilatkozat megnyitása",
+    "openVisit": "Látogatás megnyitása"
   }
 }

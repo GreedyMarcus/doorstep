@@ -94,6 +94,7 @@
     "fetchConsentFormsFailure": "Could not load consent forms",
     "fetchConsentFormByIdFailure": "Could not load selected consent form",
     "fetchVisitsFailure": "Could not load visits",
+    "fetchBusinessHostsFailure": "Could not load business hosts",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "updateCompanySuccess": "Successful company update",
@@ -114,6 +115,7 @@
     "addBusinessHost": "Add business host",
     "addVisit": "Add visit",
     "editCompany": "Edit company",
-    "openConsentForm": "Open consent form"
+    "openConsentForm": "Open consent form",
+    "openVisit": "Open visit"
   }
 }

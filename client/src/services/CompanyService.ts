@@ -2,6 +2,7 @@ import axios from 'axios'
 import AuthService from './AuthService'
 import { CompanyInfo, CompanyUpdate } from '../data/types/Company'
 import { VisitInfo } from '../data/types/Visit'
+import { BusinessHostInfo } from '../data/types/User'
 
 class CompanyService {
   public static API_BASE = '/api/companies'
@@ -24,6 +25,16 @@ class CompanyService {
 
     const result = await axios.get(url, config)
     return result.data as VisitInfo[]
+  }
+
+  public static async getBusinessHosts(companyId: number): Promise<BusinessHostInfo[]> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${CompanyService.API_BASE}/${companyId}/business-hosts`
+    const config = { headers: authHeader }
+
+    const result = await axios.get(url, config)
+    return result.data as BusinessHostInfo[]
   }
 }
 

@@ -5,13 +5,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
 import { CompanyInfo, CompanyRegister, CompanyUpdate } from '../../data/types/Company'
+import { BusinessHostInfo } from '../../data/types/User'
 
 type CompanySliceState = {
   companies: CompanyInfo[]
+  businessHosts: BusinessHostInfo[]
 }
 
 const initialState: CompanySliceState = {
-  companies: []
+  companies: [],
+  businessHosts: []
 }
 
 const companySlice = createSlice({
@@ -27,12 +30,15 @@ const companySlice = createSlice({
     companyUpdated: (state, { payload }: PayloadAction<CompanyInfo>) => {
       const index = state.companies.findIndex(company => company.id === payload.id)
       state.companies[index] = payload
+    },
+    businessHostsFetched: (state, { payload }: PayloadAction<BusinessHostInfo[]>) => {
+      state.businessHosts = payload
     }
   }
 })
 
 export const { reducer } = companySlice
-const { companiesFetched, companyRegistered, companyUpdated } = companySlice.actions
+const { companiesFetched, companyRegistered, companyUpdated, businessHostsFetched } = companySlice.actions
 
 export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
@@ -79,6 +85,23 @@ export const editCompany = (company: CompanyUpdate) => async (dispatch: AppDispa
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanySuccess') }))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const fetchBusinessHosts = () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const companyId = user.activeUser?.companyId ?? -1
+    const businessHosts = await CompanyService.getBusinessHosts(companyId)
+
+    dispatch(businessHostsFetched(businessHosts))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchBusinessHostsFailure') }))
   }
 
   dispatch(setLoading(false))
