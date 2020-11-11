@@ -36,6 +36,11 @@ interface CompanyRepositoryInterface {
    * Creates new business host with the provided data in the specified company.
    */
   createBusinessHost(companyId: number, user: Partial<User>): Promise<User>
+
+  /**
+   * Updates the specified business host with the provided data.
+   */
+  updateBusinessHost(businessHostId: number, user: Partial<User>): Promise<User>
 }
 
 export default CompanyRepositoryInterface

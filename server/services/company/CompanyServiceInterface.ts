@@ -1,6 +1,6 @@
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO } from '../../data/dtos/ConsentFormDTO'
-import { UserRegisterDTO } from '../../data/dtos/UserDTO'
+import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
 
 interface CompanyServiceInterface {
   /**
@@ -19,14 +19,19 @@ interface CompanyServiceInterface {
   getBusinessHosts(companyId: number): Promise<CompanyHostInfoDTO[]>
 
   /**
-   * Returns all consent forms belong to the company.
-   */
-  getConsentForms(companyId: number): Promise<ConsentFormInfoDTO[]>
-
-  /**
    * Creates a new business host for the company.
    */
   createBusinessHost(companyId: number, data: UserRegisterDTO): Promise<CompanyHostInfoDTO>
+
+  /**
+   * Updates the specified business host with provided data.
+   */
+  updateBusinessHost(companyId: number, hostId: number, data: UserUpdateDTO): Promise<CompanyHostInfoDTO>
+
+  /**
+   * Returns all consent forms belong to the company.
+   */
+  getConsentForms(companyId: number): Promise<ConsentFormInfoDTO[]>
 }
 
 export default CompanyServiceInterface

@@ -41,21 +41,32 @@ class CompaniesController {
     }
   }
 
-  public getConsentForms = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const companyId = Number(req.params.companyId)
-      const consentForms = await this.companyService.getConsentForms(companyId)
-      res.json(consentForms)
-    } catch (err) {
-      return next(err)
-    }
-  }
-
   public createBusinessHost = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const companyId = Number(req.params.companyId)
       const businessHost = await this.companyService.createBusinessHost(companyId, req.body)
       res.status(201).json(businessHost)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public updateBusinessHost = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const businessHostId = Number(req.params.businessHostId)
+      const updatedBusinessHost = await this.companyService.updateBusinessHost(companyId, businessHostId, req.body)
+      res.json(updatedBusinessHost)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public getConsentForms = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const consentForms = await this.companyService.getConsentForms(companyId)
+      res.json(consentForms)
     } catch (err) {
       return next(err)
     }

@@ -229,6 +229,18 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
 
     return getRepository(User).save(newBusinessHost)
   }
+
+  public async updateBusinessHost(businessHostId: number, user: Partial<User>): Promise<User> {
+    const businessHost = await getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.id = :userId', { userId: businessHostId })
+      .getOne()
+
+    businessHost.firstName = user.firstName
+    businessHost.lastName = user.lastName
+
+    return getRepository(User).save(businessHost)
+  }
 }
 
 export default CompanyRepository

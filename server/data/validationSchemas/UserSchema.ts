@@ -13,6 +13,11 @@ export const UserRegisterSchema = Joi.object({
   lastName: Joi.string().required()
 })
 
+export const UserUpdateSchema = Joi.object({
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required()
+})
+
 export const ForgotPasswordSchema = Joi.object({
   email: Joi.string().pattern(REGEXP.EMAIL).required()
 })
