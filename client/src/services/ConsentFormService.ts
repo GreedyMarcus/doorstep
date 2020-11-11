@@ -47,7 +47,7 @@ class ConsentFormService {
     return result.data as ConsentFormVersionInfo
   }
 
-  public static async activateGlobalConsentFormVersion(
+  public static async activateConsentFormVersion(
     formId: number,
     type: ConsentFormType,
     versionId: number

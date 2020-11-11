@@ -103,12 +103,12 @@
     "updateCompanyFailure": "Could not update company",
     "createConsentFormSuccess": "Successful consent form creation",
     "createConsentFormFailure": "Could not create consent form",
-    "createGlobalConsentFormVersionSuccess": "Successful consent form version creation",
-    "createGlobalConsentFormVersionFailure": "Could not create consent form version",
-    "updateGlobalConsentFormVersionSuccess": "Successful consent form version update",
-    "updateGlobalConsentFormVersionFailure": "Could not update consent form version",
-    "activateGlobalConsentFormVersionSuccess": "Successful consent form version activation",
-    "activateGlobalConsentFormVersionFailure": "Could not activate consent form version"
+    "createConsentFormVersionSuccess": "Successful consent form version creation",
+    "createConsentFormVersionFailure": "Could not create consent form version",
+    "updateConsentFormVersionSuccess": "Successful consent form version update",
+    "updateConsentFormVersionFailure": "Could not update consent form version",
+    "activateConsentFormVersionSuccess": "Successful consent form version activation",
+    "activateConsentFormVersionFailure": "Could not activate consent form version"
   },
   "action": {
     "addCompany": "Add company",

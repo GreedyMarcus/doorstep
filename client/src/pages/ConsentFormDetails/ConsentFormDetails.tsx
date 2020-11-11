@@ -20,9 +20,9 @@ import { useAppDispatch } from '../../store'
 import {
   activeConsentFormSelector,
   fetchConsentFormById,
-  createGlobalConsentFormVersion,
-  updateGlobalConsentFormVersion,
-  activateGlobalConsentFormVersion
+  createConsentFormVersion,
+  updateConsentFormVersion,
+  activateConsentFormVersion
 } from '../../store/consentForm'
 
 const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
@@ -61,19 +61,19 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
 
   const handleConsentFormVersionCreation = () => {
     setStatus({ ...status, disabled: false, edited: false, createdNew: true })
-    dispatch(createGlobalConsentFormVersion(content.value))
+    dispatch(createConsentFormVersion(content.value))
   }
 
   const handleConsentFormVersionUpdate = () => {
     if (activeConsentForm) {
-      dispatch(updateGlobalConsentFormVersion(activeConsentForm.versions[openedVersion - 1].id, content.value))
+      dispatch(updateConsentFormVersion(activeConsentForm.versions[openedVersion - 1].id, content.value))
     }
     setStatus({ ...status, disabled: false, edited: false })
   }
 
   const handleConsentFormVersionActivation = () => {
     if (activeConsentForm) {
-      dispatch(activateGlobalConsentFormVersion(activeConsentForm.versions[openedVersion - 1].id))
+      dispatch(activateConsentFormVersion(activeConsentForm.versions[openedVersion - 1].id))
     }
     setStatus({ ...status, disabled: true, edited: false })
   }
@@ -152,7 +152,10 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
                 </Typography>
               </Grid>
               <Grid className={classes.gridItem} item md={4} sm={6} xs={12}>
-                <Chip className={classes.chip} label={activeConsentForm.activeVersion?.versionNumber ?? t('consentForm.noActiveVersion')} />
+                <Chip
+                  className={classes.chip}
+                  label={activeConsentForm.activeVersion?.versionNumber ?? t('consentForm.noActiveVersion')}
+                />
               </Grid>
 
               <Grid className={classes.gridItemHeader} item md={2} sm={6} xs={12}>

@@ -46,7 +46,7 @@ const App = () => {
         <ProtectedRoute exact path={routes.FORGOT_PASSWORD} noAuth Component={ForgotPassword} />
         <ProtectedRoute exact path={routes.RESET_PASSWORD} noAuth Component={ResetPassword} />
         <ProtectedRoute exact path={routes.COMPANIES} auth={[UserRole.ADMIN]} Component={Companies} />
-        <ProtectedRoute exact path={routes.CONSENT_FORMS} auth={[UserRole.ADMIN]} Component={ConsentForms} />
+        <ProtectedRoute exact path={routes.CONSENT_FORMS} auth={[UserRole.ADMIN, UserRole.COMPANY_ADMIN]} Component={ConsentForms} />
         <ProtectedRoute exact path={routes.CONSENT_FORM_DETAILS} auth={[UserRole.ADMIN]} Component={ConsentFormDetails} />
         <ProtectedRoute exact path={routes.VISITS} auth={[UserRole.COMPANY_ADMIN]} Component={Visits} />
         <ProtectedRoute exact path={routes.HOSTS} auth={[UserRole.COMPANY_ADMIN]} Component={BusinessHosts} />
