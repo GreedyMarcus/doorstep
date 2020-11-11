@@ -15,6 +15,7 @@ import { BusinessHostInfo } from '../../data/types/User'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
+import { createBusinessHost } from '../../store/company'
 
 type Props = {
   businessHost?: BusinessHostInfo
@@ -54,8 +55,11 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
       password: password.value
     }
 
-    // TODO: Send HTTP request and save business host!
-    console.log(businessHostData)
+    if (!isEditing) {
+      dispatch(createBusinessHost(businessHostData))
+    } else {
+      // Dispatch edit action...
+    }
 
     handleClose()
   }

@@ -49,7 +49,7 @@ companiesRouter.get(
 /**
  * POST - Creates a new business host for the company.
  */
-companiesRouter.get(
+companiesRouter.post(
   '/:companyId/business-hosts',
   checkValidToken,
   hasPermission([UserPermissionType.CREATE_BUSINESS_HOSTS]),
