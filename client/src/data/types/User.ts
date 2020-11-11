@@ -10,6 +10,7 @@ export type UserInfo = {
   email: string
   role: string
   buildingId?: number
+  companyId?: number
   token: string
 }
 
@@ -18,4 +19,12 @@ export type UserRegister = {
   password: string
   firstName: string
   lastName: string
+}
+
+export interface BusinessHostInfo {
+  id: number
+  firstName: string
+  lastName: string
+  email: string
+  createdAt: Date
 }

@@ -7,6 +7,8 @@ import ResetPassword from '../pages/ResetPassword'
 import Companies from '../pages/Companies'
 import ConsentForms from '../pages/ConsentForms'
 import ConsentFormDetails from '../pages/ConsentFormDetails'
+import Visits from '../pages/Visits'
+import BusinessHosts from '../pages/BusinessHosts'
 import NavigationBar from '../components/NavigationBar'
 import ProtectedRoute from '../components/ProtectedRoute'
 import ActionTracker from '../components/ActionTracker'
@@ -25,7 +27,7 @@ const App = () => {
     const tokenInterceptor = axios.interceptors.response.use(
       res => res,
       err => {
-        if (err.response.status === 403) {
+        if (err.response.status === 401) {
           dispatch(logoutUser())
         }
         return Promise.reject(err)
@@ -44,8 +46,10 @@ const App = () => {
         <ProtectedRoute exact path={routes.FORGOT_PASSWORD} noAuth Component={ForgotPassword} />
         <ProtectedRoute exact path={routes.RESET_PASSWORD} noAuth Component={ResetPassword} />
         <ProtectedRoute exact path={routes.COMPANIES} auth={[UserRole.ADMIN]} Component={Companies} />
-        <ProtectedRoute exact path={routes.CONSENT_FORMS} auth={[UserRole.ADMIN]} Component={ConsentForms} />
+        <ProtectedRoute exact path={routes.CONSENT_FORMS} auth={[UserRole.ADMIN, UserRole.COMPANY_ADMIN]} Component={ConsentForms} />
         <ProtectedRoute exact path={routes.CONSENT_FORM_DETAILS} auth={[UserRole.ADMIN]} Component={ConsentFormDetails} />
+        <ProtectedRoute exact path={routes.VISITS} auth={[UserRole.COMPANY_ADMIN]} Component={Visits} />
+        <ProtectedRoute exact path={routes.HOSTS} auth={[UserRole.COMPANY_ADMIN]} Component={BusinessHosts} />
         <Redirect from="*" to={routes.LOGIN} />
       </Switch>
       <ActionTracker />

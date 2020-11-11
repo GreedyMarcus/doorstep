@@ -14,6 +14,7 @@ import OfficeBuilding from './OfficeBuilding'
 import CompanyRegisterConfig from './CompanyRegisterConfig'
 import ConsentForm from './ConsentForm'
 import User from './User'
+import Visit from './Visit'
 
 @Entity('companies')
 class Company {
@@ -60,6 +61,9 @@ class Company {
 
   @OneToMany(() => ConsentForm, form => form.company)
   consentForms: ConsentForm[]
+
+  @OneToMany(() => Visit, visit => visit.company)
+  visits: Visit[]
 }
 
 export default Company

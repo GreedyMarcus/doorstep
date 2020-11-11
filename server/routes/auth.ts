@@ -1,17 +1,32 @@
 import express from 'express'
 import container from '../config/inversify.config'
 import AuthController from '../controllers/AuthController'
-import validationMiddleware from '../middlewares/validationMiddleware'
 import checkValidToken from '../middlewares/checkValidToken'
 import getClientLanguage from '../middlewares/getClientLanguage'
+import validationMiddleware from '../middlewares/validationMiddleware'
 import { UserLoginSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../data/validationSchemas/UserSchema'
 
 const authRouter = express.Router()
 const authController = container.resolve(AuthController)
 
-authRouter.post('/login', validationMiddleware(UserLoginSchema), authController.login)
+/**
+ * GET - Returns information about the currently authenticated user.
+ */
 authRouter.get('/whoami', checkValidToken, authController.whoami)
+
+/**
+ * POST - Authenticates user with the provided credentials.
+ */
+authRouter.post('/login', validationMiddleware(UserLoginSchema), authController.login)
+
+/**
+ * POST - Sends a link to the user via email in case of forgotten password.
+ */
 authRouter.post('/forgot-password', validationMiddleware(ForgotPasswordSchema), getClientLanguage, authController.forgotPassword)
+
+/**
+ * POST - Create a new password for the specified user with the provided credentials.
+ */
 authRouter.post('/reset-password', validationMiddleware(ResetPasswordSchema), authController.resetPassword)
 
 export default authRouter

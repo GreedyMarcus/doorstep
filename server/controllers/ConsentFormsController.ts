@@ -11,7 +11,7 @@ class ConsentFormsController {
     this.consentFormService = consentFormService
   }
 
-  public getGlobalConsentFormById = async (req: Request, res: Response, next: NextFunction) => {
+  public getConsentFormById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const consentFormId = Number(req.params.consentFormId)
       const consentForm = await this.consentFormService.getConsentFormById(consentFormId)
@@ -21,7 +21,7 @@ class ConsentFormsController {
     }
   }
 
-  public createGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+  public createConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const consentFormId = Number(req.params.consentFormId)
       const version = await this.consentFormService.createConsentFormVersion(consentFormId, req.body.content)
@@ -31,11 +31,10 @@ class ConsentFormsController {
     }
   }
 
-  public updateGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+  public updateConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const consentFormId = Number(req.params.consentFormId)
       const versionId = Number(req.params.versionId)
-
       const version = await this.consentFormService.updateConsentFormVersion(consentFormId, versionId, req.body.content)
       res.json(version)
     } catch (err) {
@@ -43,13 +42,12 @@ class ConsentFormsController {
     }
   }
 
-  public activateGlobalConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
+  public activateConsentFormVersion = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const consentFormId = Number(req.params.consentFormId)
       const versionId = Number(req.params.versionId)
-
       await this.consentFormService.activateConsentFormVersion(consentFormId, versionId)
-      res.status(204).send()
+      res.sendStatus(204)
     } catch (err) {
       return next(err)
     }

@@ -16,18 +16,37 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
     return getRepository(Company)
       .createQueryBuilder('company')
       .leftJoinAndSelect('company.address', 'address')
+      .leftJoinAndSelect('company.officeBuilding', 'officeBuilding')
+      .leftJoinAndSelect('company.registerConfig', 'registerConfig')
       .leftJoinAndSelect('company.admin', 'admin')
+      .leftJoinAndSelect('company.employees', 'employees')
+      .leftJoinAndSelect('officeBuilding.admin', 'buildingAdmin')
       .where('company.id = :companyId', { companyId })
+      .cache(5000) // Cache for 5 seconds
       .getOne()
   }
 
   public findCompaniesByBuildingId(buildingId: number): Promise<Company[]> {
     return getRepository(Company)
       .createQueryBuilder('company')
+      .leftJoinAndSelect('company.officeBuilding', 'officeBuilding')
       .leftJoinAndSelect('company.address', 'address')
       .leftJoinAndSelect('company.admin', 'admin')
-      .where('company.officeBuilding = :buildingId', { buildingId })
+      .where('officeBuilding.id = :buildingId', { buildingId })
       .getMany()
+  }
+
+  public findCompanyEmployees(companyId: number, role?: UserRoleType): Promise<User[]> {
+    const query = getRepository(User)
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('user.company = :companyId', { companyId })
+
+    if (role) {
+      query.andWhere('role.name = :roleName', { roleName: UserRoleType.BUSINESS_HOST })
+    }
+
+    return query.getMany()
   }
 
   public async createCompany(
@@ -48,7 +67,7 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
     // Get company admin role for user
     const companyAdminRole = await getRepository(UserRole)
       .createQueryBuilder('role')
-      .where('role.name = :roleName', { roleName: UserRoleType.ADMIN })
+      .where('role.name = :roleName', { roleName: UserRoleType.COMPANY_ADMIN })
       .getOne()
 
     // Force rollback if role does not exist

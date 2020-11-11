@@ -3,10 +3,15 @@ import jwt from 'jsonwebtoken'
 import config from '../config'
 import { Request, Response, NextFunction } from 'express'
 
+/**
+ * Custom middleware that verifies if the user is authenticated.
+ * - Sends a 401 Unauthorized error if JWT token is missing or expired.
+ */
 export default (req: Request, res: Response, next: NextFunction) => {
-  // Get the jwt access token from the request header
+  // Access JWT token from the request headers
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.replace('Bearer ', '')
+
   if (!token) {
     return next(Boom.unauthorized())
   }
@@ -16,6 +21,6 @@ export default (req: Request, res: Response, next: NextFunction) => {
     res.locals.userId = data['user']
     return next()
   } catch (err) {
-    return next(Boom.forbidden())
+    return next(Boom.unauthorized())
   }
 }

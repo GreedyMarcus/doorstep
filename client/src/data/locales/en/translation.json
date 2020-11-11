@@ -13,7 +13,9 @@
     "details": "Details",
     "cancel": "Cancel",
     "save": "Save",
-    "activate": "Activate"
+    "ok": "Ok",
+    "activate": "Activate",
+    "clear": "Clear"
   },
   "company": {
     "name": "Company name",
@@ -26,7 +28,9 @@
     "adminName": "Admin name",
     "adminEmail": "Admin email",
     "noCompanyInfo": "You have not added any companies yet.",
-    "changeAdminText": "I would like to replace the current admin."
+    "changeAdminText": "I would like to replace the current admin.",
+    "businessHostName": "Business host name",
+    "noBusinessHostsInfo": "You have not added any business hosts yet."
   },
   "consentForm": {
     "title": "Consent form title",
@@ -38,6 +42,16 @@
     "noActiveVersion": "No active version",
     "openedVersion": "Opened version",
     "notFound": "Consent form does not exist."
+  },
+  "visit": {
+    "businessHostName": "Business host name",
+    "purpose": "Purpose of visit",
+    "room": "Room",
+    "plannedEntry": "Planned entry date",
+    "noVisitInfo": "There are no scheduled visits yet.",
+    "filter": "Visit filter",
+    "fromDate": "Visits from date",
+    "untilDate": "Visits until date"
   },
   "auth": {
     "email": "Email address",
@@ -81,18 +95,20 @@
     "fetchCompaniesFailure": "Could not load companies.",
     "fetchConsentFormsFailure": "Could not load consent forms",
     "fetchConsentFormByIdFailure": "Could not load selected consent form",
+    "fetchVisitsFailure": "Could not load visits",
+    "fetchBusinessHostsFailure": "Could not load business hosts",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "updateCompanySuccess": "Successful company update",
     "updateCompanyFailure": "Could not update company",
     "createConsentFormSuccess": "Successful consent form creation",
     "createConsentFormFailure": "Could not create consent form",
-    "createGlobalConsentFormVersionSuccess": "Successful consent form version creation",
-    "createGlobalConsentFormVersionFailure": "Could not create consent form version",
-    "updateGlobalConsentFormVersionSuccess": "Successful consent form version update",
-    "updateGlobalConsentFormVersionFailure": "Could not update consent form version",
-    "activateGlobalConsentFormVersionSuccess": "Successful consent form version activation",
-    "activateGlobalConsentFormVersionFailure": "Could not activate consent form version"
+    "createConsentFormVersionSuccess": "Successful consent form version creation",
+    "createConsentFormVersionFailure": "Could not create consent form version",
+    "updateConsentFormVersionSuccess": "Successful consent form version update",
+    "updateConsentFormVersionFailure": "Could not update consent form version",
+    "activateConsentFormVersionSuccess": "Successful consent form version activation",
+    "activateConsentFormVersionFailure": "Could not activate consent form version"
   },
   "action": {
     "addCompany": "Add company",
@@ -101,6 +117,8 @@
     "addBusinessHost": "Add business host",
     "addVisit": "Add visit",
     "editCompany": "Edit company",
-    "openConsentForm": "Open consent form"
+    "openConsentForm": "Open consent form",
+    "openVisit": "Open visit",
+    "editBusinessHost": "Edit business host"
   }
 }

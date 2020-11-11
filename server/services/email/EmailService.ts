@@ -4,7 +4,7 @@ import ejs from 'ejs'
 import Boom from '@hapi/boom'
 import config from '../../config'
 import EmailServiceInterface from './EmailServiceInterface'
-import emailSubjects from '../../utils/emailSubjects'
+import { subjects } from '../../utils/email'
 import { injectable } from 'inversify'
 
 @injectable()
@@ -25,7 +25,7 @@ class EmailService implements EmailServiceInterface {
       const message = {
         from: config.email.noreplyEmail,
         to: email,
-        subject: emailSubjects.passwordReset[language],
+        subject: subjects.passwordReset[language],
         html: renderedHtml
       }
       await sendgrid.send(message)

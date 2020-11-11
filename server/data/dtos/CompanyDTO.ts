@@ -26,3 +26,19 @@ export interface CompanyUpdateDTO {
   address: AddressDTO
   admin?: UserRegisterDTO
 }
+
+export interface CompanyVisitInfoDTO {
+  id: number
+  businessHostName: string
+  purpose: string
+  room: string
+  plannedEntry: Date
+}
+
+export interface CompanyHostInfoDTO {
+  id: number
+  firstName: string
+  lastName: string
+  email: string
+  createdAt: Date
+}

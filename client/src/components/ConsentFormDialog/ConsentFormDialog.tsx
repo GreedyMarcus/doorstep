@@ -14,7 +14,7 @@ import { ConsentFormCreate } from '../../data/types/ConsentForm'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
-import { createGlobalConsentForm } from '../../store/consentForm'
+import { createConsentForm } from '../../store/consentForm'
 
 type Props = {
   onClose: () => void
@@ -48,7 +48,7 @@ const ConsentFormDialog: React.FC<Props> = ({ onClose }) => {
       content: content.value
     }
 
-    dispatch(createGlobalConsentForm(consentFormData))
+    dispatch(createConsentForm(consentFormData))
     handleClose()
   }
 

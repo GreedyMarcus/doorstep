@@ -17,21 +17,5 @@ export default makeStyles(theme => ({
   },
   emptyCell: {
     width: theme.spacing(5)
-  },
-  infoContainer: {
-    padding: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  infoIcon: {
-    fontSize: 60,
-    color: blueGrey[400],
-    marginBottom: theme.spacing(3)
-  },
-  infoText: {
-    fontSize: 20,
-    fontWeight: 500,
-    marginBottom: theme.spacing(2)
   }
 }))

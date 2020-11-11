@@ -14,6 +14,7 @@ import { UserRepository, UserRepositoryInterface } from '../repositories/user'
 import { OfficeBuildingRepository, OfficeBuildingRepositoryInterface } from '../repositories/officeBuilding'
 import { CompanyRepository, CompanyRepositoryInterface } from '../repositories/company'
 import { ConsentFormRepository, ConsentFormRepositoryInterface } from '../repositories/consentForm'
+import { VisitRepository, VisitRepositoryInterface } from '../repositories/visit'
 
 decorate(injectable(), Repository)
 const container = new Container()
@@ -23,6 +24,7 @@ container.bind<UserRepositoryInterface>(TYPES.UserRepository).to(UserRepository)
 container.bind<OfficeBuildingRepositoryInterface>(TYPES.OfficeBuildingRepository).to(OfficeBuildingRepository).inSingletonScope()
 container.bind<CompanyRepositoryInterface>(TYPES.CompanyRepository).to(CompanyRepository).inSingletonScope()
 container.bind<ConsentFormRepositoryInterface>(TYPES.ConsentFormRepository).to(ConsentFormRepository).inSingletonScope()
+container.bind<VisitRepositoryInterface>(TYPES.VisitRepository).to(VisitRepository).inSingletonScope()
 
 // Services
 container.bind<AuthServiceInterface>(TYPES.AuthService).to(AuthService).inSingletonScope()

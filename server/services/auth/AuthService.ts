@@ -54,6 +54,7 @@ class AuthService implements AuthServiceInterface {
       email: user.email,
       role: user.role.name,
       buildingId: building?.id,
+      companyId: user.company?.id,
       token
     }
 
@@ -78,7 +79,8 @@ class AuthService implements AuthServiceInterface {
       lastName: user.lastName,
       email: user.email,
       role: user.role.name,
-      buildingId: building?.id
+      buildingId: building?.id,
+      companyId: user.company?.id
     }
 
     return currentUser

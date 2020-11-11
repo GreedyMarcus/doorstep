@@ -55,7 +55,7 @@ export default makeStyles(theme => ({
     const width = !fullScreen ? { maxWidth: 160 } : {}
     return {
       ...width,
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: 600,
       borderRadius: theme.spacing(1),
       textAlign: 'center',

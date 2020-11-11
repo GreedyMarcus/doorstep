@@ -1,11 +1,11 @@
 import i18n from '../../plugins/i18n'
 import AuthService from '../../services/AuthService'
+import OfficeBuildingService from '../../services/OfficeBuildingService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch } from '..'
 import { setLoading, addNotification } from '../action'
 import { UserInfo, UserLogin } from '../../data/types/User'
 import { OfficeBuildingRegister } from '../../data/types/OfficeBuilding'
-import OfficeBuildingService from '../../services/OfficeBuildingService'
 
 type UserSliceState = {
   activeUser: UserInfo | null

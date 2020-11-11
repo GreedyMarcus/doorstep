@@ -13,7 +13,9 @@
     "details": "Részletek",
     "cancel": "Mégse",
     "save": "Mentés",
-    "activate": "Aktiválás"
+    "ok": "Ok",
+    "activate": "Aktiválás",
+    "clear": "Törlés"
   },
   "company": {
     "name": "Cégnév",
@@ -26,7 +28,9 @@
     "adminName": "Admin neve",
     "adminEmail": "Admin email",
     "noCompanyInfo": "Még nem vettél fel cégeket.",
-    "changeAdminText": "Le szeretném cserélni a mostani céges admint."
+    "changeAdminText": "Le szeretném cserélni a mostani céges admint.",
+    "businessHostName": "Céges fogadó neve",
+    "noBusinessHostsInfo": "Még nem vettél fel céges fogadó személyeket."
   },
   "consentForm": {
     "title": "Nyilatkozat címe",
@@ -38,6 +42,16 @@
     "noActiveVersion": "Nincs aktív verzió",
     "openedVersion": "Megnyitott verzió",
     "notFound": "A nyilatkozat nem létezik."
+  },
+  "visit": {
+    "businessHostName": "Céges fogadó neve",
+    "purpose": "Látogatás célja",
+    "room": "Szoba",
+    "plannedEntry": "Tervezett belépési dátum",
+    "noVisitInfo": "Még nincsenek beütemezett látogatások.",
+    "filter": "Látogatás Szűrő",
+    "fromDate": "Látogatások dátumtól",
+    "untilDate": "Látogatások dátumig"
   },
   "auth": {
     "email": "Email cím",
@@ -81,18 +95,20 @@
     "fetchCompaniesFailure": "Nem sikerült betölteni a cégeket.",
     "fetchConsentFormsFailure": "Nem sikerült betölteni a nyilatkozatokat.",
     "fetchConsentFormByIdFailure": "Nem sikerült betölteni a kiválasztott nyilatkozatot",
+    "fetchVisitsFailure": "Nem sikerült betölteni a látogatásokat.",
+    "fetchBusinessHostsFailure": "Nem sikerült betölteni a céges fogadó személyeket.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
     "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
     "createConsentFormFailure": "Nem sikerült létrehozni a nyilatkozatot.",
-    "createGlobalConsentFormVersionSuccess": "Sikeresen létrehoztad a nyilatkozat verziót.",
-    "createGlobalConsentFormVersionFailure": "Nem sikerült létrehozni a nyilatkozat verziót.",
-    "updateGlobalConsentFormVersionSuccess": "Sikeresen frissítetted a nyilatkozat verziót.",
-    "updateGlobalConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
-    "activateGlobalConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
-    "activateGlobalConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
+    "createConsentFormVersionSuccess": "Sikeresen létrehoztad a nyilatkozat verziót.",
+    "createConsentFormVersionFailure": "Nem sikerült létrehozni a nyilatkozat verziót.",
+    "updateConsentFormVersionSuccess": "Sikeresen frissítetted a nyilatkozat verziót.",
+    "updateConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
+    "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
+    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
   },
   "action": {
     "addCompany": "Cég felvétele",
@@ -101,6 +117,8 @@
     "addBusinessHost": "Céges fogadó felvétele",
     "addVisit": "Látogatás felvétele",
     "editCompany": "Cég szerkesztése",
-    "openConsentForm": "Nyilatkozat megnyitása"
+    "openConsentForm": "Nyilatkozat megnyitása",
+    "openVisit": "Látogatás megnyitása",
+    "editBusinessHost": "Céges fogadó személy szerkesztése"
   }
 }

@@ -1,6 +1,7 @@
 import i18n from '../../plugins/i18n'
 import ConsentFormService from '../../services/ConsentFormService'
 import OfficeBuildingService from '../../services/OfficeBuildingService'
+import CompanyService from '../../services/CompanyService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
@@ -67,10 +68,21 @@ export const fetchConsentForms = () => async (dispatch: AppDispatch, getState: (
   dispatch(setLoading(true))
 
   try {
-    const buildingId = user.activeUser?.buildingId ?? 0
-    const consentForms = await OfficeBuildingService.getGlobalConsentForms(buildingId)
+    // Fetch global consent forms
+    if (user.activeUser?.role === UserRole.ADMIN) {
+      const buildingId = user.activeUser?.buildingId ?? -1
+      const globalConsentForms = await OfficeBuildingService.getConsentForms(buildingId)
 
-    dispatch(consentFormsFetched(consentForms))
+      dispatch(consentFormsFetched(globalConsentForms))
+    }
+
+    // Fetch local consent forms
+    if (user.activeUser?.role === UserRole.COMPANY_ADMIN) {
+      const companyId = user.activeUser?.companyId ?? -1
+      const localConsentForms = await CompanyService.getConsentForms(companyId)
+
+      dispatch(consentFormsFetched(localConsentForms))
+    }
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchConsentFormsFailure') }))
   }
@@ -95,14 +107,14 @@ export const fetchConsentFormById = (consentFormId: number) => async (dispatch: 
   dispatch(setLoading(false))
 }
 
-export const createGlobalConsentForm = (data: ConsentFormCreate) => async (dispatch: AppDispatch, getState: () => RootState) => {
+export const createConsentForm = (data: ConsentFormCreate) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
   dispatch(setLoading(true))
 
   try {
-    const buildingId = user.activeUser?.buildingId ?? 0
-    const createdConsentForm = await OfficeBuildingService.createGlobalConsentform(buildingId, data)
+    const buildingId = user.activeUser?.buildingId ?? -1
+    const createdConsentForm = await OfficeBuildingService.createConsentform(buildingId, data)
 
     dispatch(consentFormCreated(createdConsentForm))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentFormSuccess') }))
@@ -113,25 +125,25 @@ export const createGlobalConsentForm = (data: ConsentFormCreate) => async (dispa
   dispatch(setLoading(false))
 }
 
-export const createGlobalConsentFormVersion = (content: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
+export const createConsentFormVersion = (content: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { consentForm } = getState()
 
   dispatch(setLoading(true))
 
   try {
-    const formId = consentForm.activeConsentForm?.id ?? 0
+    const formId = consentForm.activeConsentForm?.id ?? -1
     const createdVersion = await ConsentFormService.createConsentFormVersion(formId, ConsentFormType.GLOBAL, content)
 
     dispatch(consentFormVersionCreated(createdVersion))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createGlobalConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentFormVersionSuccess') }))
   } catch (error) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createGlobalConsentFormVersionFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createConsentFormVersionFailure') }))
   }
 
   dispatch(setLoading(false))
 }
 
-export const updateGlobalConsentFormVersion = (versionId: number, content: string) => async (
+export const updateConsentFormVersion = (versionId: number, content: string) => async (
   dispatch: AppDispatch,
   getState: () => RootState
 ) => {
@@ -140,34 +152,31 @@ export const updateGlobalConsentFormVersion = (versionId: number, content: strin
   dispatch(setLoading(true))
 
   try {
-    const formId = consentForm.activeConsentForm?.id ?? 0
+    const formId = consentForm.activeConsentForm?.id ?? -1
     const updatedVersion = await ConsentFormService.updateConsentFormVersion(formId, versionId, ConsentFormType.GLOBAL, content)
 
     dispatch(consentFormVersionUpdated(updatedVersion))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateGlobalConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateConsentFormVersionSuccess') }))
   } catch (error) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGlobalConsentFormVersionFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateConsentFormVersionFailure') }))
   }
 
   dispatch(setLoading(false))
 }
 
-export const activateGlobalConsentFormVersion = (versionId: number) => async (
-  dispatch: AppDispatch,
-  getState: () => RootState
-) => {
+export const activateConsentFormVersion = (versionId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { consentForm } = getState()
 
   dispatch(setLoading(true))
 
   try {
-    const formId = consentForm.activeConsentForm?.id ?? 0
-    await ConsentFormService.activateGlobalConsentFormVersion(formId, ConsentFormType.GLOBAL, versionId)
+    const formId = consentForm.activeConsentForm?.id ?? -1
+    await ConsentFormService.activateConsentFormVersion(formId, ConsentFormType.GLOBAL, versionId)
 
     dispatch(consentFormVersionActivated(versionId))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.activateGlobalConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.activateConsentFormVersionSuccess') }))
   } catch (error) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.activateGlobalConsentFormVersionFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.activateConsentFormVersionFailure') }))
   }
 
   dispatch(setLoading(false))

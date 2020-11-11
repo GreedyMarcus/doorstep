@@ -13,23 +13,31 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
   public findBuildingById(buildingId: number): Promise<OfficeBuilding> {
     return getRepository(OfficeBuilding)
       .createQueryBuilder('building')
+      .leftJoinAndSelect('building.admin', 'admin')
+      .leftJoinAndSelect('building.address', 'address')
       .where('building.id = :buildingId', { buildingId })
+      .getOne()
+  }
+
+  public findBuildingByAdminId(adminId: number): Promise<OfficeBuilding> {
+    return getRepository(OfficeBuilding)
+      .createQueryBuilder('building')
+      .leftJoinAndSelect('building.admin', 'admin')
+      .leftJoinAndSelect('building.address', 'address')
+      .where('admin.id = :adminId', { adminId })
       .getOne()
   }
 
   public findBuildingByAddress(address: Partial<Address>): Promise<OfficeBuilding> {
     return getRepository(OfficeBuilding)
       .createQueryBuilder('building')
+      .leftJoinAndSelect('building.admin', 'admin')
       .leftJoinAndSelect('building.address', 'address')
       .where('address.country = :country', { country: address.country })
       .andWhere('address.zipCode = :zipCode', { zipCode: address.zipCode })
       .andWhere('address.city = :city', { city: address.city })
       .andWhere('address.streetAddress = :streetAddress', { streetAddress: address.streetAddress })
       .getOne()
-  }
-
-  public findBuildingByAdminId(adminId: number): Promise<OfficeBuilding> {
-    return getRepository(OfficeBuilding).createQueryBuilder('building').where('building.admin = :adminId', { adminId }).getOne()
   }
 
   public async createBuilding(admin: Partial<User>, address: Partial<Address>): Promise<OfficeBuilding> {
