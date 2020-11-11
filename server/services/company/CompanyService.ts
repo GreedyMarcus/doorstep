@@ -5,20 +5,25 @@ import CompanyServiceInterface from './CompanyServiceInterface'
 import { inject, injectable } from 'inversify'
 import { CompanyRepositoryInterface } from '../../repositories/company'
 import { VisitRepositoryInterface } from '../../repositories/visit'
+import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
+import { ConsentFormInfoDTO } from '../../data/dtos/ConsentFormDTO'
 
 @injectable()
 class CompanyService implements CompanyServiceInterface {
   private readonly companyRepository: CompanyRepositoryInterface
   private readonly visitRepository: VisitRepositoryInterface
+  private readonly consentFormRepository: ConsentFormRepositoryInterface
 
   constructor(
     @inject(TYPES.CompanyRepository) companyRepository: CompanyRepositoryInterface,
-    @inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface
+    @inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface,
+    @inject(TYPES.ConsentFormRepository) consentFormRepository: ConsentFormRepositoryInterface
   ) {
     this.companyRepository = companyRepository
     this.visitRepository = visitRepository
+    this.consentFormRepository = consentFormRepository
   }
 
   public updateCompany = async (companyId: number, data: CompanyUpdateDTO): Promise<CompanyInfoDTO> => {
@@ -94,6 +99,24 @@ class CompanyService implements CompanyServiceInterface {
     }))
 
     return businessHostsInfo
+  }
+
+  public getConsentForms = async (companyId: number): Promise<ConsentFormInfoDTO[]> => {
+    const company = await this.companyRepository.findCompanyById(companyId)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    // const consentForms = await this.companyRepository.find(companyId, UserRoleType.BUSINESS_HOST)
+    const consentForms = await this.consentFormRepository.findConsentFormsByCompanyId(companyId)
+    const consentFormsInfo: ConsentFormInfoDTO[] = consentForms.map(({ id, title, activeVersion, createdAt }) => ({
+      id,
+      title,
+      activeVersion: activeVersion?.versionNumber,
+      createdAt
+    }))
+
+    return consentFormsInfo
   }
 }
 

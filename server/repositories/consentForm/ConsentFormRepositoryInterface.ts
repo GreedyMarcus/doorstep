@@ -13,6 +13,11 @@ interface ConsentFormRepositoryInterface {
   findConsentFormsByBuildingId(buildingId: number): Promise<ConsentForm[]>
 
   /**
+   * Returns all consent forms that has the specified company id.
+   */
+  findConsentFormsByCompanyId(companyId: number): Promise<ConsentForm[]>
+
+  /**
    * Returns the consent form version that has the specified id.
    */
   findConsentFormVersionById(versionId: number): Promise<ConsentFormVersion>

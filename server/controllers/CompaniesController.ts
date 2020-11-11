@@ -40,6 +40,16 @@ class CompaniesController {
       return next(err)
     }
   }
+
+  public getConsentForms = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const consentForms = await this.companyService.getConsentForms(companyId)
+      res.json(consentForms)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default CompaniesController

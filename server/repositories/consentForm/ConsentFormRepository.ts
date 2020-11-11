@@ -35,6 +35,18 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
       .getMany()
   }
 
+  public findConsentFormsByCompanyId(companyId: number): Promise<ConsentForm[]> {
+    return getRepository(ConsentForm)
+      .createQueryBuilder('consentForm')
+      .leftJoinAndSelect('consentForm.activeVersion', 'activeVersion')
+      .leftJoinAndSelect('consentForm.company', 'company')
+      .leftJoinAndSelect('consentForm.versions', 'versions')
+      .leftJoinAndSelect('company.admin', 'companyAdmin')
+      .where('consentForm.company = :companyId', { companyId })
+      .cache(10000) // Cache for 10 seconds
+      .getMany()
+  }
+
   public findConsentFormVersionById(versionId: number): Promise<ConsentFormVersion> {
     return getRepository(ConsentFormVersion)
       .createQueryBuilder('consentFormVersion')

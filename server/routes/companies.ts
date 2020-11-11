@@ -45,4 +45,15 @@ companiesRouter.get(
   companiesController.getBusinessHosts
 )
 
+/**
+ * GET - Returns all the visits belong to the company.
+ */
+companiesRouter.get(
+  '/:companyId/consent-forms',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
+  belongsToCompany,
+  companiesController.getConsentForms
+)
+
 export default companiesRouter
