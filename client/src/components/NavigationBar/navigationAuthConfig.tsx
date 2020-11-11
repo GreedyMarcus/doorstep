@@ -6,6 +6,7 @@ import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded'
 import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
 import CompanyEditorDialog from '../CompanyEditorDialog'
 import ConsentFormDialog from '../ConsentFormDialog'
+import BusinessHostEditorDialog from '../BusinessHostEditorDialog'
 import { UserRole } from '../../data/enums/UserRole'
 import { routes } from '../../app/routes'
 
@@ -58,7 +59,12 @@ export const navigationAuthConfig = {
       }
     ],
     [UserRole.COMPANY_ADMIN]: [
-      { id: 'COMPANY-ADMIN-ACTION-1', title: i18n.t('action.addBusinessHost'), icon: <PersonAddRoundedIcon /> },
+      {
+        id: 'COMPANY-ADMIN-ACTION-1',
+        title: i18n.t('action.addBusinessHost'),
+        icon: <PersonAddRoundedIcon />,
+        renderComponent: onActionFinish => <BusinessHostEditorDialog onClose={onActionFinish} />
+      },
       { id: 'COMPANY-ADMIN-ACTION-2', title: i18n.t('action.addConsentForm'), icon: <PostAddRoundedIcon /> }
     ],
     [UserRole.BUSINESS_HOST]: [

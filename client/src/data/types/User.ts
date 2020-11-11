@@ -21,6 +21,12 @@ export type UserRegister = {
   lastName: string
 }
 
+export type UserUpdate = {
+  id: number
+  firstName: string
+  lastName: string
+}
+
 export interface BusinessHostInfo {
   id: number
   firstName: string

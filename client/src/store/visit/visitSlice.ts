@@ -19,11 +19,15 @@ const visitSlice = createSlice({
   reducers: {
     visitsFetched: (state, { payload }: PayloadAction<VisitInfo[]>) => {
       state.visits = payload
+    },
+    visitSliceCleared: state => {
+      state.visits = []
     }
   }
 })
 
 export const { reducer } = visitSlice
+export const { visitSliceCleared } = visitSlice.actions
 const { visitsFetched } = visitSlice.actions
 
 export const fetchVisits = () => async (dispatch: AppDispatch, getState: () => RootState) => {

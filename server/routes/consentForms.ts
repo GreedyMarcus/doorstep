@@ -24,7 +24,7 @@ consentFormsRouter.get(
 )
 
 /**
- * POST - Creates a new global consent form version.
+ * POST - Creates a new global consent form version for the office building
  */
 consentFormsRouter.post(
   '/global/:consentFormId/versions',

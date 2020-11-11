@@ -17,7 +17,7 @@ import { CompanyInfo, CompanyInfoFormatted } from '../../data/types/Company'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
-import { registerCompany, editCompany } from '../../store/company'
+import { registerCompany, updateCompany } from '../../store/company'
 
 type Props = {
   company?: CompanyInfo
@@ -107,13 +107,16 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
       lastName: lastName.value
     }
 
-    if (!isEditing) {
-      dispatch(registerCompany({ ...companyData, admin: adminData }))
-    } else {
-      const companyId = company?.id || 0
-      const admin = adminEditingChecked ? adminData : undefined
+    if (isEditing) {
+      const updateCompanyData = {
+        ...companyData,
+        id: company?.id || -1,
+        admin: adminEditingChecked ? adminData : undefined
+      }
 
-      dispatch(editCompany({ ...companyData, id: companyId || 0, admin }))
+      dispatch(updateCompany(updateCompanyData))
+    } else {
+      dispatch(registerCompany({ ...companyData, admin: adminData }))
     }
 
     handleClose()

@@ -30,7 +30,8 @@
     "noCompanyInfo": "Még nem vettél fel cégeket.",
     "changeAdminText": "Le szeretném cserélni a mostani céges admint.",
     "businessHostName": "Céges fogadó neve",
-    "noBusinessHostsInfo": "Még nem vettél fel céges fogadó személyeket."
+    "noBusinessHostsInfo": "Még nem vettél fel céges fogadó személyeket.",
+    "businessHostDetails": "Céges fogadó adatai"
   },
   "consentForm": {
     "title": "Nyilatkozat címe",
@@ -82,7 +83,8 @@
     "invalidBuildingData": "Érvénytelen irodaház adat formátum",
     "invalidEmailFormat": "Érvénytelen email cím formátum",
     "invalidCompanyData": "Érvénytelen cég adat formátum",
-    "invalidConsentFormData": "Érvénytelen nyilatkozat formátum",
+    "invalidConsentFormData": "Érvénytelen nyilatkozat adat formátum",
+    "invalidBusinessHostData": "Érvénytelen céges fogadó adat formátum",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
     "logoutSuccess": "Sikeres kijelentkezés",
@@ -99,12 +101,16 @@
     "fetchBusinessHostsFailure": "Nem sikerült betölteni a céges fogadó személyeket.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
-    "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
-    "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
     "createConsentFormFailure": "Nem sikerült létrehozni a nyilatkozatot.",
     "createConsentFormVersionSuccess": "Sikeresen létrehoztad a nyilatkozat verziót.",
     "createConsentFormVersionFailure": "Nem sikerült létrehozni a nyilatkozat verziót.",
+    "createBusinessHostSuccess": "Sikeresen létrehoztad a céges fogadót.",
+    "createBusinessHostFailure": "Nem sikerült létrehozni a céges fogadót.",
+    "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
+    "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait.",
+    "updateBusinessHostSuccess": "Sikeresen frissítetted a céges fogadó adatait.",
+    "updateBusinessHostFailure": "Nem sikerült frissíteni a céges fogadó adatait.",
     "updateConsentFormVersionSuccess": "Sikeresen frissítetted a nyilatkozat verziót.",
     "updateConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
@@ -117,8 +123,8 @@
     "addBusinessHost": "Céges fogadó felvétele",
     "addVisit": "Látogatás felvétele",
     "editCompany": "Cég szerkesztése",
+    "editBusinessHost": "Céges fogadó személy szerkesztése",
     "openConsentForm": "Nyilatkozat megnyitása",
-    "openVisit": "Látogatás megnyitása",
-    "editBusinessHost": "Céges fogadó személy szerkesztése"
+    "openVisit": "Látogatás megnyitása"
   }
 }

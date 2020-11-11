@@ -7,6 +7,7 @@ import validationMiddleware from '../middlewares/validationMiddleware'
 import belongsToCompany from '../middlewares/belongsToCompany'
 import { UserPermissionType } from '../data/enums/UserPermissionType'
 import { CompanyUpdateSchema } from '../data/validationSchemas/CompanySchema'
+import { UserRegisterSchema, UserUpdateSchema } from '../data/validationSchemas/UserSchema'
 
 const companiesRouter = express.Router()
 const companiesController = container.resolve(CompaniesController)
@@ -40,9 +41,33 @@ companiesRouter.get(
 companiesRouter.get(
   '/:companyId/business-hosts',
   checkValidToken,
-  hasPermission([UserPermissionType.READ_VISITS]),
+  hasPermission([UserPermissionType.CREATE_BUSINESS_HOSTS]),
   belongsToCompany,
   companiesController.getBusinessHosts
+)
+
+/**
+ * POST - Creates a new business host for the company.
+ */
+companiesRouter.post(
+  '/:companyId/business-hosts',
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_BUSINESS_HOSTS]),
+  belongsToCompany,
+  validationMiddleware(UserRegisterSchema),
+  companiesController.createBusinessHost
+)
+
+/**
+ * PUT - Updates the specified business host.
+ */
+companiesRouter.put(
+  '/:companyId/business-hosts/:businessHostId',
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_BUSINESS_HOSTS]),
+  belongsToCompany,
+  validationMiddleware(UserUpdateSchema),
+  companiesController.updateBusinessHost
 )
 
 /**

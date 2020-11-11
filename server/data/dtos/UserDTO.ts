@@ -20,3 +20,9 @@ export interface UserRegisterDTO {
   firstName: string
   lastName: string
 }
+
+export interface UserUpdateDTO {
+  id: number
+  firstName: string
+  lastName: string
+}

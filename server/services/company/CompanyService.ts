@@ -6,24 +6,29 @@ import { inject, injectable } from 'inversify'
 import { CompanyRepositoryInterface } from '../../repositories/company'
 import { VisitRepositoryInterface } from '../../repositories/visit'
 import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
+import { UserRepositoryInterface } from '../../repositories/user'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO } from '../../data/dtos/ConsentFormDTO'
+import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
 
 @injectable()
 class CompanyService implements CompanyServiceInterface {
   private readonly companyRepository: CompanyRepositoryInterface
   private readonly visitRepository: VisitRepositoryInterface
   private readonly consentFormRepository: ConsentFormRepositoryInterface
+  private readonly userRepository: UserRepositoryInterface
 
   constructor(
     @inject(TYPES.CompanyRepository) companyRepository: CompanyRepositoryInterface,
     @inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface,
-    @inject(TYPES.ConsentFormRepository) consentFormRepository: ConsentFormRepositoryInterface
+    @inject(TYPES.ConsentFormRepository) consentFormRepository: ConsentFormRepositoryInterface,
+    @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface
   ) {
     this.companyRepository = companyRepository
     this.visitRepository = visitRepository
     this.consentFormRepository = consentFormRepository
+    this.userRepository = userRepository
   }
 
   public updateCompany = async (companyId: number, data: CompanyUpdateDTO): Promise<CompanyInfoDTO> => {
@@ -99,6 +104,53 @@ class CompanyService implements CompanyServiceInterface {
     }))
 
     return businessHostsInfo
+  }
+
+  public createBusinessHost = async (companyId: number, data: UserRegisterDTO): Promise<CompanyHostInfoDTO> => {
+    const company = await this.companyRepository.findCompanyById(companyId)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    // Hash company business host password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(data.password, salt)
+
+    // Save business host
+    const businessHost = await this.companyRepository.createBusinessHost(companyId, { ...data, password: hashedPassword })
+    const businessHostInfo: CompanyHostInfoDTO = {
+      id: businessHost.id,
+      firstName: businessHost.firstName,
+      lastName: businessHost.lastName,
+      email: businessHost.email,
+      createdAt: businessHost.createdAt
+    }
+
+    return businessHostInfo
+  }
+
+  public updateBusinessHost = async (companyId: number, hostId: number, data: UserUpdateDTO): Promise<CompanyHostInfoDTO> => {
+    const company = await this.companyRepository.findCompanyById(companyId)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    const businessHost = await this.userRepository.findUserById(hostId)
+    if (!businessHost) {
+      throw Boom.badRequest('Business host does not exist')
+    }
+
+    // Update business host
+    const updatedBusinessHost = await this.companyRepository.updateBusinessHost(hostId, data)
+    const updatedBusinessHostInfo: CompanyHostInfoDTO = {
+      id: updatedBusinessHost.id,
+      firstName: updatedBusinessHost.firstName,
+      lastName: updatedBusinessHost.lastName,
+      email: updatedBusinessHost.email,
+      createdAt: updatedBusinessHost.createdAt
+    }
+
+    return updatedBusinessHostInfo
   }
 
   public getConsentForms = async (companyId: number): Promise<ConsentFormInfoDTO[]> => {

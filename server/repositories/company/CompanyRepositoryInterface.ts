@@ -17,6 +17,7 @@ interface CompanyRepositoryInterface {
   /**
    * Returns all employees from the specified company that match the provided user role.
    * If user role is not provided, returns all company employee.
+   *
    * @param role - optinal user role to match
    */
   findCompanyEmployees(companyId: number, role?: UserRoleType): Promise<User[]>
@@ -30,6 +31,16 @@ interface CompanyRepositoryInterface {
    * Updates the specified company with the provided data.
    */
   updateCompany(company: Partial<Company>, address: Partial<Address>, admin?: Partial<User>): Promise<Company>
+
+  /**
+   * Creates new business host with the provided data in the specified company.
+   */
+  createBusinessHost(companyId: number, user: Partial<User>): Promise<User>
+
+  /**
+   * Updates the specified business host with the provided data.
+   */
+  updateBusinessHost(businessHostId: number, user: Partial<User>): Promise<User>
 }
 
 export default CompanyRepositoryInterface
