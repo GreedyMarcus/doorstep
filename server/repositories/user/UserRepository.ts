@@ -33,19 +33,19 @@ class UserRepository extends Repository<User> implements UserRepositoryInterface
       .getOne()
   }
 
-  public saveUser(user: User): Promise<User> {
-    return getRepository(User).save(user)
-  }
-
   public async getPermissionsForUser(userId: number): Promise<string[]> {
     const role = await getRepository(UserRole)
       .createQueryBuilder('role')
-      .innerJoinAndSelect('role.permissions', 'permission')
+      .leftJoinAndSelect('role.permissions', 'permission')
       .leftJoinAndSelect(User, 'user', 'user.role = role.id')
       .where('user.id = :userId', { userId })
       .getOne()
 
     return role?.permissions.map(permission => permission.name)
+  }
+
+  public saveUser(user: User): Promise<User> {
+    return getRepository(User).save(user)
   }
 }
 

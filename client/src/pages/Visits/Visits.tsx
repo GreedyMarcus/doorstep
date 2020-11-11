@@ -43,7 +43,7 @@ const ConsentForms: React.FC = () => {
                 businessHostName: visit.businessHostName,
                 purpose: visit.purpose,
                 room: visit.room,
-                plannedEntry: visit.plannedEntry.toLocaleDateString(i18n.language)
+                plannedEntry: new Date(visit.plannedEntry).toLocaleDateString(i18n.language)
               }))}
               tooltipLabel={t('action.openVisit')}
               onOpenClick={visitId => history.push(`/visits/${visitId}`)}

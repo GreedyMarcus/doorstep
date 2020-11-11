@@ -13,7 +13,7 @@ const consentFormsRouter = express.Router()
 const consentFormsController = container.resolve(ConsentFormsController)
 
 /**
- * GET - Returns a global consent form specified by its id.
+ * GET - Returns a global consent form specified by id.
  */
 consentFormsRouter.get(
   '/global/:consentFormId',
@@ -24,7 +24,7 @@ consentFormsRouter.get(
 )
 
 /**
- * POST - Creates new global consent form version.
+ * POST - Creates a new global consent form version.
  */
 consentFormsRouter.post(
   '/global/:consentFormId/versions',

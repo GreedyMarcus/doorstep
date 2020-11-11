@@ -35,7 +35,7 @@ const BusinessHosts: React.FC = () => {
               id: host.id,
               name: `${host.firstName} ${host.lastName}`,
               email: host.email,
-              createdAt: host.createdAt.toLocaleDateString(i18n.language)
+              createdAt: new Date(host.createdAt).toLocaleDateString(i18n.language)
             }))}
             tooltipLabel={t('action.editBusinessHost')}
             editable

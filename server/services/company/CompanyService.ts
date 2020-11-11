@@ -5,6 +5,7 @@ import CompanyServiceInterface from './CompanyServiceInterface'
 import { inject, injectable } from 'inversify'
 import { CompanyRepositoryInterface } from '../../repositories/company'
 import { VisitRepositoryInterface } from '../../repositories/visit'
+import { UserRoleType } from '../../data/enums/UserRoleType'
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
 
 @injectable()
@@ -83,7 +84,7 @@ class CompanyService implements CompanyServiceInterface {
       throw Boom.badRequest('Company does not exist')
     }
 
-    const businessHosts = await this.companyRepository.findCompanyBusinessHosts(companyId)
+    const businessHosts = await this.companyRepository.findCompanyEmployees(companyId, UserRoleType.BUSINESS_HOST)
     const businessHostsInfo: CompanyHostInfoDTO[] = businessHosts.map(({ id, firstName, lastName, email, createdAt }) => ({
       id,
       firstName,

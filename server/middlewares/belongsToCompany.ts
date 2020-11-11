@@ -19,12 +19,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   // User is the admin of the building associated with company
   if (company.officeBuilding.admin.id === res.locals.userId) {
-    next()
+    return next()
   }
 
   // User is an employee of the company
   if (company.employees.findIndex(user => user.id === res.locals.userId) !== -1) {
-    next()
+    return next()
   }
 
   next(Boom.forbidden('User does not belong to the company'))

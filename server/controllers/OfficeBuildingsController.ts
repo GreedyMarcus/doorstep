@@ -20,7 +20,7 @@ class OfficeBuildingsController {
     }
   }
 
-  public getCompaniesInOfficeBuilding = async (req: Request, res: Response, next: NextFunction) => {
+  public getCompanies = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const buildingId = Number(req.params.buildingId)
       const companies = await this.officeBuildingService.getCompanies(buildingId)
@@ -30,7 +30,7 @@ class OfficeBuildingsController {
     }
   }
 
-  public registerCompanyInOfficeBuilding = async (req: Request, res: Response, next: NextFunction) => {
+  public registerCompany = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const buildingId = Number(req.params.buildingId)
       const company = await this.officeBuildingService.registerCompany(buildingId, req.body)
@@ -40,7 +40,7 @@ class OfficeBuildingsController {
     }
   }
 
-  public getGlobalConsentForms = async (req: Request, res: Response, next: NextFunction) => {
+  public getConsentForms = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const buildingId = Number(req.params.buildingId)
       const consentForms = await this.officeBuildingService.getConsentForms(buildingId)
@@ -50,7 +50,7 @@ class OfficeBuildingsController {
     }
   }
 
-  public createGlobalConsentForm = async (req: Request, res: Response, next: NextFunction) => {
+  public createConsentForm = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const buildingId = Number(req.params.buildingId)
       const consentForm = await this.officeBuildingService.createConsentForm(buildingId, req.body)

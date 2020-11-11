@@ -27,7 +27,7 @@ const App = () => {
     const tokenInterceptor = axios.interceptors.response.use(
       res => res,
       err => {
-        if (err.response.status === 403) {
+        if (err.response.status === 401) {
           dispatch(logoutUser())
         }
         return Promise.reject(err)

@@ -8,7 +8,7 @@ class OfficeBuildingService {
   public static API_BASE = '/api/buildings'
 
   public static async registerBuilding(data: OfficeBuildingRegister): Promise<void> {
-    await axios.post(`${OfficeBuildingService.API_BASE}/register`, data)
+    await axios.post(`${OfficeBuildingService.API_BASE}`, data)
   }
 
   public static async getCompaniesInBuilding(buildingId: number): Promise<CompanyInfo[]> {
