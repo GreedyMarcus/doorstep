@@ -33,11 +33,16 @@ const companySlice = createSlice({
     },
     businessHostsFetched: (state, { payload }: PayloadAction<BusinessHostInfo[]>) => {
       state.businessHosts = payload
+    },
+    companySliceCleared: (state) => {
+      state.companies = [],
+      state.businessHosts=  []
     }
   }
 })
 
 export const { reducer } = companySlice
+export const { companySliceCleared } = companySlice.actions
 const { companiesFetched, companyRegistered, companyUpdated, businessHostsFetched } = companySlice.actions
 
 export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () => RootState) => {

@@ -4,6 +4,9 @@ import OfficeBuildingService from '../../services/OfficeBuildingService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch } from '..'
 import { setLoading, addNotification } from '../action'
+import { companySliceCleared } from '../company'
+import { consentFormSliceCleared } from '../consentForm'
+import { visitSliceCleared } from '../visit'
 import { UserInfo, UserLogin } from '../../data/types/User'
 import { OfficeBuildingRegister } from '../../data/types/OfficeBuilding'
 
@@ -53,6 +56,9 @@ export const loginUser = (data: UserLogin) => async (dispatch: AppDispatch) => {
 export const logoutUser = () => (dispatch: AppDispatch) => {
   AuthService.logoutUser()
   dispatch(userLogoutSucceed())
+  dispatch(companySliceCleared())
+  dispatch(consentFormSliceCleared())
+  dispatch(visitSliceCleared())
   dispatch(addNotification({ type: 'success', message: i18n.t('notification.logoutSuccess') }))
 }
 

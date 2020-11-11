@@ -48,11 +48,16 @@ const consentFormSlice = createSlice({
         const activatedIndex = state.activeConsentForm.versions.findIndex(version => version.id === payload)
         state.activeConsentForm.activeVersion = state.activeConsentForm.versions[activatedIndex]
       }
+    },
+    consentFormSliceCleared: (state) => {
+      state.consentForms = [],
+      state.activeConsentForm = null
     }
   }
 })
 
 export const { reducer } = consentFormSlice
+export const { consentFormSliceCleared } = consentFormSlice.actions
 const {
   consentFormsFetched,
   consentFormCreated,
