@@ -20,7 +20,7 @@ const visitSlice = createSlice({
     visitsFetched: (state, { payload }: PayloadAction<VisitInfo[]>) => {
       state.visits = payload
     },
-    visitSliceCleared: (state) => {
+    visitSliceCleared: state => {
       state.visits = []
     }
   }

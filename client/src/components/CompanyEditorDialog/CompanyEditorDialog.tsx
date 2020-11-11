@@ -110,7 +110,7 @@ const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) =
     if (!isEditing) {
       dispatch(registerCompany({ ...companyData, admin: adminData }))
     } else {
-      const companyId = company?.id || 0
+      const companyId = company?.id || -1
       const admin = adminEditingChecked ? adminData : undefined
 
       dispatch(editCompany({ ...companyData, id: companyId || 0, admin }))

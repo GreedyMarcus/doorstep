@@ -49,8 +49,8 @@ const consentFormSlice = createSlice({
         state.activeConsentForm.activeVersion = state.activeConsentForm.versions[activatedIndex]
       }
     },
-    consentFormSliceCleared: (state) => {
-      state.consentForms = [],
+    consentFormSliceCleared: state => {
+      state.consentForms = []
       state.activeConsentForm = null
     }
   }

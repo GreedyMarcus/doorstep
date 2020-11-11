@@ -34,9 +34,9 @@ const companySlice = createSlice({
     businessHostsFetched: (state, { payload }: PayloadAction<BusinessHostInfo[]>) => {
       state.businessHosts = payload
     },
-    companySliceCleared: (state) => {
-      state.companies = [],
-      state.businessHosts=  []
+    companySliceCleared: state => {
+      state.companies = []
+      state.businessHosts = []
     }
   }
 })

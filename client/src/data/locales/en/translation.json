@@ -30,7 +30,8 @@
     "noCompanyInfo": "You have not added any companies yet.",
     "changeAdminText": "I would like to replace the current admin.",
     "businessHostName": "Business host name",
-    "noBusinessHostsInfo": "You have not added any business hosts yet."
+    "noBusinessHostsInfo": "You have not added any business hosts yet.",
+    "businessHostDetails": "Business host details"
   },
   "consentForm": {
     "title": "Consent form title",
@@ -83,6 +84,7 @@
     "invalidEmailFormat": "Invalid email format",
     "invalidCompanyData": "Invalid company details format",
     "invalidConsentFormData": "Invalid consent form details format",
+    "invalidBusinessHostData": "Invalid business host details format",
     "loginSuccess": "Successful login",
     "loginFailure": "Incorrect email address or password",
     "logoutSuccess": "Successful logout",
@@ -117,8 +119,8 @@
     "addBusinessHost": "Add business host",
     "addVisit": "Add visit",
     "editCompany": "Edit company",
+    "editBusinessHost": "Edit business host",
     "openConsentForm": "Open consent form",
-    "openVisit": "Open visit",
-    "editBusinessHost": "Edit business host"
+    "openVisit": "Open visit"
   }
 }
