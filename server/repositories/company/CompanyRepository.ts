@@ -73,6 +73,7 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
     // Force rollback if role does not exist
     if (!companyAdminRole) throw Error
 
+    // Get building for company
     const companyBuilding = await getRepository(OfficeBuilding)
       .createQueryBuilder('building')
       .where('building.id = :buildingId', { buildingId })
@@ -196,6 +197,37 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
 
       return updatedCompany
     })
+  }
+
+  public async createBusinessHost(companyId: number, user: Partial<User>): Promise<User> {
+    // Get business host role for user
+    const businessHostRole = await getRepository(UserRole)
+      .createQueryBuilder('role')
+      .where('role.name = :roleName', { roleName: UserRoleType.BUSINESS_HOST })
+      .getOne()
+
+    // Force rollback if role does not exist
+    if (!businessHostRole) throw Error
+
+    // Get company for user
+    const company = await getRepository(Company)
+      .createQueryBuilder('company')
+      .where('company.id = :companyId', { companyId })
+      .getOne()
+
+    // Force rollback if building does not exist
+    if (!company) throw Error
+
+    // Save business host
+    const newBusinessHost = new User()
+    newBusinessHost.email = user.email
+    newBusinessHost.password = user.password
+    newBusinessHost.firstName = user.firstName
+    newBusinessHost.lastName = user.lastName
+    newBusinessHost.role = businessHostRole
+    newBusinessHost.company = company
+
+    return getRepository(User).save(newBusinessHost)
   }
 }
 

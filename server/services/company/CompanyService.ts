@@ -9,6 +9,7 @@ import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO } from '../../data/dtos/ConsentFormDTO'
+import { UserRegisterDTO } from '../../data/dtos/UserDTO'
 
 @injectable()
 class CompanyService implements CompanyServiceInterface {
@@ -117,6 +118,29 @@ class CompanyService implements CompanyServiceInterface {
     }))
 
     return consentFormsInfo
+  }
+
+  public createBusinessHost = async (companyId: number, data: UserRegisterDTO): Promise<CompanyHostInfoDTO> => {
+    const company = await this.companyRepository.findCompanyById(companyId)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    // Hash company business host password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(data.password, salt)
+
+    // Save business host
+    const businessHost = await this.companyRepository.createBusinessHost(companyId, { ...data, password: hashedPassword })
+    const businessHostInfo: CompanyHostInfoDTO = {
+      id: businessHost.id,
+      firstName: businessHost.firstName,
+      lastName: businessHost.lastName,
+      email: businessHost.email,
+      createdAt: businessHost.createdAt
+    }
+
+    return businessHostInfo
   }
 }
 
