@@ -14,6 +14,7 @@ export const UserRegisterSchema = Joi.object({
 })
 
 export const UserUpdateSchema = Joi.object({
+  id: Joi.number().required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required()
 })

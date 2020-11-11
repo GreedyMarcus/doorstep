@@ -109,6 +109,8 @@
     "createBusinessHostFailure": "Nem sikerült létrehozni a céges fogadót.",
     "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
     "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait.",
+    "updateBusinessHostSuccess": "Sikeresen frissítetted a céges fogadó adatait.",
+    "updateBusinessHostFailure": "Nem sikerült frissíteni a céges fogadó adatait.",
     "updateConsentFormVersionSuccess": "Sikeresen frissítetted a nyilatkozat verziót.",
     "updateConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",

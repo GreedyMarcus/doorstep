@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import TableContainer from '@material-ui/core/TableContainer'
 import Table from '@material-ui/core/Table'
 import TableHead from '@material-ui/core/TableHead'
@@ -17,15 +17,14 @@ type Props = {
   labels: string[]
   data: any[]
   tooltipLabel: string
-  editable?: boolean
   onOpenClick?: (itemId: number) => void
+  onEditClick?: (itemId: number) => void
 }
 
-const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, editable, onOpenClick }) => {
+const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, onOpenClick, onEditClick }) => {
   const classes = useStyles()
   const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
 
-  const [showEditor, setShowEditor] = useState(false)
   const [firstLabel, ...otherLabels] = labels
 
   const loadAdditionalTableCells = useCallback(
@@ -48,7 +47,7 @@ const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, editable, o
           <TableRow>
             <TableCell className={classes.tableHeaderCell}>{firstLabel}</TableCell>
             {showMore && loadAdditionalTableCells(otherLabels, classes.tableHeaderCell)}
-            {(editable || onOpenClick) && <TableCell className={classes.tableEmptyCell} />}
+            {(onOpenClick || onEditClick) && <TableCell className={classes.tableEmptyCell} />}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -58,7 +57,7 @@ const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, editable, o
               <TableRow key={id}>
                 <TableCell className={classes.tableBodyCell}>{firstValue}</TableCell>
                 {showMore && loadAdditionalTableCells(otherValues, classes.tableBodyCell)}
-                {onOpenClick && !editable && (
+                {onOpenClick && !onEditClick && (
                   <TableCell className={classes.tableEmptyCell}>
                     <Tooltip title={tooltipLabel}>
                       <IconButton size="small" onClick={() => onOpenClick(id)}>
@@ -67,10 +66,10 @@ const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, editable, o
                     </Tooltip>
                   </TableCell>
                 )}
-                {editable && !onOpenClick && (
+                {onEditClick && !onOpenClick && (
                   <TableCell className={classes.tableEmptyCell}>
                     <Tooltip title={tooltipLabel}>
-                      <IconButton size="small" onClick={() => setShowEditor(true)}>
+                      <IconButton size="small" onClick={() => onEditClick(id)}>
                         <EditRoundedIcon />
                       </IconButton>
                     </Tooltip>

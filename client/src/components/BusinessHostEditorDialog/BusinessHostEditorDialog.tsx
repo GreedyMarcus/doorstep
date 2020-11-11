@@ -15,7 +15,7 @@ import { BusinessHostInfo } from '../../data/types/User'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
-import { createBusinessHost } from '../../store/company'
+import { createBusinessHost, updateBusinessHost } from '../../store/company'
 
 type Props = {
   businessHost?: BusinessHostInfo
@@ -42,7 +42,7 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
   }
 
   const handleSave = () => {
-    const isBusinessHostDataValid = [firstName, lastName, email, password].every(param => param.isValid)
+    const isBusinessHostDataValid = [firstName, lastName, email].every(param => param.isValid)
     if (!isBusinessHostDataValid) {
       dispatch(addNotification({ type: 'error', message: t('notification.invalidBusinessHostData') }))
       return
@@ -55,10 +55,16 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
       password: password.value
     }
 
-    if (!isEditing) {
-      dispatch(createBusinessHost(businessHostData))
+    if (isEditing) {
+      const updateBusinessHostData = {
+        id: businessHost?.id || -1,
+        firstName: businessHostData.firstName,
+        lastName: businessHostData.lastName
+      }
+
+      dispatch(updateBusinessHost(updateBusinessHostData))
     } else {
-      // Dispatch edit action...
+      dispatch(createBusinessHost(businessHostData))
     }
 
     handleClose()

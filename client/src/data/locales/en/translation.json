@@ -111,6 +111,8 @@
     "updateCompanyFailure": "Could not update company",
     "updateConsentFormVersionSuccess": "Successful consent form version update",
     "updateConsentFormVersionFailure": "Could not update consent form version",
+    "updateBusinessHostSuccess": "Successful business host update",
+    "updateBusinessHostFailure": "Could not update business host",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
     "activateConsentFormVersionFailure": "Could not activate consent form version"
   },

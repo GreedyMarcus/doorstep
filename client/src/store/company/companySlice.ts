@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
 import { CompanyInfo, CompanyRegister, CompanyUpdate } from '../../data/types/Company'
-import { BusinessHostInfo, UserRegister } from '../../data/types/User'
+import { BusinessHostInfo, UserRegister, UserUpdate } from '../../data/types/User'
 
 type CompanySliceState = {
   companies: CompanyInfo[]
@@ -37,6 +37,10 @@ const companySlice = createSlice({
     businessHostCreated: (state, { payload }: PayloadAction<BusinessHostInfo>) => {
       state.businessHosts.push(payload)
     },
+    businessHostUpdated: (state, { payload }: PayloadAction<BusinessHostInfo>) => {
+      const index = state.businessHosts.findIndex(host => host.id === payload.id)
+      state.businessHosts[index] = payload
+    },
     companySliceCleared: state => {
       state.companies = []
       state.businessHosts = []
@@ -46,7 +50,14 @@ const companySlice = createSlice({
 
 export const { reducer } = companySlice
 export const { companySliceCleared } = companySlice.actions
-const { companiesFetched, companyRegistered, companyUpdated, businessHostsFetched, businessHostCreated } = companySlice.actions
+const {
+  companiesFetched,
+  companyRegistered,
+  companyUpdated,
+  businessHostsFetched,
+  businessHostCreated,
+  businessHostUpdated
+} = companySlice.actions
 
 export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
@@ -83,7 +94,7 @@ export const registerCompany = (company: CompanyRegister) => async (dispatch: Ap
   dispatch(setLoading(false))
 }
 
-export const editCompany = (company: CompanyUpdate) => async (dispatch: AppDispatch) => {
+export const updateCompany = (company: CompanyUpdate) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
   try {
@@ -128,6 +139,24 @@ export const createBusinessHost = (data: UserRegister) => async (dispatch: AppDi
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.createBusinessHostSuccess') }))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.createBusinessHostFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+export const updateBusinessHost = (host: UserUpdate) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const companyId = user.activeUser?.companyId ?? -1
+    const updatedBusinessHost = await CompanyService.updateBusinessHost(companyId, host.id, host)
+
+    dispatch(businessHostUpdated(updatedBusinessHost))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateBusinessHostSuccess') }))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateBusinessHostFailure') }))
   }
 
   dispatch(setLoading(false))

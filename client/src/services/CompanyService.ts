@@ -2,7 +2,7 @@ import axios from 'axios'
 import AuthService from './AuthService'
 import { CompanyInfo, CompanyUpdate } from '../data/types/Company'
 import { VisitInfo } from '../data/types/Visit'
-import { BusinessHostInfo, UserRegister } from '../data/types/User'
+import { BusinessHostInfo, UserRegister, UserUpdate } from '../data/types/User'
 import { ConsentFormInfo } from '../data/types/ConsentForm'
 
 class CompanyService {
@@ -45,6 +45,16 @@ class CompanyService {
     const config = { headers: authHeader }
 
     const result = await axios.post(url, data, config)
+    return result.data as BusinessHostInfo
+  }
+
+  public static async updateBusinessHost(companyId: number, hostId: number, data: UserUpdate): Promise<BusinessHostInfo> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${CompanyService.API_BASE}/${companyId}/business-hosts/${hostId}`
+    const config = { headers: authHeader }
+
+    const result = await axios.put(url, data, config)
     return result.data as BusinessHostInfo
   }
 
