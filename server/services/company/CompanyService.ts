@@ -9,7 +9,7 @@ import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
-import { ConsentFormInfoDTO } from '../../data/dtos/ConsentFormDTO'
+import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
 
 @injectable()
@@ -169,6 +169,23 @@ class CompanyService implements CompanyServiceInterface {
     }))
 
     return consentFormsInfo
+  }
+
+  public createConsentForm = async (companyId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO> => {
+    const building = await this.companyRepository.findCompanyById(companyId)
+    if (!building) {
+      throw Boom.badRequest('Company does not exists')
+    }
+
+    const consentForm = await this.consentFormRepository.createLocalConsentForm(companyId, data.title, data.content)
+    const consentFormInfo: ConsentFormInfoDTO = {
+      id: consentForm.id,
+      title: consentForm.title,
+      activeVersion: null,
+      createdAt: consentForm.createdAt
+    }
+
+    return consentFormInfo
   }
 }
 

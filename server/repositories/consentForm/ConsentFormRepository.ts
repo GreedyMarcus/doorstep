@@ -1,4 +1,5 @@
 import OfficeBuilding from '../../models/OfficeBuilding'
+import Company from '../../models/Company'
 import ConsentForm from '../../models/ConsentForm'
 import ConsentFormVersion from '../../models/ConsentFormVersion'
 import ConsentFormRepositoryInterface from './ConsentFormRepositoryInterface'
@@ -81,6 +82,36 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
       await transactionEntityManager.getRepository(ConsentFormVersion).save(newGlobalConsentFormVersion)
 
       return createdGlobalConsentForm
+    })
+  }
+
+  public async createLocalConsentForm(companyId: number, title: string, content: string): Promise<ConsentForm> {
+    const company = await getRepository(Company)
+      .createQueryBuilder('company')
+      .where('company.id = :companyId', { companyId })
+      .getOne()
+
+    // Force rollback if building does not exist
+    if (!company) throw Error
+
+    return getManager().transaction(async transactionEntityManager => {
+      // Save local consent form
+      const newLocalConsentForm = new ConsentForm()
+      newLocalConsentForm.title = title
+      newLocalConsentForm.type = ConsentFormType.LOCAL
+      newLocalConsentForm.company = company
+
+      const createdLocalConsentForm = await transactionEntityManager.getRepository(ConsentForm).save(newLocalConsentForm)
+
+      // Save first local consent form version
+      const newLocalConsentFormVersion = new ConsentFormVersion()
+      newLocalConsentFormVersion.content = content
+      newLocalConsentFormVersion.versionNumber = 1
+      newLocalConsentFormVersion.consentForm = createdLocalConsentForm
+
+      await transactionEntityManager.getRepository(ConsentFormVersion).save(newLocalConsentFormVersion)
+
+      return createdLocalConsentForm
     })
   }
 

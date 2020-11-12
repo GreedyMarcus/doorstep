@@ -8,6 +8,7 @@ import belongsToCompany from '../middlewares/belongsToCompany'
 import { UserPermissionType } from '../data/enums/UserPermissionType'
 import { CompanyUpdateSchema } from '../data/validationSchemas/CompanySchema'
 import { UserRegisterSchema, UserUpdateSchema } from '../data/validationSchemas/UserSchema'
+import { ConsentFormCreateSchema } from '../data/validationSchemas/ConsentFormSchema'
 
 const companiesRouter = express.Router()
 const companiesController = container.resolve(CompaniesController)
@@ -79,6 +80,18 @@ companiesRouter.get(
   hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
   belongsToCompany,
   companiesController.getConsentForms
+)
+
+/**
+ * POST - Creates a new consent form for the company.
+ */
+companiesRouter.post(
+  '/:companyId/consent-forms',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
+  belongsToCompany,
+  validationMiddleware(ConsentFormCreateSchema),
+  companiesController.createConsentForm
 )
 
 export default companiesRouter
