@@ -17,3 +17,15 @@ export const CompanyUpdateSchema = Joi.object({
   address: AddressSchema,
   admin: UserRegisterSchema.optional()
 })
+
+export const CompanyConfigSchema = Joi.object({
+  storeNationality: Joi.boolean().required(),
+  storeAddress: Joi.boolean().required(),
+  storePhoneNumber: Joi.boolean().required(),
+  storeBirthplace: Joi.boolean().required(),
+  storeBirthDate: Joi.boolean().required(),
+  storeMotherName: Joi.boolean().required(),
+  storeCompany: Joi.boolean().required(),
+  registerGuestCard: Joi.boolean().required(),
+  trackActualExit: Joi.boolean().required()
+})

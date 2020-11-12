@@ -241,6 +241,22 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
 
     return getRepository(User).save(businessHost)
   }
+
+  public async updateCompanyConfig(companyId: number, config: Partial<CompanyRegisterConfig>): Promise<CompanyRegisterConfig> {
+    const company = await this.findCompanyById(companyId)
+
+    company.registerConfig.storeNationality = config.storeNationality
+    company.registerConfig.storeAddress = config.storeAddress
+    company.registerConfig.storePhoneNumber = config.storePhoneNumber
+    company.registerConfig.storeBirthplace = config.storeBirthplace
+    company.registerConfig.storeBirthDate = config.storeBirthDate
+    company.registerConfig.storeMotherName = config.storeMotherName
+    company.registerConfig.storeCompany = config.storeCompany
+    company.registerConfig.registerGuestCard = config.registerGuestCard
+    company.registerConfig.trackActualExit = config.trackActualExit
+
+    return getRepository(CompanyRegisterConfig).save(company.registerConfig)
+  }
 }
 
 export default CompanyRepository

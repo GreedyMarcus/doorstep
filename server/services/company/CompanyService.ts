@@ -8,7 +8,13 @@ import { VisitRepositoryInterface } from '../../repositories/visit'
 import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { UserRoleType } from '../../data/enums/UserRoleType'
-import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
+import {
+  CompanyUpdateDTO,
+  CompanyInfoDTO,
+  CompanyVisitInfoDTO,
+  CompanyHostInfoDTO,
+  CompanyRegisterConfigDTO
+} from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
 
@@ -186,6 +192,36 @@ class CompanyService implements CompanyServiceInterface {
     }
 
     return consentFormInfo
+  }
+
+  public getCompanyConfig = async (companyId: number): Promise<CompanyRegisterConfigDTO> => {
+    const company = await this.companyRepository.findCompanyById(companyId)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    const registerConfigInfo: CompanyRegisterConfigDTO = {
+      storeNationality: company.registerConfig.storeNationality,
+      storeAddress: company.registerConfig.storeAddress,
+      storePhoneNumber: company.registerConfig.storePhoneNumber,
+      storeBirthplace: company.registerConfig.storeBirthplace,
+      storeBirthDate: company.registerConfig.storeBirthDate,
+      storeMotherName: company.registerConfig.storeMotherName,
+      storeCompany: company.registerConfig.storeCompany,
+      registerGuestCard: company.registerConfig.registerGuestCard,
+      trackActualExit: company.registerConfig.trackActualExit
+    }
+
+    return registerConfigInfo
+  }
+
+  public updateCompanyConfig = async (companyId: number, data: CompanyRegisterConfigDTO): Promise<void> => {
+    const company = await this.companyRepository.findCompanyById(companyId)
+    if (!company) {
+      throw Boom.badRequest('Company does not exist')
+    }
+
+    await this.companyRepository.updateCompanyConfig(companyId, data)
   }
 }
 

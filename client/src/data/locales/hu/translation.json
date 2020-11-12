@@ -2,6 +2,7 @@
   "general": {
     "back": "Vissza",
     "next": "Tovább",
+    "address": "Lakcím",
     "country": "Ország",
     "zipCode": "Irányítószám",
     "city": "Város",
@@ -15,7 +16,8 @@
     "save": "Mentés",
     "ok": "Ok",
     "activate": "Aktiválás",
-    "clear": "Törlés"
+    "clear": "Törlés",
+    "settings": "Beállítások"
   },
   "company": {
     "name": "Cégnév",
@@ -31,7 +33,9 @@
     "changeAdminText": "Le szeretném cserélni a mostani céges admint.",
     "businessHostName": "Céges fogadó neve",
     "noBusinessHostsInfo": "Még nem vettél fel céges fogadó személyeket.",
-    "businessHostDetails": "Céges fogadó adatai"
+    "businessHostDetails": "Céges fogadó adatai",
+    "guestDataSettings": "Vendégekről tárolt adatok",
+    "otherSettings": "Egyéb beállítások"
   },
   "consentForm": {
     "title": "Nyilatkozat címe",
@@ -53,6 +57,15 @@
     "filter": "Látogatás Szűrő",
     "fromDate": "Látogatások dátumtól",
     "untilDate": "Látogatások dátumig"
+  },
+  "guest": {
+    "nationality": "Nemzetiség",
+    "phoneNumber": "Telefonszám",
+    "birthplace": "Születési hely",
+    "birthDate": "Születési idő",
+    "motherName": "Anyja neve",
+    "mustRegisterCard": "Szükséges regisztrálni vendégkártyát.",
+    "mustTrackActualExit": "Szükséges regisztrálni a tényleges kilépéi időpontját."
   },
   "auth": {
     "email": "Email cím",
@@ -99,6 +112,7 @@
     "fetchConsentFormByIdFailure": "Nem sikerült betölteni a kiválasztott nyilatkozatot",
     "fetchVisitsFailure": "Nem sikerült betölteni a látogatásokat.",
     "fetchBusinessHostsFailure": "Nem sikerült betölteni a céges fogadó személyeket.",
+    "fetchCompanyConfigFailure": "Nem sikerült betölteni a céges beállításokat.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
@@ -113,6 +127,8 @@
     "updateBusinessHostFailure": "Nem sikerült frissíteni a céges fogadó adatait.",
     "updateConsentFormVersionSuccess": "Sikeresen frissítetted a nyilatkozat verziót.",
     "updateConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
+    "updateCompanyConfigSuccess": "Sikeresen frissítetted a céges beállításokat.",
+    "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
     "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
   },

@@ -1,6 +1,7 @@
 import User from '../../models/User'
 import Address from '../../models/Address'
 import Company from '../../models/Company'
+import CompanyRegisterConfig from '../../models/CompanyRegisterConfig'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 
 interface CompanyRepositoryInterface {
@@ -41,6 +42,11 @@ interface CompanyRepositoryInterface {
    * Updates the specified business host with the provided data.
    */
   updateBusinessHost(businessHostId: number, user: Partial<User>): Promise<User>
+
+  /**
+   * Updates the register config information that belongs to the company.
+   */
+  updateCompanyConfig(companyId: number, config: Partial<CompanyRegisterConfig>): Promise<CompanyRegisterConfig>
 }
 
 export default CompanyRepositoryInterface

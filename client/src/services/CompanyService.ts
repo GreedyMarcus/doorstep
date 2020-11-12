@@ -1,6 +1,6 @@
 import axios from 'axios'
 import AuthService from './AuthService'
-import { CompanyInfo, CompanyUpdate } from '../data/types/Company'
+import { CompanyInfo, CompanyUpdate, CompanyConfig } from '../data/types/Company'
 import { VisitInfo } from '../data/types/Visit'
 import { BusinessHostInfo, UserRegister, UserUpdate } from '../data/types/User'
 import { ConsentFormInfo, ConsentFormCreate } from '../data/types/ConsentForm'
@@ -76,6 +76,25 @@ class CompanyService {
 
     const result = await axios.post(url, data, config)
     return result.data as ConsentFormInfo
+  }
+
+  public static async getCompanyConfig(companyId: number): Promise<CompanyConfig> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${CompanyService.API_BASE}/${companyId}/config`
+    const config = { headers: authHeader }
+
+    const result = await axios.get(url, config)
+    return result.data as CompanyConfig
+  }
+
+  public static async updateCompanyConfig(companyId: number, data: CompanyConfig) {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${CompanyService.API_BASE}/${companyId}/config`
+    const config = { headers: authHeader }
+
+    await axios.put(url, data, config)
   }
 }
 

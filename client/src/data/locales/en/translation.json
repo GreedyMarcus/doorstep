@@ -2,6 +2,7 @@
   "general": {
     "back": "Back",
     "next": "Next",
+    "address": "Address",
     "country": "Country",
     "zipCode": "Zip code",
     "city": "City",
@@ -15,7 +16,8 @@
     "save": "Save",
     "ok": "Ok",
     "activate": "Activate",
-    "clear": "Clear"
+    "clear": "Clear",
+    "settings": "Settings"
   },
   "company": {
     "name": "Company name",
@@ -31,7 +33,9 @@
     "changeAdminText": "I would like to replace the current admin.",
     "businessHostName": "Business host name",
     "noBusinessHostsInfo": "You have not added any business hosts yet.",
-    "businessHostDetails": "Business host details"
+    "businessHostDetails": "Business host details",
+    "guestDataSettings": "Stored guest data",
+    "otherSettings": "Other settings"
   },
   "consentForm": {
     "title": "Consent form title",
@@ -53,6 +57,15 @@
     "filter": "Visit filter",
     "fromDate": "Visits from date",
     "untilDate": "Visits until date"
+  },
+  "guest": {
+    "nationality": "Nationality",
+    "phoneNumber": "Phone number",
+    "birthplace": "Birthplace",
+    "birthDate": "Birth date",
+    "motherName": "Mother's name",
+    "mustRegisterCard": "It is necessary to register a guest card.",
+    "mustTrackActualExit": "It is necessary to track the actual exit time."
   },
   "auth": {
     "email": "Email address",
@@ -99,6 +112,7 @@
     "fetchConsentFormByIdFailure": "Could not load selected consent form",
     "fetchVisitsFailure": "Could not load visits",
     "fetchBusinessHostsFailure": "Could not load business hosts",
+    "fetchCompanyConfigFailure": "Could not load company config",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "createConsentFormSuccess": "Successful consent form creation",
@@ -113,6 +127,8 @@
     "updateConsentFormVersionFailure": "Could not update consent form version",
     "updateBusinessHostSuccess": "Successful business host update",
     "updateBusinessHostFailure": "Could not update business host",
+    "updateCompanyConfigSuccess": "Successful company config update",
+    "updateCompanyConfigFailure": "Could not update company config",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
     "activateConsentFormVersionFailure": "Could not activate consent form version"
   },
