@@ -118,10 +118,22 @@ export const createConsentForm = (data: ConsentFormCreate) => async (dispatch: A
   dispatch(setLoading(true))
 
   try {
-    const buildingId = user.activeUser?.buildingId ?? -1
-    const createdConsentForm = await OfficeBuildingService.createConsentform(buildingId, data)
+    // Create global consent form
+    if (user.activeUser?.role === UserRole.ADMIN) {
+      const buildingId = user.activeUser?.buildingId ?? -1
+      const createdGlobalConsentForm = await OfficeBuildingService.createConsentForm(buildingId, data)
 
-    dispatch(consentFormCreated(createdConsentForm))
+      dispatch(consentFormCreated(createdGlobalConsentForm))
+    }
+
+    // Create local consent form
+    if (user.activeUser?.role === UserRole.COMPANY_ADMIN) {
+      const companyId = user.activeUser?.companyId ?? -1
+      const createdLocalConsentForm = await CompanyService.createConsentForm(companyId, data)
+
+      dispatch(consentFormCreated(createdLocalConsentForm))
+    }
+
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentFormSuccess') }))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.createConsentFormFailure') }))
