@@ -196,6 +196,7 @@ export const updateCompanyConfig = (data: CompanyConfig) => async (dispatch: App
     await CompanyService.updateCompanyConfig(companyId, data)
 
     dispatch(companyConfigFetched(data))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanyConfigSuccess') }))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyConfigFailure') }))
   }
