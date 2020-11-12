@@ -99,6 +99,7 @@
     "fetchConsentFormByIdFailure": "Nem sikerült betölteni a kiválasztott nyilatkozatot",
     "fetchVisitsFailure": "Nem sikerült betölteni a látogatásokat.",
     "fetchBusinessHostsFailure": "Nem sikerült betölteni a céges fogadó személyeket.",
+    "fetchCompanyConfigFailure": "Nem sikerült betölteni a céges beállításokat.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
@@ -113,6 +114,7 @@
     "updateBusinessHostFailure": "Nem sikerült frissíteni a céges fogadó adatait.",
     "updateConsentFormVersionSuccess": "Sikeresen frissítetted a nyilatkozat verziót.",
     "updateConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
+    "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
     "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
   },

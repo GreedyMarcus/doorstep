@@ -33,3 +33,15 @@ export type CompanyUpdate = {
   address: Address
   admin?: UserRegister
 }
+
+export type CompanyConfig = {
+  storeNationality: boolean
+  storeAddress: boolean
+  storePhoneNumber: boolean
+  storeBirthplace: boolean
+  storeBirthDate: boolean
+  storeMotherName: boolean
+  storeCompany: boolean
+  registerGuestCard: boolean
+  trackActualExit: boolean
+}

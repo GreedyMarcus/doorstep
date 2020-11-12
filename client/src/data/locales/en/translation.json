@@ -99,6 +99,7 @@
     "fetchConsentFormByIdFailure": "Could not load selected consent form",
     "fetchVisitsFailure": "Could not load visits",
     "fetchBusinessHostsFailure": "Could not load business hosts",
+    "fetchCompanyConfigFailure": "Could not load company config",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "createConsentFormSuccess": "Successful consent form creation",
@@ -113,6 +114,7 @@
     "updateConsentFormVersionFailure": "Could not update consent form version",
     "updateBusinessHostSuccess": "Successful business host update",
     "updateBusinessHostFailure": "Could not update business host",
+    "updateCompanyConfigFailure": "Could not update company config",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
     "activateConsentFormVersionFailure": "Could not activate consent form version"
   },
