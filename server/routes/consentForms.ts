@@ -24,13 +24,36 @@ consentFormsRouter.get(
 )
 
 /**
- * POST - Creates a new global consent form version for the office building
+ * GET - Returns a local consent form specified by id.
+ */
+consentFormsRouter.get(
+  '/local/:consentFormId',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
+  belongsToConsentForm(ConsentFormType.LOCAL),
+  consentFormsController.getConsentFormById
+)
+
+/**
+ * POST - Creates a new global consent form version.
  */
 consentFormsRouter.post(
   '/global/:consentFormId/versions',
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.GLOBAL),
+  validationMiddleware(ConsentFormVersionCreateSchema),
+  consentFormsController.createConsentFormVersion
+)
+
+/**
+ * POST - Creates a new local consent form version.
+ */
+consentFormsRouter.post(
+  '/local/:consentFormId/versions',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
+  belongsToConsentForm(ConsentFormType.LOCAL),
   validationMiddleware(ConsentFormVersionCreateSchema),
   consentFormsController.createConsentFormVersion
 )
@@ -48,6 +71,18 @@ consentFormsRouter.patch(
 )
 
 /**
+ * PUT - Updates the specified local consent form version's content.
+ */
+consentFormsRouter.patch(
+  '/local/:consentFormId/versions/:versionId',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
+  belongsToConsentForm(ConsentFormType.LOCAL),
+  validationMiddleware(ConsentFormVersionCreateSchema),
+  consentFormsController.updateConsentFormVersion
+)
+
+/**
  * PUT - Actives the specified global consent form version.
  */
 consentFormsRouter.put(
@@ -55,6 +90,17 @@ consentFormsRouter.put(
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.GLOBAL),
+  consentFormsController.activateConsentFormVersion
+)
+
+/**
+ * PUT - Actives the specified local consent form version.
+ */
+consentFormsRouter.put(
+  '/local/:consentFormId/versions/:versionId/activation',
+  checkValidToken,
+  hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
+  belongsToConsentForm(ConsentFormType.LOCAL),
   consentFormsController.activateConsentFormVersion
 )
 

@@ -143,13 +143,14 @@ export const createConsentForm = (data: ConsentFormCreate) => async (dispatch: A
 }
 
 export const createConsentFormVersion = (content: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
-  const { consentForm } = getState()
+  const { consentForm, user } = getState()
 
   dispatch(setLoading(true))
 
   try {
     const formId = consentForm.activeConsentForm?.id ?? -1
-    const createdVersion = await ConsentFormService.createConsentFormVersion(formId, ConsentFormType.GLOBAL, content)
+    const consentFormType = user.activeUser?.role === UserRole.ADMIN ? ConsentFormType.GLOBAL : ConsentFormType.LOCAL
+    const createdVersion = await ConsentFormService.createConsentFormVersion(formId, consentFormType, content)
 
     dispatch(consentFormVersionCreated(createdVersion))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentFormVersionSuccess') }))
@@ -164,13 +165,14 @@ export const updateConsentFormVersion = (versionId: number, content: string) => 
   dispatch: AppDispatch,
   getState: () => RootState
 ) => {
-  const { consentForm } = getState()
+  const { consentForm, user } = getState()
 
   dispatch(setLoading(true))
 
   try {
     const formId = consentForm.activeConsentForm?.id ?? -1
-    const updatedVersion = await ConsentFormService.updateConsentFormVersion(formId, versionId, ConsentFormType.GLOBAL, content)
+    const consentFormType = user.activeUser?.role === UserRole.ADMIN ? ConsentFormType.GLOBAL : ConsentFormType.LOCAL
+    const updatedVersion = await ConsentFormService.updateConsentFormVersion(formId, versionId, consentFormType, content)
 
     dispatch(consentFormVersionUpdated(updatedVersion))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateConsentFormVersionSuccess') }))
@@ -182,13 +184,14 @@ export const updateConsentFormVersion = (versionId: number, content: string) => 
 }
 
 export const activateConsentFormVersion = (versionId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
-  const { consentForm } = getState()
+  const { consentForm, user } = getState()
 
   dispatch(setLoading(true))
 
   try {
     const formId = consentForm.activeConsentForm?.id ?? -1
-    await ConsentFormService.activateConsentFormVersion(formId, ConsentFormType.GLOBAL, versionId)
+    const consentFormType = user.activeUser?.role === UserRole.ADMIN ? ConsentFormType.GLOBAL : ConsentFormType.LOCAL
+    await ConsentFormService.activateConsentFormVersion(formId, consentFormType, versionId)
 
     dispatch(consentFormVersionActivated(versionId))
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.activateConsentFormVersionSuccess') }))
