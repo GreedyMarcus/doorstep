@@ -6,7 +6,7 @@ import hasPermission from '../middlewares/hasPermission'
 import validationMiddleware from '../middlewares/validationMiddleware'
 import belongsToCompany from '../middlewares/belongsToCompany'
 import { UserPermissionType } from '../data/enums/UserPermissionType'
-import { CompanyUpdateSchema } from '../data/validationSchemas/CompanySchema'
+import { CompanyUpdateSchema, CompanyConfigSchema } from '../data/validationSchemas/CompanySchema'
 import { UserRegisterSchema, UserUpdateSchema } from '../data/validationSchemas/UserSchema'
 import { ConsentFormCreateSchema } from '../data/validationSchemas/ConsentFormSchema'
 
@@ -92,6 +92,29 @@ companiesRouter.post(
   belongsToCompany,
   validationMiddleware(ConsentFormCreateSchema),
   companiesController.createConsentForm
+)
+
+/**
+ * GET - Returns the register config information that belongs to the company.
+ */
+companiesRouter.get(
+  '/:companyId/config',
+  checkValidToken,
+  hasPermission([UserPermissionType.EDIT_COMPANY_REGISTER_CONFIG]),
+  belongsToCompany,
+  companiesController.getCompanyConfig
+)
+
+/**
+ * PUT - Updates the register config information that belongs to the company.
+ */
+companiesRouter.put(
+  '/:companyId/config',
+  checkValidToken,
+  hasPermission([UserPermissionType.EDIT_COMPANY_REGISTER_CONFIG]),
+  belongsToCompany,
+  validationMiddleware(CompanyConfigSchema),
+  companiesController.updateCompanyConfig
 )
 
 export default companiesRouter

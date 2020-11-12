@@ -81,6 +81,26 @@ class CompaniesController {
       return next(err)
     }
   }
+
+  public getCompanyConfig = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const config = await this.companyService.getCompanyConfig(companyId)
+      res.json(config)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public updateCompanyConfig = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      await this.companyService.updateCompanyConfig(companyId, req.body)
+      res.sendStatus(204)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default CompaniesController

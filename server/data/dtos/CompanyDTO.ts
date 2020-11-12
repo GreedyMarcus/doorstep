@@ -42,3 +42,15 @@ export interface CompanyHostInfoDTO {
   email: string
   createdAt: Date
 }
+
+export interface CompanyRegisterConfigDTO {
+  storeNationality: boolean
+  storeAddress: boolean
+  storePhoneNumber: boolean
+  storeBirthplace: boolean
+  storeBirthDate: boolean
+  storeMotherName: boolean
+  storeCompany: boolean
+  registerGuestCard: boolean
+  trackActualExit: boolean
+}

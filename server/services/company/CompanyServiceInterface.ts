@@ -1,4 +1,10 @@
-import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
+import {
+  CompanyUpdateDTO,
+  CompanyInfoDTO,
+  CompanyVisitInfoDTO,
+  CompanyHostInfoDTO,
+  CompanyRegisterConfigDTO
+} from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
 
@@ -37,6 +43,16 @@ interface CompanyServiceInterface {
    * Creates a new consent form for the company.
    */
   createConsentForm(companyId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO>
+
+  /**
+   * Returns the register config information that belongs to the company.
+   */
+  getCompanyConfig(companyId: number): Promise<CompanyRegisterConfigDTO>
+
+  /**
+   * Updates the register config information that belongs to the company.
+   */
+  updateCompanyConfig(companyId: number, data: CompanyRegisterConfigDTO): Promise<void>
 }
 
 export default CompanyServiceInterface
