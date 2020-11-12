@@ -71,6 +71,16 @@ class CompaniesController {
       return next(err)
     }
   }
+
+  public createConsentForm = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const consentForm = await this.companyService.createConsentForm(companyId, req.body)
+      res.status(201).json(consentForm)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default CompaniesController

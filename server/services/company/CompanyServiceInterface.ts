@@ -1,5 +1,5 @@
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyVisitInfoDTO, CompanyHostInfoDTO } from '../../data/dtos/CompanyDTO'
-import { ConsentFormInfoDTO } from '../../data/dtos/ConsentFormDTO'
+import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
 
 interface CompanyServiceInterface {
@@ -32,6 +32,11 @@ interface CompanyServiceInterface {
    * Returns all consent forms belong to the company.
    */
   getConsentForms(companyId: number): Promise<ConsentFormInfoDTO[]>
+
+  /**
+   * Creates a new consent form for the company.
+   */
+  createConsentForm(companyId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO>
 }
 
 export default CompanyServiceInterface

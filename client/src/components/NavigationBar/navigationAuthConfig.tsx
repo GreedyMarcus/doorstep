@@ -65,7 +65,12 @@ export const navigationAuthConfig = {
         icon: <PersonAddRoundedIcon />,
         renderComponent: onActionFinish => <BusinessHostEditorDialog onClose={onActionFinish} />
       },
-      { id: 'COMPANY-ADMIN-ACTION-2', title: i18n.t('action.addConsentForm'), icon: <PostAddRoundedIcon /> }
+      {
+        id: 'COMPANY-ADMIN-ACTION-2',
+        title: i18n.t('action.addConsentForm'),
+        icon: <PostAddRoundedIcon />,
+        renderComponent: onActionFinish => <ConsentFormDialog onClose={onActionFinish} />
+      }
     ],
     [UserRole.BUSINESS_HOST]: [
       { id: 'BUSINESS-HOST-ACTION-1', title: i18n.t('action.addVisit'), icon: <InsertInvitationRoundedIcon /> }
