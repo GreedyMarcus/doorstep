@@ -50,7 +50,6 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
       .andWhere('address.streetAddress = :streetAddress', { streetAddress: address.streetAddress })
       .getOne()
 
-    // Get admin role for user
     const adminRole = await getRepository(UserRole)
       .createQueryBuilder('role')
       .where('role.name = :roleName', { roleName: UserRoleType.ADMIN })
@@ -71,7 +70,6 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
         buildingAddress = await transactionEntityManager.getRepository(Address).save(newAddress)
       }
 
-      // Save building admin
       const newAdminUser = new User()
       newAdminUser.email = admin.email
       newAdminUser.password = admin.password
@@ -81,7 +79,6 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
 
       const buildingAdmin = await transactionEntityManager.getRepository(User).save(newAdminUser)
 
-      // Save office building with new admin
       const newBuilding = new OfficeBuilding()
       newBuilding.admin = buildingAdmin
       newBuilding.address = buildingAddress

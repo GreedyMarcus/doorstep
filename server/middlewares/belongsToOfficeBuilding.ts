@@ -6,7 +6,7 @@ import { OfficeBuildingRepositoryInterface } from '../repositories/officeBuildin
 
 /**
  * Custom middleware that verifies if the user is working in the specified office building.
- * - Sends a 400 Bad Request error if the specified office building does not exist.
+ * - Sends a 404 Not Found error if the specified office building does not exist.
  * - Sends a 403 Forbidden error if user does not belong to the office building.
  */
 export default async (req: Request, res: Response, next: NextFunction) => {
@@ -14,11 +14,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const building = await buildingRepository.findBuildingById(Number(req.params.buildingId))
 
   if (!building) {
-    return next(Boom.badRequest('Office building does not exist'))
+    return next(Boom.notFound('Office building does not exist.'))
   }
 
   if (building.admin.id !== res.locals.userId) {
-    return next(Boom.forbidden('User does not belong to the office building'))
+    return next(Boom.forbidden('User does not belong to the office building.'))
   }
 
   next()

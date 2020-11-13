@@ -4,7 +4,7 @@ import { ConsentFormCreateDTO, ConsentFormInfoDTO } from '../../data/dtos/Consen
 
 interface OfficeBuildingServiceInterface {
   /**
-   * Creates new office building with the provided data.
+   * Creates a new office building with the provided data.
    */
   registerBuilding(data: OfficeBuildingRegisterDTO): Promise<void>
 
@@ -14,7 +14,7 @@ interface OfficeBuildingServiceInterface {
   getCompanies(buildingId: number): Promise<CompanyInfoDTO[]>
 
   /**
-   * Creates new company in the specified office building.
+   * Creates a new company in the specified office building.
    */
   registerCompany(buildingId: number, data: CompanyRegisterDTO): Promise<CompanyInfoDTO>
 
@@ -24,7 +24,7 @@ interface OfficeBuildingServiceInterface {
   getConsentForms(buildingId: number): Promise<ConsentFormInfoDTO[]>
 
   /**
-   * Creates new consent form in the specified office building.
+   * Creates a new consent form in the specified office building.
    */
   createConsentForm(buildingId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO>
 }

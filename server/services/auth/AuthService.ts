@@ -29,32 +29,32 @@ class AuthService implements AuthServiceInterface {
   }
 
   public loginUser = async ({ email, password }: UserLoginDTO): Promise<UserInfoDTO> => {
-    const user = await this.userRepository.findUserByEmail(email)
-    if (!user) {
-      throw Boom.badRequest('User does not exist')
+    const foundUser = await this.userRepository.findUserByEmail(email)
+    if (!foundUser) {
+      throw Boom.notFound('User does not exist.')
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password)
+    const isPasswordValid = await bcrypt.compare(password, foundUser.password)
     if (!isPasswordValid) {
-      throw Boom.badRequest('Invalid password')
+      throw Boom.badRequest('Wrong password.')
     }
 
     // Load building if user is admin
-    let building
-    if (user.role.name === UserRoleType.ADMIN) {
-      building = await this.officeBuildingRepository.findBuildingByAdminId(user.id)
+    let foundBuilding
+    if (foundUser.role.name === UserRoleType.ADMIN) {
+      foundBuilding = await this.officeBuildingRepository.findBuildingByAdminId(foundUser.id)
     }
 
     // Create new JWT token and assign it to user
-    const token = jwt.sign({ user: user.id }, config.auth.tokenSecret, { expiresIn: config.auth.tokenExpiration })
+    const token = jwt.sign({ user: foundUser.id }, config.auth.tokenSecret, { expiresIn: config.auth.tokenExpiration })
     const loggedInUser: UserInfoDTO = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role.name,
-      buildingId: building?.id,
-      companyId: user.company?.id,
+      id: foundUser.id,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      email: foundUser.email,
+      role: foundUser.role.name,
+      buildingId: foundBuilding?.id,
+      companyId: foundUser.company?.id,
       token
     }
 
@@ -62,61 +62,58 @@ class AuthService implements AuthServiceInterface {
   }
 
   public getCurrentUser = async (userId: number): Promise<UserInfoDTO> => {
-    const user = await this.userRepository.findUserById(userId)
-    if (!user) {
-      throw Boom.badRequest('User does not exist')
+    const foundUser = await this.userRepository.findUserById(userId)
+    if (!foundUser) {
+      throw Boom.notFound('User does not exist.')
     }
 
     // Load building if user is admin
-    let building
-    if (user.role.name === UserRoleType.ADMIN) {
-      building = await this.officeBuildingRepository.findBuildingByAdminId(user.id)
+    let foundBuilding
+    if (foundUser.role.name === UserRoleType.ADMIN) {
+      foundBuilding = await this.officeBuildingRepository.findBuildingByAdminId(foundUser.id)
     }
 
     const currentUser: UserInfoDTO = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role.name,
-      buildingId: building?.id,
-      companyId: user.company?.id
+      id: foundUser.id,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      email: foundUser.email,
+      role: foundUser.role.name,
+      buildingId: foundBuilding?.id,
+      companyId: foundUser.company?.id
     }
 
     return currentUser
   }
 
   public forgotUserPassword = async (email: string, language: string): Promise<void> => {
-    const user = await this.userRepository.findUserByEmail(email)
-    if (!user) {
-      throw Boom.badRequest('User does not exist')
+    const foundUser = await this.userRepository.findUserByEmail(email)
+    if (!foundUser) {
+      throw Boom.notFound('User does not exist.')
     }
 
     // Generate and save password token
     const generatedToken = uuidv4()
-    user.passwordToken = generatedToken
-    await this.userRepository.saveUser(user)
+    foundUser.passwordToken = generatedToken
+    await this.userRepository.saveUser(foundUser)
 
-    // Send password reset link to user via email
     await this.emailService.sendPasswordResetLink(email, generatedToken, language)
   }
 
   public resetUserPassword = async (token: string, password: string): Promise<UserInfoDTO> => {
-    const user = await this.userRepository.findUserByPasswordToken(token)
-    if (!user) {
-      throw Boom.badRequest('User does not exist')
+    const foundUser = await this.userRepository.findUserByPasswordToken(token)
+    if (!foundUser) {
+      throw Boom.notFound('User does not exist.')
     }
 
-    // Hash the new password and reset password token
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    user.passwordToken = null
-    user.password = hashedPassword
-    await this.userRepository.saveUser(user)
+    foundUser.passwordToken = null
+    foundUser.password = hashedPassword
+    await this.userRepository.saveUser(foundUser)
 
-    // Login user
-    return this.loginUser({ email: user.email, password })
+    return this.loginUser({ email: foundUser.email, password })
   }
 }
 

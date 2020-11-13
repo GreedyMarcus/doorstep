@@ -2,7 +2,7 @@ import { ConsentFormDetailsDTO, ConsentFormVersionInfoDTO } from '../../data/dto
 
 interface ConsentFormServiceInterface {
   /**
-   * Returns a consent form specified by id.
+   * Returns the consent form specified by id.
    */
   getConsentFormById(formId: number): Promise<ConsentFormDetailsDTO>
 

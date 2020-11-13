@@ -6,7 +6,7 @@ import { CompanyRepositoryInterface } from '../repositories/company'
 
 /**
  * Custom middleware that verifies if the user has association with the specified company.
- * - Sends a 400 Bad Request error if the specified company does not exist.
+ * - Sends a 404 Not Found error if the specified company does not exist.
  * - Sends a 403 Forbidden error if user has no association with the company.
  */
 export default async (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +14,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const company = await companyRepository.findCompanyById(Number(req.params.companyId))
 
   if (!company) {
-    return next(Boom.badRequest('Company does not exist'))
+    return next(Boom.notFound('Company does not exist.'))
   }
 
   // User is the admin of the building associated with company
@@ -27,5 +27,5 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     return next()
   }
 
-  next(Boom.forbidden('User does not belong to the company'))
+  next(Boom.forbidden('User does not belong to the company.'))
 }

@@ -1,17 +1,20 @@
 import config from './config'
 import { ConnectionOptions } from 'typeorm'
-import { isDevelopment } from './utils'
+import { isProduction } from './utils'
 
 const entitiesDir = 'server/models'
 const migrationsDir = 'server/migrations'
 
+/**
+ * TypeORM configuration object.
+ */
 const ormconfig: ConnectionOptions = {
   type: 'mysql',
   url: config.database.url,
   synchronize: false,
   logging: config.database.logging,
-  entities: [isDevelopment() ? `${entitiesDir}/**/*.ts` : `build/${entitiesDir}/**/*.js`],
-  migrations: [isDevelopment() ? `${migrationsDir}/**/*.ts` : `build/${migrationsDir}/**/*.js`],
+  entities: [isProduction() ? `build/${entitiesDir}/**/*.js` : `${entitiesDir}/**/*.ts`],
+  migrations: [isProduction() ? `build/${migrationsDir}/**/*.js` : `${migrationsDir}/**/*.ts`],
   subscribers: [],
   cli: {
     entitiesDir,

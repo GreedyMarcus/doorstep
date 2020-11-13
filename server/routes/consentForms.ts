@@ -1,6 +1,7 @@
 import express from 'express'
 import container from '../config/inversify.config'
 import ConsentFormsController from '../controllers/ConsentFormsController'
+import checkValidNumberParams from '../middlewares/checkValidNumberParams'
 import checkValidToken from '../middlewares/checkValidToken'
 import hasPermission from '../middlewares/hasPermission'
 import validationMiddleware from '../middlewares/validationMiddleware'
@@ -13,10 +14,11 @@ const consentFormsRouter = express.Router()
 const consentFormsController = container.resolve(ConsentFormsController)
 
 /**
- * GET - Returns a global consent form specified by id.
+ * GET - Returns the global consent form specified by id.
  */
 consentFormsRouter.get(
   '/global/:consentFormId',
+  checkValidNumberParams(['consentFormId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.GLOBAL),
@@ -24,10 +26,11 @@ consentFormsRouter.get(
 )
 
 /**
- * GET - Returns a local consent form specified by id.
+ * GET - Returns the local consent form specified by id.
  */
 consentFormsRouter.get(
   '/local/:consentFormId',
+  checkValidNumberParams(['consentFormId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.LOCAL),
@@ -39,6 +42,7 @@ consentFormsRouter.get(
  */
 consentFormsRouter.post(
   '/global/:consentFormId/versions',
+  checkValidNumberParams(['consentFormId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.GLOBAL),
@@ -51,6 +55,7 @@ consentFormsRouter.post(
  */
 consentFormsRouter.post(
   '/local/:consentFormId/versions',
+  checkValidNumberParams(['consentFormId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.LOCAL),
@@ -63,6 +68,7 @@ consentFormsRouter.post(
  */
 consentFormsRouter.patch(
   '/global/:consentFormId/versions/:versionId',
+  checkValidNumberParams(['consentFormId', 'versionId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.GLOBAL),
@@ -75,6 +81,7 @@ consentFormsRouter.patch(
  */
 consentFormsRouter.patch(
   '/local/:consentFormId/versions/:versionId',
+  checkValidNumberParams(['consentFormId', 'versionId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.LOCAL),
@@ -87,6 +94,7 @@ consentFormsRouter.patch(
  */
 consentFormsRouter.put(
   '/global/:consentFormId/versions/:versionId/activation',
+  checkValidNumberParams(['consentFormId', 'versionId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.GLOBAL),
@@ -98,6 +106,7 @@ consentFormsRouter.put(
  */
 consentFormsRouter.put(
   '/local/:consentFormId/versions/:versionId/activation',
+  checkValidNumberParams(['consentFormId', 'versionId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
   belongsToConsentForm(ConsentFormType.LOCAL),

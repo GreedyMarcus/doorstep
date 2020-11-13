@@ -7,7 +7,7 @@ import { ConsentFormRepositoryInterface } from '../repositories/consentForm'
 
 /**
  * Custom middleware that verifies if the user has association with the specified consent form.
- * - Sends a 400 Bad Request error if the specified consent form does not exist.
+ * - Sends a 404 Not Found error if the specified consent form does not exist.
  * - Sends a 403 Forbidden error if user has no association with the consent form.
  */
 export default (formType: ConsentFormType) => async (req: Request, res: Response, next: NextFunction) => {
@@ -15,7 +15,7 @@ export default (formType: ConsentFormType) => async (req: Request, res: Response
   const consentForm = await consentFormRepository.findConsentFormById(Number(req.params.consentFormId))
 
   if (!consentForm) {
-    return next(Boom.badRequest('Consent form does not exist'))
+    return next(Boom.notFound('Consent form does not exist.'))
   }
 
   if (formType === ConsentFormType.GLOBAL && consentForm.officeBuilding.admin.id === res.locals.userId) {
@@ -26,5 +26,5 @@ export default (formType: ConsentFormType) => async (req: Request, res: Response
     return next()
   }
 
-  next(Boom.forbidden('User does not belong to the consent form'))
+  next(Boom.forbidden('User does not belong to the consent form.'))
 }

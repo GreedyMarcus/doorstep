@@ -14,7 +14,7 @@ interface AuthServiceInterface {
   /**
    * Sends forgotten password link to the user via email.
    *
-   * @param email - the email of the user
+   * @param email - the email address of the user
    * @param language - the language of the email content
    */
   forgotUserPassword(email: string, language: string): Promise<void>

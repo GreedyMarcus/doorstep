@@ -23,17 +23,17 @@ interface ConsentFormRepositoryInterface {
   findConsentFormVersionById(versionId: number): Promise<ConsentFormVersion>
 
   /**
-   * Creates new global consent form with the provided data in the specified office building.
+   * Creates a new global consent form with the provided data in the specified office building.
    */
   createGlobalConsentForm(buildingId: number, title: string, content: string): Promise<ConsentForm>
 
   /**
-   * Creates new local consent form with the provided data in the specified company.
+   * Creates a new local consent form with the provided data in the specified company.
    */
   createLocalConsentForm(companyId: number, title: string, content: string): Promise<ConsentForm>
 
   /**
-   * Creates new consent form version with the provided data for the specified consent form.
+   * Creates a new consent form version with the provided data for the specified consent form.
    */
   createConsentFormVersion(formId: number, content: string, versionNumber: number): Promise<ConsentFormVersion>
 

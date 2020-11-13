@@ -24,7 +24,7 @@ interface CompanyRepositoryInterface {
   findCompanyEmployees(companyId: number, role?: UserRoleType): Promise<User[]>
 
   /**
-   * Creates new company with the provided data in the specified office building.
+   * Creates a new company with the provided data in the specified office building.
    */
   createCompany(buildingId: number, company: Partial<Company>, address: Partial<Address>, admin: Partial<User>): Promise<Company>
 
@@ -34,7 +34,7 @@ interface CompanyRepositoryInterface {
   updateCompany(company: Partial<Company>, address: Partial<Address>, admin?: Partial<User>): Promise<Company>
 
   /**
-   * Creates new business host with the provided data in the specified company.
+   * Creates a new business host with the provided data in the specified company.
    */
   createBusinessHost(companyId: number, user: Partial<User>): Promise<User>
 

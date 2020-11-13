@@ -65,7 +65,6 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
     if (!building) throw Error
 
     return getManager().transaction(async transactionEntityManager => {
-      // Save global consent form
       const newGlobalConsentForm = new ConsentForm()
       newGlobalConsentForm.title = title
       newGlobalConsentForm.type = ConsentFormType.GLOBAL
@@ -73,7 +72,6 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
 
       const createdGlobalConsentForm = await transactionEntityManager.getRepository(ConsentForm).save(newGlobalConsentForm)
 
-      // Save first global consent form version
       const newGlobalConsentFormVersion = new ConsentFormVersion()
       newGlobalConsentFormVersion.content = content
       newGlobalConsentFormVersion.versionNumber = 1
@@ -95,7 +93,6 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
     if (!company) throw Error
 
     return getManager().transaction(async transactionEntityManager => {
-      // Save local consent form
       const newLocalConsentForm = new ConsentForm()
       newLocalConsentForm.title = title
       newLocalConsentForm.type = ConsentFormType.LOCAL
@@ -103,7 +100,6 @@ class ConsentFormRepository extends Repository<ConsentForm> implements ConsentFo
 
       const createdLocalConsentForm = await transactionEntityManager.getRepository(ConsentForm).save(newLocalConsentForm)
 
-      // Save first local consent form version
       const newLocalConsentFormVersion = new ConsentFormVersion()
       newLocalConsentFormVersion.content = content
       newLocalConsentFormVersion.versionNumber = 1

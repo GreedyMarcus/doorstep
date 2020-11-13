@@ -38,36 +38,35 @@ class CompanyService implements CompanyServiceInterface {
   }
 
   public updateCompany = async (companyId: number, data: CompanyUpdateDTO): Promise<CompanyInfoDTO> => {
-    const company = await this.companyRepository.findCompanyById(companyId)
-    if (!company) {
-      throw Boom.badRequest('Company does not exist')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
     // Check if admin changed
-    let companyAdmin
+    let adminData
     if (data.admin) {
-      // Hash company admin password
       const salt = await bcrypt.genSalt(10)
       const hashedPassword = await bcrypt.hash(data.admin.password, salt)
 
-      companyAdmin = { ...data.admin, password: hashedPassword }
+      adminData = { ...data.admin, password: hashedPassword }
     }
 
-    // Save company changes with optional admin data
-    const { id, name, registrationNumber, address } = data
-
-    const updatedCompany = await this.companyRepository.updateCompany({ id, name, registrationNumber }, address, companyAdmin)
-    if (!updatedCompany) {
-      throw Boom.internal('Could not update company')
+    const companyData = {
+      id: data.id,
+      name: data.name,
+      registrationNumber: data.registrationNumber
     }
 
-    const { createdAt, admin } = updatedCompany
+    const updatedCompany = await this.companyRepository.updateCompany(companyData, data.address, adminData)
+
+    const { address, admin } = updatedCompany
     const updatedCompanyInfo: CompanyInfoDTO = {
-      id,
-      name,
-      registrationNumber,
+      id: updatedCompany.id,
+      name: updatedCompany.name,
+      registrationNumber: updatedCompany.registrationNumber,
       address: `${address.country}, ${address.zipCode}, ${address.city}, ${address.streetAddress}`,
-      createdAt,
+      createdAt: updatedCompany.createdAt,
       adminName: `${admin.firstName} ${admin.lastName}`,
       adminEmail: admin.email,
       adminJoinedAt: admin.createdAt
@@ -77,13 +76,13 @@ class CompanyService implements CompanyServiceInterface {
   }
 
   public getVisits = async (companyId: number): Promise<CompanyVisitInfoDTO[]> => {
-    const company = await this.companyRepository.findCompanyById(companyId)
-    if (!company) {
-      throw Boom.badRequest('Company does not exist')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
-    const visits = await this.visitRepository.findVisitsByCompanyId(companyId)
-    const visitsInfo: CompanyVisitInfoDTO[] = visits.map(({ id, businessHost, purpose, room, plannedEntry }) => ({
+    const foundVisits = await this.visitRepository.findVisitsByCompanyId(companyId)
+    const visitsInfo: CompanyVisitInfoDTO[] = foundVisits.map(({ id, businessHost, purpose, room, plannedEntry }) => ({
       id,
       businessHostName: `${businessHost.firstName} ${businessHost.lastName}`,
       purpose,
@@ -95,9 +94,9 @@ class CompanyService implements CompanyServiceInterface {
   }
 
   public getBusinessHosts = async (companyId: number): Promise<CompanyHostInfoDTO[]> => {
-    const company = await this.companyRepository.findCompanyById(companyId)
-    if (!company) {
-      throw Boom.badRequest('Company does not exist')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
     const businessHosts = await this.companyRepository.findCompanyEmployees(companyId, UserRoleType.BUSINESS_HOST)
@@ -113,17 +112,17 @@ class CompanyService implements CompanyServiceInterface {
   }
 
   public createBusinessHost = async (companyId: number, data: UserRegisterDTO): Promise<CompanyHostInfoDTO> => {
-    const company = await this.companyRepository.findCompanyById(companyId)
-    if (!company) {
-      throw Boom.badRequest('Company does not exist')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
-    // Hash company business host password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(data.password, salt)
 
-    // Save business host
-    const businessHost = await this.companyRepository.createBusinessHost(companyId, { ...data, password: hashedPassword })
+    const securedBusinessHostData = { ...data, password: hashedPassword }
+
+    const businessHost = await this.companyRepository.createBusinessHost(companyId, securedBusinessHostData)
     const businessHostInfo: CompanyHostInfoDTO = {
       id: businessHost.id,
       firstName: businessHost.firstName,
@@ -136,17 +135,16 @@ class CompanyService implements CompanyServiceInterface {
   }
 
   public updateBusinessHost = async (companyId: number, hostId: number, data: UserUpdateDTO): Promise<CompanyHostInfoDTO> => {
-    const company = await this.companyRepository.findCompanyById(companyId)
-    if (!company) {
-      throw Boom.badRequest('Company does not exist')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
-    const businessHost = await this.userRepository.findUserById(hostId)
-    if (!businessHost) {
-      throw Boom.badRequest('Business host does not exist')
+    const foundBusinessHost = await this.userRepository.findUserById(hostId)
+    if (!foundBusinessHost) {
+      throw Boom.notFound('Business host does not exist.')
     }
 
-    // Update business host
     const updatedBusinessHost = await this.companyRepository.updateBusinessHost(hostId, data)
     const updatedBusinessHostInfo: CompanyHostInfoDTO = {
       id: updatedBusinessHost.id,
@@ -160,14 +158,13 @@ class CompanyService implements CompanyServiceInterface {
   }
 
   public getConsentForms = async (companyId: number): Promise<ConsentFormInfoDTO[]> => {
-    const company = await this.companyRepository.findCompanyById(companyId)
-    if (!company) {
-      throw Boom.badRequest('Company does not exist')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
-    // const consentForms = await this.companyRepository.find(companyId, UserRoleType.BUSINESS_HOST)
-    const consentForms = await this.consentFormRepository.findConsentFormsByCompanyId(companyId)
-    const consentFormsInfo: ConsentFormInfoDTO[] = consentForms.map(({ id, title, activeVersion, createdAt }) => ({
+    const foundConsentForms = await this.consentFormRepository.findConsentFormsByCompanyId(companyId)
+    const consentFormsInfo: ConsentFormInfoDTO[] = foundConsentForms.map(({ id, title, activeVersion, createdAt }) => ({
       id,
       title,
       activeVersion: activeVersion?.versionNumber,
@@ -178,47 +175,47 @@ class CompanyService implements CompanyServiceInterface {
   }
 
   public createConsentForm = async (companyId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO> => {
-    const building = await this.companyRepository.findCompanyById(companyId)
-    if (!building) {
-      throw Boom.badRequest('Company does not exists')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
-    const consentForm = await this.consentFormRepository.createLocalConsentForm(companyId, data.title, data.content)
+    const createdConsentForm = await this.consentFormRepository.createLocalConsentForm(companyId, data.title, data.content)
     const consentFormInfo: ConsentFormInfoDTO = {
-      id: consentForm.id,
-      title: consentForm.title,
+      id: createdConsentForm.id,
+      title: createdConsentForm.title,
       activeVersion: null,
-      createdAt: consentForm.createdAt
+      createdAt: createdConsentForm.createdAt
     }
 
     return consentFormInfo
   }
 
   public getCompanyConfig = async (companyId: number): Promise<CompanyRegisterConfigDTO> => {
-    const company = await this.companyRepository.findCompanyById(companyId)
-    if (!company) {
-      throw Boom.badRequest('Company does not exist')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
     const registerConfigInfo: CompanyRegisterConfigDTO = {
-      storeNationality: company.registerConfig.storeNationality,
-      storeAddress: company.registerConfig.storeAddress,
-      storePhoneNumber: company.registerConfig.storePhoneNumber,
-      storeBirthplace: company.registerConfig.storeBirthplace,
-      storeBirthDate: company.registerConfig.storeBirthDate,
-      storeMotherName: company.registerConfig.storeMotherName,
-      storeCompany: company.registerConfig.storeCompany,
-      registerGuestCard: company.registerConfig.registerGuestCard,
-      trackActualExit: company.registerConfig.trackActualExit
+      storeNationality: foundCompany.registerConfig.storeNationality,
+      storeAddress: foundCompany.registerConfig.storeAddress,
+      storePhoneNumber: foundCompany.registerConfig.storePhoneNumber,
+      storeBirthplace: foundCompany.registerConfig.storeBirthplace,
+      storeBirthDate: foundCompany.registerConfig.storeBirthDate,
+      storeMotherName: foundCompany.registerConfig.storeMotherName,
+      storeCompany: foundCompany.registerConfig.storeCompany,
+      registerGuestCard: foundCompany.registerConfig.registerGuestCard,
+      trackActualExit: foundCompany.registerConfig.trackActualExit
     }
 
     return registerConfigInfo
   }
 
   public updateCompanyConfig = async (companyId: number, data: CompanyRegisterConfigDTO): Promise<void> => {
-    const company = await this.companyRepository.findCompanyById(companyId)
-    if (!company) {
-      throw Boom.badRequest('Company does not exist')
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
     }
 
     await this.companyRepository.updateCompanyConfig(companyId, data)

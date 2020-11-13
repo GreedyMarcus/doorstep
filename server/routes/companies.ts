@@ -1,6 +1,7 @@
 import express from 'express'
 import container from '../config/inversify.config'
 import CompaniesController from '../controllers/CompaniesController'
+import checkValidNumberParams from '../middlewares/checkValidNumberParams'
 import checkValidToken from '../middlewares/checkValidToken'
 import hasPermission from '../middlewares/hasPermission'
 import validationMiddleware from '../middlewares/validationMiddleware'
@@ -18,6 +19,7 @@ const companiesController = container.resolve(CompaniesController)
  */
 companiesRouter.put(
   '/:companyId',
+  checkValidNumberParams(['companyId']),
   checkValidToken,
   hasPermission([UserPermissionType.CREATE_COMPANIES, UserPermissionType.CREATE_COMPANY_ADMINS]),
   belongsToCompany,
@@ -30,6 +32,7 @@ companiesRouter.put(
  */
 companiesRouter.get(
   '/:companyId/visits',
+  checkValidNumberParams(['companyId']),
   checkValidToken,
   hasPermission([UserPermissionType.READ_VISITS]),
   belongsToCompany,
@@ -41,6 +44,7 @@ companiesRouter.get(
  */
 companiesRouter.get(
   '/:companyId/business-hosts',
+  checkValidNumberParams(['companyId']),
   checkValidToken,
   hasPermission([UserPermissionType.CREATE_BUSINESS_HOSTS]),
   belongsToCompany,
@@ -52,6 +56,7 @@ companiesRouter.get(
  */
 companiesRouter.post(
   '/:companyId/business-hosts',
+  checkValidNumberParams(['companyId']),
   checkValidToken,
   hasPermission([UserPermissionType.CREATE_BUSINESS_HOSTS]),
   belongsToCompany,
@@ -64,6 +69,7 @@ companiesRouter.post(
  */
 companiesRouter.put(
   '/:companyId/business-hosts/:businessHostId',
+  checkValidNumberParams(['companyId', 'businessHostId']),
   checkValidToken,
   hasPermission([UserPermissionType.CREATE_BUSINESS_HOSTS]),
   belongsToCompany,
@@ -76,6 +82,7 @@ companiesRouter.put(
  */
 companiesRouter.get(
   '/:companyId/consent-forms',
+  checkValidNumberParams(['companyId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
   belongsToCompany,
@@ -87,6 +94,7 @@ companiesRouter.get(
  */
 companiesRouter.post(
   '/:companyId/consent-forms',
+  checkValidNumberParams(['companyId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_LOCAL_CONSENT_FORMS]),
   belongsToCompany,
@@ -99,6 +107,7 @@ companiesRouter.post(
  */
 companiesRouter.get(
   '/:companyId/config',
+  checkValidNumberParams(['companyId']),
   checkValidToken,
   hasPermission([UserPermissionType.EDIT_COMPANY_REGISTER_CONFIG]),
   belongsToCompany,
@@ -110,6 +119,7 @@ companiesRouter.get(
  */
 companiesRouter.put(
   '/:companyId/config',
+  checkValidNumberParams(['companyId']),
   checkValidToken,
   hasPermission([UserPermissionType.EDIT_COMPANY_REGISTER_CONFIG]),
   belongsToCompany,

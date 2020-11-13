@@ -2,6 +2,7 @@ import express from 'express'
 import container from '../config/inversify.config'
 import OfficeBuildingsController from '../controllers/OfficeBuildingsController'
 import validationMiddleware from '../middlewares/validationMiddleware'
+import checkValidNumberParams from '../middlewares/checkValidNumberParams'
 import checkValidToken from '../middlewares/checkValidToken'
 import hasPermission from '../middlewares/hasPermission'
 import belongsToOfficeBuilding from '../middlewares/belongsToOfficeBuilding'
@@ -14,7 +15,7 @@ const officeBuildingsRouter = express.Router()
 const officeBuildingsController = container.resolve(OfficeBuildingsController)
 
 /**
- * POST - Creates new office building.
+ * POST - Creates a new office building.
  */
 officeBuildingsRouter.post(
   '/',
@@ -27,16 +28,18 @@ officeBuildingsRouter.post(
  */
 officeBuildingsRouter.get(
   '/:buildingId/companies',
+  checkValidNumberParams(['buildingId']),
   checkValidToken,
   belongsToOfficeBuilding,
   officeBuildingsController.getCompanies
 )
 
 /**
- * POST - Creates new company in the office building.
+ * POST - Creates a new company in the office building.
  */
 officeBuildingsRouter.post(
   '/:buildingId/companies',
+  checkValidNumberParams(['buildingId']),
   checkValidToken,
   hasPermission([UserPermissionType.CREATE_COMPANIES, UserPermissionType.CREATE_COMPANY_ADMINS]),
   belongsToOfficeBuilding,
@@ -49,16 +52,18 @@ officeBuildingsRouter.post(
  */
 officeBuildingsRouter.get(
   '/:buildingId/consent-forms',
+  checkValidNumberParams(['buildingId']),
   checkValidToken,
   belongsToOfficeBuilding,
   officeBuildingsController.getConsentForms
 )
 
 /**
- * POST - Creates new global consent form in the office building.
+ * POST - Creates a new global consent form in the office building.
  */
 officeBuildingsRouter.post(
   '/:buildingId/consent-forms',
+  checkValidNumberParams(['buildingId']),
   checkValidToken,
   hasPermission([UserPermissionType.MANAGE_GLOBAL_CONSENT_FORMS]),
   belongsToOfficeBuilding,

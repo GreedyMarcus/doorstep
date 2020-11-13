@@ -64,7 +64,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
       .andWhere('address.streetAddress = :streetAddress', { streetAddress: address.streetAddress })
       .getOne()
 
-    // Get company admin role for user
     const companyAdminRole = await getRepository(UserRole)
       .createQueryBuilder('role')
       .where('role.name = :roleName', { roleName: UserRoleType.COMPANY_ADMIN })
@@ -73,7 +72,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
     // Force rollback if role does not exist
     if (!companyAdminRole) throw Error
 
-    // Get building for company
     const companyBuilding = await getRepository(OfficeBuilding)
       .createQueryBuilder('building')
       .where('building.id = :buildingId', { buildingId })
@@ -94,7 +92,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
         companyAddress = await transactionEntityManager.getRepository(Address).save(newAddress)
       }
 
-      // Save company admin
       const newCompanyAdminUser = new User()
       newCompanyAdminUser.email = admin.email
       newCompanyAdminUser.password = admin.password
@@ -104,11 +101,9 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
 
       const companyAdmin = await transactionEntityManager.getRepository(User).save(newCompanyAdminUser)
 
-      // Save company register config
       const newCompanyRegisterConfig = new CompanyRegisterConfig()
       const registerConfig = await transactionEntityManager.getRepository(CompanyRegisterConfig).save(newCompanyRegisterConfig)
 
-      // Save office building with new admin
       const newCompany = new Company()
       newCompany.name = company.name
       newCompany.registrationNumber = company.registrationNumber
@@ -119,7 +114,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
 
       const createdCompany = await transactionEntityManager.getRepository(Company).save(newCompany)
 
-      // Save company for admin
       companyAdmin.company = createdCompany
       await transactionEntityManager.getRepository(User).save(companyAdmin)
 
@@ -169,7 +163,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
         // Delete old company amdin
         await transactionEntityManager.getRepository(User).softDelete(companyToUpdate.admin.id)
 
-        // Save new company admin
         const newCompanyAdminUser = new User()
         newCompanyAdminUser.email = admin.email
         newCompanyAdminUser.password = admin.password
@@ -179,7 +172,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
         companyAdmin = await transactionEntityManager.getRepository(User).save(newCompanyAdminUser)
       }
 
-      // Save company changes
       companyToUpdate.name = company.name
       companyToUpdate.registrationNumber = company.registrationNumber
       companyToUpdate.address = companyAddress
@@ -200,7 +192,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
   }
 
   public async createBusinessHost(companyId: number, user: Partial<User>): Promise<User> {
-    // Get business host role for user
     const businessHostRole = await getRepository(UserRole)
       .createQueryBuilder('role')
       .where('role.name = :roleName', { roleName: UserRoleType.BUSINESS_HOST })
@@ -209,7 +200,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
     // Force rollback if role does not exist
     if (!businessHostRole) throw Error
 
-    // Get company for user
     const company = await getRepository(Company)
       .createQueryBuilder('company')
       .where('company.id = :companyId', { companyId })
@@ -218,7 +208,6 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
     // Force rollback if building does not exist
     if (!company) throw Error
 
-    // Save business host
     const newBusinessHost = new User()
     newBusinessHost.email = user.email
     newBusinessHost.password = user.password

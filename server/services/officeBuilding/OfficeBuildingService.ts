@@ -31,78 +31,70 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   }
 
   public registerBuilding = async ({ admin, address }: OfficeBuildingRegisterDTO): Promise<void> => {
-    const buildingAdmin = await this.userRepository.findUserByEmail(admin.email)
-    if (buildingAdmin) {
-      throw Boom.badRequest('Admin already exists')
+    const foundBuildingAdmin = await this.userRepository.findUserByEmail(admin.email)
+    if (foundBuildingAdmin) {
+      throw Boom.badRequest('Building admin already exists.')
     }
 
-    const buildingWithAddress = await this.officeBuildingRepository.findBuildingByAddress(address)
-    if (buildingWithAddress) {
-      throw Boom.badRequest('Office building already exists with address')
+    const foundBuilding = await this.officeBuildingRepository.findBuildingByAddress(address)
+    if (foundBuilding) {
+      throw Boom.badRequest('Office building already exists with provided address.')
     }
 
-    // Hash password for building admin
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(admin.password, salt)
 
-    // Save office building
-    const adminData = { ...admin, password: hashedPassword }
+    const securedAdminData = { ...admin, password: hashedPassword }
 
-    const createdBuilding = await this.officeBuildingRepository.createBuilding(adminData, address)
-    if (!createdBuilding) {
-      throw Boom.internal('Could not register office building')
-    }
+    await this.officeBuildingRepository.createBuilding(securedAdminData, address)
   }
 
   public getCompanies = async (buildingId: number): Promise<CompanyInfoDTO[]> => {
-    const building = await this.officeBuildingRepository.findBuildingById(buildingId)
-    if (!building) {
-      throw Boom.badRequest('Building does not exists')
+    const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!foundBuilding) {
+      throw Boom.notFound('Office building does not exists.')
     }
 
-    const companies = await this.companyRepository.findCompaniesByBuildingId(buildingId)
-    const companiesInfo: CompanyInfoDTO[] = companies.map(({ id, name, registrationNumber, address, createdAt, admin }) => ({
-      id,
-      name,
-      registrationNumber,
-      address: `${address.country}, ${address.zipCode}, ${address.city}, ${address.streetAddress}`,
-      createdAt,
-      adminName: `${admin.firstName} ${admin.lastName}`,
-      adminEmail: admin.email,
-      adminJoinedAt: admin.createdAt
-    }))
+    const foundCompanies = await this.companyRepository.findCompaniesByBuildingId(buildingId)
+    const foundCompaniesInfo: CompanyInfoDTO[] = foundCompanies.map(company => {
+      const { address, admin } = company
 
-    return companiesInfo
+      return {
+        id: company.id,
+        name: company.name,
+        registrationNumber: company.registrationNumber,
+        address: `${address.country}, ${address.zipCode}, ${address.city}, ${address.streetAddress}`,
+        createdAt: company.createdAt,
+        adminName: `${admin.firstName} ${admin.lastName}`,
+        adminEmail: admin.email,
+        adminJoinedAt: admin.createdAt
+      }
+    })
+
+    return foundCompaniesInfo
   }
 
   public registerCompany = async (buildingId: number, data: CompanyRegisterDTO): Promise<CompanyInfoDTO> => {
-    const building = await this.officeBuildingRepository.findBuildingById(buildingId)
-    if (!building) {
-      throw Boom.badRequest('Building does not exists')
+    const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!foundBuilding) {
+      throw Boom.notFound('Office building does not exists.')
     }
 
-    const { name, registrationNumber, address } = data
-
-    // Hash company admin password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(data.admin.password, salt)
 
-    // Save company with admin
-    const adminData = { ...data.admin, password: hashedPassword }
-    const companyData = { name, registrationNumber }
+    const securedAdminData = { ...data.admin, password: hashedPassword }
+    const companyData = { name: data.name, registrationNumber: data.registrationNumber }
 
-    const createdCompany = await this.companyRepository.createCompany(buildingId, companyData, address, adminData)
-    if (!createdCompany) {
-      throw Boom.internal('Could not register company')
-    }
+    const createdCompany = await this.companyRepository.createCompany(buildingId, companyData, data.address, securedAdminData)
 
-    const { id, createdAt, admin } = createdCompany
+    const { address, admin } = createdCompany
     const createdCompanyInfo: CompanyInfoDTO = {
-      id,
-      name,
-      registrationNumber,
+      id: createdCompany.id,
+      name: createdCompany.name,
+      registrationNumber: createdCompany.registrationNumber,
       address: `${address.country}, ${address.zipCode}, ${address.city}, ${address.streetAddress}`,
-      createdAt,
+      createdAt: createdCompany.createdAt,
       adminName: `${admin.firstName} ${admin.lastName}`,
       adminEmail: admin.email,
       adminJoinedAt: admin.createdAt
@@ -112,9 +104,9 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   }
 
   public getConsentForms = async (buildingId: number): Promise<ConsentFormInfoDTO[]> => {
-    const building = await this.officeBuildingRepository.findBuildingById(buildingId)
-    if (!building) {
-      throw Boom.badRequest('Building does not exists')
+    const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!foundBuilding) {
+      throw Boom.notFound('Office building does not exists.')
     }
 
     const consentForms = await this.consentFormRepository.findConsentFormsByBuildingId(buildingId)
@@ -129,9 +121,9 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   }
 
   public createConsentForm = async (buildingId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO> => {
-    const building = await this.officeBuildingRepository.findBuildingById(buildingId)
-    if (!building) {
-      throw Boom.badRequest('Building does not exists')
+    const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!foundBuilding) {
+      throw Boom.notFound('Building does not exists')
     }
 
     const consentForm = await this.consentFormRepository.createGlobalConsentForm(buildingId, data.title, data.content)
