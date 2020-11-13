@@ -20,6 +20,9 @@ type Props = {
   onClose: () => void
 }
 
+/**
+ * Custom dialog component to edit consent forms.
+ */
 const ConsentFormDialog: React.FC<Props> = ({ onClose }) => {
   const classes = useStyles()
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))

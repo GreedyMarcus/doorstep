@@ -28,6 +28,9 @@ type NavigationAuthConfig = {
   actions: { [key: string]: Action[] }
 }
 
+/**
+ * Helper config object for navigations component.
+ */
 export const navigationAuthConfig = {
   navigations: {
     [UserRole.ADMIN]: [

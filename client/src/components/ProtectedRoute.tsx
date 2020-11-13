@@ -6,11 +6,25 @@ import { useAppDispatch } from '../store'
 import { userTokenSelector, userRoleSelector, loadCurrentUser } from '../store/user'
 
 type Props = {
+  /**
+   * The component to render when the route match.
+   */
   Component: React.ElementType
+
+  /**
+   * The user permissions needed to access the route.
+   */
   auth?: string[]
+
+  /**
+   * Makes the route unreachable for authenticated users.
+   */
   noAuth?: boolean
 }
 
+/**
+ * Custom route component that allows only authorized users to access the specified route path.
+ */
 const ProtectedRoute: React.FC<Props & RouteProps> = ({ Component, auth, noAuth, ...rest }) => {
   const dispatch = useAppDispatch()
   const userToken = useSelector(userTokenSelector)
@@ -31,7 +45,10 @@ const ProtectedRoute: React.FC<Props & RouteProps> = ({ Component, auth, noAuth,
     }
 
     if (userToken && (noAuth || !hasAccess)) {
-      if (!userRole) return null // Show empty screen while waiting for user role
+      // Show empty screen for user as long as the user role is undefined
+      if (!userRole) {
+        return null
+      }
       return <Redirect to={{ pathname: getAuthRedirectRoute(userRole), state }} />
     }
 

@@ -8,6 +8,13 @@ export type InputBinding = {
   onChange: (event: InputChangeEvent) => void
 }
 
+/**
+ * Custom hook to store input data. It also handles input changes and validation.
+ *
+ * @param value - the text value of the input
+ * @param required - if the value of the input is required
+ * @param validator - regular expression that validates the input value
+ */
 const useInput = (value: string, required: boolean, validator?: RegExp) => {
   const [input, setInput] = useState({ value, isValid: value || !required, error: false })
 

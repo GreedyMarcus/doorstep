@@ -14,6 +14,9 @@ type Props = {
   onChange: (event: InputChangeEvent) => void
 }
 
+/**
+ * Custom rich text editor component.
+ */
 const TextEditor: React.FC<Props> = ({ value, error, required, disabled, heightMultiplier, fullScreen, onChange }) => {
   const [hasFocus, setFocus] = useState(false)
   const classes = useStyles({ error, hasFocus, disabled: !!disabled })

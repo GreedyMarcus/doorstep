@@ -23,6 +23,9 @@ type Props = {
   onClose: () => void
 }
 
+/**
+ * Custom dialog component to edit business hosts.
+ */
 const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, onClose }) => {
   const classes = useStyles()
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))

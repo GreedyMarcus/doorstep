@@ -25,6 +25,9 @@ type Props = {
   onClose: () => void
 }
 
+/**
+ * Custom dialog component to edit companies.
+ */
 const CompanyEditorDialog: React.FC<Props> = ({ company, isEditing, onClose }) => {
   const classes = useStyles()
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))

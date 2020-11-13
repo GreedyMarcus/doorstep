@@ -8,6 +8,9 @@ type Props = {
   onClose: () => void
 }
 
+/**
+ * Custom component to provide default save and cancel actions for dialogs.
+ */
 const DefaultDialogActions: React.FC<Props> = ({ onSave, onClose }) => {
   const [t] = useTranslation()
 

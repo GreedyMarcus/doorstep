@@ -4,6 +4,9 @@ import translationHun from '../data/locales/hu/translation.json'
 import translationEng from '../data/locales/en/translation.json'
 import { initReactI18next } from 'react-i18next'
 
+/**
+ * Localization configuration object.
+ */
 i18n
   .use(XHR)
   .use(initReactI18next)

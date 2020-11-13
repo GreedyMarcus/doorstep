@@ -13,6 +13,9 @@ const initialState: VisitSliceState = {
   visits: []
 }
 
+/**
+ * Represents a store slice that manages visit related data.
+ */
 const visitSlice = createSlice({
   name: 'company',
   initialState,
@@ -30,6 +33,9 @@ export const { reducer } = visitSlice
 export const { visitSliceCleared } = visitSlice.actions
 const { visitsFetched } = visitSlice.actions
 
+/**
+ * Calls company service to load all visits for the current company.
+ */
 export const fetchVisits = () => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 

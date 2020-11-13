@@ -19,6 +19,9 @@ const initialState: CompanySliceState = {
   activeCompanyConfig: null
 }
 
+/**
+ * Represents a store slice that manages company related data.
+ */
 const companySlice = createSlice({
   name: 'company',
   initialState,
@@ -66,6 +69,9 @@ const {
   companyConfigFetched
 } = companySlice.actions
 
+/**
+ * Calls office building service to load companies.
+ */
 export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -83,6 +89,9 @@ export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () =
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls office building service to register a new company.
+ */
 export const registerCompany = (company: CompanyRegister) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -101,6 +110,9 @@ export const registerCompany = (company: CompanyRegister) => async (dispatch: Ap
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls company service to update the specified company.
+ */
 export const updateCompany = (company: CompanyUpdate) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
@@ -116,6 +128,9 @@ export const updateCompany = (company: CompanyUpdate) => async (dispatch: AppDis
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls company service to load company business hosts.
+ */
 export const fetchBusinessHosts = () => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -133,6 +148,9 @@ export const fetchBusinessHosts = () => async (dispatch: AppDispatch, getState: 
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls company service to create a new business host for the current company.
+ */
 export const createBusinessHost = (data: UserRegister) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -151,6 +169,9 @@ export const createBusinessHost = (data: UserRegister) => async (dispatch: AppDi
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls company service to update the specified company business host.
+ */
 export const updateBusinessHost = (host: UserUpdate) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -169,6 +190,9 @@ export const updateBusinessHost = (host: UserUpdate) => async (dispatch: AppDisp
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls company service to load company register config.
+ */
 export const fetchCompanyConfig = () => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -186,6 +210,9 @@ export const fetchCompanyConfig = () => async (dispatch: AppDispatch, getState: 
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls company service to update the spcified company register config.
+ */
 export const updateCompanyConfig = (data: CompanyConfig) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 

@@ -5,6 +5,9 @@ import { VisitInfo } from '../data/types/Visit'
 import { BusinessHostInfo, UserRegister, UserUpdate } from '../data/types/User'
 import { ConsentFormInfo, ConsentFormCreate } from '../data/types/ConsentForm'
 
+/**
+ * Wrapper class that manages API calls to the company related endpoints.
+ */
 class CompanyService {
   public static API_BASE = '/api/companies'
 

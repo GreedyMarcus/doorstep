@@ -7,6 +7,9 @@ type Props = {
   text: string
 }
 
+/**
+ * Custom component that displays information.
+ */
 const InfoBox: React.FC<Props> = ({ text }) => {
   const classes = useStyles()
 

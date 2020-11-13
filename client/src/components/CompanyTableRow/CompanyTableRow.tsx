@@ -19,6 +19,9 @@ type Props = {
   showMore: boolean
 }
 
+/**
+ * Custom table row component that display company data.
+ */
 const CompanyTableRow: React.FC<Props> = ({ company, showMore }) => {
   const classes = useStyles({ collapseRowIndent: showMore ? 'medium' : 'small' })
   const [isOpen, setOpen] = useState(false)

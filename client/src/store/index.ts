@@ -7,6 +7,9 @@ import { reducer as consentFormReducer } from './consentForm'
 import { reducer as visitReducer } from './visit'
 import { reducer as actionReducer } from './action'
 
+/**
+ * Redux store configuration object.
+ */
 const store = configureStore({
   reducer: {
     user: userReducer,

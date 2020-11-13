@@ -18,6 +18,9 @@ type Props = {
   onFilterChange: (visits: VisitInfo[]) => void
 }
 
+/**
+ * Custom component to filter visit data.
+ */
 const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
   const classes = useStyles()
   const [t] = useTranslation()
@@ -46,11 +49,16 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
   }
 
   useEffect(() => {
-    const filteredVisits = visits.filter(visit => {
-      if (selectedHostNames.length && !selectedHostNames.includes(visit.businessHostName)) return false
-      if (selectedPurposes.length && !selectedPurposes.includes(visit.purpose)) return false
-      if (selectedFromDate && dateAdapter.isBefore(new Date(visit.plannedEntry), new Date(selectedFromDate))) return false
-      if (selectedUntilDate && dateAdapter.isAfter(new Date(visit.plannedEntry), new Date(selectedUntilDate))) return false
+    const filteredVisits = visits.filter(({ businessHostName, purpose, plannedEntry }) => {
+      // Check host names
+      if (selectedHostNames.length && !selectedHostNames.includes(businessHostName)) return false
+      // Check purposes
+      if (selectedPurposes.length && !selectedPurposes.includes(purpose)) return false
+      // Check from date
+      if (selectedFromDate && dateAdapter.isBefore(new Date(plannedEntry), new Date(selectedFromDate))) return false
+      // Check until date
+      if (selectedUntilDate && dateAdapter.isAfter(new Date(plannedEntry), new Date(selectedUntilDate))) return false
+
       return true
     })
     onFilterChange(filteredVisits)

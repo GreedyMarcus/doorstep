@@ -3,19 +3,32 @@ import config from '../app/config'
 import i18n from '../plugins/i18n'
 import { UserLogin, UserInfo } from '../data/types/User'
 
+/**
+ * Wrapper class that manages API calls to the authentication,
+ * and authorization related endpoints.
+ */
 class AuthService {
   public static API_BASE = '/api/auth'
 
+  /**
+   * Returns the JWT token that is stored in local storage.
+   */
   public static getUserToken(): string | null {
     const token = localStorage.getItem(config.app.tokenKeyName)
     return token ? JSON.parse(token) : null
   }
 
+  /**
+   * Generates authorization header for HTTP requests.
+   */
   public static getAuthHeader() {
     const token = AuthService.getUserToken()
     return token ? { Authorization: `Bearer ${token}` } : {}
   }
 
+  /**
+   * Returns the current language of the user.
+   */
   public static getClientLanguageHeader() {
     return { 'client-language': i18n.language }
   }

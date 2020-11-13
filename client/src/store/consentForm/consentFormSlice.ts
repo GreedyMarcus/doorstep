@@ -19,6 +19,9 @@ const initialState: ConsentFormSliceState = {
   activeConsentForm: null
 }
 
+/**
+ * Represents a store slice that manages consent form related data.
+ */
 const consentFormSlice = createSlice({
   name: 'consentForm',
   initialState,
@@ -67,6 +70,9 @@ const {
   consentFormVersionActivated
 } = consentFormSlice.actions
 
+/**
+ * Calls either office building or company service to load global or local consent forms.
+ */
 export const fetchConsentForms = () => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -95,6 +101,9 @@ export const fetchConsentForms = () => async (dispatch: AppDispatch, getState: (
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls consent form service to load global or local consent forms depends on the role of the current user.
+ */
 export const fetchConsentFormById = (consentFormId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -112,6 +121,9 @@ export const fetchConsentFormById = (consentFormId: number) => async (dispatch: 
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls either office building or company service to create global or local consent form.
+ */
 export const createConsentForm = (data: ConsentFormCreate) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
@@ -142,6 +154,9 @@ export const createConsentForm = (data: ConsentFormCreate) => async (dispatch: A
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls consent form service to create global or local consent forms depends on the role of the current user.
+ */
 export const createConsentFormVersion = (content: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { consentForm, user } = getState()
 
@@ -161,6 +176,9 @@ export const createConsentFormVersion = (content: string) => async (dispatch: Ap
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls consent form service to update the specified consent form version.
+ */
 export const updateConsentFormVersion = (versionId: number, content: string) => async (
   dispatch: AppDispatch,
   getState: () => RootState
@@ -183,6 +201,9 @@ export const updateConsentFormVersion = (versionId: number, content: string) => 
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls consent form service to activate the specified consent form version.
+ */
 export const activateConsentFormVersion = (versionId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { consentForm, user } = getState()
 

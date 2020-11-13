@@ -21,6 +21,9 @@ type Props = {
   onEditClick?: (itemId: number) => void
 }
 
+/**
+ * Custom component that displays table data with responsive behaviour.
+ */
 const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, onOpenClick, onEditClick }) => {
   const classes = useStyles()
   const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))

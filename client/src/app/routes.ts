@@ -1,5 +1,8 @@
 import { UserRole } from '../data/enums/UserRole'
 
+/**
+ * Client routes object.
+ */
 export const routes = {
   LOGIN: '/login',
   REGISTER: '/register',
@@ -14,6 +17,11 @@ export const routes = {
   INVITATIONS: '/invitations'
 }
 
+/**
+ * Returns the default route for the authenticated user.
+ *
+ * @param role - role of the user
+ */
 export const getAuthRedirectRoute = (role: string) => {
   const redirectRoutes = {
     [UserRole.ADMIN]: routes.COMPANIES,

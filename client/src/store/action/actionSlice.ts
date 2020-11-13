@@ -11,6 +11,10 @@ const initialState: ActionSliceState = {
   notification: null
 }
 
+/**
+ * Represents a store slice that manages events that caused by other action dispatches,
+ * therefore stores loading indicator status and event messages.
+ */
 const actionSlice = createSlice({
   name: 'action',
   initialState,

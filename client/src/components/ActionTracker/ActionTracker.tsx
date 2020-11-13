@@ -10,6 +10,9 @@ import { useAppDispatch } from '../../store'
 import { actionSelector, removeNotification } from '../../store/action'
 import { TransitionProps } from '@material-ui/core/transitions/transition'
 
+/**
+ * Custom component that displays events caused by user behaviour.
+ */
 const ActionTracker: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()

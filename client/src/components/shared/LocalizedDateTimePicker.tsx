@@ -11,6 +11,10 @@ type Props = {
   onChange: (dateString: string) => void
 }
 
+/**
+ * Wrapper component for date time picker that has default values,
+ * and handles localization using translation hook.
+ */
 const LocalizedDateTimePicker: React.FC<Props & DateTimePickerProps> = ({ label, value, onChange, ...rest }) => {
   const [t] = useTranslation()
 

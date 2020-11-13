@@ -20,6 +20,10 @@ import { useAppDispatch } from '../../store'
 import { userRoleSelector, logoutUser } from '../../store/user'
 import { navigationAuthConfig } from './navigationAuthConfig'
 
+/**
+ * Navigation component for the application,
+ * that handles authorization and provides responsive behaviour.
+ */
 const NavigationBar: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()

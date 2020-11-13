@@ -13,6 +13,9 @@ type Props = {
   onChange: (value: string[]) => void
 }
 
+/**
+ * Custom container component to encapsulate multi select input behaviour.
+ */
 const MultiSelect: React.FC<Props> = ({ id, label, items, selectedItems, onChange }) => {
   const classes = useStyles()
 

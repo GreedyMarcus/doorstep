@@ -3,6 +3,9 @@ import AuthService from './AuthService'
 import { ConsentFormDetails, ConsentFormVersionInfo } from '../data/types/ConsentForm'
 import { ConsentFormType } from '../data/enums/ConsentFormType'
 
+/**
+ * Wrapper class that manages API calls to the consent form related endpoints.
+ */
 class ConsentFormService {
   public static API_BASE = '/api/consent-forms'
 

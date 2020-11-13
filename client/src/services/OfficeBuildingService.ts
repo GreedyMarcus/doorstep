@@ -4,6 +4,9 @@ import { OfficeBuildingRegister } from '../data/types/OfficeBuilding'
 import { CompanyInfo, CompanyRegister } from '../data/types/Company'
 import { ConsentFormInfo, ConsentFormCreate } from '../data/types/ConsentForm'
 
+/**
+ * Wrapper class that manages API calls to the office building related endpoints.
+ */
 class OfficeBuildingService {
   public static API_BASE = '/api/buildings'
 

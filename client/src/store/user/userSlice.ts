@@ -20,6 +20,9 @@ const initialState: UserSliceState = {
   activeUserToken: AuthService.getUserToken()
 }
 
+/**
+ * Represents a store slice that manages user related data.
+ */
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -38,6 +41,9 @@ const userSlice = createSlice({
 export const { reducer } = userSlice
 const { userLoginSucceed, userLogoutSucceed } = userSlice.actions
 
+/**
+ * Calls auth service to authenticate user.
+ */
 export const loginUser = (data: UserLogin) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
@@ -53,15 +59,24 @@ export const loginUser = (data: UserLogin) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls auth service to log out the current user.
+ */
 export const logoutUser = () => (dispatch: AppDispatch) => {
   AuthService.logoutUser()
   dispatch(userLogoutSucceed())
+
+  // Reset store slices to initial values
   dispatch(companySliceCleared())
   dispatch(consentFormSliceCleared())
   dispatch(visitSliceCleared())
+
   dispatch(addNotification({ type: 'success', message: i18n.t('notification.logoutSuccess') }))
 }
 
+/**
+ * Calls office building service to register a new building with an admin user.
+ */
 export const registerAccount = (data: OfficeBuildingRegister) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
@@ -76,6 +91,9 @@ export const registerAccount = (data: OfficeBuildingRegister) => async (dispatch
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls auth service to identify the user who belongs to the stored user token.
+ */
 export const loadCurrentUser = (token: string) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
@@ -90,6 +108,9 @@ export const loadCurrentUser = (token: string) => async (dispatch: AppDispatch) 
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls auth service to send password reset request.
+ */
 export const sendForgotPassword = (email: string) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
@@ -104,6 +125,9 @@ export const sendForgotPassword = (email: string) => async (dispatch: AppDispatc
   dispatch(setLoading(false))
 }
 
+/**
+ * Calls auth service to reset user password.
+ */
 export const resetUserPassword = (token: string, email: string) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
