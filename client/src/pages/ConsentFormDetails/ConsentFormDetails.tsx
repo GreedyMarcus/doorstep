@@ -202,7 +202,12 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
 
             <Grid className={classes.buttons} container justify="space-between">
               <Button
-                style={{ visibility: !status.edited && !status.disabled ? 'visible' : 'hidden' }}
+                style={
+                  fullScreen
+                    ? { display: !status.edited && !status.disabled ? 'inline' : 'none' }
+                    : { visibility: !status.edited && !status.disabled ? 'visible' : 'hidden' }
+                }
+                className={classes.button}
                 variant="contained"
                 color="secondary"
                 onClick={handleConsentFormVersionActivation}
