@@ -42,7 +42,9 @@ export const navigationAuthConfig = {
       { id: 'COMPANY-ADMIN-NAV-2', route: routes.HOSTS, label: i18n.t('general.businessHosts') },
       { id: 'COMPANY-ADMIN-NAV-3', route: routes.CONSENT_FORMS, label: i18n.t('general.consentForms') }
     ],
-    [UserRole.BUSINESS_HOST]: [{ id: 'BUSINESS-HOST-NAV-1', route: routes.PLANNED_VISITS, label: i18n.t('general.visits') }],
+    [UserRole.BUSINESS_HOST]: [
+      { id: 'BUSINESS-HOST-NAV-1', route: routes.PLANNED_VISITS, label: i18n.t('general.plannedVisits') }
+    ],
     [UserRole.RECEPTIONIST]: [{ id: 'RECEPTIONIST-NAV-1', route: routes.INVITATIONS, label: i18n.t('general.visits') }],
     [UserRole.GUEST]: []
   },

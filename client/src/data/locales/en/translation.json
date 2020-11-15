@@ -17,7 +17,8 @@
     "ok": "Ok",
     "activate": "Activate",
     "clear": "Clear",
-    "settings": "Settings"
+    "settings": "Settings",
+    "plannedVisits": "Planned visits"
   },
   "company": {
     "name": "Company name",
