@@ -5,10 +5,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm'
 import Company from './Company'
 import UserRole from './UserRole'
+import Guest from './Guest'
+import Visit from './Visit'
 
 @Entity('users')
 class User {
@@ -27,13 +30,10 @@ class User {
   @Column({ nullable: false })
   password: string
 
-  @Column({ name: 'is_active', default: true })
-  isActive: boolean
-
   @Column({ name: 'password_token', nullable: true })
   passwordToken: string
 
-  @ManyToOne(() => UserRole, role => role.users, { eager: true, onDelete: 'SET NULL' })
+  @ManyToOne(() => UserRole, role => role.users, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'role_id' })
   role: UserRole
 
@@ -50,6 +50,12 @@ class User {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', default: null })
   deletedAt: Date
+
+  @OneToMany(() => Visit, visit => visit.businessHost)
+  visits: Visit[]
+
+  @OneToMany(() => Guest, guest => guest.user)
+  guests: Guest[]
 }
 
 export default User

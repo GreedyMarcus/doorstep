@@ -11,7 +11,6 @@ class UserRole {
   name: string
 
   @ManyToMany(() => UserPermission, {
-    eager: true,
     nullable: false,
     cascade: true,
     onDelete: 'CASCADE'

@@ -1,13 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { IdentifierCardType } from '../data/enums/IdentifierCardType'
 import { GuestParticipationStatus } from '../data/enums/GuestParticipationStatus'
 import Address from './Address'
@@ -15,13 +6,14 @@ import User from './User'
 import GuestCard from './GuestCard'
 import Visit from './Visit'
 import ConsentFormVersion from './ConsentFormVersion'
+import Company from './Company'
 
 @Entity('guests')
 class Guest {
   @PrimaryGeneratedColumn()
   id: number
 
-  @OneToOne(() => User, { eager: true, nullable: false })
+  @ManyToOne(() => User, user => user.guests, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User
 
@@ -65,13 +57,24 @@ class Guest {
   @Column({ name: 'actual_exit', type: 'timestamp', nullable: true })
   actualExit: Date
 
-  @OneToOne(() => User, { nullable: true })
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)'
+  })
+  createdAt: Date
+
+  @ManyToOne(() => User, receptionist => receptionist.guests, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'receptionist_id' })
   receptionist: User
 
-  @ManyToOne(() => GuestCard, guestCard => guestCard.guests, { eager: true, onDelete: 'SET NULL' })
+  @ManyToOne(() => GuestCard, guestCard => guestCard.guests, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'guest_card_id' })
   guestCard: GuestCard
+
+  @ManyToOne(() => Company, company => company.guests, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'company_id' })
+  company: Company
 
   @ManyToMany(() => Visit, visit => visit.guests)
   visits: Visit[]

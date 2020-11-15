@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { VisitPurpose } from '../data/enums/VisitPurpose'
 import ConsentFormVersion from './ConsentFormVersion'
 import Guest from './Guest'
@@ -13,7 +13,7 @@ class Visit {
   @Column({ name: 'planned_entry', type: 'timestamp', nullable: false })
   plannedEntry: Date
 
-  @OneToOne(() => User, { eager: true })
+  @ManyToOne(() => User, host => host.visits, { nullable: false })
   @JoinColumn({ name: 'business_host_id' })
   businessHost: User
 
@@ -25,6 +25,13 @@ class Visit {
 
   @Column({ type: 'timestamp', nullable: true })
   expiration: Date
+
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)'
+  })
+  createdAt: Date
 
   @ManyToOne(() => Company, company => company.consentForms, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'company_id' })

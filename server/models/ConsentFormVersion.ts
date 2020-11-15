@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import ConsentForm from './ConsentForm'
 import Visit from './Visit'
 import Guest from './Guest'
@@ -14,8 +14,14 @@ class ConsentFormVersion {
   @Column({ name: 'version_number', nullable: false })
   versionNumber: number
 
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)'
+  })
+  createdAt: Date
+
   @ManyToOne(() => ConsentForm, form => form.versions, {
-    eager: true,
     nullable: false,
     cascade: true,
     onDelete: 'CASCADE'

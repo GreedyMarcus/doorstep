@@ -15,6 +15,7 @@ import CompanyRegisterConfig from './CompanyRegisterConfig'
 import ConsentForm from './ConsentForm'
 import User from './User'
 import Visit from './Visit'
+import Guest from './Guest'
 
 @Entity('companies')
 class Company {
@@ -27,7 +28,7 @@ class Company {
   @Column({ name: 'registration_number', unique: true })
   registrationNumber: string
 
-  @ManyToOne(() => Address, address => address.companies, { eager: true, onDelete: 'SET NULL' })
+  @ManyToOne(() => Address, address => address.companies, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'address_id' })
   address: Address
 
@@ -35,14 +36,11 @@ class Company {
   @JoinColumn({ name: 'office_building_id' })
   officeBuilding: OfficeBuilding
 
-  @OneToOne(() => CompanyRegisterConfig, { nullable: false })
+  @OneToOne(() => CompanyRegisterConfig, { nullable: true })
   @JoinColumn({ name: 'register_config_id' })
   registerConfig: CompanyRegisterConfig
 
-  @Column({ name: 'is_active', default: true })
-  isActive: boolean
-
-  @OneToOne(() => User, { eager: true })
+  @OneToOne(() => User, { nullable: true })
   @JoinColumn({ name: 'admin_id' })
   admin: User
 
@@ -64,6 +62,9 @@ class Company {
 
   @OneToMany(() => Visit, visit => visit.company)
   visits: Visit[]
+
+  @OneToMany(() => Guest, guest => guest.company)
+  guests: Guest[]
 }
 
 export default Company

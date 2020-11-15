@@ -1,13 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm'
+import { CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import Address from './Address'
 import User from './User'
 import Company from './Company'
@@ -25,9 +16,6 @@ class OfficeBuilding {
   @OneToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'admin_id' })
   admin: User
-
-  @Column({ name: 'is_active', default: true })
-  isActive: boolean
 
   @CreateDateColumn({
     name: 'created_at',
