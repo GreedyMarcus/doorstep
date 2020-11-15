@@ -21,6 +21,12 @@ export interface UserRegisterDTO {
   lastName: string
 }
 
+export interface GuestUserRegisterDTO {
+  email: string
+  firstName: string
+  lastName: string
+}
+
 export interface UserUpdateDTO {
   id: number
   firstName: string

@@ -1,12 +1,7 @@
-import {
-  CompanyUpdateDTO,
-  CompanyInfoDTO,
-  CompanyVisitInfoDTO,
-  CompanyHostInfoDTO,
-  CompanyRegisterConfigDTO
-} from '../../data/dtos/CompanyDTO'
+import { CompanyUpdateDTO, CompanyInfoDTO, CompanyHostInfoDTO, CompanyRegisterConfigDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
+import { VisitInfoDTO, VisitCreateDTO } from '../../data/dtos/VisitDTO'
 
 interface CompanyServiceInterface {
   /**
@@ -17,7 +12,12 @@ interface CompanyServiceInterface {
   /**
    * Returns all visits belong to the company.
    */
-  getVisits(companyId: number): Promise<CompanyVisitInfoDTO[]>
+  getVisits(companyId: number): Promise<VisitInfoDTO[]>
+
+  /**
+   * Creates a new visit for the company.
+   */
+  createVisit(companyId: number, data: VisitCreateDTO): Promise<VisitInfoDTO>
 
   /**
    * Returns all the business hosts employed by the company.
