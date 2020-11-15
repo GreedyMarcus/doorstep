@@ -31,6 +31,16 @@ class CompaniesController {
     }
   }
 
+  public createVisit = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const visit = await this.companyService.createVisit(companyId, req.body)
+      res.status(201).json(visit)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
   public getBusinessHosts = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const companyId = Number(req.params.companyId)
@@ -97,6 +107,16 @@ class CompaniesController {
       const companyId = Number(req.params.companyId)
       await this.companyService.updateCompanyConfig(companyId, req.body)
       res.sendStatus(204)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public getAvailableGuestUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const guestUsers = await this.companyService.getAvailableGuestUsers(companyId)
+      res.json(guestUsers)
     } catch (err) {
       return next(err)
     }

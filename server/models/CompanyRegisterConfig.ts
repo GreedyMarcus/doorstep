@@ -26,10 +26,10 @@ class CompanyRegisterConfig {
   @Column({ name: 'store_company', nullable: false, default: false })
   storeCompany: boolean
 
-  @Column({ name: 'register_guest_card', nullable: false, default: false })
+  @Column({ name: 'register_guest_card', nullable: false, default: true })
   registerGuestCard: boolean
 
-  @Column({ name: 'track_actual_exit', nullable: false, default: false })
+  @Column({ name: 'track_actual_exit', nullable: false, default: true })
   trackActualExit: boolean
 }
 

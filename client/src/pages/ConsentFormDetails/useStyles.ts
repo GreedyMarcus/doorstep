@@ -4,7 +4,8 @@ type Props = { fullScreen: boolean }
 
 export default makeStyles(theme => ({
   container: {
-    paddingTop: theme.spacing(4)
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4)
   },
   grid: {
     padding: theme.spacing(1, 3, 2)
@@ -83,9 +84,10 @@ export default makeStyles(theme => ({
     marginBottom: theme.spacing(2)
   },
   buttons: {
-    padding: theme.spacing(1, 3, 3)
+    padding: theme.spacing(0, 3, 3)
   },
   button: {
-    marginLeft: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1)
   }
 }))

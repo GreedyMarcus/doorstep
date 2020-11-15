@@ -10,6 +10,7 @@ import { UserPermissionType } from '../data/enums/UserPermissionType'
 import { CompanyUpdateSchema, CompanyConfigSchema } from '../data/validationSchemas/CompanySchema'
 import { UserRegisterSchema, UserUpdateSchema } from '../data/validationSchemas/UserSchema'
 import { ConsentFormCreateSchema } from '../data/validationSchemas/ConsentFormSchema'
+import { VisitCreateSchema } from '../data/validationSchemas/VisitSchema'
 
 const companiesRouter = express.Router()
 const companiesController = container.resolve(CompaniesController)
@@ -37,6 +38,19 @@ companiesRouter.get(
   hasPermission([UserPermissionType.READ_VISITS]),
   belongsToCompany,
   companiesController.getVisits
+)
+
+/**
+ * POST - Creates a new visit for the company.
+ */
+companiesRouter.post(
+  '/:companyId/visits',
+  checkValidNumberParams(['companyId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_VISITS]),
+  belongsToCompany,
+  validationMiddleware(VisitCreateSchema),
+  companiesController.createVisit
 )
 
 /**
@@ -125,6 +139,18 @@ companiesRouter.put(
   belongsToCompany,
   validationMiddleware(CompanyConfigSchema),
   companiesController.updateCompanyConfig
+)
+
+/**
+ * GET - Returns all available guest user data for visit planning.
+ */
+companiesRouter.get(
+  '/:companyId/available-guest-users',
+  checkValidNumberParams(['companyId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_VISITS]),
+  belongsToCompany,
+  companiesController.getAvailableGuestUsers
 )
 
 export default companiesRouter

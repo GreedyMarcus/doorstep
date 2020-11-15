@@ -5,18 +5,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
 import { CompanyInfo, CompanyRegister, CompanyUpdate, CompanyConfig } from '../../data/types/Company'
-import { BusinessHostInfo, UserRegister, UserUpdate } from '../../data/types/User'
+import { BusinessHostInfo, UserRegister, UserUpdate, GuestUserRegister } from '../../data/types/User'
 
 type CompanySliceState = {
   companies: CompanyInfo[]
   businessHosts: BusinessHostInfo[]
   activeCompanyConfig: CompanyConfig | null
+  availableGuestUsers: GuestUserRegister[]
 }
 
 const initialState: CompanySliceState = {
   companies: [],
   businessHosts: [],
-  activeCompanyConfig: null
+  activeCompanyConfig: null,
+  availableGuestUsers: []
 }
 
 /**
@@ -49,6 +51,9 @@ const companySlice = createSlice({
     companyConfigFetched: (state, { payload }: PayloadAction<CompanyConfig>) => {
       state.activeCompanyConfig = payload
     },
+    availableGuestUsersFetched: (state, { payload }: PayloadAction<GuestUserRegister[]>) => {
+      state.availableGuestUsers = payload
+    },
     companySliceCleared: state => {
       state.companies = []
       state.businessHosts = []
@@ -66,7 +71,8 @@ const {
   businessHostsFetched,
   businessHostCreated,
   businessHostUpdated,
-  companyConfigFetched
+  companyConfigFetched,
+  availableGuestUsersFetched
 } = companySlice.actions
 
 /**
@@ -226,6 +232,26 @@ export const updateCompanyConfig = (data: CompanyConfig) => async (dispatch: App
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanyConfigSuccess') }))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyConfigFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls company service to load company register config.
+ */
+export const fetchAvailableGuestUsers = () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const companyId = user.activeUser?.companyId ?? -1
+    const guestUsers = await CompanyService.getAvailableGuestUsers(companyId)
+
+    dispatch(availableGuestUsersFetched(guestUsers))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchAvailableGuestUsersFailure') }))
   }
 
   dispatch(setLoading(false))

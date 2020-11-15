@@ -16,6 +16,11 @@ interface CompanyRepositoryInterface {
   findCompaniesByBuildingId(buildingId: number): Promise<Company[]>
 
   /**
+   * Returns all guest users that has been invited at least once to a company visit.
+   */
+  findCompanyGuestUsers(companyId: number): Promise<User[]>
+
+  /**
    * Returns all employees from the specified company that match the provided user role.
    * If user role is not provided, returns all company employee.
    *

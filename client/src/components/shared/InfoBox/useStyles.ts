@@ -14,8 +14,9 @@ export default makeStyles(theme => ({
     marginBottom: theme.spacing(3)
   },
   infoText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 500,
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
+    textAlign: 'center'
   }
 }))

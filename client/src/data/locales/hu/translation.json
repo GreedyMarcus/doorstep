@@ -17,7 +17,10 @@
     "ok": "Ok",
     "activate": "Aktiválás",
     "clear": "Törlés",
-    "settings": "Beállítások"
+    "settings": "Beállítások",
+    "plannedVisits": "Tervezett látogatások",
+    "add": "Felvétel",
+    "addFromList": "Felvétel listából"
   },
   "company": {
     "name": "Cégnév",
@@ -56,7 +59,10 @@
     "noVisitInfo": "Még nincsenek beütemezett látogatások.",
     "filter": "Látogatás Szűrő",
     "fromDate": "Látogatások dátumtól",
-    "untilDate": "Látogatások dátumig"
+    "untilDate": "Látogatások dátumig",
+    "scheduler": "Látogatás ütemező",
+    "details": "Látogatás részletei",
+    "guests": "Vendégek"
   },
   "guest": {
     "nationality": "Nemzetiség",
@@ -98,6 +104,8 @@
     "invalidCompanyData": "Érvénytelen cég adat formátum",
     "invalidConsentFormData": "Érvénytelen nyilatkozat adat formátum",
     "invalidBusinessHostData": "Érvénytelen céges fogadó adat formátum",
+    "invalidGuestData": "Érvénytelen vendég adat formátum",
+    "invalidVisitData": "Érvénytelen látogatás adat formátum",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
     "logoutSuccess": "Sikeres kijelentkezés",
@@ -130,7 +138,11 @@
     "updateCompanyConfigSuccess": "Sikeresen frissítetted a céges beállításokat.",
     "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
-    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
+    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót.",
+    "fetchAvailableGuestUsersFailure": "Nem sikerült betölteni a céghez már regisztrált vendégek adatait.",
+    "createVisitSuccess": "Sikeresen létrehoztad a látogatás eseményét.",
+    "createVisitFailure": "Nem sikerült létrehozni a látogatás eseményét.",
+    "duplicatedGuest": "A vendég már szerepel a listában."
   },
   "action": {
     "addCompany": "Cég felvétele",
@@ -138,6 +150,8 @@
     "addConsentFormVersion": "Új verzió felvétele",
     "addBusinessHost": "Céges fogadó felvétele",
     "addVisit": "Látogatás felvétele",
+    "addGuest": "Vendég felvétele",
+    "addGuestFromList": "Vendég felvétele listából",
     "editCompany": "Cég szerkesztése",
     "editBusinessHost": "Céges fogadó személy szerkesztése",
     "openConsentForm": "Nyilatkozat megnyitása",

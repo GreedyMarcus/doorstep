@@ -21,13 +21,19 @@ export type UserRegister = {
   lastName: string
 }
 
+export type GuestUserRegister = {
+  email: string
+  firstName: string
+  lastName: string
+}
+
 export type UserUpdate = {
   id: number
   firstName: string
   lastName: string
 }
 
-export interface BusinessHostInfo {
+export type BusinessHostInfo = {
   id: number
   firstName: string
   lastName: string

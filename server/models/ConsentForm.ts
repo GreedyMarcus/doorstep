@@ -1,13 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { ConsentFormType } from '../data/enums/ConsentFormType'
 import ConsentFormVersion from './ConsentFormVersion'
 import OfficeBuilding from './OfficeBuilding'
@@ -24,7 +15,7 @@ class ConsentForm {
   @Column({ type: 'enum', enum: ConsentFormType })
   type: ConsentFormType
 
-  @OneToOne(() => ConsentFormVersion, { eager: true })
+  @OneToOne(() => ConsentFormVersion)
   @JoinColumn({ name: 'active_version_id' })
   activeVersion: ConsentFormVersion
 
