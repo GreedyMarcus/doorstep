@@ -12,6 +12,6 @@ export type VisitCreate = {
   businessHostId: number
   purpose: string
   room: string
-  plannedEntry: Date
+  plannedEntry: Date | string
   invitedGuests: GuestUserRegister[]
 }

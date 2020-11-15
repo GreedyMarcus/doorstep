@@ -105,6 +105,7 @@
     "invalidConsentFormData": "Invalid consent form details format",
     "invalidBusinessHostData": "Invalid business host details format",
     "invalidGuestData": "Invalid guest details format",
+    "invalidVisitData": "Invalid visit details format",
     "loginSuccess": "Successful login",
     "loginFailure": "Incorrect email address or password",
     "logoutSuccess": "Successful logout",
@@ -138,7 +139,9 @@
     "updateCompanyConfigFailure": "Could not update company config",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
     "activateConsentFormVersionFailure": "Could not activate consent form version",
-    "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data.",
+    "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data",
+    "createVisitSuccess": "Successful company visit creation",
+    "createVisitFailure": "Could not create company visit",
     "duplicatedGuest": "Guest is already in the list"
   },
   "action": {

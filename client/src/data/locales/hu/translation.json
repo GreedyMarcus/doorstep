@@ -105,6 +105,7 @@
     "invalidConsentFormData": "Érvénytelen nyilatkozat adat formátum",
     "invalidBusinessHostData": "Érvénytelen céges fogadó adat formátum",
     "invalidGuestData": "Érvénytelen vendég adat formátum",
+    "invalidVisitData": "Érvénytelen látogatás adat formátum",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
     "logoutSuccess": "Sikeres kijelentkezés",
@@ -139,6 +140,8 @@
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
     "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót.",
     "fetchAvailableGuestUsersFailure": "Nem sikerült betölteni a céghez már regisztrált vendégek adatait.",
+    "createVisitSuccess": "Sikeresen létrehoztad a látogatás eseményét.",
+    "createVisitFailure": "Nem sikerült létrehozni a látogatás eseményét.",
     "duplicatedGuest": "A vendég már szerepel a listában."
   },
   "action": {

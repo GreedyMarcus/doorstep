@@ -30,6 +30,8 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
 import { availableGuestUsersSelector, fetchAvailableGuestUsers } from '../../store/company'
+import { createVisit } from '../../store/visit'
+import { getTimestampFormat } from '../../utils'
 
 type Props = {
   visit?: VisitCreate
@@ -82,6 +84,20 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
   }
 
   const handleSave = () => {
+    if (!room.isValid || !plannedEntry || !guests.length) {
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidVisitData') }))
+      return
+    }
+
+    const visitData: VisitCreate = {
+      businessHostId: -1,
+      purpose: visitPurposeStrings[purpose],
+      room: room.value,
+      plannedEntry: getTimestampFormat(new Date(plannedEntry)),
+      invitedGuests: guests
+    }
+
+    dispatch(createVisit(visitData))
     handleClose()
   }
 

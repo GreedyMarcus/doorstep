@@ -1,7 +1,7 @@
 import axios from 'axios'
 import AuthService from './AuthService'
 import { CompanyInfo, CompanyUpdate, CompanyConfig } from '../data/types/Company'
-import { VisitInfo } from '../data/types/Visit'
+import { VisitInfo, VisitCreate } from '../data/types/Visit'
 import { BusinessHostInfo, UserRegister, UserUpdate, GuestUserRegister } from '../data/types/User'
 import { ConsentFormInfo, ConsentFormCreate } from '../data/types/ConsentForm'
 
@@ -29,6 +29,16 @@ class CompanyService {
 
     const result = await axios.get(url, config)
     return result.data as VisitInfo[]
+  }
+
+  public static async createVisit(companyId: number, data: VisitCreate): Promise<VisitInfo> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${CompanyService.API_BASE}/${companyId}/visits`
+    const config = { headers: authHeader }
+
+    const result = await axios.post(url, data, config)
+    return result.data as VisitInfo
   }
 
   public static async getBusinessHosts(companyId: number): Promise<BusinessHostInfo[]> {
