@@ -141,4 +141,16 @@ companiesRouter.put(
   companiesController.updateCompanyConfig
 )
 
+/**
+ * GET - Returns all available guest user data for visit planning.
+ */
+companiesRouter.get(
+  '/:companyId/available-guest-users',
+  checkValidNumberParams(['companyId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_VISITS]),
+  belongsToCompany,
+  companiesController.getAvailableGuestUsers
+)
+
 export default companiesRouter

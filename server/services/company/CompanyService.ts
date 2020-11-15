@@ -10,7 +10,7 @@ import { UserRepositoryInterface } from '../../repositories/user'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyHostInfoDTO, CompanyRegisterConfigDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
-import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
+import { UserRegisterDTO, UserUpdateDTO, GuestUserRegisterDTO } from '../../data/dtos/UserDTO'
 import { VisitInfoDTO, VisitCreateDTO } from '../../data/dtos/VisitDTO'
 import { VisitPurpose } from '../../data/enums/VisitPurpose'
 
@@ -266,6 +266,22 @@ class CompanyService implements CompanyServiceInterface {
     }
 
     await this.companyRepository.updateCompanyConfig(companyId, data)
+  }
+
+  public getAvailableGuestUsers = async (companyId: number): Promise<GuestUserRegisterDTO[]> => {
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
+    }
+
+    const guestUsers = await this.companyRepository.findCompanyGuestUsers(companyId)
+    const guestUsersData: GuestUserRegisterDTO[] = guestUsers.map(user => ({
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName
+    }))
+
+    return guestUsersData
   }
 }
 

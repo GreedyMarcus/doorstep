@@ -1,6 +1,6 @@
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyHostInfoDTO, CompanyRegisterConfigDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
-import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
+import { UserRegisterDTO, UserUpdateDTO, GuestUserRegisterDTO } from '../../data/dtos/UserDTO'
 import { VisitInfoDTO, VisitCreateDTO } from '../../data/dtos/VisitDTO'
 
 interface CompanyServiceInterface {
@@ -53,6 +53,11 @@ interface CompanyServiceInterface {
    * Updates the register config information that belongs to the company.
    */
   updateCompanyConfig(companyId: number, data: CompanyRegisterConfigDTO): Promise<void>
+
+  /**
+   * Returns all available guest user data that belongs to the company.
+   */
+  getAvailableGuestUsers(companyId: number): Promise<GuestUserRegisterDTO[]>
 }
 
 export default CompanyServiceInterface

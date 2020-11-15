@@ -49,6 +49,16 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
     return query.getMany()
   }
 
+  public findCompanyGuestUsers(companyId: number): Promise<User[]> {
+    return getRepository(User)
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.company', 'company')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('company.id = :companyId', { companyId })
+      .where('role.name = :roleName', { roleName: UserRoleType.GUEST })
+      .getMany()
+  }
+
   public async createCompany(
     buildingId: number,
     company: Partial<Company>,

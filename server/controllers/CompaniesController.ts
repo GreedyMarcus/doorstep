@@ -111,6 +111,16 @@ class CompaniesController {
       return next(err)
     }
   }
+
+  public getAvailableGuestUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const guestUsers = await this.companyService.getAvailableGuestUsers(companyId)
+      res.json(guestUsers)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default CompaniesController
