@@ -7,6 +7,7 @@ import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRoun
 import CompanyEditorDialog from '../CompanyEditorDialog'
 import ConsentFormDialog from '../ConsentFormDialog'
 import BusinessHostEditorDialog from '../BusinessHostEditorDialog'
+import VisitSchedulerDialog from '../VisitSchedulerDialog'
 import { UserRole } from '../../data/enums/UserRole'
 import { routes } from '../../app/routes'
 
@@ -78,7 +79,12 @@ export const navigationAuthConfig = {
       }
     ],
     [UserRole.BUSINESS_HOST]: [
-      { id: 'BUSINESS-HOST-ACTION-1', title: i18n.t('action.addVisit'), icon: <InsertInvitationRoundedIcon /> }
+      {
+        id: 'BUSINESS-HOST-ACTION-1',
+        title: i18n.t('action.addVisit'),
+        icon: <InsertInvitationRoundedIcon />,
+        renderComponent: onActionFinish => <VisitSchedulerDialog onClose={onActionFinish} />
+      }
     ],
     [UserRole.RECEPTIONIST]: [
       { id: 'RECEPTIONIST-ACTION-1', title: i18n.t('action.addVisit'), icon: <InsertInvitationRoundedIcon /> }

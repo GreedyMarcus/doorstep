@@ -18,7 +18,9 @@
     "activate": "Activate",
     "clear": "Clear",
     "settings": "Settings",
-    "plannedVisits": "Planned visits"
+    "plannedVisits": "Planned visits",
+    "add": "add",
+    "addFromList": "Add from list"
   },
   "company": {
     "name": "Company name",
@@ -57,7 +59,10 @@
     "noVisitInfo": "There are no scheduled visits yet.",
     "filter": "Visit filter",
     "fromDate": "Visits from date",
-    "untilDate": "Visits until date"
+    "untilDate": "Visits until date",
+    "scheduler": "Visit scheduler",
+    "details": "Visit details",
+    "guests": "Guests"
   },
   "guest": {
     "nationality": "Nationality",
@@ -99,6 +104,7 @@
     "invalidCompanyData": "Invalid company details format",
     "invalidConsentFormData": "Invalid consent form details format",
     "invalidBusinessHostData": "Invalid business host details format",
+    "invalidGuestData": "Invalid guest details format",
     "loginSuccess": "Successful login",
     "loginFailure": "Incorrect email address or password",
     "logoutSuccess": "Successful logout",
@@ -131,7 +137,8 @@
     "updateCompanyConfigSuccess": "Successful company config update",
     "updateCompanyConfigFailure": "Could not update company config",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
-    "activateConsentFormVersionFailure": "Could not activate consent form version"
+    "activateConsentFormVersionFailure": "Could not activate consent form version",
+    "duplicatedGuest": "Guest is already in the list"
   },
   "action": {
     "addCompany": "Add company",
@@ -139,6 +146,8 @@
     "addConsentFormVersion": "Add new version",
     "addBusinessHost": "Add business host",
     "addVisit": "Add visit",
+    "addGuest": "Add guest",
+    "addGuestFromList": "Add guest from list",
     "editCompany": "Edit company",
     "editBusinessHost": "Edit business host",
     "openConsentForm": "Open consent form",
