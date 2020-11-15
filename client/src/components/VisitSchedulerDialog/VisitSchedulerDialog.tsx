@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -26,8 +26,10 @@ import { VisitCreate } from '../../data/types/Visit'
 import { GuestUserRegister } from '../../data/types/User'
 import { visitPurposeStrings } from '../../data/enums/VisitPurpose'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
+import { availableGuestUsersSelector, fetchAvailableGuestUsers } from '../../store/company'
 
 type Props = {
   visit?: VisitCreate
@@ -42,16 +44,9 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
   const classes = useStyles()
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const dispatch = useAppDispatch()
+  const availableGuests = useSelector(availableGuestUsersSelector)
   const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
-
-  const availables = [
-    {
-      email: 'mdomahidi@gmail.com',
-      firstName: 'Mark',
-      lastName: 'Domahidi'
-    }
-  ]
 
   const [purpose, setPurpose] = useState(0)
   const [room, bindRoom] = useInput('', true)
@@ -90,7 +85,13 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
     handleClose()
   }
 
-  const availableGuests = availables.filter(available => guests.every(guest => guest.email !== available.email))
+  useEffect(() => {
+    if (!availableGuests.length) {
+      dispatch(fetchAvailableGuestUsers())
+    }
+  }, [availableGuests])
+
+  const availables = availableGuests.filter(available => guests.every(guest => guest.email !== available.email))
 
   return (
     <React.Fragment>
@@ -147,7 +148,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
               {t('general.add')}
             </Button>
 
-            {!!availableGuests.length && (
+            {!!availables.length && (
               <Button
                 className={classes.button}
                 size="small"
@@ -178,7 +179,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
 
       {isGuestDialogOpen && <GuestDialog onSave={addGuest} onClose={() => setGuestDialogOpen(false)} />}
       {isGuestSelectorOpen && (
-        <GuestSelectorDialog guests={availableGuests} onSave={addMultipleGuests} onClose={() => setGuestSelectorOpen(false)} />
+        <GuestSelectorDialog guests={availables} onSave={addMultipleGuests} onClose={() => setGuestSelectorOpen(false)} />
       )}
     </React.Fragment>
   )

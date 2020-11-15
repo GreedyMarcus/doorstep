@@ -138,6 +138,7 @@
     "updateCompanyConfigFailure": "Could not update company config",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
     "activateConsentFormVersionFailure": "Could not activate consent form version",
+    "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data.",
     "duplicatedGuest": "Guest is already in the list"
   },
   "action": {

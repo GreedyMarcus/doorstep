@@ -14,3 +14,8 @@ export const businessHostsSelector = (state: RootState) => state.company.busines
  * Returns the register config of the current company.
  */
 export const activeCompanyConfigSelector = (state: RootState) => state.company.activeCompanyConfig
+
+/**
+ * Returns all available guest user data of the current company.
+ */
+export const availableGuestUsersSelector = (state: RootState) => state.company.availableGuestUsers

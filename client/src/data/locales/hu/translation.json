@@ -138,6 +138,7 @@
     "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
     "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót.",
+    "fetchAvailableGuestUsersFailure": "Nem sikerült betölteni a céghez már regisztrált vendégek adatait.",
     "duplicatedGuest": "A vendég már szerepel a listában."
   },
   "action": {
