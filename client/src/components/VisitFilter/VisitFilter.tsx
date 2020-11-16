@@ -28,8 +28,8 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
 
   const [selectedHostNames, setSelectedHostNames] = useState([] as string[])
   const [selectedPurposes, setSelectedPurposes] = useState([] as string[])
-  const [selectedFromDate, setSelectedFromDate] = useState('')
-  const [selectedUntilDate, setSelectedUntilDate] = useState('')
+  const [selectedFromDate, setSelectedFromDate] = useState(null as Date | null)
+  const [selectedUntilDate, setSelectedUntilDate] = useState(null as Date | null)
 
   const dateAdapter = new DateFnsAdapter()
   const { hostNames, purposes } = visits.reduce(
@@ -44,8 +44,8 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
   const handleClearClick = () => {
     setSelectedHostNames([])
     setSelectedPurposes([])
-    setSelectedFromDate('')
-    setSelectedUntilDate('')
+    setSelectedFromDate(null)
+    setSelectedUntilDate(null)
   }
 
   useEffect(() => {
@@ -55,9 +55,9 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
       // Check purposes
       if (selectedPurposes.length && !selectedPurposes.includes(purpose)) return false
       // Check from date
-      if (selectedFromDate && dateAdapter.isBefore(new Date(plannedEntry), new Date(selectedFromDate))) return false
+      if (selectedFromDate && dateAdapter.isBefore(new Date(plannedEntry), selectedFromDate)) return false
       // Check until date
-      if (selectedUntilDate && dateAdapter.isAfter(new Date(plannedEntry), new Date(selectedUntilDate))) return false
+      if (selectedUntilDate && dateAdapter.isAfter(new Date(plannedEntry), selectedUntilDate)) return false
 
       return true
     })
@@ -95,7 +95,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
                 label={t('visit.fromDate')}
                 value={!!selectedFromDate ? new Date(selectedFromDate) : null}
                 maxDate={!!selectedUntilDate ? new Date(selectedUntilDate) : undefined}
-                onChange={dateString => setSelectedFromDate(dateString)}
+                onChange={date => setSelectedFromDate(date)}
               />
             </Grid>
             <Grid item lg={3} md={6} sm={6} xs={12}>
@@ -103,7 +103,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
                 label={t('visit.untilDate')}
                 value={!!selectedUntilDate ? new Date(selectedUntilDate) : null}
                 minDate={!!selectedFromDate ? new Date(selectedFromDate) : undefined}
-                onChange={dateString => setSelectedUntilDate(dateString)}
+                onChange={date => setSelectedUntilDate(date)}
               />
             </Grid>
             <Grid item xs={12} className={classes.clear}>
