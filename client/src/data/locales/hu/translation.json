@@ -118,6 +118,7 @@
     "fetchBusinessHostsFailure": "Nem sikerült betölteni a céges fogadó személyeket.",
     "fetchCompanyConfigFailure": "Nem sikerült betölteni a céges beállításokat.",
     "fetchAvailableGuestUsersFailure": "Nem sikerült betölteni a céghez már regisztrált vendégek adatait.",
+    "fetchVisitByIdFailure": "Nem sikerült betölteni a látogatást.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",

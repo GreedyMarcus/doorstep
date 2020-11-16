@@ -1,4 +1,6 @@
-import { GuestUserRegister } from './User'
+import { GuestUserRegister, UserShortInfo } from './User'
+import { CompanyShortInfo } from './Company'
+import { ConsentFormVersionDetails } from './ConsentForm'
 
 export type VisitInfo = {
   id: number
@@ -21,4 +23,31 @@ export type VisitCreate = {
   room: string
   plannedEntry: Date | string
   invitedGuests: GuestUserRegister[]
+}
+
+export type VisitDetails = {
+  id: number
+  companyName: string
+  businessHost: UserShortInfo
+  purpose: string
+  room: string
+  plannedEntry: Date
+  invitedGuests: VisitGuestInfo[]
+  consentFormVersionsToAccept: ConsentFormVersionDetails[]
+}
+
+export type VisitGuestInfo = {
+  id: number
+  user: UserShortInfo
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  company: CompanyShortInfo
+  actualEntry: Date | null
+  actualExit: Date | null
+  receptionistName: string
+  guestCardNumber: string
+  participationStatus: string
 }

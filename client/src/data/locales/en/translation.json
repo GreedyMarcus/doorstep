@@ -118,6 +118,7 @@
     "fetchBusinessHostsFailure": "Could not load business hosts",
     "fetchCompanyConfigFailure": "Could not load company config",
     "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data",
+    "fetchVisitByIdFailure": "Could not load visit.",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "createConsentFormSuccess": "Successful consent form creation",

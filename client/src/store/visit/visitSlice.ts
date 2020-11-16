@@ -1,18 +1,21 @@
 import i18n from '../../plugins/i18n'
 import CompanyService from '../../services/CompanyService'
+import VisitService from '../../services/VisitService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { VisitInfo, VisitCreate, PlannedVisitInfo } from '../../data/types/Visit'
+import { VisitInfo, VisitCreate, PlannedVisitInfo, VisitDetails } from '../../data/types/Visit'
 
 type VisitSliceState = {
   visits: VisitInfo[]
   plannedVisits: PlannedVisitInfo[]
+  activeVisit: VisitDetails | null
 }
 
 const initialState: VisitSliceState = {
   visits: [],
-  plannedVisits: []
+  plannedVisits: [],
+  activeVisit: null
 }
 
 /**
@@ -31,16 +34,20 @@ const visitSlice = createSlice({
     plannedVisitsFetched: (state, { payload }: PayloadAction<PlannedVisitInfo[]>) => {
       state.plannedVisits = payload
     },
+    singleVisitFetched: (state, { payload }: PayloadAction<VisitDetails>) => {
+      state.activeVisit = payload
+    },
     visitSliceCleared: state => {
       state.visits = []
       state.plannedVisits = []
+      state.activeVisit = null
     }
   }
 })
 
 export const { reducer } = visitSlice
 export const { visitSliceCleared } = visitSlice.actions
-const { visitsFetched, visitCreated, plannedVisitsFetched } = visitSlice.actions
+const { visitsFetched, visitCreated, plannedVisitsFetched, singleVisitFetched } = visitSlice.actions
 
 /**
  * Calls company service to load all finished visits for the current company.
@@ -78,6 +85,23 @@ export const fetchPlannedVisits = () => async (dispatch: AppDispatch, getState: 
     dispatch(plannedVisitsFetched(plannedVisits))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchPlannedVisitsFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls visit service to load the visit specified by id.
+ */
+export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true))
+
+  try {
+    const visit = await VisitService.getVisitById(visitId)
+
+    dispatch(singleVisitFetched(visit))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchVisitByIdFailure') }))
   }
 
   dispatch(setLoading(false))
