@@ -10,48 +10,43 @@ import MultiSelect from '../shared/MultiSelect'
 import LocalizedDateTimePicker from '../shared/LocalizedDateTimePicker'
 import useStyles from './useStyles'
 import DateFnsAdapter from '@date-io/date-fns'
-import { VisitInfo } from '../../data/types/Visit'
+import { PlannedVisitInfo } from '../../data/types/Visit'
 import { useTranslation } from 'react-i18next'
 
 type Props = {
-  visits: VisitInfo[]
-  onFilterChange: (visits: VisitInfo[]) => void
+  visits: PlannedVisitInfo[]
+  onFilterChange: (visits: PlannedVisitInfo[]) => void
 }
 
 /**
- * Custom component to filter visit data.
+ * Custom component to filter planned visit data.
  */
 const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
   const classes = useStyles()
   const [t] = useTranslation()
   const [isOpen, setOpen] = useState(false)
 
-  const [selectedHostNames, setSelectedHostNames] = useState([] as string[])
   const [selectedPurposes, setSelectedPurposes] = useState([] as string[])
   const [selectedFromDate, setSelectedFromDate] = useState(null as Date | null)
   const [selectedUntilDate, setSelectedUntilDate] = useState(null as Date | null)
 
   const dateAdapter = new DateFnsAdapter()
-  const { hostNames, purposes } = visits.reduce(
+  const { purposes } = visits.reduce(
     (acc, visit) => {
-      acc.hostNames.add(visit.businessHostName)
       acc.purposes.add(visit.purpose)
       return acc
     },
-    { hostNames: new Set<string>(), purposes: new Set<string>() }
+    { purposes: new Set<string>() }
   )
 
   const handleClearClick = () => {
-    setSelectedHostNames([])
     setSelectedPurposes([])
     setSelectedFromDate(null)
     setSelectedUntilDate(null)
   }
 
   useEffect(() => {
-    const filteredVisits = visits.filter(({ businessHostName, purpose, plannedEntry }) => {
-      // Check host names
-      if (selectedHostNames.length && !selectedHostNames.includes(businessHostName)) return false
+    const filteredVisits = visits.filter(({ purpose, plannedEntry }) => {
       // Check purposes
       if (selectedPurposes.length && !selectedPurposes.includes(purpose)) return false
       // Check from date
@@ -62,7 +57,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
       return true
     })
     onFilterChange(filteredVisits)
-  }, [selectedHostNames, selectedPurposes, selectedFromDate, selectedUntilDate])
+  }, [selectedPurposes, selectedFromDate, selectedUntilDate])
 
   return (
     <div className={classes.root}>
@@ -72,16 +67,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={4} className={classes.grid}>
-            <Grid item lg={3} md={6} sm={6} xs={12}>
-              <MultiSelect
-                id="host-name-label"
-                label={t('visit.businessHostName')}
-                items={Array.from(hostNames)}
-                selectedItems={selectedHostNames}
-                onChange={value => setSelectedHostNames(value)}
-              />
-            </Grid>
-            <Grid item lg={3} md={6} sm={6} xs={12}>
+            <Grid item md={4} sm={6} xs={12}>
               <MultiSelect
                 id="purpose-label"
                 label={t('visit.purpose')}
@@ -90,7 +76,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
                 onChange={value => setSelectedPurposes(value)}
               />
             </Grid>
-            <Grid item lg={3} md={6} sm={6} xs={12}>
+            <Grid item md={4} sm={6} xs={12}>
               <LocalizedDateTimePicker
                 label={t('visit.fromDate')}
                 value={!!selectedFromDate ? new Date(selectedFromDate) : null}
@@ -98,7 +84,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
                 onChange={date => setSelectedFromDate(date)}
               />
             </Grid>
-            <Grid item lg={3} md={6} sm={6} xs={12}>
+            <Grid item md={4} sm={6} xs={12}>
               <LocalizedDateTimePicker
                 label={t('visit.untilDate')}
                 value={!!selectedUntilDate ? new Date(selectedUntilDate) : null}

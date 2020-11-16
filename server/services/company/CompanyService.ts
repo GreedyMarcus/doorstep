@@ -11,7 +11,7 @@ import { UserRoleType } from '../../data/enums/UserRoleType'
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyHostInfoDTO, CompanyRegisterConfigDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO, GuestUserRegisterDTO } from '../../data/dtos/UserDTO'
-import { VisitInfoDTO, VisitCreateDTO } from '../../data/dtos/VisitDTO'
+import { VisitInfoDTO, VisitCreateDTO, PlannedVisitInfoDTO } from '../../data/dtos/VisitDTO'
 import { VisitPurpose } from '../../data/enums/VisitPurpose'
 
 @injectable()
@@ -188,7 +188,7 @@ class CompanyService implements CompanyServiceInterface {
     }
 
     const foundBusinessHost = await this.userRepository.findUserById(hostId)
-    if (!foundBusinessHost) {
+    if (!foundBusinessHost || foundBusinessHost.company.id !== foundCompany.id) {
       throw Boom.notFound('Business host does not exist.')
     }
 
@@ -202,6 +202,28 @@ class CompanyService implements CompanyServiceInterface {
     }
 
     return updatedBusinessHostInfo
+  }
+
+  public getPlannedVisits = async (companyId: number, hostId: number): Promise<PlannedVisitInfoDTO[]> => {
+    const foundCompany = await this.companyRepository.findCompanyById(companyId)
+    if (!foundCompany) {
+      throw Boom.notFound('Company does not exist.')
+    }
+
+    const foundBusinessHost = await this.userRepository.findUserById(hostId)
+    if (!foundBusinessHost || foundBusinessHost.company.id !== foundCompany.id) {
+      throw Boom.notFound('Business host does not exist.')
+    }
+
+    const foundPlannedVisits = await this.visitRepository.findPlannedVisitsByHostId(hostId)
+    const plannedVisitsInfo: PlannedVisitInfoDTO[] = foundPlannedVisits.map(({ id, purpose, room, plannedEntry }) => ({
+      id,
+      purpose,
+      room,
+      plannedEntry
+    }))
+
+    return plannedVisitsInfo
   }
 
   public getConsentForms = async (companyId: number): Promise<ConsentFormInfoDTO[]> => {

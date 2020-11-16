@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 type Props = {
   label: string
   value: Date | null
-  onChange: (dateString: string) => void
+  onChange: (date: Date | null) => void
 }
 
 /**
@@ -27,10 +27,10 @@ const LocalizedDateTimePicker: React.FC<Props & DateTimePickerProps> = ({ label,
       ampm={false}
       clearable
       format="yyyy-MM-dd hh:mm a"
-      cancelLabel={t('general.cancel')}
-      okLabel={t('general.ok')}
-      clearLabel={t('general.clear')}
-      onChange={value => onChange(value?.toDateString() || '')}
+      cancelLabel={t('action.cancel')}
+      okLabel={t('action.ok')}
+      clearLabel={t('action.clear')}
+      onChange={onChange}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

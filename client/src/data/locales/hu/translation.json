@@ -11,16 +11,9 @@
     "consentForms": "Nyilatkozatok",
     "businessHosts": "Céges fogadók",
     "visits": "Látogatások",
-    "details": "Részletek",
-    "cancel": "Mégse",
-    "save": "Mentés",
-    "ok": "Ok",
-    "activate": "Aktiválás",
-    "clear": "Törlés",
-    "settings": "Beállítások",
     "plannedVisits": "Tervezett látogatások",
-    "add": "Felvétel",
-    "addFromList": "Felvétel listából"
+    "details": "Részletek",
+    "settings": "Beállítások"
   },
   "company": {
     "name": "Cégnév",
@@ -56,7 +49,8 @@
     "purpose": "Látogatás célja",
     "room": "Szoba",
     "plannedEntry": "Tervezett belépési dátum",
-    "noVisitInfo": "Még nincsenek beütemezett látogatások.",
+    "noVisitInfo": "Még nincsenek befejezett látogatások.",
+    "noScheduledVisitInfo": "Még nincsenek beütemezett látogatások.",
     "filter": "Látogatás Szűrő",
     "fromDate": "Látogatások dátumtól",
     "untilDate": "Látogatások dátumig",
@@ -106,6 +100,7 @@
     "invalidBusinessHostData": "Érvénytelen céges fogadó adat formátum",
     "invalidGuestData": "Érvénytelen vendég adat formátum",
     "invalidVisitData": "Érvénytelen látogatás adat formátum",
+    "duplicatedGuest": "A vendég már szerepel a listában.",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
     "logoutSuccess": "Sikeres kijelentkezés",
@@ -119,8 +114,10 @@
     "fetchConsentFormsFailure": "Nem sikerült betölteni a nyilatkozatokat.",
     "fetchConsentFormByIdFailure": "Nem sikerült betölteni a kiválasztott nyilatkozatot",
     "fetchVisitsFailure": "Nem sikerült betölteni a látogatásokat.",
+    "fetchPlannedVisitsFailure": "Nem sikerült betölteni a tervezett látogatásokat.",
     "fetchBusinessHostsFailure": "Nem sikerült betölteni a céges fogadó személyeket.",
     "fetchCompanyConfigFailure": "Nem sikerült betölteni a céges beállításokat.",
+    "fetchAvailableGuestUsersFailure": "Nem sikerült betölteni a céghez már regisztrált vendégek adatait.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
@@ -129,6 +126,8 @@
     "createConsentFormVersionFailure": "Nem sikerült létrehozni a nyilatkozat verziót.",
     "createBusinessHostSuccess": "Sikeresen létrehoztad a céges fogadót.",
     "createBusinessHostFailure": "Nem sikerült létrehozni a céges fogadót.",
+    "createVisitSuccess": "Sikeresen létrehoztad a látogatás eseményét.",
+    "createVisitFailure": "Nem sikerült létrehozni a látogatás eseményét.",
     "updateCompanySuccess": "Sikeresen frissítetted a cég adatait.",
     "updateCompanyFailure": "Nem sikerült frissíteni a cég adatait.",
     "updateBusinessHostSuccess": "Sikeresen frissítetted a céges fogadó adatait.",
@@ -138,13 +137,11 @@
     "updateCompanyConfigSuccess": "Sikeresen frissítetted a céges beállításokat.",
     "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
-    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót.",
-    "fetchAvailableGuestUsersFailure": "Nem sikerült betölteni a céghez már regisztrált vendégek adatait.",
-    "createVisitSuccess": "Sikeresen létrehoztad a látogatás eseményét.",
-    "createVisitFailure": "Nem sikerült létrehozni a látogatás eseményét.",
-    "duplicatedGuest": "A vendég már szerepel a listában."
+    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
   },
   "action": {
+    "add": "Felvétel",
+    "addFromList": "Felvétel listából",
     "addCompany": "Cég felvétele",
     "addConsentForm": "Nyilatkozat felvétele",
     "addConsentFormVersion": "Új verzió felvétele",
@@ -155,6 +152,11 @@
     "editCompany": "Cég szerkesztése",
     "editBusinessHost": "Céges fogadó személy szerkesztése",
     "openConsentForm": "Nyilatkozat megnyitása",
-    "openVisit": "Látogatás megnyitása"
+    "openVisit": "Látogatás megnyitása",
+    "cancel": "Mégse",
+    "save": "Mentés",
+    "ok": "Ok",
+    "activate": "Aktiválás",
+    "clear": "Törlés"
   }
 }

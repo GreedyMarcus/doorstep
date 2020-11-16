@@ -72,6 +72,17 @@ class CompaniesController {
     }
   }
 
+  public getPlannedVisits = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const companyId = Number(req.params.companyId)
+      const businessHostId = Number(req.params.businessHostId)
+      const plannedVisits = await this.companyService.getPlannedVisits(companyId, businessHostId)
+      res.json(plannedVisits)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
   public getConsentForms = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const companyId = Number(req.params.companyId)

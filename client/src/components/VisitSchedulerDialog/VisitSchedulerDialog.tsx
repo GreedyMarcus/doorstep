@@ -31,7 +31,6 @@ import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
 import { availableGuestUsersSelector, fetchAvailableGuestUsers } from '../../store/company'
 import { createVisit } from '../../store/visit'
-import { getTimestampFormat } from '../../utils'
 
 type Props = {
   visit?: VisitCreate
@@ -52,7 +51,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
 
   const [purpose, setPurpose] = useState(0)
   const [room, bindRoom] = useInput('', true)
-  const [plannedEntry, setPlannedEntry] = useState('')
+  const [plannedEntry, setPlannedEntry] = useState(null as Date | null)
   const [guests, setGuests] = useState([] as GuestUserRegister[])
 
   const [isGuestDialogOpen, setGuestDialogOpen] = useState(false)
@@ -93,7 +92,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
       businessHostId: -1,
       purpose: visitPurposeStrings[purpose],
       room: room.value,
-      plannedEntry: getTimestampFormat(new Date(plannedEntry)),
+      plannedEntry: plannedEntry.toISOString(),
       invitedGuests: guests
     }
 
@@ -143,7 +142,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
                 label={t('visit.plannedEntry')}
                 value={!!plannedEntry ? new Date(plannedEntry) : null}
                 minDate={new Date()}
-                onChange={dateString => setPlannedEntry(dateString)}
+                onChange={date => setPlannedEntry(date)}
                 inputVariant="outlined"
               />
             </Grid>
@@ -161,7 +160,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
               color="primary"
               onClick={() => setGuestDialogOpen(true)}
             >
-              {t('general.add')}
+              {t('action.add')}
             </Button>
 
             {!!availables.length && (
@@ -172,7 +171,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
                 color="primary"
                 onClick={() => setGuestSelectorOpen(true)}
               >
-                {t('general.addFromList')}
+                {t('action.addFromList')}
               </Button>
             )}
           </Grid>

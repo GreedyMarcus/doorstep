@@ -29,7 +29,7 @@ companiesRouter.put(
 )
 
 /**
- * GET - Returns all the visits belong to the company.
+ * GET - Returns all the finished visits belong to the company.
  */
 companiesRouter.get(
   '/:companyId/visits',
@@ -89,6 +89,18 @@ companiesRouter.put(
   belongsToCompany,
   validationMiddleware(UserUpdateSchema),
   companiesController.updateBusinessHost
+)
+
+/**
+ * GET - Returns all the planned visits belongs to the business host employed by the company.
+ */
+companiesRouter.get(
+  '/:companyId/business-hosts/:businessHostId/planned-visits',
+  checkValidNumberParams(['companyId', 'businessHostId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_VISITS]),
+  belongsToCompany,
+  companiesController.getPlannedVisits
 )
 
 /**
