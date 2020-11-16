@@ -18,6 +18,16 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
       .createQueryBuilder('visit')
       .leftJoinAndSelect('visit.businessHost', 'businessHost')
       .where('visit.company = :companyId', { companyId })
+      .andWhere('visit.plannedEntry < NOW()')
+      .getMany()
+  }
+
+  public findPlannedVisitsByHostId(hostId: number): Promise<Visit[]> {
+    return getRepository(Visit)
+      .createQueryBuilder('visit')
+      .leftJoinAndSelect('visit.businessHost', 'businessHost')
+      .where('businessHost.id = :hostId', { hostId })
+      .andWhere('visit.plannedEntry >= NOW()')
       .getMany()
   }
 
