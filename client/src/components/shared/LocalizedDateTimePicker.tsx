@@ -27,9 +27,9 @@ const LocalizedDateTimePicker: React.FC<Props & DateTimePickerProps> = ({ label,
       ampm={false}
       clearable
       format="yyyy-MM-dd hh:mm a"
-      cancelLabel={t('general.cancel')}
-      okLabel={t('general.ok')}
-      clearLabel={t('general.clear')}
+      cancelLabel={t('action.cancel')}
+      okLabel={t('action.ok')}
+      clearLabel={t('action.clear')}
       onChange={onChange}
       InputProps={{
         endAdornment: (

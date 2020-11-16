@@ -17,10 +17,10 @@ const DefaultDialogActions: React.FC<Props> = ({ onSave, onClose }) => {
   return (
     <DialogActions>
       <Button color="primary" onClick={onClose}>
-        {t('general.cancel')}
+        {t('action.cancel')}
       </Button>
       <Button color="primary" onClick={onSave}>
-        {t('general.save')}
+        {t('action.save')}
       </Button>
     </DialogActions>
   )

@@ -8,6 +8,13 @@ export type VisitInfo = {
   plannedEntry: Date
 }
 
+export type PlannedVisitInfo = {
+  id: number
+  purpose: string
+  room: string
+  plannedEntry: Date
+}
+
 export type VisitCreate = {
   businessHostId: number
   purpose: string

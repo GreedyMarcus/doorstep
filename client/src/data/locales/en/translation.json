@@ -11,16 +11,9 @@
     "consentForms": "Consent forms",
     "businessHosts": "Business hosts",
     "visits": "Visits",
-    "details": "Details",
-    "cancel": "Cancel",
-    "save": "Save",
-    "ok": "Ok",
-    "activate": "Activate",
-    "clear": "Clear",
-    "settings": "Settings",
     "plannedVisits": "Planned visits",
-    "add": "add",
-    "addFromList": "Add from list"
+    "details": "Details",
+    "settings": "Settings"
   },
   "company": {
     "name": "Company name",
@@ -56,7 +49,8 @@
     "purpose": "Purpose of visit",
     "room": "Room",
     "plannedEntry": "Planned entry date",
-    "noVisitInfo": "There are no scheduled visits yet.",
+    "noVisitInfo": "There are no finished visits yet.",
+    "noScheduledVisitInfo": "There are no scheduled visits yet.",
     "filter": "Visit filter",
     "fromDate": "Visits from date",
     "untilDate": "Visits until date",
@@ -106,6 +100,7 @@
     "invalidBusinessHostData": "Invalid business host details format",
     "invalidGuestData": "Invalid guest details format",
     "invalidVisitData": "Invalid visit details format",
+    "duplicatedGuest": "Guest is already in the list",
     "loginSuccess": "Successful login",
     "loginFailure": "Incorrect email address or password",
     "logoutSuccess": "Successful logout",
@@ -119,8 +114,10 @@
     "fetchConsentFormsFailure": "Could not load consent forms",
     "fetchConsentFormByIdFailure": "Could not load selected consent form",
     "fetchVisitsFailure": "Could not load visits",
+    "fetchPlannedVisitsFailure": "Could not load planned visits",
     "fetchBusinessHostsFailure": "Could not load business hosts",
     "fetchCompanyConfigFailure": "Could not load company config",
+    "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "createConsentFormSuccess": "Successful consent form creation",
@@ -129,6 +126,8 @@
     "createConsentFormVersionFailure": "Could not create consent form version",
     "createBusinessHostSuccess": "Successful business host creation",
     "createBusinessHostFailure": "Could not create business host",
+    "createVisitSuccess": "Successful company visit creation",
+    "createVisitFailure": "Could not create company visit",
     "updateCompanySuccess": "Successful company update",
     "updateCompanyFailure": "Could not update company",
     "updateConsentFormVersionSuccess": "Successful consent form version update",
@@ -138,13 +137,11 @@
     "updateCompanyConfigSuccess": "Successful company config update",
     "updateCompanyConfigFailure": "Could not update company config",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
-    "activateConsentFormVersionFailure": "Could not activate consent form version",
-    "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data",
-    "createVisitSuccess": "Successful company visit creation",
-    "createVisitFailure": "Could not create company visit",
-    "duplicatedGuest": "Guest is already in the list"
+    "activateConsentFormVersionFailure": "Could not activate consent form version"
   },
   "action": {
+    "add": "add",
+    "addFromList": "Add from list",
     "addCompany": "Add company",
     "addConsentForm": "Add consent form",
     "addConsentFormVersion": "Add new version",
@@ -155,6 +152,11 @@
     "editCompany": "Edit company",
     "editBusinessHost": "Edit business host",
     "openConsentForm": "Open consent form",
-    "openVisit": "Open visit"
+    "openVisit": "Open visit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "ok": "Ok",
+    "activate": "Activate",
+    "clear": "Clear"
   }
 }

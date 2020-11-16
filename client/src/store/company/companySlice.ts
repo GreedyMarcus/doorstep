@@ -58,6 +58,7 @@ const companySlice = createSlice({
       state.companies = []
       state.businessHosts = []
       state.activeCompanyConfig = null
+      state.availableGuestUsers = []
     }
   }
 })

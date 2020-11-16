@@ -160,7 +160,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
               color="primary"
               onClick={() => setGuestDialogOpen(true)}
             >
-              {t('general.add')}
+              {t('action.add')}
             </Button>
 
             {!!availables.length && (
@@ -171,7 +171,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
                 color="primary"
                 onClick={() => setGuestSelectorOpen(true)}
               >
-                {t('general.addFromList')}
+                {t('action.addFromList')}
               </Button>
             )}
           </Grid>

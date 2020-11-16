@@ -212,7 +212,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
                 color="secondary"
                 onClick={handleConsentFormVersionActivation}
               >
-                {t('general.activate')}
+                {t('action.activate')}
               </Button>
 
               <div>
@@ -221,7 +221,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
                   className={classes.button}
                   onClick={handleDropContentChanges}
                 >
-                  {t('general.cancel')}
+                  {t('action.cancel')}
                 </Button>
 
                 <Button
@@ -232,7 +232,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
                   disabled={content.error}
                   onClick={handleConsentFormVersionUpdate}
                 >
-                  {t('general.save')}
+                  {t('action.save')}
                 </Button>
 
                 <Button
