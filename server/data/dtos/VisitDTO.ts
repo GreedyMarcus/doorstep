@@ -47,7 +47,7 @@ export interface VisitGuestInfoDTO {
   company: CompanyShortInfoDTO
   actualEntry: Date | null
   actualExit: Date | null
-  receptionistName: string
-  guestCardNumber: string
+  receptionistName: string | null
+  guestCardNumber: string | null
   participationStatus: string
 }

@@ -12,6 +12,7 @@ export const routes = {
   CONSENT_FORMS: '/consent-forms',
   CONSENT_FORM_DETAILS: '/consent-forms/:consentFormId',
   VISITS: '/visits',
+  VISIT_DETAILS: '/visits/:visitId',
   HOSTS: '/hosts',
   PLANNED_VISITS: '/planned-visits',
   INVITATIONS: '/invitations'

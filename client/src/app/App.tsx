@@ -8,6 +8,7 @@ import Companies from '../pages/Companies'
 import ConsentForms from '../pages/ConsentForms'
 import ConsentFormDetails from '../pages/ConsentFormDetails'
 import Visits from '../pages/Visits'
+import VisitDetails from '../pages/VisitDetails'
 import BusinessHosts from '../pages/BusinessHosts'
 import PlannedVisits from '../pages/PlannedVisits'
 import NavigationBar from '../components/NavigationBar'
@@ -63,8 +64,14 @@ const App = () => {
           Component={ConsentFormDetails}
         />
         <ProtectedRoute exact path={routes.VISITS} auth={[UserRole.COMPANY_ADMIN]} Component={Visits} />
-        <ProtectedRoute exact path={routes.HOSTS} auth={[UserRole.COMPANY_ADMIN]} Component={BusinessHosts} />
+        <ProtectedRoute
+          exact
+          path={routes.VISIT_DETAILS}
+          auth={[UserRole.COMPANY_ADMIN, UserRole.BUSINESS_HOST]}
+          Component={VisitDetails}
+        />
         <ProtectedRoute exact path={routes.PLANNED_VISITS} auth={[UserRole.BUSINESS_HOST]} Component={PlannedVisits} />
+        <ProtectedRoute exact path={routes.HOSTS} auth={[UserRole.COMPANY_ADMIN]} Component={BusinessHosts} />
         <Redirect from="*" to={routes.LOGIN} />
       </Switch>
       <ActionTracker />

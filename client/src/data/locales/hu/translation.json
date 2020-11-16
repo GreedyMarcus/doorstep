@@ -13,7 +13,10 @@
     "visits": "Látogatások",
     "plannedVisits": "Tervezett látogatások",
     "details": "Részletek",
-    "settings": "Beállítások"
+    "settings": "Beállítások",
+    "unknown": "Nem ismert",
+    "basicData": "Alapadatok",
+    "additionalData": "További adatok"
   },
   "company": {
     "name": "Cégnév",
@@ -46,6 +49,7 @@
   },
   "visit": {
     "businessHostName": "Céges fogadó neve",
+    "businessHostEmail": "Céges fogadó email címe",
     "purpose": "Látogatás célja",
     "room": "Szoba",
     "plannedEntry": "Tervezett belépési dátum",
@@ -56,16 +60,30 @@
     "untilDate": "Látogatások dátumig",
     "scheduler": "Látogatás ütemező",
     "details": "Látogatás részletei",
-    "guests": "Vendégek"
+    "guests": "Vendégek",
+    "notFound": "A látogatás nem létezik.",
+    "visitData": "Látogatás adatai",
+    "consentForms": "Látogatáshoz tartozó nyilatkozatok"
   },
   "guest": {
+    "name": "Vendég neve",
     "nationality": "Nemzetiség",
     "phoneNumber": "Telefonszám",
     "birthplace": "Születési hely",
     "birthDate": "Születési idő",
     "motherName": "Anyja neve",
     "mustRegisterCard": "Szükséges regisztrálni vendégkártyát.",
-    "mustTrackActualExit": "Szükséges regisztrálni a tényleges kilépéi időpontját."
+    "mustTrackActualExit": "Szükséges regisztrálni a tényleges kilépéi időpontját.",
+    "actualEntry": "Tényleges belépési idő",
+    "actualExit": "Tényleges kilépési idő",
+    "receptionistName": "Recepciós neve",
+    "participationStatus": "Részvétel állapota",
+    "invited": "Megkapta a meghívót",
+    "confirmed": "Elfogadta a meghívást",
+    "canceled": "Elutasította a meghívást",
+    "participated": "Részt vett a találkozón",
+    "missed": "Nem jelent meg",
+    "details": "Vendég adatai"
   },
   "auth": {
     "email": "Email cím",
