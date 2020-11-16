@@ -10,12 +10,6 @@ export type ConsentFormCreate = {
   content: string
 }
 
-export type ConsentFormVersionInfo = {
-  id: number
-  content: string
-  versionNumber: number
-}
-
 export type ConsentFormDetails = {
   id: number
   title: string
@@ -23,4 +17,16 @@ export type ConsentFormDetails = {
   activeVersion: ConsentFormVersionInfo | null
   createdAt: Date
   versions: ConsentFormVersionInfo[]
+}
+
+export type ConsentFormVersionInfo = {
+  id: number
+  content: string
+  versionNumber: number
+}
+
+export interface ConsentFormVersionDetails {
+  id: number
+  title: string
+  content: string
 }

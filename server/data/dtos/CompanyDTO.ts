@@ -12,6 +12,12 @@ export interface CompanyInfoDTO {
   adminJoinedAt: Date
 }
 
+export interface CompanyShortInfoDTO {
+  name: string
+  registrationNumber: string
+  address: string
+}
+
 export interface CompanyRegisterDTO {
   name: string
   registrationNumber: string

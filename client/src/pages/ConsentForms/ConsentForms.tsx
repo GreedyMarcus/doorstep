@@ -29,7 +29,7 @@ const ConsentForms: React.FC = () => {
           {t('general.consentForms')}
         </Typography>
         {!consentForms.length ? (
-          <InfoBox text={t('consentForm.noConsentFormsInfo')} />
+          <InfoBox text={t('consentForm.noConsentFormsInfo')} type="info" />
         ) : (
           <ResponsiveTable
             labels={[t('consentForm.title'), t('consentForm.activeVersion'), t('consentForm.createdDate')]}

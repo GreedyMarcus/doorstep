@@ -36,7 +36,7 @@ const Companies: React.FC = () => {
           {t('general.companies')}
         </Typography>
         {!companies.length ? (
-          <InfoBox text={t('company.noCompanyInfo')} />
+          <InfoBox text={t('company.noCompanyInfo')} type="info" />
         ) : (
           <TableContainer>
             <Table aria-label="companies table">

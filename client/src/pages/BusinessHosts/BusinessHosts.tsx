@@ -36,7 +36,7 @@ const BusinessHosts: React.FC = () => {
             {t('general.businessHosts')}
           </Typography>
           {!businessHosts.length ? (
-            <InfoBox text={t('company.noBusinessHostsInfo')} />
+            <InfoBox text={t('company.noBusinessHostsInfo')} type="info" />
           ) : (
             <ResponsiveTable
               labels={[t('company.businessHostName'), t('auth.email'), t('company.joiningDate')]}

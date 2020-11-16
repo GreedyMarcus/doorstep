@@ -13,6 +13,23 @@ import { UserRoleType } from '../../data/enums/UserRoleType'
 @injectable()
 @EntityRepository(Visit)
 class VisitRepository extends Repository<Visit> implements VisitRepositoryInterface {
+  public findVisitById(visitId: number): Promise<Visit> {
+    return getRepository(Visit)
+      .createQueryBuilder('visit')
+      .leftJoinAndSelect('visit.businessHost', 'businessHost')
+      .leftJoinAndSelect('visit.company', 'company')
+      .leftJoinAndSelect('visit.guests', 'guests')
+      .leftJoinAndSelect('visit.consentFormVersions', 'consentFormVersions')
+      .leftJoinAndSelect('guests.user', 'user')
+      .leftJoinAndSelect('guests.receptionist', 'receptionist')
+      .leftJoinAndSelect('guests.guestCard', 'guestCard')
+      .leftJoinAndSelect('guests.company', 'guestCompany')
+      .leftJoinAndSelect('guestCompany.address', 'guestCompanyAddress')
+      .leftJoinAndSelect('consentFormVersions.consentForm', 'consentForm')
+      .where('visit.id = :visitId', { visitId })
+      .getOne()
+  }
+
   public findVisitsByCompanyId(companyId: number): Promise<Visit[]> {
     return getRepository(Visit)
       .createQueryBuilder('visit')

@@ -13,7 +13,10 @@
     "visits": "Visits",
     "plannedVisits": "Planned visits",
     "details": "Details",
-    "settings": "Settings"
+    "settings": "Settings",
+    "unknown": "Unknown",
+    "basicData": "Basic data",
+    "additionalData": "Additional data"
   },
   "company": {
     "name": "Company name",
@@ -46,6 +49,7 @@
   },
   "visit": {
     "businessHostName": "Business host name",
+    "businessHostEmail": "Business host email",
     "purpose": "Purpose of visit",
     "room": "Room",
     "plannedEntry": "Planned entry date",
@@ -56,16 +60,30 @@
     "untilDate": "Visits until date",
     "scheduler": "Visit scheduler",
     "details": "Visit details",
-    "guests": "Guests"
+    "guests": "Guests",
+    "notFound": "Visit does not exist.",
+    "visitData": "Visit data",
+    "consentForms": "Consent forms belong to this visit"
   },
   "guest": {
+    "name": "Guest name",
     "nationality": "Nationality",
     "phoneNumber": "Phone number",
     "birthplace": "Birthplace",
     "birthDate": "Birth date",
     "motherName": "Mother's name",
     "mustRegisterCard": "It is necessary to register a guest card.",
-    "mustTrackActualExit": "It is necessary to track the actual exit time."
+    "mustTrackActualExit": "It is necessary to track the actual exit time.",
+    "actualEntry": "Actual entry time",
+    "actualExit": "Acutal exit time",
+    "receptionistName": "Receptionist name",
+    "participationStatus": "Participation status",
+    "invited": "Received the invitation",
+    "confirmed": "Accepted the invitation",
+    "canceled": "Canceled the invitation",
+    "participated": "Participated in the visit",
+    "missed": "Missed the visit",
+    "details": "Guest details"
   },
   "auth": {
     "email": "Email address",
@@ -118,6 +136,7 @@
     "fetchBusinessHostsFailure": "Could not load business hosts",
     "fetchCompanyConfigFailure": "Could not load company config",
     "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data",
+    "fetchVisitByIdFailure": "Could not load visit.",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "createConsentFormSuccess": "Successful consent form creation",

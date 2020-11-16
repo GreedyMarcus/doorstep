@@ -14,6 +14,11 @@ export type UserInfo = {
   token: string
 }
 
+export type UserShortInfo = {
+  email: string
+  fullName: string
+}
+
 export type UserRegister = {
   email: string
   password: string

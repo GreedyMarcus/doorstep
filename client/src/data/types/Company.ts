@@ -19,6 +19,12 @@ export type CompanyInfoFormatted = {
   admin: UserRegister
 }
 
+export type CompanyShortInfo = {
+  name: string
+  registrationNumber: string
+  address: string
+}
+
 export type CompanyRegister = {
   name: string
   registrationNumber: string
