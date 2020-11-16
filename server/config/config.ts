@@ -9,8 +9,7 @@ export default {
   },
   database: {
     url: process.env.DB_URL,
-    logging: process.env.DB_LOGGING === 'true',
-    logger: process.env.DB_LOGGER || 'advanced-console'
+    logging: process.env.DB_LOGGING === 'true'
   },
   auth: {
     tokenSecret: process.env.TOKEN_SECRET || 'secret',

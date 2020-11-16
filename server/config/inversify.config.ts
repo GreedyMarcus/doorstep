@@ -10,6 +10,7 @@ import { EmailService, EmailServiceInterface } from '../services/email'
 import { OfficeBuildingService, OfficeBuildingServiceInterface } from '../services/officeBuilding'
 import { CompanyService, CompanyServiceInterface } from '../services/company'
 import { ConsentFormService, ConsentFormServiceInterface } from '../services/consentForm'
+import { VisitService, VisitServiceInterface } from '../services/visit'
 import { UserRepository, UserRepositoryInterface } from '../repositories/user'
 import { OfficeBuildingRepository, OfficeBuildingRepositoryInterface } from '../repositories/officeBuilding'
 import { CompanyRepository, CompanyRepositoryInterface } from '../repositories/company'
@@ -32,6 +33,7 @@ container.bind<EmailServiceInterface>(TYPES.EmailService).to(EmailService).inSin
 container.bind<OfficeBuildingServiceInterface>(TYPES.OfficeBuildingService).to(OfficeBuildingService).inSingletonScope()
 container.bind<CompanyServiceInterface>(TYPES.CompanyService).to(CompanyService).inSingletonScope()
 container.bind<ConsentFormServiceInterface>(TYPES.ConsentFormService).to(ConsentFormService).inSingletonScope()
+container.bind<VisitServiceInterface>(TYPES.VisitService).to(VisitService).inSingletonScope()
 
 // Controllers
 container.bind(TYPES.Controller).to(AuthController)

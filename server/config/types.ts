@@ -5,6 +5,7 @@ const TYPES = {
   OfficeBuildingService: Symbol.for('OfficeBuildingService'),
   CompanyService: Symbol.for('CompanyService'),
   ConsentFormService: Symbol.for('ConsentFormService'),
+  VisitService: Symbol.for('VisitService'),
   UserRepository: Symbol.for('UserRepository'),
   OfficeBuildingRepository: Symbol.for('OfficeBuildingRepository'),
   CompanyRepository: Symbol.for('CompanyRepository'),

@@ -3,6 +3,11 @@ import User from '../../models/User'
 
 interface VisitRepositoryInterface {
   /**
+   * Returns the visit that has the specified id.
+   */
+  findVisitById(visitId: number): Promise<Visit>
+
+  /**
    * Returns all finished visits that has the specified company id.
    */
   findVisitsByCompanyId(companyId: number): Promise<Visit[]>
