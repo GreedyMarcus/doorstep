@@ -105,7 +105,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
     if (!availableGuests.length) {
       dispatch(fetchAvailableGuestUsers())
     }
-  }, [availableGuests])
+  }, [])
 
   const availables = availableGuests.filter(available => guests.every(guest => guest.email !== available.email))
 
