@@ -67,22 +67,6 @@ export default makeStyles(theme => ({
   menuItem: {
     textAlign: 'center'
   },
-  infoContainer: {
-    padding: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  infoIcon: {
-    fontSize: 60,
-    color: theme.palette.error.main,
-    marginBottom: theme.spacing(3)
-  },
-  infoText: {
-    fontSize: 20,
-    fontWeight: 500,
-    marginBottom: theme.spacing(2)
-  },
   buttons: {
     padding: theme.spacing(0, 3, 3)
   },

@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Chip from '@material-ui/core/Chip'
 import Button from '@material-ui/core/Button'
-import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded'
+import InfoBox from '../../components/shared/InfoBox'
 import TextEditor from '../../components/TextEditor'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
@@ -123,12 +123,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         {!activeConsentForm ? (
-          <div className={classes.infoContainer}>
-            <ErrorOutlineRoundedIcon className={classes.infoIcon} />
-            <Typography className={classes.infoText} variant="h1">
-              {t('consentForm.notFound')}
-            </Typography>
-          </div>
+          <InfoBox text={t('consentForm.notFound')} type="error" />
         ) : (
           <React.Fragment>
             <Typography className={classes.title} variant="h1">

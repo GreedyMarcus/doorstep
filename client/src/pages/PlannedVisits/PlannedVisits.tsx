@@ -13,7 +13,7 @@ import { useAppDispatch } from '../../store'
 import { plannedVisitsSelector, fetchPlannedVisits } from '../../store/visit'
 import { getLocaleDateFormat } from '../../utils'
 
-const Visits: React.FC = () => {
+const PlannedVisits: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
@@ -33,7 +33,7 @@ const Visits: React.FC = () => {
           {t('general.plannedVisits')}
         </Typography>
         {!plannedVisits.length ? (
-          <InfoBox text={t('visit.noScheduledVisitInfo')} />
+          <InfoBox text={t('visit.noScheduledVisitInfo')} type="info" />
         ) : (
           <React.Fragment>
             <PlannedVisitFilter visits={plannedVisits} onFilterChange={visits => setFilteredVisits(visits)} />
@@ -55,4 +55,4 @@ const Visits: React.FC = () => {
   )
 }
 
-export default Visits
+export default PlannedVisits

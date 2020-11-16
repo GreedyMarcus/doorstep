@@ -51,7 +51,7 @@ const Visits: React.FC = () => {
             </Grid>
           </Grid>
           {!visits.length ? (
-            <InfoBox text={t('visit.noVisitInfo')} />
+            <InfoBox text={t('visit.noVisitInfo')} type="info" />
           ) : (
             <React.Fragment>
               <VisitFilter visits={visits} onFilterChange={visits => setFilteredVisits(visits)} />
