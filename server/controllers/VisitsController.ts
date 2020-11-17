@@ -20,6 +20,16 @@ class VisitsController {
       return next(err)
     }
   }
+
+  public getGuestProfile = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.userId)
+      const invitations = await this.visitService.getInvitationsByUserId(userId)
+      res.json(invitations)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default VisitsController

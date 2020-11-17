@@ -3,15 +3,21 @@ import TYPES from '../../config/types'
 import VisitServiceInterface from './VisitServiceInterface'
 import { inject, injectable } from 'inversify'
 import { VisitRepositoryInterface } from '../../repositories/visit'
-import { VisitDetailsDTO, VisitGuestInfoDTO } from '../../data/dtos/VisitDTO'
+import { UserRepositoryInterface } from '../../repositories/user'
+import { GuestInvitationInfoDTO, VisitDetailsDTO, VisitGuestInfoDTO } from '../../data/dtos/VisitDTO'
 import { ConsentFormVersionDetailsDTO } from '../../data/dtos/ConsentFormDTO'
 
 @injectable()
 class VisitService implements VisitServiceInterface {
   private readonly visitRepository: VisitRepositoryInterface
+  private readonly userRepository: UserRepositoryInterface
 
-  constructor(@inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface) {
+  constructor(
+    @inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface,
+    @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface
+  ) {
     this.visitRepository = visitRepository
+    this.userRepository = userRepository
   }
 
   public getVisitById = async (visitId: number): Promise<VisitDetailsDTO> => {
@@ -66,6 +72,34 @@ class VisitService implements VisitServiceInterface {
     }
 
     return visitDetails
+  }
+
+  public getInvitationsByUserId = async (userId: number): Promise<GuestInvitationInfoDTO[]> => {
+    const foundUser = await this.userRepository.findUserById(userId)
+    if (!foundUser) {
+      throw Boom.notFound('User does not exist.')
+    }
+
+    const foundVisits = await this.visitRepository.findVisitsByGuestUserId(userId)
+    const visitsInfo: GuestInvitationInfoDTO[] = foundVisits.map(visit => {
+      const { country, zipCode, city, streetAddress } = visit.company.officeBuilding.address
+
+      return {
+        id: visit.id,
+        companyName: visit.company.name,
+        buildingAddress: `${country}, ${zipCode}, ${city}, ${streetAddress}`,
+        businessHost: {
+          fullName: `${visit.businessHost.firstName} ${visit.businessHost.lastName}`,
+          email: visit.businessHost.email
+        },
+        purpose: visit.purpose,
+        room: visit.room,
+        plannedEntry: visit.plannedEntry,
+        guestId: visit.guests.filter(guest => guest.user.id === userId).map(guest => guest.id)[0]
+      }
+    })
+
+    return visitsInfo
   }
 }
 

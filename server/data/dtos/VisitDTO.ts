@@ -60,3 +60,14 @@ export interface VisitGuestInfoDTO {
   guestCardNumber: string | null
   participationStatus: string
 }
+
+export interface GuestInvitationInfoDTO {
+  id: number
+  companyName: string
+  buildingAddress: string
+  businessHost: UserShortInfoDTO
+  purpose: string
+  room: string
+  plannedEntry: Date
+  guestId: number
+}

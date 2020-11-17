@@ -18,6 +18,11 @@ interface VisitRepositoryInterface {
   findPlannedVisitsByHostId(companyId: number): Promise<Visit[]>
 
   /**
+   * Returns all upcoming visits that has the specified guest user id.
+   */
+  findVisitsByGuestUserId(userId: number): Promise<Visit[]>
+
+  /**
    * Creates a new visit for the specified company with the specified business host id and guests.
    */
   createVisit(companyId: number, hostId: number, data: Partial<Visit>, guests: Partial<User>[]): Promise<Visit>

@@ -48,6 +48,20 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
       .getMany()
   }
 
+  public findVisitsByGuestUserId(userId: number): Promise<Visit[]> {
+    return getRepository(Visit)
+      .createQueryBuilder('visit')
+      .leftJoinAndSelect('visit.businessHost', 'businessHost')
+      .leftJoinAndSelect('visit.company', 'company')
+      .leftJoinAndSelect('company.officeBuilding', 'companyBuilding')
+      .leftJoinAndSelect('companyBuilding.address', 'buildingAddress')
+      .leftJoinAndSelect('visit.guests', 'guests')
+      .leftJoinAndSelect('guests.user', 'guestUser')
+      .where('guestUser.id = :userId', { userId })
+      .andWhere('visit.plannedEntry >= NOW()')
+      .getMany()
+  }
+
   public async createVisit(companyId: number, hostId: number, data: Partial<Visit>, guests: Partial<User>[]): Promise<Visit> {
     const company = await getRepository(Company)
       .createQueryBuilder('company')

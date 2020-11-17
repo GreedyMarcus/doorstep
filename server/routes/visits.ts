@@ -5,6 +5,7 @@ import checkValidNumberParams from '../middlewares/checkValidNumberParams'
 import checkValidToken from '../middlewares/checkValidToken'
 import hasAnyPermission from '../middlewares/hasAnyPermission'
 import belongsToVisit from '../middlewares/belongsToVisit'
+import ownsAccount from '../middlewares/ownsAccount'
 import { UserPermissionType } from '../data/enums/UserPermissionType'
 
 const visitsRouter = express.Router()
@@ -20,6 +21,17 @@ visitsRouter.get(
   hasAnyPermission([UserPermissionType.READ_VISITS, UserPermissionType.CREATE_VISITS]),
   belongsToVisit,
   visitsController.getVisitById
+)
+
+/**
+ * GET - Returns the upcoming visits belong to the specified guest user.
+ */
+visitsRouter.get(
+  '/guest-profile/:userId',
+  checkValidNumberParams(['userId']),
+  checkValidToken,
+  ownsAccount,
+  visitsController.getGuestProfile
 )
 
 export default visitsRouter
