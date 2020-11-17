@@ -6,6 +6,7 @@ import checkValidToken from '../middlewares/checkValidToken'
 import hasPermission from '../middlewares/hasPermission'
 import validationMiddleware from '../middlewares/validationMiddleware'
 import belongsToCompany from '../middlewares/belongsToCompany'
+import getClientLanguage from '../middlewares/getClientLanguage'
 import { UserPermissionType } from '../data/enums/UserPermissionType'
 import { CompanyUpdateSchema, CompanyConfigSchema } from '../data/validationSchemas/CompanySchema'
 import { UserRegisterSchema, UserUpdateSchema } from '../data/validationSchemas/UserSchema'
@@ -50,6 +51,7 @@ companiesRouter.post(
   hasPermission([UserPermissionType.CREATE_VISITS]),
   belongsToCompany,
   validationMiddleware(VisitCreateSchema),
+  getClientLanguage,
   companiesController.createVisit
 )
 

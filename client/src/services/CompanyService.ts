@@ -33,9 +33,10 @@ class CompanyService {
 
   public static async createVisit(companyId: number, data: VisitCreate): Promise<VisitInfo> {
     const authHeader = AuthService.getAuthHeader()
+    const languageHeader = AuthService.getClientLanguageHeader()
 
     const url = `${CompanyService.API_BASE}/${companyId}/visits`
-    const config = { headers: authHeader }
+    const config = { headers: { ...authHeader, ...languageHeader } }
 
     const result = await axios.post(url, data, config)
     return result.data as VisitInfo

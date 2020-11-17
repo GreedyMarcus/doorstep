@@ -21,6 +21,7 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
       .leftJoinAndSelect('company.admin', 'admin')
       .leftJoinAndSelect('company.employees', 'employees')
       .leftJoinAndSelect('officeBuilding.admin', 'buildingAdmin')
+      .leftJoinAndSelect('officeBuilding.address', 'buildingAddress')
       .where('company.id = :companyId', { companyId })
       .cache(5000) // Cache for 5 seconds
       .getOne()

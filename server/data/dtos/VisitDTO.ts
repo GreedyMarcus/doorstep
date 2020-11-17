@@ -36,6 +36,15 @@ export interface VisitDetailsDTO {
   consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[]
 }
 
+export interface VisitNotificationDTO {
+  companyName: string
+  buildingAddress: string
+  businessHost: UserShortInfoDTO
+  purpose: string
+  room: string
+  plannedEntry: Date
+}
+
 export interface VisitGuestInfoDTO {
   id: number
   user: UserShortInfoDTO

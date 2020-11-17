@@ -25,6 +25,10 @@ class UserRepository extends Repository<User> implements UserRepositoryInterface
       .getOne()
   }
 
+  public findAllUsersByEmails(emails: string[]): Promise<User[]> {
+    return getRepository(User).createQueryBuilder('user').where('user.email IN (:emails)', { emails }).getMany()
+  }
+
   public findUserByPasswordToken(token: string): Promise<User> {
     return getRepository(User)
       .createQueryBuilder('user')
