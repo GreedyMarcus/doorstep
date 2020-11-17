@@ -12,6 +12,11 @@ interface UserRepositoryInterface {
   findUserByEmail(email: string): Promise<User>
 
   /**
+   * Returns all users whose email are included in the specified email list.
+   */
+  findAllUsersByEmails(emails: string[]): Promise<User[]>
+
+  /**
    * Returns the user that has the specified password token.
    */
   findUserByPasswordToken(token: string): Promise<User>

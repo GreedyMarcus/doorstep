@@ -17,7 +17,7 @@ interface CompanyServiceInterface {
   /**
    * Creates a new visit for the company.
    */
-  createVisit(companyId: number, data: VisitCreateDTO): Promise<VisitInfoDTO>
+  createVisit(companyId: number, data: VisitCreateDTO, language: string): Promise<VisitInfoDTO>
 
   /**
    * Returns all the business hosts employed by the company.

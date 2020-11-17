@@ -3,6 +3,7 @@ import Boom from '@hapi/boom'
 import TYPES from '../../config/types'
 import CompanyServiceInterface from './CompanyServiceInterface'
 import { inject, injectable } from 'inversify'
+import { EmailServiceInterface } from '../../services/email'
 import { CompanyRepositoryInterface } from '../../repositories/company'
 import { VisitRepositoryInterface } from '../../repositories/visit'
 import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
@@ -11,22 +12,25 @@ import { UserRoleType } from '../../data/enums/UserRoleType'
 import { CompanyUpdateDTO, CompanyInfoDTO, CompanyHostInfoDTO, CompanyRegisterConfigDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO, GuestUserRegisterDTO } from '../../data/dtos/UserDTO'
-import { VisitInfoDTO, VisitCreateDTO, PlannedVisitInfoDTO } from '../../data/dtos/VisitDTO'
+import { VisitInfoDTO, VisitCreateDTO, PlannedVisitInfoDTO, VisitNotificationDTO } from '../../data/dtos/VisitDTO'
 import { VisitPurpose } from '../../data/enums/VisitPurpose'
 
 @injectable()
 class CompanyService implements CompanyServiceInterface {
+  private readonly emailService: EmailServiceInterface
   private readonly companyRepository: CompanyRepositoryInterface
   private readonly visitRepository: VisitRepositoryInterface
   private readonly consentFormRepository: ConsentFormRepositoryInterface
   private readonly userRepository: UserRepositoryInterface
 
   constructor(
+    @inject(TYPES.EmailService) emailService: EmailServiceInterface,
     @inject(TYPES.CompanyRepository) companyRepository: CompanyRepositoryInterface,
     @inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface,
     @inject(TYPES.ConsentFormRepository) consentFormRepository: ConsentFormRepositoryInterface,
     @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface
   ) {
+    this.emailService = emailService
     this.companyRepository = companyRepository
     this.visitRepository = visitRepository
     this.consentFormRepository = consentFormRepository
@@ -89,7 +93,7 @@ class CompanyService implements CompanyServiceInterface {
     return visitsInfo
   }
 
-  public createVisit = async (companyId: number, data: VisitCreateDTO): Promise<VisitInfoDTO> => {
+  public createVisit = async (companyId: number, data: VisitCreateDTO, language: string): Promise<VisitInfoDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
       throw Boom.notFound('Company does not exist.')
@@ -136,6 +140,22 @@ class CompanyService implements CompanyServiceInterface {
       room: visit.room,
       plannedEntry: visit.plannedEntry
     }
+
+    // Send notification email about visit
+    const { country, zipCode, city, streetAddress } = foundCompany.officeBuilding.address
+    const visitNotification: VisitNotificationDTO = {
+      companyName: foundCompany.name,
+      buildingAddress: `${country}, ${zipCode}, ${city}, ${streetAddress}`,
+      businessHost: {
+        fullName: `${foundBusinessHost.firstName} ${foundBusinessHost.lastName}`,
+        email: foundBusinessHost.email
+      },
+      purpose: visit.purpose,
+      room: visit.room,
+      plannedEntry: visit.plannedEntry
+    }
+
+    await this.emailService.sendVisitNotification(emails, visitNotification, language)
 
     return visitInfo
   }
