@@ -27,11 +27,11 @@ visitsRouter.get(
  * GET - Returns the upcoming visits belong to the specified guest user.
  */
 visitsRouter.get(
-  '/guest-profile/:userId',
+  '/guest-invitations/:userId',
   checkValidNumberParams(['userId']),
   checkValidToken,
   ownsAccount,
-  visitsController.getGuestProfile
+  visitsController.getGuestInvitations
 )
 
 export default visitsRouter

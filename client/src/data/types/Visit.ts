@@ -51,3 +51,14 @@ export type VisitGuestInfo = {
   guestCardNumber: string | null
   participationStatus: string
 }
+
+export type GuestInvitationInfo = {
+  id: number
+  companyName: string
+  buildingAddress: string
+  businessHost: UserShortInfo
+  purpose: string
+  room: string
+  plannedEntry: Date
+  guestId: number
+}

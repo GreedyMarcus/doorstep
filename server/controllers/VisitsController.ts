@@ -21,7 +21,7 @@ class VisitsController {
     }
   }
 
-  public getGuestProfile = async (req: Request, res: Response, next: NextFunction) => {
+  public getGuestInvitations = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = Number(req.params.userId)
       const invitations = await this.visitService.getInvitationsByUserId(userId)
