@@ -1,4 +1,4 @@
-import { VisitDetailsDTO, GuestInvitationInfoDTO } from '../../data/dtos/VisitDTO'
+import { VisitDetailsDTO, GuestInvitationInfoDTO, GuestInvitationDetailsDTO } from '../../data/dtos/VisitDTO'
 
 interface VisitServiceInterface {
   /**
@@ -9,7 +9,12 @@ interface VisitServiceInterface {
   /**
    * Returns the upcoming visits for the specified guest user.
    */
-  getInvitationsByUserId(userId: number): Promise<GuestInvitationInfoDTO[]>
+  getGuestInvitations(userId: number): Promise<GuestInvitationInfoDTO[]>
+
+  /**
+   * Returns the guest profile to be filled for the specified invitation.
+   */
+  getGuestInvitationProfile(userId: number, visitId: number): Promise<GuestInvitationDetailsDTO>
 }
 
 export default VisitServiceInterface

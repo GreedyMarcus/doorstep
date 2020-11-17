@@ -61,6 +61,27 @@ export interface VisitGuestInfoDTO {
   participationStatus: string
 }
 
+export interface VisitGuestDetailsDTO {
+  id: number
+  user: UserShortInfoDTO
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: string | null
+  identifierCardType: string
+  identifierCardNumber: string | null
+  company: CompanyShortInfoDTO
+  imageUrl: string | null
+  signatureImageUrl: string | null
+  actualEntry: Date | null
+  actualExit: Date | null
+  receptionistName: string | null
+  guestCardNumber: string | null
+  participationStatus: string
+}
+
 export interface GuestInvitationInfoDTO {
   id: number
   companyName: string
@@ -69,4 +90,11 @@ export interface GuestInvitationInfoDTO {
   purpose: string
   room: string
   plannedEntry: Date
+}
+
+export interface GuestInvitationDetailsDTO {
+  invitationInfo: GuestInvitationInfoDTO
+  guestDetails: VisitGuestDetailsDTO
+  consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[]
+  consentFormVersionsAccepted: number[] // To store consent form version ids
 }

@@ -4,7 +4,7 @@ import VisitServiceInterface from './VisitServiceInterface'
 import { inject, injectable } from 'inversify'
 import { VisitRepositoryInterface } from '../../repositories/visit'
 import { UserRepositoryInterface } from '../../repositories/user'
-import { GuestInvitationInfoDTO, VisitDetailsDTO, VisitGuestInfoDTO } from '../../data/dtos/VisitDTO'
+import { GuestInvitationInfoDTO, VisitDetailsDTO, VisitGuestInfoDTO, GuestInvitationDetailsDTO } from '../../data/dtos/VisitDTO'
 import { ConsentFormVersionDetailsDTO } from '../../data/dtos/ConsentFormDTO'
 
 @injectable()
@@ -42,7 +42,9 @@ class VisitService implements VisitServiceInterface {
         : {
             name: guest.company.name,
             registrationNumber: guest.company.registrationNumber,
-            address: `${guest.company.address.country}, ${guest.company.address.zipCode}, ${guest.company.address.city}, ${guest.company.address.streetAddress}`
+            address: guest.company.address
+              ? `${guest.company.address.country}, ${guest.company.address.zipCode}, ${guest.company.address.city}, ${guest.company.address.streetAddress}`
+              : null
           },
       actualEntry: guest.actualEntry,
       actualExit: guest.actualExit,
@@ -74,7 +76,7 @@ class VisitService implements VisitServiceInterface {
     return visitDetails
   }
 
-  public getInvitationsByUserId = async (userId: number): Promise<GuestInvitationInfoDTO[]> => {
+  public getGuestInvitations = async (userId: number): Promise<GuestInvitationInfoDTO[]> => {
     const foundUser = await this.userRepository.findUserById(userId)
     if (!foundUser) {
       throw Boom.notFound('User does not exist.')
@@ -99,6 +101,86 @@ class VisitService implements VisitServiceInterface {
     })
 
     return visitsInfo
+  }
+
+  public getGuestInvitationProfile = async (userId: number, visitId: number): Promise<GuestInvitationDetailsDTO> => {
+    const foundUser = await this.userRepository.findUserById(userId)
+    if (!foundUser) {
+      throw Boom.notFound('User does not exist.')
+    }
+
+    const foundVisit = await this.visitRepository.findVisitById(visitId)
+    if (!foundVisit) {
+      throw Boom.notFound('Visit does not exist.')
+    }
+
+    const visitGuest = foundVisit.guests.filter(guest => guest.user.id === userId)[0]
+    if (!visitGuest) {
+      throw Boom.notFound('Guest user does not exist.')
+    }
+
+    const officeAddress = foundVisit.company.officeBuilding.address
+    const visitAddress = visitGuest.address
+    const consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[] = foundVisit.consentFormVersions.map(version => ({
+      id: version.id,
+      title: version.consentForm.title,
+      content: version.content
+    }))
+    const consentFormVersionsAccepted: number[] = visitGuest.consentFormVersions.map(version => version.id)
+
+    const visitDetails: GuestInvitationDetailsDTO = {
+      invitationInfo: {
+        id: foundVisit.id,
+        companyName: foundVisit.company.name,
+        buildingAddress: `${officeAddress.country}, ${officeAddress.zipCode}, ${officeAddress.city}, ${officeAddress.streetAddress}`,
+        businessHost: {
+          fullName: `${foundVisit.businessHost.firstName} ${foundVisit.businessHost.lastName}`,
+          email: foundVisit.businessHost.email
+        },
+        purpose: foundVisit.purpose,
+        room: foundVisit.room,
+        plannedEntry: foundVisit.plannedEntry
+      },
+      guestDetails: {
+        id: visitGuest.id,
+        user: {
+          email: visitGuest.user.email,
+          fullName: `${visitGuest.user.firstName} ${visitGuest.user.lastName}`
+        },
+        nationality: visitGuest.nationality,
+        phoneNumber: visitGuest.phoneNumber,
+        birthplace: visitGuest.birthplace,
+        birthDate: visitGuest.birthDate,
+        motherName: visitGuest.motherName,
+        address: visitAddress
+          ? `${visitAddress.country}, ${visitAddress.zipCode}, ${visitAddress.city}, ${visitAddress.streetAddress}`
+          : null,
+        identifierCardType: visitGuest.identifierCardType,
+        identifierCardNumber: visitGuest.identifierCardNumber,
+        company: !visitGuest.company
+          ? null
+          : {
+              name: visitGuest.company.name,
+              registrationNumber: visitGuest.company.registrationNumber,
+              address: visitGuest.company.address
+                ? `${visitGuest.company.address.country}, ${visitGuest.company.address.zipCode}, ${visitGuest.company.address.city}, ${visitGuest.company.address.streetAddress}`
+                : null
+            },
+        imageUrl: visitGuest.imageUrl,
+        signatureImageUrl: visitGuest.signatureImageUrl,
+        actualEntry: visitGuest.actualEntry,
+        actualExit: visitGuest.actualExit,
+        receptionistName: visitGuest.receptionist
+          ? `${visitGuest.receptionist.firstName} ${visitGuest.receptionist.lastName}`
+          : null,
+        guestCardNumber: visitGuest.guestCard ? visitGuest.guestCard.identifierNumber : null,
+        participationStatus: visitGuest.participationStatus
+      },
+      consentFormVersionsToAccept,
+      consentFormVersionsAccepted
+    }
+
+    return visitDetails
   }
 }
 

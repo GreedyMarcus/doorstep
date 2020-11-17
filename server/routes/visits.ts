@@ -34,4 +34,15 @@ visitsRouter.get(
   visitsController.getGuestInvitations
 )
 
+/**
+ * GET - Returns the guest profile to be filled for the specified invitation.
+ */
+visitsRouter.get(
+  '/guest-invitations/:userId/profiles/:visitId',
+  checkValidNumberParams(['userId', 'visitId']),
+  checkValidToken,
+  ownsAccount,
+  visitsController.getGuestInvitationProfile
+)
+
 export default visitsRouter
