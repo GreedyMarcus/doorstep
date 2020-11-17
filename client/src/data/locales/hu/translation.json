@@ -65,7 +65,8 @@
     "guests": "Vendégek",
     "notFound": "A látogatás nem létezik.",
     "visitData": "Látogatás adatai",
-    "consentForms": "Látogatáshoz tartozó nyilatkozatok"
+    "consentForms": "Látogatáshoz tartozó nyilatkozatok",
+    "invitationDetails": "Meghívás részletei"
   },
   "guest": {
     "name": "Vendég neve",

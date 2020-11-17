@@ -65,7 +65,8 @@
     "guests": "Guests",
     "notFound": "Visit does not exist.",
     "visitData": "Visit data",
-    "consentForms": "Consent forms belong to this visit"
+    "consentForms": "Consent forms belong to this visit",
+    "invitationDetails": "Invitation details"
   },
   "guest": {
     "name": "Guest name",

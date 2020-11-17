@@ -12,6 +12,7 @@ import VisitDetails from '../pages/VisitDetails'
 import BusinessHosts from '../pages/BusinessHosts'
 import PlannedVisits from '../pages/PlannedVisits'
 import GuestInvitations from '../pages/GuestInvitations'
+import GuestInvitationDetails from '../pages/GuestInvitationDetails'
 import NavigationBar from '../components/NavigationBar'
 import ProtectedRoute from '../components/ProtectedRoute'
 import ActionTracker from '../components/ActionTracker'
@@ -74,6 +75,7 @@ const App = () => {
         <ProtectedRoute exact path={routes.PLANNED_VISITS} auth={[UserRole.BUSINESS_HOST]} Component={PlannedVisits} />
         <ProtectedRoute exact path={routes.HOSTS} auth={[UserRole.COMPANY_ADMIN]} Component={BusinessHosts} />
         <ProtectedRoute exact path={routes.GUEST_INVITATIONS} auth={[UserRole.GUEST]} Component={GuestInvitations} />
+        <ProtectedRoute exact path={routes.GUEST_INVITATION_DETAILS} auth={[UserRole.GUEST]} Component={GuestInvitationDetails} />
         <Redirect from="*" to={routes.LOGIN} />
       </Switch>
       <ActionTracker />

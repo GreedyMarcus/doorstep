@@ -2,35 +2,36 @@ import React, { useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import InfoBox from '../../components/shared/InfoBox'
-import ResponsiveTable from '../../components/shared/ResponsiveTable'
+// import InfoBox from '../../components/shared/InfoBox'
+// import ResponsiveTable from '../../components/shared/ResponsiveTable'
 import useStyles from './useStyles'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../store'
-import { guestInvitationsViSelector, fetchGuestInvitations } from '../../store/visit'
-import { getLocaleDateFormat } from '../../utils'
+// import { useSelector } from 'react-redux'
+// import { useAppDispatch } from '../../store'
+// import { guestInvitationsViSelector, fetchGuestInvitations } from '../../store/visit'
+// import { getLocaleDateFormat } from '../../utils'
 
-const GuestInvitations: React.FC = () => {
+const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
   const classes = useStyles()
-  const history = useHistory()
-  const dispatch = useAppDispatch()
-  const guestInvitations = useSelector(guestInvitationsViSelector)
+  // const history = useHistory()
+  // const dispatch = useAppDispatch()
+  // const guestInvitations = useSelector(guestInvitationsViSelector)
   const [t] = useTranslation()
 
-  useEffect(() => {
-    dispatch(fetchGuestInvitations())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchGuestInvitations())
+  // }, [])
 
   return (
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         <Typography className={classes.title} variant="h1">
-          {t('general.invitations')}
+          {t('visit.invitationDetails')}
         </Typography>
-        {!guestInvitations.length ? (
-          <InfoBox text={t('visit.noInvitationInfo')} type="info" />
+        {/* {!guestInvitations.length ? (
+          <InfoBox text={t('visit.noScheduledVisitInfo')} type="info" />
         ) : (
           <ResponsiveTable
             labels={[t('company.name'), t('general.address'), t('visit.purpose'), t('visit.plannedEntry')]}
@@ -44,10 +45,10 @@ const GuestInvitations: React.FC = () => {
             tooltipLabel={t('action.openInvitation')}
             onOpenClick={invitationId => history.push(`/guest-invitations/${invitationId}`)}
           />
-        )}
+        )} */}
       </Paper>
     </Container>
   )
 }
 
-export default GuestInvitations
+export default GuestInvitationDetails
