@@ -15,7 +15,8 @@ export const routes = {
   VISIT_DETAILS: '/visits/:visitId',
   HOSTS: '/hosts',
   PLANNED_VISITS: '/planned-visits',
-  INVITATIONS: '/invitations'
+  INVITATIONS: '/invitations',
+  GUEST_PROFILE: '/guest-profile'
 }
 
 /**
@@ -28,7 +29,8 @@ export const getAuthRedirectRoute = (role: string) => {
     [UserRole.ADMIN]: routes.COMPANIES,
     [UserRole.COMPANY_ADMIN]: routes.VISITS,
     [UserRole.BUSINESS_HOST]: routes.PLANNED_VISITS,
-    [UserRole.RECEPTIONIST]: routes.INVITATIONS
+    [UserRole.RECEPTIONIST]: routes.INVITATIONS,
+    [UserRole.GUEST]: routes.GUEST_PROFILE
   }
   return redirectRoutes[role]
 }

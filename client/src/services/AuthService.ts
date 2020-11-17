@@ -74,7 +74,7 @@ class AuthService {
     const result = await axios.post(url, data)
     const user = result.data as UserInfo
 
-    localStorage.setItem(config.app.tokenKeyName, user.token)
+    localStorage.setItem(config.app.tokenKeyName, JSON.stringify(user.token))
     return user
   }
 }
