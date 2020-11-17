@@ -94,8 +94,7 @@ class VisitService implements VisitServiceInterface {
         },
         purpose: visit.purpose,
         room: visit.room,
-        plannedEntry: visit.plannedEntry,
-        guestId: visit.guests.filter(guest => guest.user.id === userId).map(guest => guest.id)[0]
+        plannedEntry: visit.plannedEntry
       }
     })
 

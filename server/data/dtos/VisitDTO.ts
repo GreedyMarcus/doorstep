@@ -69,5 +69,4 @@ export interface GuestInvitationInfoDTO {
   purpose: string
   room: string
   plannedEntry: Date
-  guestId: number
 }

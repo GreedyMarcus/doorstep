@@ -60,5 +60,4 @@ export type GuestInvitationInfo = {
   purpose: string
   room: string
   plannedEntry: Date
-  guestId: number
 }
