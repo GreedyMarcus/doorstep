@@ -9,14 +9,14 @@ import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
-import { guestInvitationsViSelector, fetchGuestInvitations } from '../../store/visit'
+import { guestInvitationsSelector, fetchGuestInvitations } from '../../store/visit'
 import { getLocaleDateFormat } from '../../utils'
 
 const GuestInvitations: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
-  const guestInvitations = useSelector(guestInvitationsViSelector)
+  const guestInvitations = useSelector(guestInvitationsSelector)
   const [t] = useTranslation()
 
   useEffect(() => {

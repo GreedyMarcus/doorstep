@@ -4,20 +4,29 @@ import VisitService from '../../services/VisitService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { VisitInfo, VisitCreate, PlannedVisitInfo, VisitDetails, GuestInvitationInfo } from '../../data/types/Visit'
+import {
+  VisitInfo,
+  VisitCreate,
+  PlannedVisitInfo,
+  VisitDetails,
+  GuestInvitationInfo,
+  GuestInvitationDetails
+} from '../../data/types/Visit'
 
 type VisitSliceState = {
   visits: VisitInfo[]
   plannedVisits: PlannedVisitInfo[]
   guestInvitations: GuestInvitationInfo[]
   activeVisit: VisitDetails | null
+  activeGuestProfile: GuestInvitationDetails | null
 }
 
 const initialState: VisitSliceState = {
   visits: [],
   plannedVisits: [],
   guestInvitations: [],
-  activeVisit: null
+  activeVisit: null,
+  activeGuestProfile: null
 }
 
 /**
@@ -42,18 +51,29 @@ const visitSlice = createSlice({
     singleVisitFetched: (state, { payload }: PayloadAction<VisitDetails>) => {
       state.activeVisit = payload
     },
+    guestProfileFetched: (state, { payload }: PayloadAction<GuestInvitationDetails>) => {
+      state.activeGuestProfile = payload
+    },
     visitSliceCleared: state => {
       state.visits = []
       state.plannedVisits = []
       state.guestInvitations = []
       state.activeVisit = null
+      state.activeGuestProfile = null
     }
   }
 })
 
 export const { reducer } = visitSlice
 export const { visitSliceCleared } = visitSlice.actions
-const { visitsFetched, visitCreated, plannedVisitsFetched, guestInvitationsFetched, singleVisitFetched } = visitSlice.actions
+const {
+  visitsFetched,
+  visitCreated,
+  plannedVisitsFetched,
+  guestInvitationsFetched,
+  singleVisitFetched,
+  guestProfileFetched
+} = visitSlice.actions
 
 /**
  * Calls company service to load all finished visits for the current company.
@@ -128,6 +148,26 @@ export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch)
     dispatch(singleVisitFetched(visit))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchVisitByIdFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls visit service to load the visit specified by id.
+ */
+export const fetchGuestInvitationProfile = (visitId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const userId = user.activeUser?.id ?? -1
+    const guestProfile = await VisitService.getGuestInvitationProfile(userId, visitId)
+
+    dispatch(guestProfileFetched(guestProfile))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfileFailure') }))
   }
 
   dispatch(setLoading(false))

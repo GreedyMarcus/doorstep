@@ -52,6 +52,27 @@ export type VisitGuestInfo = {
   participationStatus: string
 }
 
+export type VisitGuestDetails = {
+  id: number
+  user: UserShortInfo
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: string | null
+  identifierCardType: string
+  identifierCardNumber: string | null
+  company: CompanyShortInfo
+  imageUrl: string | null
+  signatureImageUrl: string | null
+  actualEntry: Date | null
+  actualExit: Date | null
+  receptionistName: string | null
+  guestCardNumber: string | null
+  participationStatus: string
+}
+
 export type GuestInvitationInfo = {
   id: number
   companyName: string
@@ -60,4 +81,11 @@ export type GuestInvitationInfo = {
   purpose: string
   room: string
   plannedEntry: Date
+}
+
+export type GuestInvitationDetails = {
+  invitationInfo: GuestInvitationInfo
+  guestDetails: VisitGuestDetails
+  consentFormVersionsToAccept: ConsentFormVersionDetails[]
+  consentFormVersionsAccepted: number[] // To store consent form version ids
 }

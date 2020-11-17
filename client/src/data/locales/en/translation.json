@@ -66,7 +66,12 @@
     "notFound": "Visit does not exist.",
     "visitData": "Visit data",
     "consentForms": "Consent forms belong to this visit",
-    "invitationDetails": "Invitation details"
+    "consentFormsToAccept": "Consent forms to accept",
+    "invitationDetails": "Invitation details",
+    "invitationNotFound": "Invitation does not exist.",
+    "invitationData": "Invitation data",
+    "organizingCompany": "Organizing company",
+    "location": "Location"
   },
   "guest": {
     "name": "Guest name",
@@ -75,6 +80,8 @@
     "birthplace": "Birthplace",
     "birthDate": "Birth date",
     "motherName": "Mother's name",
+    "identifierCardType": "Identifier card type",
+    "identifierCardNumber": "Identifier card number",
     "mustRegisterCard": "It is necessary to register a guest card.",
     "mustTrackActualExit": "It is necessary to track the actual exit time.",
     "actualEntry": "Actual entry time",
@@ -141,6 +148,7 @@
     "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data",
     "fetchVisitByIdFailure": "Could not load visit.",
     "fetchGuestInvitationsFailure": "Could not load invitations for guest.",
+    "fetchGuestInvitationProfileFailure": "Could not load guest profile.",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "createConsentFormSuccess": "Successful consent form creation",
@@ -177,10 +185,16 @@
     "openConsentForm": "Open consent form",
     "openVisit": "Open visit",
     "openInvitation": "Open invitation",
+    "acceptConsentForm": "Accept consent form",
     "cancel": "Cancel",
     "save": "Save",
     "ok": "Ok",
     "activate": "Activate",
     "clear": "Clear"
+  },
+  "enum": {
+    "identity_card": "Identity card",
+    "student_card": "Student card",
+    "driving_license": "Driving license"
   }
 }

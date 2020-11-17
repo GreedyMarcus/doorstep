@@ -66,7 +66,12 @@
     "notFound": "A látogatás nem létezik.",
     "visitData": "Látogatás adatai",
     "consentForms": "Látogatáshoz tartozó nyilatkozatok",
-    "invitationDetails": "Meghívás részletei"
+    "consentFormsToAccept": "Elfogadandó nyilatkozatok",
+    "invitationDetails": "Meghívás részletei",
+    "invitationNotFound": "A meghívás nem létezik.",
+    "invitationData": "Meghívás adatai",
+    "organizingCompany": "Szervező cég",
+    "location": "Helyszín"
   },
   "guest": {
     "name": "Vendég neve",
@@ -75,6 +80,8 @@
     "birthplace": "Születési hely",
     "birthDate": "Születési idő",
     "motherName": "Anyja neve",
+    "identifierCardType": "Azonosító kártya típusa",
+    "identifierCardNumber": "Azonosító kártya száma",
     "mustRegisterCard": "Szükséges regisztrálni vendégkártyát.",
     "mustTrackActualExit": "Szükséges regisztrálni a tényleges kilépéi időpontját.",
     "actualEntry": "Tényleges belépési idő",
@@ -141,6 +148,7 @@
     "fetchAvailableGuestUsersFailure": "Nem sikerült betölteni a céghez már regisztrált vendégek adatait.",
     "fetchVisitByIdFailure": "Nem sikerült betölteni a látogatást.",
     "fetchGuestInvitationsFailure": "Nem sikerült betölteni a vendéghez tartozó meghívásokat.",
+    "fetchGuestInvitationProfileFailure": "Nem sikerült betölteni a vendéghez tartozó adatlapot.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
@@ -177,10 +185,16 @@
     "openConsentForm": "Nyilatkozat megnyitása",
     "openVisit": "Látogatás megnyitása",
     "openInvitation": "Meghívás megnyitása",
+    "acceptConsentForm": "Nyilatkozat elfogadása",
     "cancel": "Mégse",
     "save": "Mentés",
     "ok": "Ok",
     "activate": "Aktiválás",
     "clear": "Törlés"
+  },
+  "enum": {
+    "identity_card": "Személyi igazolvány",
+    "student_card": "Diákigazolvány",
+    "driving_license": "Jogosítvány"
   }
 }
