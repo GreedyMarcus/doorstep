@@ -15,6 +15,7 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
       .createQueryBuilder('building')
       .leftJoinAndSelect('building.admin', 'admin')
       .leftJoinAndSelect('building.address', 'address')
+      .leftJoinAndSelect('building.employees', 'employees')
       .where('building.id = :buildingId', { buildingId })
       .getOne()
   }

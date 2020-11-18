@@ -161,6 +161,7 @@
     "fetchGuestInvitationsFailure": "Could not load invitations for guest.",
     "fetchGuestInvitationProfileFailure": "Could not load guest profile.",
     "fetchReceptionistsFailure": "Could not load receptionists",
+    "fetchInvitationsFailure": "Could not load invitations",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "createConsentFormSuccess": "Successful consent form creation",

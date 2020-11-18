@@ -18,6 +18,15 @@ export type PlannedVisitInfo = {
   plannedEntry: Date
 }
 
+export type InvitationInfo = {
+  id: number
+  companyName: string
+  businessHostName: string
+  purpose: string
+  room: string
+  plannedEntry: Date
+}
+
 export type VisitCreate = {
   businessHostId: number
   purpose: string

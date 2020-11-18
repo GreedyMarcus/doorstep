@@ -161,6 +161,7 @@
     "fetchGuestInvitationsFailure": "Nem sikerült betölteni a vendéghez tartozó meghívásokat.",
     "fetchGuestInvitationProfileFailure": "Nem sikerült betölteni a vendéghez tartozó adatlapot.",
     "fetchReceptionistsFailure": "Nem sikerült betölteni a recepciós személyeket.",
+    "fetchInvitationsFailure": "Nem sikerült betölteni a meghívásokat.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
