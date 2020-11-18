@@ -110,4 +110,16 @@ officeBuildingsRouter.put(
   officeBuildingsController.updateReceptionist
 )
 
+/**
+ * GET - Returns all the invitations belong to the office building.
+ */
+officeBuildingsRouter.get(
+  '/:buildingId/invitations',
+  checkValidNumberParams(['buildingId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.READ_VISITS]),
+  belongsToOfficeBuilding,
+  officeBuildingsController.getInvitations
+)
+
 export default officeBuildingsRouter

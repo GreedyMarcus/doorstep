@@ -90,6 +90,16 @@ class OfficeBuildingsController {
       return next(err)
     }
   }
+
+  public getInvitations = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const buildingId = Number(req.params.buildingId)
+      const invitations = await this.officeBuildingService.getInvitations(buildingId)
+      res.json(invitations)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default OfficeBuildingsController

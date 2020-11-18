@@ -7,10 +7,12 @@ import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/officeBuilding'
 import { CompanyRepositoryInterface } from '../../repositories/company'
 import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
+import { VisitRepositoryInterface } from '../../repositories/visit'
 import { OfficeBuildingRegisterDTO } from '../../data/dtos/OfficeBuildingDTO'
 import { CompanyInfoDTO, CompanyRegisterDTO, EmployeeInfoDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
+import { InvitationInfoDTO } from '../../data/dtos/VisitDTO'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 
 @injectable()
@@ -19,17 +21,20 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   private readonly officeBuildingRepository: OfficeBuildingRepositoryInterface
   private readonly companyRepository: CompanyRepositoryInterface
   private readonly consentFormRepository: ConsentFormRepositoryInterface
+  private readonly visitRepository: VisitRepositoryInterface
 
   constructor(
     @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface,
     @inject(TYPES.OfficeBuildingRepository) officeBuildingRepository: OfficeBuildingRepositoryInterface,
     @inject(TYPES.CompanyRepository) companyRepository: CompanyRepositoryInterface,
-    @inject(TYPES.ConsentFormRepository) consentFormRepository: ConsentFormRepositoryInterface
+    @inject(TYPES.ConsentFormRepository) consentFormRepository: ConsentFormRepositoryInterface,
+    @inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface
   ) {
     this.userRepository = userRepository
     this.officeBuildingRepository = officeBuildingRepository
     this.companyRepository = companyRepository
     this.consentFormRepository = consentFormRepository
+    this.visitRepository = visitRepository
   }
 
   public registerBuilding = async ({ admin, address }: OfficeBuildingRegisterDTO): Promise<void> => {
@@ -205,6 +210,27 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
     }
 
     return updatedReceptionistInfo
+  }
+
+  public getInvitations = async (buildingId: number): Promise<InvitationInfoDTO[]> => {
+    const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!foundBuilding) {
+      throw Boom.notFound('Building does not exists')
+    }
+
+    const foundInvitations = await this.visitRepository.findVisitsByBuildingId(buildingId)
+    const invitationsInfo: InvitationInfoDTO[] = foundInvitations.map(
+      ({ id, company, businessHost, purpose, room, plannedEntry }) => ({
+        id,
+        companyName: company.name,
+        businessHostName: `${businessHost.firstName} ${businessHost.lastName}`,
+        purpose,
+        room,
+        plannedEntry
+      })
+    )
+
+    return invitationsInfo
   }
 }
 

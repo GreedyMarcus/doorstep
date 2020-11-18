@@ -18,6 +18,15 @@ export interface PlannedVisitInfoDTO {
   plannedEntry: Date
 }
 
+export interface InvitationInfoDTO {
+  id: number
+  companyName: string
+  businessHostName: string
+  purpose: string
+  room: string
+  plannedEntry: Date
+}
+
 export interface VisitCreateDTO {
   businessHostId: number
   purpose: string
