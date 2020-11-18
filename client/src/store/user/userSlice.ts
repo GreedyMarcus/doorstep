@@ -7,7 +7,7 @@ import { setLoading, addNotification } from '../action'
 import { companySliceCleared } from '../company'
 import { consentFormSliceCleared } from '../consentForm'
 import { visitSliceCleared } from '../visit'
-import { UserInfo, UserLogin } from '../../data/types/User'
+import { UserInfo, UserLogin, UserCredentials } from '../../data/types/User'
 import { OfficeBuildingRegister } from '../../data/types/OfficeBuilding'
 
 type UserSliceState = {
@@ -34,12 +34,18 @@ const userSlice = createSlice({
     userLogoutSucceed: state => {
       state.activeUser = null
       state.activeUserToken = null
+    },
+    userCredentialsUpdated: (state, { payload }: PayloadAction<UserCredentials>) => {
+      if (state.activeUser) {
+        state.activeUser.firstName = payload.firstName
+        state.activeUser.lastName = payload.lastName
+      }
     }
   }
 })
 
 export const { reducer } = userSlice
-const { userLoginSucceed, userLogoutSucceed } = userSlice.actions
+const { userLoginSucceed, userLogoutSucceed, userCredentialsUpdated } = userSlice.actions
 
 /**
  * Calls auth service to authenticate user.
@@ -138,6 +144,24 @@ export const resetUserPassword = (token: string, email: string) => async (dispat
     dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordResetSuccess') }))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordResetFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls auth service to update user credentials.
+ */
+export const updateUserCredentials = (data: UserCredentials) => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true))
+
+  try {
+    await AuthService.updateUserCredentials(data)
+
+    dispatch(userCredentialsUpdated(data))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateUserCredentialsSuccess') }))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateUserCredentialsFailure') }))
   }
 
   dispatch(setLoading(false))

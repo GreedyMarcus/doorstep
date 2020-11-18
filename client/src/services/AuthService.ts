@@ -1,7 +1,7 @@
 import axios from 'axios'
 import config from '../app/config'
 import i18n from '../plugins/i18n'
-import { UserLogin, UserInfo } from '../data/types/User'
+import { UserLogin, UserInfo, UserCredentials } from '../data/types/User'
 
 /**
  * Wrapper class that manages API calls to the authentication,
@@ -76,6 +76,15 @@ class AuthService {
 
     localStorage.setItem(config.app.tokenKeyName, JSON.stringify(user.token))
     return user
+  }
+
+  public static async updateUserCredentials(data: UserCredentials): Promise<void> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${AuthService.API_BASE}/user`
+    const config = { headers: authHeader }
+
+    await axios.put(url, data, config)
   }
 }
 

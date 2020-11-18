@@ -170,6 +170,8 @@
     "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
     "updateGuestInvitationProfileSuccess": "Sikeres vendég adatlap frissítés.",
     "updateGuestInvitationProfileFailure": "Nem sikerült frissíteni a vendég adatlapot.",
+    "updateUserCredentialsSuccess": "Sikeresen frissítetted az adataidat.",
+    "updateUserCredentialsFailure": "Nem sikerült frissíteni az adataidat.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
     "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót.",
     "provideFullCompanyDataWarning": "Kérlek a cégedhez tartozó összes adatot biztosítsd.",

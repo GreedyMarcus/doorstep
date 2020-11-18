@@ -170,6 +170,8 @@
     "updateGuestInvitationProfileSuccess": "Successful guest profile update",
     "updateGuestInvitationProfileFailure": "Could not update guest profil",
     "updateCompanyConfigFailure": "Could not update company config",
+    "updateUserCredentialsSuccess": "Successful user credentials update",
+    "updateUserCredentialsFailure": "Could not update user credentials",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
     "activateConsentFormVersionFailure": "Could not activate consent form version",
     "provideFullCompanyDataWarning": "Please provide all information about your company.",
