@@ -44,7 +44,7 @@ export type UserCredentials = {
   password?: string
 }
 
-export type BusinessHostInfo = {
+export type EmployeeInfo = {
   id: number
   firstName: string
   lastName: string

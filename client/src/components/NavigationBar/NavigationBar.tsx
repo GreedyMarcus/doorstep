@@ -101,11 +101,13 @@ const NavigationBar: React.FC = () => {
               </Tooltip>
             ))}
 
-            <Tooltip title={userName}>
-              <IconButton onClick={() => setShowProfileDialog(true)} color="inherit" aria-label="profile">
-                <AccountCircleRoundedIcon />
-              </IconButton>
-            </Tooltip>
+            {showNavs && (
+              <Tooltip title={userName}>
+                <IconButton onClick={() => setShowProfileDialog(true)} color="inherit" aria-label="profile">
+                  <AccountCircleRoundedIcon />
+                </IconButton>
+              </Tooltip>
+            )}
 
             <Tooltip title={t('auth.logout').toString()}>
               <IconButton onClick={handleLogout} color="inherit" aria-label="logout">

@@ -32,6 +32,9 @@ class OfficeBuilding {
 
   @OneToMany(() => ConsentForm, form => form.officeBuilding)
   consentForms: ConsentForm[]
+
+  @OneToMany(() => User, user => user.officeBuilding)
+  employees: User[]
 }
 
 export default OfficeBuilding

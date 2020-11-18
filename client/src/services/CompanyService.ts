@@ -2,7 +2,7 @@ import axios from 'axios'
 import AuthService from './AuthService'
 import { CompanyInfo, CompanyUpdate, CompanyConfig } from '../data/types/Company'
 import { VisitInfo, VisitCreate, PlannedVisitInfo } from '../data/types/Visit'
-import { BusinessHostInfo, UserRegister, UserUpdate, GuestUserRegister } from '../data/types/User'
+import { EmployeeInfo, UserRegister, UserUpdate, GuestUserRegister } from '../data/types/User'
 import { ConsentFormInfo, ConsentFormCreate } from '../data/types/ConsentForm'
 
 /**
@@ -42,34 +42,34 @@ class CompanyService {
     return result.data as VisitInfo
   }
 
-  public static async getBusinessHosts(companyId: number): Promise<BusinessHostInfo[]> {
+  public static async getBusinessHosts(companyId: number): Promise<EmployeeInfo[]> {
     const authHeader = AuthService.getAuthHeader()
 
     const url = `${CompanyService.API_BASE}/${companyId}/business-hosts`
     const config = { headers: authHeader }
 
     const result = await axios.get(url, config)
-    return result.data as BusinessHostInfo[]
+    return result.data as EmployeeInfo[]
   }
 
-  public static async createBusinessHost(companyId: number, data: UserRegister): Promise<BusinessHostInfo> {
+  public static async createBusinessHost(companyId: number, data: UserRegister): Promise<EmployeeInfo> {
     const authHeader = AuthService.getAuthHeader()
 
     const url = `${CompanyService.API_BASE}/${companyId}/business-hosts`
     const config = { headers: authHeader }
 
     const result = await axios.post(url, data, config)
-    return result.data as BusinessHostInfo
+    return result.data as EmployeeInfo
   }
 
-  public static async updateBusinessHost(companyId: number, hostId: number, data: UserUpdate): Promise<BusinessHostInfo> {
+  public static async updateBusinessHost(companyId: number, hostId: number, data: UserUpdate): Promise<EmployeeInfo> {
     const authHeader = AuthService.getAuthHeader()
 
     const url = `${CompanyService.API_BASE}/${companyId}/business-hosts/${hostId}`
     const config = { headers: authHeader }
 
     const result = await axios.put(url, data, config)
-    return result.data as BusinessHostInfo
+    return result.data as EmployeeInfo
   }
 
   public static async getPlannedVisits(companyId: number, hostId: number): Promise<PlannedVisitInfo[]> {

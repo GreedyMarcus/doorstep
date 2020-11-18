@@ -44,7 +44,7 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
       .where('user.company = :companyId', { companyId })
 
     if (role) {
-      query.andWhere('role.name = :roleName', { roleName: UserRoleType.BUSINESS_HOST })
+      query.andWhere('role.name = :roleName', { roleName: role })
     }
 
     return query.getMany()
@@ -216,7 +216,7 @@ class CompanyRepository extends Repository<Company> implements CompanyRepository
       .where('company.id = :companyId', { companyId })
       .getOne()
 
-    // Force rollback if building does not exist
+    // Force rollback if company does not exist
     if (!company) throw Error
 
     const newBusinessHost = new User()

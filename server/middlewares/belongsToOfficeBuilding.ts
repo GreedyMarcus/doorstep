@@ -17,9 +17,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     return next(Boom.notFound('Office building does not exist.'))
   }
 
-  if (building.admin.id !== res.locals.userId) {
-    return next(Boom.forbidden('User does not belong to the office building.'))
+  if (building.admin.id === res.locals.userId) {
+    return next()
   }
 
-  next()
+  if (building.employees.findIndex(user => user.id === res.locals.userId) !== -1) {
+    return next()
+  }
+
+  next(Boom.forbidden('User does not belong to the office building.'))
 }

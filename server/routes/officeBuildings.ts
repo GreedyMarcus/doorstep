@@ -10,6 +10,7 @@ import { UserPermissionType } from '../data/enums/UserPermissionType'
 import { OfficeBuildingRegisterSchema } from '../data/validationSchemas/OfficeBuildingSchema'
 import { CompanyRegisterSchema } from '../data/validationSchemas/CompanySchema'
 import { ConsentFormCreateSchema } from '../data/validationSchemas/ConsentFormSchema'
+import { UserRegisterSchema, UserUpdateSchema } from '../data/validationSchemas/UserSchema'
 
 const officeBuildingsRouter = express.Router()
 const officeBuildingsController = container.resolve(OfficeBuildingsController)
@@ -69,6 +70,44 @@ officeBuildingsRouter.post(
   belongsToOfficeBuilding,
   validationMiddleware(ConsentFormCreateSchema),
   officeBuildingsController.createConsentForm
+)
+
+/**
+ * GET - Returns all the receptionists employed by the office building.
+ */
+officeBuildingsRouter.get(
+  '/:buildingId/receptionists',
+  checkValidNumberParams(['buildingId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_COMPANIES]),
+  belongsToOfficeBuilding,
+  officeBuildingsController.getReceptionists
+)
+
+/**
+ * POST - Creates a new receptionist for the office building.
+ */
+officeBuildingsRouter.post(
+  '/:buildingId/receptionists',
+  checkValidNumberParams(['buildingId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_COMPANIES]),
+  belongsToOfficeBuilding,
+  validationMiddleware(UserRegisterSchema),
+  officeBuildingsController.createReceptionist
+)
+
+/**
+ * PUT - Updates the specified receptionist.
+ */
+officeBuildingsRouter.put(
+  '/:buildingId/receptionists/:receptionistId',
+  checkValidNumberParams(['buildingId', 'receptionistId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.CREATE_COMPANIES]),
+  belongsToOfficeBuilding,
+  validationMiddleware(UserUpdateSchema),
+  officeBuildingsController.updateReceptionist
 )
 
 export default officeBuildingsRouter

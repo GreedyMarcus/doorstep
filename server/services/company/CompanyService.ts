@@ -9,7 +9,7 @@ import { VisitRepositoryInterface } from '../../repositories/visit'
 import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { UserRoleType } from '../../data/enums/UserRoleType'
-import { CompanyUpdateDTO, CompanyInfoDTO, CompanyHostInfoDTO, CompanyRegisterConfigDTO } from '../../data/dtos/CompanyDTO'
+import { CompanyUpdateDTO, CompanyInfoDTO, EmployeeInfoDTO, CompanyRegisterConfigDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO, GuestUserRegisterDTO } from '../../data/dtos/UserDTO'
 import { VisitInfoDTO, VisitCreateDTO, PlannedVisitInfoDTO, VisitNotificationDTO } from '../../data/dtos/VisitDTO'
@@ -160,14 +160,14 @@ class CompanyService implements CompanyServiceInterface {
     return visitInfo
   }
 
-  public getBusinessHosts = async (companyId: number): Promise<CompanyHostInfoDTO[]> => {
+  public getBusinessHosts = async (companyId: number): Promise<EmployeeInfoDTO[]> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
       throw Boom.notFound('Company does not exist.')
     }
 
     const businessHosts = await this.companyRepository.findCompanyEmployees(companyId, UserRoleType.BUSINESS_HOST)
-    const businessHostsInfo: CompanyHostInfoDTO[] = businessHosts.map(({ id, firstName, lastName, email, createdAt }) => ({
+    const businessHostsInfo: EmployeeInfoDTO[] = businessHosts.map(({ id, firstName, lastName, email, createdAt }) => ({
       id,
       firstName,
       lastName,
@@ -178,7 +178,7 @@ class CompanyService implements CompanyServiceInterface {
     return businessHostsInfo
   }
 
-  public createBusinessHost = async (companyId: number, data: UserRegisterDTO): Promise<CompanyHostInfoDTO> => {
+  public createBusinessHost = async (companyId: number, data: UserRegisterDTO): Promise<EmployeeInfoDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
       throw Boom.notFound('Company does not exist.')
@@ -190,7 +190,7 @@ class CompanyService implements CompanyServiceInterface {
     const securedBusinessHostData = { ...data, password: hashedPassword }
 
     const businessHost = await this.companyRepository.createBusinessHost(companyId, securedBusinessHostData)
-    const businessHostInfo: CompanyHostInfoDTO = {
+    const businessHostInfo: EmployeeInfoDTO = {
       id: businessHost.id,
       firstName: businessHost.firstName,
       lastName: businessHost.lastName,
@@ -201,7 +201,7 @@ class CompanyService implements CompanyServiceInterface {
     return businessHostInfo
   }
 
-  public updateBusinessHost = async (companyId: number, hostId: number, data: UserUpdateDTO): Promise<CompanyHostInfoDTO> => {
+  public updateBusinessHost = async (companyId: number, hostId: number, data: UserUpdateDTO): Promise<EmployeeInfoDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
       throw Boom.notFound('Company does not exist.')
@@ -213,7 +213,7 @@ class CompanyService implements CompanyServiceInterface {
     }
 
     const updatedBusinessHost = await this.companyRepository.updateBusinessHost(hostId, data)
-    const updatedBusinessHostInfo: CompanyHostInfoDTO = {
+    const updatedBusinessHostInfo: EmployeeInfoDTO = {
       id: updatedBusinessHost.id,
       firstName: updatedBusinessHost.firstName,
       lastName: updatedBusinessHost.lastName,

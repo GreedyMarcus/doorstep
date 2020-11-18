@@ -4,10 +4,12 @@ import BusinessCenterRoundedIcon from '@material-ui/icons/BusinessCenterRounded'
 import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded'
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded'
 import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
+import ContactPhoneRoundedIcon from '@material-ui/icons/ContactPhoneRounded'
 import CompanyEditorDialog from '../CompanyEditorDialog'
 import ConsentFormDialog from '../ConsentFormDialog'
 import BusinessHostEditorDialog from '../BusinessHostEditorDialog'
 import VisitSchedulerDialog from '../VisitSchedulerDialog'
+import ReceptionistEditorDialog from '../ReceptionistEditorDialog'
 import { UserRole } from '../../data/enums/UserRole'
 import { routes } from '../../app/routes'
 
@@ -36,7 +38,8 @@ export const navigationAuthConfig = {
   navigations: {
     [UserRole.ADMIN]: [
       { id: 'ADMIN-NAV-1', route: routes.COMPANIES, label: i18n.t('general.companies') },
-      { id: 'ADMIN-NAV-2', route: routes.CONSENT_FORMS, label: i18n.t('general.consentForms') }
+      { id: 'ADMIN-NAV-2', route: routes.CONSENT_FORMS, label: i18n.t('general.consentForms') },
+      { id: 'ADMIN-NAV-3', route: routes.RECEPTIONISTS, label: i18n.t('general.receptionists') }
     ],
     [UserRole.COMPANY_ADMIN]: [
       { id: 'COMPANY-ADMIN-NAV-1', route: routes.VISITS, label: i18n.t('general.visits') },
@@ -62,6 +65,12 @@ export const navigationAuthConfig = {
         title: i18n.t('action.addConsentForm'),
         icon: <PostAddRoundedIcon />,
         renderComponent: onActionFinish => <ConsentFormDialog onClose={onActionFinish} />
+      },
+      {
+        id: 'ADMIN-ACTION-3',
+        title: i18n.t('action.addReceptionist'),
+        icon: <ContactPhoneRoundedIcon />,
+        renderComponent: onActionFinish => <ReceptionistEditorDialog onClose={onActionFinish} />
       }
     ],
     [UserRole.COMPANY_ADMIN]: [

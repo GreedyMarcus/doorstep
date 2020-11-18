@@ -40,6 +40,19 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
       .getOne()
   }
 
+  public findBuildingEmployees(buildingId: number, role?: UserRoleType): Promise<User[]> {
+    const query = getRepository(User)
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('user.officeBuilding = :buildingId', { buildingId })
+
+    if (role) {
+      query.andWhere('role.name = :roleName', { roleName: role })
+    }
+
+    return query.getMany()
+  }
+
   public async createBuilding(admin: Partial<User>, address: Partial<Address>): Promise<OfficeBuilding> {
     // Check if address already exists
     let buildingAddress = await getRepository(Address)
@@ -85,6 +98,46 @@ class OfficeBuildingRepository extends Repository<OfficeBuilding> implements Off
 
       return transactionEntityManager.getRepository(OfficeBuilding).save(newBuilding)
     })
+  }
+
+  public async createReceptionist(buildingId: number, user: Partial<User>): Promise<User> {
+    const receptionistRole = await getRepository(UserRole)
+      .createQueryBuilder('role')
+      .where('role.name = :roleName', { roleName: UserRoleType.RECEPTIONIST })
+      .getOne()
+
+    // Force rollback if role does not exist
+    if (!receptionistRole) throw Error
+
+    const building = await getRepository(OfficeBuilding)
+      .createQueryBuilder('building')
+      .where('building.id = :buildingId', { buildingId })
+      .getOne()
+
+    // Force rollback if building does not exist
+    if (!building) throw Error
+
+    const newReceptionist = new User()
+    newReceptionist.email = user.email
+    newReceptionist.password = user.password
+    newReceptionist.firstName = user.firstName
+    newReceptionist.lastName = user.lastName
+    newReceptionist.role = receptionistRole
+    newReceptionist.officeBuilding = building
+
+    return getRepository(User).save(newReceptionist)
+  }
+
+  public async updateReceptionist(receptionistId: number, user: Partial<User>): Promise<User> {
+    const receptionist = await getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.id = :userId', { userId: receptionistId })
+      .getOne()
+
+    receptionist.firstName = user.firstName
+    receptionist.lastName = user.lastName
+
+    return getRepository(User).save(receptionist)
   }
 }
 

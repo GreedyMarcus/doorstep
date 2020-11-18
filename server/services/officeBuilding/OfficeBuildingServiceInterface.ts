@@ -1,6 +1,7 @@
 import { OfficeBuildingRegisterDTO } from '../../data/dtos/OfficeBuildingDTO'
-import { CompanyInfoDTO, CompanyRegisterDTO } from '../../data/dtos/CompanyDTO'
+import { CompanyInfoDTO, CompanyRegisterDTO, EmployeeInfoDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormCreateDTO, ConsentFormInfoDTO } from '../../data/dtos/ConsentFormDTO'
+import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
 
 interface OfficeBuildingServiceInterface {
   /**
@@ -27,6 +28,21 @@ interface OfficeBuildingServiceInterface {
    * Creates a new consent form in the specified office building.
    */
   createConsentForm(buildingId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO>
+
+  /**
+   * Returns all the receptionists employed by the office building.
+   */
+  getReceptionists(buildingId: number): Promise<EmployeeInfoDTO[]>
+
+  /**
+   * Creates a new receptionist for the office building.
+   */
+  createReceptionist(buildingId: number, data: UserRegisterDTO): Promise<EmployeeInfoDTO>
+
+  /**
+   * Updates the specified receptionist with provided data.
+   */
+  updateReceptionist(buildingId: number, receptionistId: number, data: UserUpdateDTO): Promise<EmployeeInfoDTO>
 }
 
 export default OfficeBuildingServiceInterface
