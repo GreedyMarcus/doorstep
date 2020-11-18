@@ -9,7 +9,9 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
+import UserProfileDialog from '../UserProfileDialog'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
@@ -17,7 +19,7 @@ import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
-import { userRoleSelector, logoutUser } from '../../store/user'
+import { userRoleSelector, userNameSelector, logoutUser } from '../../store/user'
 import { navigationAuthConfig } from './navigationAuthConfig'
 
 /**
@@ -30,8 +32,10 @@ const NavigationBar: React.FC = () => {
   const showNavs = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
   const dispatch = useAppDispatch()
   const userRole = useSelector(userRoleSelector)
+  const userName = useSelector(userNameSelector)
   const [activeActionId, setActiveActionId] = useState('')
   const [mobileNav, setMobileNav] = useState(0)
+  const [showProfileDialog, setShowProfileDialog] = useState(false)
   const [t] = useTranslation()
 
   const getNavigations = useCallback(() => (userRole ? navigationAuthConfig.navigations[userRole] : []), [userRole])
@@ -97,6 +101,12 @@ const NavigationBar: React.FC = () => {
               </Tooltip>
             ))}
 
+            <Tooltip title={userName}>
+              <IconButton onClick={() => setShowProfileDialog(true)} color="inherit" aria-label="profile">
+                <AccountCircleRoundedIcon />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title={t('auth.logout').toString()}>
               <IconButton onClick={handleLogout} color="inherit" aria-label="logout">
                 <ExitToAppRoundedIcon />
@@ -117,6 +127,8 @@ const NavigationBar: React.FC = () => {
           </Tabs>
         </AppBar>
       )}
+
+      {showProfileDialog && <UserProfileDialog onClose={() => setShowProfileDialog(false)} />}
     </React.Fragment>
   )
 }

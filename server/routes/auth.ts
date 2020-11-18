@@ -4,7 +4,6 @@ import AuthController from '../controllers/AuthController'
 import checkValidToken from '../middlewares/checkValidToken'
 import getClientLanguage from '../middlewares/getClientLanguage'
 import validationMiddleware from '../middlewares/validationMiddleware'
-import ownsAccount from '../middlewares/ownsAccount'
 import {
   UserLoginSchema,
   ForgotPasswordSchema,
@@ -38,12 +37,6 @@ authRouter.post('/reset-password', validationMiddleware(ResetPasswordSchema), au
 /**
  * PUT - Updates the credentials of the specified user
  */
-authRouter.put(
-  '/user',
-  checkValidToken,
-  ownsAccount,
-  validationMiddleware(UserCredentialsUpdateSchema),
-  authController.updateUserCredentials
-)
+authRouter.put('/user', checkValidToken, validationMiddleware(UserCredentialsUpdateSchema), authController.updateUserCredentials)
 
 export default authRouter

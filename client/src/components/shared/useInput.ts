@@ -22,7 +22,7 @@ const useInput = (value: string, required: boolean, validator?: RegExp) => {
     (event: InputChangeEvent): void => {
       const newValue = event.target.value
       const isValid = validator ? validator.test(newValue) : true
-      const hasError = required ? newValue === '' || !isValid : false
+      const hasError = required ? newValue === '' || !isValid : newValue !== '' && !isValid
 
       setInput({ value: newValue, isValid: !hasError, error: hasError })
     },

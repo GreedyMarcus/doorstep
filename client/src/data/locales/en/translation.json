@@ -1,5 +1,6 @@
 {
   "general": {
+    "myProfile": "My profile",
     "back": "Back",
     "next": "Next",
     "address": "Address",
@@ -35,7 +36,8 @@
     "noBusinessHostsInfo": "You have not added any business hosts yet.",
     "businessHostDetails": "Business host details",
     "guestDataSettings": "Stored guest data",
-    "otherSettings": "Other settings"
+    "otherSettings": "Other settings",
+    "userRole": "User role"
   },
   "consentForm": {
     "title": "Consent form title",
@@ -129,6 +131,7 @@
     "invalidGuestData": "Invalid guest details format",
     "invalidVisitData": "Invalid visit details format",
     "invalidGuestProfileData": "Invalid guest data format",
+    "invalidUserData": "Invalid user data format",
     "duplicatedGuest": "Guest is already in the list",
     "loginSuccess": "Successful login",
     "loginFailure": "Incorrect email address or password",
@@ -202,6 +205,11 @@
   "enum": {
     "identity_card": "Identity card",
     "student_card": "Student card",
-    "driving_license": "Driving license"
+    "driving_license": "Driving license",
+    "admin": "Admin",
+    "company_admin": "Company admin",
+    "business_host": "Business host",
+    "receptionist": "Receptionist",
+    "guest": "Guest"
   }
 }
