@@ -46,6 +46,15 @@ class AuthController {
       return next(err)
     }
   }
+
+  public updateUserCredentials = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.authService.updateUserCredentials(res.locals.userId, req.body)
+      res.sendStatus(204)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default AuthController

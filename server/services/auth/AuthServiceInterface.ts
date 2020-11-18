@@ -1,4 +1,4 @@
-import { UserLoginDTO, UserInfoDTO } from '../../data/dtos/UserDTO'
+import { UserLoginDTO, UserInfoDTO, UserCredentialsUpdateDTO } from '../../data/dtos/UserDTO'
 
 interface AuthServiceInterface {
   /**
@@ -26,6 +26,11 @@ interface AuthServiceInterface {
    * @param password - the new password
    */
   resetUserPassword(token: string, password: string): Promise<UserInfoDTO>
+
+  /**
+   * Updates the specified user with the provided credentials.
+   */
+  updateUserCredentials(userId: number, data: UserCredentialsUpdateDTO): Promise<void>
 }
 
 export default AuthServiceInterface

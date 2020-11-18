@@ -33,3 +33,9 @@ export const ResetPasswordSchema = Joi.object({
   token: Joi.string().required(),
   password: Joi.string().pattern(REGEXP.PASSWORD).required()
 })
+
+export const UserCredentialsUpdateSchema = Joi.object({
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  password: Joi.string().pattern(REGEXP.PASSWORD).optional()
+})
