@@ -39,7 +39,7 @@ export interface CompanyUpdateDTO {
   admin?: UserRegisterDTO
 }
 
-export interface CompanyHostInfoDTO {
+export interface EmployeeInfoDTO {
   id: number
   firstName: string
   lastName: string

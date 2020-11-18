@@ -59,6 +59,37 @@ class OfficeBuildingsController {
       return next(err)
     }
   }
+
+  public getReceptionists = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const buildingId = Number(req.params.buildingId)
+      const receptionists = await this.officeBuildingService.getReceptionists(buildingId)
+      res.json(receptionists)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public createReceptionist = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const buildingId = Number(req.params.buildingId)
+      const receptionist = await this.officeBuildingService.createReceptionist(buildingId, req.body)
+      res.status(201).json(receptionist)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public updateReceptionist = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const buildingId = Number(req.params.buildingId)
+      const receptionistId = Number(req.params.receptionistId)
+      const updatedReceptionists = await this.officeBuildingService.updateReceptionist(buildingId, receptionistId, req.body)
+      res.json(updatedReceptionists)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default OfficeBuildingsController

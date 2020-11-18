@@ -12,6 +12,7 @@ import Company from './Company'
 import UserRole from './UserRole'
 import Guest from './Guest'
 import Visit from './Visit'
+import OfficeBuilding from './OfficeBuilding'
 
 @Entity('users')
 class User {
@@ -40,6 +41,10 @@ class User {
   @ManyToOne(() => Company, company => company.employees, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'company_id' })
   company: Company
+
+  @ManyToOne(() => OfficeBuilding, building => building.employees, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'office_building_id' })
+  officeBuilding: OfficeBuilding
 
   @CreateDateColumn({
     name: 'created_at',

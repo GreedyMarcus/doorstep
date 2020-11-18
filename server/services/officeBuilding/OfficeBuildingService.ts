@@ -8,8 +8,10 @@ import { OfficeBuildingRepositoryInterface } from '../../repositories/officeBuil
 import { CompanyRepositoryInterface } from '../../repositories/company'
 import { ConsentFormRepositoryInterface } from '../../repositories/consentForm'
 import { OfficeBuildingRegisterDTO } from '../../data/dtos/OfficeBuildingDTO'
-import { CompanyInfoDTO, CompanyRegisterDTO } from '../../data/dtos/CompanyDTO'
+import { CompanyInfoDTO, CompanyRegisterDTO, EmployeeInfoDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormInfoDTO, ConsentFormCreateDTO } from '../../data/dtos/ConsentFormDTO'
+import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
+import { UserRoleType } from '../../data/enums/UserRoleType'
 
 @injectable()
 class OfficeBuildingService implements OfficeBuildingServiceInterface {
@@ -135,6 +137,74 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
     }
 
     return consentFormInfo
+  }
+
+  public getReceptionists = async (buildingId: number): Promise<EmployeeInfoDTO[]> => {
+    const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!foundBuilding) {
+      throw Boom.notFound('Building does not exists')
+    }
+
+    const receptionists = await this.officeBuildingRepository.findBuildingEmployees(buildingId, UserRoleType.RECEPTIONIST)
+    const receptionistsInfo: EmployeeInfoDTO[] = receptionists.map(({ id, firstName, lastName, email, createdAt }) => ({
+      id,
+      firstName,
+      lastName,
+      email,
+      createdAt
+    }))
+
+    return receptionistsInfo
+  }
+
+  public createReceptionist = async (buildingId: number, data: UserRegisterDTO): Promise<EmployeeInfoDTO> => {
+    const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!foundBuilding) {
+      throw Boom.notFound('Building does not exists')
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(data.password, salt)
+
+    const securedReceptionistData = { ...data, password: hashedPassword }
+
+    const receptionist = await this.officeBuildingRepository.createReceptionist(buildingId, securedReceptionistData)
+    const receptionistInfo: EmployeeInfoDTO = {
+      id: receptionist.id,
+      firstName: receptionist.firstName,
+      lastName: receptionist.lastName,
+      email: receptionist.email,
+      createdAt: receptionist.createdAt
+    }
+
+    return receptionistInfo
+  }
+
+  public updateBusinessHost = async (
+    buildingId: number,
+    receptionistId: number,
+    data: UserUpdateDTO
+  ): Promise<EmployeeInfoDTO> => {
+    const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
+    if (!foundBuilding) {
+      throw Boom.notFound('Building does not exists')
+    }
+
+    const foundReceptionist = await this.userRepository.findUserById(receptionistId)
+    if (!foundReceptionist || foundReceptionist.officeBuilding.id !== foundBuilding.id) {
+      throw Boom.notFound('Receptionist does not exist.')
+    }
+
+    const updatedReceptionist = await this.officeBuildingRepository.updateReceptionist(receptionistId, data)
+    const updatedReceptionistInfo: EmployeeInfoDTO = {
+      id: updatedReceptionist.id,
+      firstName: updatedReceptionist.firstName,
+      lastName: updatedReceptionist.lastName,
+      email: updatedReceptionist.email,
+      createdAt: updatedReceptionist.createdAt
+    }
+
+    return updatedReceptionistInfo
   }
 }
 
