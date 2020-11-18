@@ -5,11 +5,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
 import { CompanyInfo, CompanyRegister, CompanyUpdate, CompanyConfig } from '../../data/types/Company'
-import { BusinessHostInfo, UserRegister, UserUpdate, GuestUserRegister } from '../../data/types/User'
+import { EmployeeInfo, UserRegister, UserUpdate, GuestUserRegister } from '../../data/types/User'
 
 type CompanySliceState = {
   companies: CompanyInfo[]
-  businessHosts: BusinessHostInfo[]
+  businessHosts: EmployeeInfo[]
   activeCompanyConfig: CompanyConfig | null
   availableGuestUsers: GuestUserRegister[]
 }
@@ -38,13 +38,13 @@ const companySlice = createSlice({
       const index = state.companies.findIndex(company => company.id === payload.id)
       state.companies[index] = payload
     },
-    businessHostsFetched: (state, { payload }: PayloadAction<BusinessHostInfo[]>) => {
+    businessHostsFetched: (state, { payload }: PayloadAction<EmployeeInfo[]>) => {
       state.businessHosts = payload
     },
-    businessHostCreated: (state, { payload }: PayloadAction<BusinessHostInfo>) => {
+    businessHostCreated: (state, { payload }: PayloadAction<EmployeeInfo>) => {
       state.businessHosts.push(payload)
     },
-    businessHostUpdated: (state, { payload }: PayloadAction<BusinessHostInfo>) => {
+    businessHostUpdated: (state, { payload }: PayloadAction<EmployeeInfo>) => {
       const index = state.businessHosts.findIndex(host => host.id === payload.id)
       state.businessHosts[index] = payload
     },
