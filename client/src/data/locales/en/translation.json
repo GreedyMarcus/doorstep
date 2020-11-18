@@ -20,6 +20,9 @@
     "basicData": "Basic data",
     "additionalData": "Additional data"
   },
+  "building": {
+    "receptionistDetails": "Receptionist details"
+  },
   "company": {
     "name": "Company name",
     "registrationNumber": "Registration number",
@@ -128,6 +131,7 @@
     "invalidCompanyData": "Invalid company details format",
     "invalidConsentFormData": "Invalid consent form details format",
     "invalidBusinessHostData": "Invalid business host details format",
+    "invalidReceptionistData": "Invalid receptionist details format",
     "invalidGuestData": "Invalid guest details format",
     "invalidVisitData": "Invalid visit details format",
     "invalidGuestProfileData": "Invalid guest data format",
@@ -192,11 +196,13 @@
     "addConsentForm": "Add consent form",
     "addConsentFormVersion": "Add new version",
     "addBusinessHost": "Add business host",
+    "addReceptionist": "Add receptionist",
     "addVisit": "Add visit",
     "addGuest": "Add guest",
     "addGuestFromList": "Add guest from list",
     "editCompany": "Edit company",
     "editBusinessHost": "Edit business host",
+    "editReceptionist": "Edit receptionist",
     "openConsentForm": "Open consent form",
     "openVisit": "Open visit",
     "openInvitation": "Open invitation",

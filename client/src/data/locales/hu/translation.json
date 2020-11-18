@@ -20,6 +20,9 @@
     "basicData": "Alapadatok",
     "additionalData": "További adatok"
   },
+  "building": {
+    "receptionistDetails": "Recepciós adatai"
+  },
   "company": {
     "name": "Cégnév",
     "registrationNumber": "Cégjegyzékszám",
@@ -128,6 +131,7 @@
     "invalidCompanyData": "Érvénytelen cég adat formátum",
     "invalidConsentFormData": "Érvénytelen nyilatkozat adat formátum",
     "invalidBusinessHostData": "Érvénytelen céges fogadó adat formátum",
+    "invalidReceptionistData": "Érvénytelen recepciós adat formátum",
     "invalidGuestData": "Érvénytelen vendég adat formátum",
     "invalidVisitData": "Érvénytelen látogatás adat formátum",
     "invalidGuestProfileData": "Érvénytelen vendég adat formátum",
@@ -192,11 +196,13 @@
     "addConsentForm": "Nyilatkozat felvétele",
     "addConsentFormVersion": "Új verzió felvétele",
     "addBusinessHost": "Céges fogadó felvétele",
+    "addReceptionist": "Recepciós felvétele",
     "addVisit": "Látogatás felvétele",
     "addGuest": "Vendég felvétele",
     "addGuestFromList": "Vendég felvétele listából",
     "editCompany": "Cég szerkesztése",
     "editBusinessHost": "Céges fogadó személy szerkesztése",
+    "editReceptionist": "Recepciós szerkesztése",
     "openConsentForm": "Nyilatkozat megnyitása",
     "openVisit": "Látogatás megnyitása",
     "openInvitation": "Meghívás megnyitása",

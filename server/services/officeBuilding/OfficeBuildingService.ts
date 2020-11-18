@@ -180,7 +180,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
     return receptionistInfo
   }
 
-  public updateBusinessHost = async (
+  public updateReceptionist = async (
     buildingId: number,
     receptionistId: number,
     data: UserUpdateDTO

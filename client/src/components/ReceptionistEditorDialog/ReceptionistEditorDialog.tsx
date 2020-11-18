@@ -15,27 +15,27 @@ import { EmployeeInfo } from '../../data/types/User'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
-import { createBusinessHost, updateBusinessHost } from '../../store/company'
+import { createReceptionist, updateReceptionist } from '../../store/building'
 
 type Props = {
-  businessHost?: EmployeeInfo
+  receptionist?: EmployeeInfo
   isEditing?: boolean
   onClose: () => void
 }
 
 /**
- * Custom dialog component to edit business hosts.
+ * Custom dialog component to edit receptionists.
  */
-const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, onClose }) => {
+const ReceptionistEditorDialog: React.FC<Props> = ({ receptionist, isEditing, onClose }) => {
   const classes = useStyles()
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const dispatch = useAppDispatch()
   const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
 
-  const [firstName, bindFirstName] = useInput(businessHost?.firstName || '', true)
-  const [lastName, bindLastName] = useInput(businessHost?.lastName || '', true)
-  const [email, bindEmail] = useInput(businessHost?.email || '', true, REGEXP.EMAIL)
+  const [firstName, bindFirstName] = useInput(receptionist?.firstName || '', true)
+  const [lastName, bindLastName] = useInput(receptionist?.lastName || '', true)
+  const [email, bindEmail] = useInput(receptionist?.email || '', true, REGEXP.EMAIL)
   const [password, bindPassword] = useInput('', true, REGEXP.PASSWORD)
 
   const handleClose = () => {
@@ -45,13 +45,13 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
   }
 
   const handleSave = () => {
-    const isBusinessHostDataValid = [firstName, lastName, email].every(param => param.isValid)
-    if (!isBusinessHostDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidBusinessHostData') }))
+    const isReceptionistDataValid = [firstName, lastName, email].every(param => param.isValid)
+    if (!isReceptionistDataValid) {
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidReceptionistData') }))
       return
     }
 
-    const businessHostData = {
+    const receptionistData = {
       firstName: firstName.value,
       lastName: lastName.value,
       email: email.value,
@@ -59,15 +59,15 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
     }
 
     if (isEditing) {
-      const updateBusinessHostData = {
-        id: businessHost?.id || -1,
-        firstName: businessHostData.firstName,
-        lastName: businessHostData.lastName
+      const updateReceptionistData = {
+        id: receptionist?.id || -1,
+        firstName: receptionistData.firstName,
+        lastName: receptionistData.lastName
       }
 
-      dispatch(updateBusinessHost(updateBusinessHostData))
+      dispatch(updateReceptionist(updateReceptionistData))
     } else {
-      dispatch(createBusinessHost(businessHostData))
+      dispatch(createReceptionist(receptionistData))
     }
 
     handleClose()
@@ -75,28 +75,22 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
 
   return (
     <Dialog fullScreen={fullScreen} maxWidth="xs" open={isOpen} onClose={handleClose}>
-      <DialogTitle className={classes.title}>{t(`action.${isEditing ? 'editBusinessHost' : 'addBusinessHost'}`)}</DialogTitle>
+      <DialogTitle className={classes.title}>{t(`action.${isEditing ? 'editReceptionist' : 'addReceptionist'}`)}</DialogTitle>
       <DialogContent className={classes.content} dividers>
         <Typography className={classes.sectionTitle} component="h1">
-          {t('company.businessHostDetails')}
+          {t('building.receptionistDetails')}
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField
-              {...bindFirstName}
-              id="business-host-first-name"
-              label={t('auth.firstName')}
-              variant="outlined"
-              fullWidth
-            />
+            <TextField {...bindFirstName} id="receptionist-first-name" label={t('auth.firstName')} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextField {...bindLastName} id="business-host-last-name" label={t('auth.lastName')} variant="outlined" fullWidth />
+            <TextField {...bindLastName} id="receptionist-last-name" label={t('auth.lastName')} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
             <TextField
               {...bindEmail}
-              id="business-host-email"
+              id="receptionist-email"
               label={t('auth.email')}
               disabled={isEditing}
               variant="outlined"
@@ -106,7 +100,7 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
           <Grid item xs={12}>
             <TextField
               {...bindPassword}
-              id="business-host-password"
+              id="receptionist-password"
               label={t('auth.password')}
               disabled={isEditing}
               type="password"
@@ -121,4 +115,4 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
   )
 }
 
-export default BusinessHostEditorDialog
+export default ReceptionistEditorDialog
