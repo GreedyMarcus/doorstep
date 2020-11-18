@@ -103,7 +103,7 @@ export interface GuestInvitationInfoDTO {
 }
 
 export interface GuestInvitationDetailsDTO {
-  invitationInfo: GuestInvitationInfoDTO
+  invitationInfo?: GuestInvitationInfoDTO
   guestDetails: VisitGuestDetailsDTO
   consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[]
   consentFormVersionsAccepted: number[] // To store consent form version ids

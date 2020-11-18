@@ -9,7 +9,12 @@ interface VisitServiceInterface {
   /**
    * Returns the visit specified by id.
    */
-  getVisitById(formId: number): Promise<VisitDetailsDTO>
+  getVisitById(visitId: number): Promise<VisitDetailsDTO>
+
+  /**
+   * Returns the guest that belongs to the specified visit.
+   */
+  getVisitGuestById(visitId: number, guestId: number): Promise<GuestInvitationDetailsDTO>
 
   /**
    * Returns the upcoming visits for the specified guest user.
