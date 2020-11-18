@@ -33,8 +33,8 @@ const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, onOpenClick
   const loadAdditionalTableCells = useCallback(
     (data: any[], className: string) => (
       <React.Fragment>
-        {data.map(label => (
-          <TableCell key={label} className={className}>
+        {data.map((label, index) => (
+          <TableCell key={`${index}-${label}`} className={className}>
             {label}
           </TableCell>
         ))}
