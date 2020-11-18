@@ -12,7 +12,7 @@
     "businessHosts": "Céges fogadók",
     "visits": "Látogatások",
     "plannedVisits": "Tervezett látogatások",
-    "guestProfile": "Vendég adatlap",
+    "invitations": "Meghívások",
     "details": "Részletek",
     "settings": "Beállítások",
     "unknown": "Nem ismert",
@@ -56,6 +56,7 @@
     "plannedEntry": "Tervezett belépési dátum",
     "noVisitInfo": "Még nincsenek befejezett látogatások.",
     "noScheduledVisitInfo": "Még nincsenek beütemezett látogatások.",
+    "noInvitationInfo": "Nincsenek folyatban lévő meghívások.",
     "filter": "Látogatás Szűrő",
     "fromDate": "Látogatások dátumtól",
     "untilDate": "Látogatások dátumig",
@@ -64,7 +65,13 @@
     "guests": "Vendégek",
     "notFound": "A látogatás nem létezik.",
     "visitData": "Látogatás adatai",
-    "consentForms": "Látogatáshoz tartozó nyilatkozatok"
+    "consentForms": "Látogatáshoz tartozó nyilatkozatok",
+    "consentFormsToAccept": "Elfogadandó nyilatkozatok",
+    "invitationDetails": "Meghívás részletei",
+    "invitationNotFound": "A meghívás nem létezik.",
+    "invitationData": "Meghívás adatai",
+    "organizingCompany": "Szervező cég",
+    "location": "Helyszín"
   },
   "guest": {
     "name": "Vendég neve",
@@ -73,6 +80,8 @@
     "birthplace": "Születési hely",
     "birthDate": "Születési idő",
     "motherName": "Anyja neve",
+    "identifierCardType": "Azonosító kártya típusa",
+    "identifierCardNumber": "Azonosító kártya száma",
     "mustRegisterCard": "Szükséges regisztrálni vendégkártyát.",
     "mustTrackActualExit": "Szükséges regisztrálni a tényleges kilépéi időpontját.",
     "actualEntry": "Tényleges belépési idő",
@@ -119,6 +128,7 @@
     "invalidBusinessHostData": "Érvénytelen céges fogadó adat formátum",
     "invalidGuestData": "Érvénytelen vendég adat formátum",
     "invalidVisitData": "Érvénytelen látogatás adat formátum",
+    "invalidGuestProfileData": "Érvénytelen vendég adat formátum",
     "duplicatedGuest": "A vendég már szerepel a listában.",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
@@ -138,6 +148,8 @@
     "fetchCompanyConfigFailure": "Nem sikerült betölteni a céges beállításokat.",
     "fetchAvailableGuestUsersFailure": "Nem sikerült betölteni a céghez már regisztrált vendégek adatait.",
     "fetchVisitByIdFailure": "Nem sikerült betölteni a látogatást.",
+    "fetchGuestInvitationsFailure": "Nem sikerült betölteni a vendéghez tartozó meghívásokat.",
+    "fetchGuestInvitationProfileFailure": "Nem sikerült betölteni a vendéghez tartozó adatlapot.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
@@ -156,8 +168,12 @@
     "updateConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
     "updateCompanyConfigSuccess": "Sikeresen frissítetted a céges beállításokat.",
     "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
+    "updateGuestInvitationProfileSuccess": "Sikeres vendég adatlap frissítés.",
+    "updateGuestInvitationProfileFailure": "Nem sikerült frissíteni a vendég adatlapot.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
-    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
+    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót.",
+    "provideFullCompanyDataWarning": "Kérlek a cégedhez tartozó összes adatot biztosítsd.",
+    "provideFullAddressDataWarning": "Kérlek a lakcímedhez tartozó összes adatot biztosítsd."
   },
   "action": {
     "add": "Felvétel",
@@ -173,10 +189,17 @@
     "editBusinessHost": "Céges fogadó személy szerkesztése",
     "openConsentForm": "Nyilatkozat megnyitása",
     "openVisit": "Látogatás megnyitása",
+    "openInvitation": "Meghívás megnyitása",
+    "acceptConsentForm": "Nyilatkozat elfogadása",
     "cancel": "Mégse",
     "save": "Mentés",
     "ok": "Ok",
     "activate": "Aktiválás",
     "clear": "Törlés"
+  },
+  "enum": {
+    "identity_card": "Személyi igazolvány",
+    "student_card": "Diákigazolvány",
+    "driving_license": "Jogosítvány"
   }
 }

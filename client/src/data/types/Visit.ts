@@ -1,6 +1,7 @@
 import { GuestUserRegister, UserShortInfo } from './User'
-import { CompanyShortInfo } from './Company'
+import { CompanyConfig, CompanyShortInfo, CompanyShortUpdate } from './Company'
 import { ConsentFormVersionDetails } from './ConsentForm'
+import { Address } from './General'
 
 export type VisitInfo = {
   id: number
@@ -50,4 +51,58 @@ export type VisitGuestInfo = {
   receptionistName: string | null
   guestCardNumber: string | null
   participationStatus: string
+}
+
+export type VisitGuestDetails = {
+  id: number
+  user: UserShortInfo
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: string | null
+  identifierCardType: string
+  identifierCardNumber: string | null
+  company: CompanyShortInfo
+  imageUrl: string | null
+  signatureImageUrl: string | null
+  actualEntry: Date | null
+  actualExit: Date | null
+  receptionistName: string | null
+  guestCardNumber: string | null
+  participationStatus: string
+}
+
+export type GuestInvitationInfo = {
+  id: number
+  companyName: string
+  buildingAddress: string
+  businessHost: UserShortInfo
+  purpose: string
+  room: string
+  plannedEntry: Date
+}
+
+export type GuestInvitationDetails = {
+  invitationInfo: GuestInvitationInfo
+  guestDetails: VisitGuestDetails
+  consentFormVersionsToAccept: ConsentFormVersionDetails[]
+  consentFormVersionsAccepted: number[] // To store consent form version ids,
+  companyRegisterConfig: CompanyConfig
+}
+
+export type GuestUpdateByUser = {
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: Address | null
+  identifierCardType: string
+  identifierCardNumber: string | null
+  company: CompanyShortUpdate | null
+  imageUrl: string | null
+  signatureImageUrl: string | null
+  consentFormVersionsAccepted: number[] // Consent form version ids
 }

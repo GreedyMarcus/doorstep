@@ -46,8 +46,8 @@ export const navigationAuthConfig = {
     [UserRole.BUSINESS_HOST]: [
       { id: 'BUSINESS-HOST-NAV-1', route: routes.PLANNED_VISITS, label: i18n.t('general.plannedVisits') }
     ],
-    [UserRole.RECEPTIONIST]: [{ id: 'RECEPTIONIST-NAV-1', route: routes.INVITATIONS, label: i18n.t('general.visits') }],
-    [UserRole.GUEST]: []
+    [UserRole.RECEPTIONIST]: [{ id: 'RECEPTIONIST-NAV-1', route: routes.INVITATIONS, label: i18n.t('general.invitations') }],
+    [UserRole.GUEST]: [{ id: 'GUEST-NAV-1', route: routes.GUEST_INVITATIONS, label: i18n.t('general.invitations') }]
   },
   actions: {
     [UserRole.ADMIN]: [

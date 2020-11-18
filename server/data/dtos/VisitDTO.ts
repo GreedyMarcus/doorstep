@@ -1,6 +1,7 @@
 import { GuestUserRegisterDTO, UserShortInfoDTO } from './UserDTO'
 import { ConsentFormVersionDetailsDTO } from './ConsentFormDTO'
-import { CompanyShortInfoDTO } from './CompanyDTO'
+import { CompanyRegisterConfigDTO, CompanyShortInfoDTO, CompanyShortUpdateDTO } from './CompanyDTO'
+import { AddressDTO } from './AddressDTO'
 
 export interface VisitInfoDTO {
   id: number
@@ -59,4 +60,58 @@ export interface VisitGuestInfoDTO {
   receptionistName: string | null
   guestCardNumber: string | null
   participationStatus: string
+}
+
+export interface VisitGuestDetailsDTO {
+  id: number
+  user: UserShortInfoDTO
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: string | null
+  identifierCardType: string
+  identifierCardNumber: string | null
+  company: CompanyShortInfoDTO
+  imageUrl: string | null
+  signatureImageUrl: string | null
+  actualEntry: Date | null
+  actualExit: Date | null
+  receptionistName: string | null
+  guestCardNumber: string | null
+  participationStatus: string
+}
+
+export interface GuestInvitationInfoDTO {
+  id: number
+  companyName: string
+  buildingAddress: string
+  businessHost: UserShortInfoDTO
+  purpose: string
+  room: string
+  plannedEntry: Date
+}
+
+export interface GuestInvitationDetailsDTO {
+  invitationInfo: GuestInvitationInfoDTO
+  guestDetails: VisitGuestDetailsDTO
+  consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[]
+  consentFormVersionsAccepted: number[] // To store consent form version ids
+  companyRegisterConfig: CompanyRegisterConfigDTO
+}
+
+export interface GuestUpdateByUserDTO {
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: AddressDTO | null
+  identifierCardType: string
+  identifierCardNumber: string | null
+  company: CompanyShortUpdateDTO | null
+  imageUrl: string | null
+  signatureImageUrl: string | null
+  consentFormVersionsAccepted: number[] // Consent form version ids
 }

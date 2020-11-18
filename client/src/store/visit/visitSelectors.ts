@@ -11,6 +11,16 @@ export const visitsSelector = (state: RootState) => state.visit.visits
 export const plannedVisitsSelector = (state: RootState) => state.visit.plannedVisits
 
 /**
+ * Returns all upcoming visits belong to the current guest user.
+ */
+export const guestInvitationsSelector = (state: RootState) => state.visit.guestInvitations
+
+/**
  * Returns the selected visit.
  */
 export const activeVisitSelector = (state: RootState) => state.visit.activeVisit
+
+/**
+ * Returns the selected guest profile.
+ */
+export const activeGuestProfileSelector = (state: RootState) => state.visit.activeGuestProfile

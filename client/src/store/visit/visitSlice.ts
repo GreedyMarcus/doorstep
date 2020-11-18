@@ -4,18 +4,30 @@ import VisitService from '../../services/VisitService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { VisitInfo, VisitCreate, PlannedVisitInfo, VisitDetails } from '../../data/types/Visit'
+import {
+  VisitInfo,
+  VisitCreate,
+  PlannedVisitInfo,
+  VisitDetails,
+  GuestInvitationInfo,
+  GuestInvitationDetails,
+  GuestUpdateByUser
+} from '../../data/types/Visit'
 
 type VisitSliceState = {
   visits: VisitInfo[]
   plannedVisits: PlannedVisitInfo[]
+  guestInvitations: GuestInvitationInfo[]
   activeVisit: VisitDetails | null
+  activeGuestProfile: GuestInvitationDetails | null
 }
 
 const initialState: VisitSliceState = {
   visits: [],
   plannedVisits: [],
-  activeVisit: null
+  guestInvitations: [],
+  activeVisit: null,
+  activeGuestProfile: {} as GuestInvitationDetails
 }
 
 /**
@@ -34,20 +46,35 @@ const visitSlice = createSlice({
     plannedVisitsFetched: (state, { payload }: PayloadAction<PlannedVisitInfo[]>) => {
       state.plannedVisits = payload
     },
+    guestInvitationsFetched: (state, { payload }: PayloadAction<GuestInvitationInfo[]>) => {
+      state.guestInvitations = payload
+    },
     singleVisitFetched: (state, { payload }: PayloadAction<VisitDetails>) => {
       state.activeVisit = payload
+    },
+    guestProfileFetched: (state, { payload }: PayloadAction<GuestInvitationDetails | null>) => {
+      state.activeGuestProfile = payload
     },
     visitSliceCleared: state => {
       state.visits = []
       state.plannedVisits = []
+      state.guestInvitations = []
       state.activeVisit = null
+      state.activeGuestProfile = null
     }
   }
 })
 
 export const { reducer } = visitSlice
 export const { visitSliceCleared } = visitSlice.actions
-const { visitsFetched, visitCreated, plannedVisitsFetched, singleVisitFetched } = visitSlice.actions
+const {
+  visitsFetched,
+  visitCreated,
+  plannedVisitsFetched,
+  guestInvitationsFetched,
+  singleVisitFetched,
+  guestProfileFetched
+} = visitSlice.actions
 
 /**
  * Calls company service to load all finished visits for the current company.
@@ -91,6 +118,26 @@ export const fetchPlannedVisits = () => async (dispatch: AppDispatch, getState: 
 }
 
 /**
+ * Calls visit service to load all upcoming visits for the current guest.
+ */
+export const fetchGuestInvitations = () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const userId = user.activeUser?.id ?? -1
+    const guestInvitations = await VisitService.getGuestInvitations(userId)
+
+    dispatch(guestInvitationsFetched(guestInvitations))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationsFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
  * Calls visit service to load the visit specified by id.
  */
 export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch) => {
@@ -102,6 +149,51 @@ export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch)
     dispatch(singleVisitFetched(visit))
   } catch (err) {
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchVisitByIdFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls visit service to load the visit specified by id.
+ */
+export const fetchGuestInvitationProfile = (visitId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
+  dispatch(guestProfileFetched({} as GuestInvitationDetails))
+  dispatch(setLoading(true))
+
+  try {
+    const userId = user.activeUser?.id ?? -1
+    const guestProfile = await VisitService.getGuestInvitationProfile(userId, visitId)
+
+    dispatch(guestProfileFetched(guestProfile))
+  } catch (err) {
+    dispatch(guestProfileFetched(null))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfileFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls visit service to update the visit guest data for specified guest user.
+ */
+export const updateGuestInvitationProfile = (visitId: number, data: GuestUpdateByUser) => async (
+  dispatch: AppDispatch,
+  getState: () => RootState
+) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const userId = user.activeUser?.id ?? -1
+    await VisitService.updateGuestInvitationProfile(userId, visitId, data)
+
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateGuestInvitationProfileSuccess') }))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGuestInvitationProfileFailure') }))
   }
 
   dispatch(setLoading(false))

@@ -25,6 +25,12 @@ export type CompanyShortInfo = {
   address: string
 }
 
+export type CompanyShortUpdate = {
+  name: string
+  registrationNumber: string
+  address: Address
+}
+
 export type CompanyRegister = {
   name: string
   registrationNumber: string
