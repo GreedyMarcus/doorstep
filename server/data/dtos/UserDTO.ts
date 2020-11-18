@@ -37,3 +37,9 @@ export interface UserUpdateDTO {
   firstName: string
   lastName: string
 }
+
+export interface UserCredentialsUpdateDTO {
+  firstName: string
+  lastName: string
+  password: string
+}

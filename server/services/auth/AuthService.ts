@@ -10,7 +10,7 @@ import { EmailServiceInterface } from '../email'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { OfficeBuildingRepositoryInterface } from '../../repositories/officeBuilding'
 import { UserRoleType } from '../../data/enums/UserRoleType'
-import { UserLoginDTO, UserInfoDTO } from '../../data/dtos/UserDTO'
+import { UserLoginDTO, UserInfoDTO, UserCredentialsUpdateDTO } from '../../data/dtos/UserDTO'
 
 @injectable()
 class AuthService implements AuthServiceInterface {
@@ -114,6 +114,25 @@ class AuthService implements AuthServiceInterface {
     await this.userRepository.saveUser(foundUser)
 
     return this.loginUser({ email: foundUser.email, password })
+  }
+
+  public updateUserCredentials = async (userId: number, data: UserCredentialsUpdateDTO): Promise<void> => {
+    const foundUser = await this.userRepository.findUserById(userId)
+    if (!foundUser) {
+      throw Boom.notFound('User does not exist.')
+    }
+
+    foundUser.firstName = data.firstName
+    foundUser.lastName = data.lastName
+
+    if (data.password) {
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(data.password, salt)
+
+      foundUser.password = hashedPassword
+    }
+
+    await this.userRepository.saveUser(foundUser)
   }
 }
 

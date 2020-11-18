@@ -4,7 +4,12 @@ import AuthController from '../controllers/AuthController'
 import checkValidToken from '../middlewares/checkValidToken'
 import getClientLanguage from '../middlewares/getClientLanguage'
 import validationMiddleware from '../middlewares/validationMiddleware'
-import { UserLoginSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../data/validationSchemas/UserSchema'
+import {
+  UserLoginSchema,
+  ForgotPasswordSchema,
+  ResetPasswordSchema,
+  UserCredentialsUpdateSchema
+} from '../data/validationSchemas/UserSchema'
 
 const authRouter = express.Router()
 const authController = container.resolve(AuthController)
@@ -28,5 +33,10 @@ authRouter.post('/forgot-password', validationMiddleware(ForgotPasswordSchema), 
  * POST - Create a new password for the specified user with the provided credentials.
  */
 authRouter.post('/reset-password', validationMiddleware(ResetPasswordSchema), authController.resetPassword)
+
+/**
+ * PUT - Updates the credentials of the specified user
+ */
+authRouter.put('/user', checkValidToken, validationMiddleware(UserCredentialsUpdateSchema), authController.updateUserCredentials)
 
 export default authRouter

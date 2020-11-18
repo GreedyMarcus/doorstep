@@ -1,5 +1,6 @@
 {
   "general": {
+    "myProfile": "Saját profil",
     "back": "Vissza",
     "next": "Tovább",
     "address": "Lakcím",
@@ -35,7 +36,8 @@
     "noBusinessHostsInfo": "Még nem vettél fel céges fogadó személyeket.",
     "businessHostDetails": "Céges fogadó adatai",
     "guestDataSettings": "Vendégekről tárolt adatok",
-    "otherSettings": "Egyéb beállítások"
+    "otherSettings": "Egyéb beállítások",
+    "userRole": "Felhasználói szerepkör"
   },
   "consentForm": {
     "title": "Nyilatkozat címe",
@@ -129,6 +131,7 @@
     "invalidGuestData": "Érvénytelen vendég adat formátum",
     "invalidVisitData": "Érvénytelen látogatás adat formátum",
     "invalidGuestProfileData": "Érvénytelen vendég adat formátum",
+    "invalidUserData": "Érvénytelen felhasználói adat formátum",
     "duplicatedGuest": "A vendég már szerepel a listában.",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
@@ -170,6 +173,8 @@
     "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
     "updateGuestInvitationProfileSuccess": "Sikeres vendég adatlap frissítés.",
     "updateGuestInvitationProfileFailure": "Nem sikerült frissíteni a vendég adatlapot.",
+    "updateUserCredentialsSuccess": "Sikeresen frissítetted az adataidat.",
+    "updateUserCredentialsFailure": "Nem sikerült frissíteni az adataidat.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
     "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót.",
     "provideFullCompanyDataWarning": "Kérlek a cégedhez tartozó összes adatot biztosítsd.",
@@ -200,6 +205,11 @@
   "enum": {
     "identity_card": "Személyi igazolvány",
     "student_card": "Diákigazolvány",
-    "driving_license": "Jogosítvány"
+    "driving_license": "Jogosítvány",
+    "admin": "Admin",
+    "company_admin": "Céges admin",
+    "business_host": "Céges fogadó",
+    "receptionist": "Recepiós",
+    "guest": "Vendég"
   }
 }
