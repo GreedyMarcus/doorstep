@@ -35,8 +35,19 @@ class VisitsController {
     try {
       const userId = Number(req.params.userId)
       const visitId = Number(req.params.visitId)
-      const invitations = await this.visitService.getGuestInvitationProfile(userId, visitId)
-      res.json(invitations)
+      const invitationProfile = await this.visitService.getGuestInvitationProfile(userId, visitId)
+      res.json(invitationProfile)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public updateGuestInvitationProfile = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.userId)
+      const visitId = Number(req.params.visitId)
+      await this.visitService.updateGuestInvitationProfile(userId, visitId, req.body)
+      res.sendStatus(204)
     } catch (err) {
       return next(err)
     }

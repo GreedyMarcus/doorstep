@@ -1,6 +1,7 @@
 import { GuestUserRegisterDTO, UserShortInfoDTO } from './UserDTO'
 import { ConsentFormVersionDetailsDTO } from './ConsentFormDTO'
-import { CompanyRegisterConfigDTO, CompanyShortInfoDTO } from './CompanyDTO'
+import { CompanyRegisterConfigDTO, CompanyShortInfoDTO, CompanyShortUpdateDTO } from './CompanyDTO'
+import { AddressDTO } from './AddressDTO'
 
 export interface VisitInfoDTO {
   id: number
@@ -98,4 +99,19 @@ export interface GuestInvitationDetailsDTO {
   consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[]
   consentFormVersionsAccepted: number[] // To store consent form version ids
   companyRegisterConfig: CompanyRegisterConfigDTO
+}
+
+export interface GuestUpdateByUserDTO {
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: AddressDTO | null
+  identifierCardType: string
+  identifierCardNumber: string | null
+  company: CompanyShortUpdateDTO | null
+  imageUrl: string | null
+  signatureImageUrl: string | null
+  consentFormVersionsAccepted: number[] // Consent form version ids
 }

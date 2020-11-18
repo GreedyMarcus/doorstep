@@ -5,7 +5,13 @@ import { inject, injectable } from 'inversify'
 import { CompanyServiceInterface } from '../company'
 import { VisitRepositoryInterface } from '../../repositories/visit'
 import { UserRepositoryInterface } from '../../repositories/user'
-import { GuestInvitationInfoDTO, VisitDetailsDTO, VisitGuestInfoDTO, GuestInvitationDetailsDTO } from '../../data/dtos/VisitDTO'
+import {
+  GuestInvitationInfoDTO,
+  VisitDetailsDTO,
+  VisitGuestInfoDTO,
+  GuestInvitationDetailsDTO,
+  GuestUpdateByUserDTO
+} from '../../data/dtos/VisitDTO'
 import { ConsentFormVersionDetailsDTO } from '../../data/dtos/ConsentFormDTO'
 
 @injectable()
@@ -191,6 +197,25 @@ class VisitService implements VisitServiceInterface {
     }
 
     return visitDetails
+  }
+
+  public updateGuestInvitationProfile = async (userId: number, visitId: number, data: GuestUpdateByUserDTO): Promise<void> => {
+    const foundUser = await this.userRepository.findUserById(userId)
+    if (!foundUser) {
+      throw Boom.notFound('User does not exist.')
+    }
+
+    const foundVisit = await this.visitRepository.findVisitById(visitId)
+    if (!foundVisit) {
+      throw Boom.notFound('Visit does not exist.')
+    }
+
+    const visitGuest = foundVisit.guests.filter(guest => guest.user.id === userId)[0]
+    if (!visitGuest) {
+      throw Boom.notFound('Guest user does not exist.')
+    }
+
+    await this.visitRepository.updateVisitGuest(userId, foundVisit, data)
   }
 }
 

@@ -18,6 +18,12 @@ export interface CompanyShortInfoDTO {
   address: string
 }
 
+export interface CompanyShortUpdateDTO {
+  name: string
+  registrationNumber: string
+  address: AddressDTO
+}
+
 export interface CompanyRegisterDTO {
   name: string
   registrationNumber: string

@@ -6,7 +6,9 @@ import checkValidToken from '../middlewares/checkValidToken'
 import hasAnyPermission from '../middlewares/hasAnyPermission'
 import belongsToVisit from '../middlewares/belongsToVisit'
 import ownsAccount from '../middlewares/ownsAccount'
+import validationMiddleware from '../middlewares/validationMiddleware'
 import { UserPermissionType } from '../data/enums/UserPermissionType'
+import { GuestUpdateByUserSchema } from '../data/validationSchemas/VisitSchema'
 
 const visitsRouter = express.Router()
 const visitsController = container.resolve(VisitsController)
@@ -43,6 +45,18 @@ visitsRouter.get(
   checkValidToken,
   ownsAccount,
   visitsController.getGuestInvitationProfile
+)
+
+/**
+ * PUT - Updates the guest profile that belongs to the specified invitation.
+ */
+visitsRouter.put(
+  '/guest-invitations/:userId/profiles/:visitId',
+  checkValidNumberParams(['userId', 'visitId']),
+  checkValidToken,
+  ownsAccount,
+  validationMiddleware(GuestUpdateByUserSchema),
+  visitsController.updateGuestInvitationProfile
 )
 
 export default visitsRouter
