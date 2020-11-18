@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -22,20 +22,23 @@ import Button from '@material-ui/core/Button'
 import useStyles from './useStyles'
 import useInput from '../../components/shared/useInput'
 import REGEXP from '../../utils/regexp'
-import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
-import { activeGuestProfileSelector, fetchGuestInvitationProfile } from '../../store/visit'
+import { updateGuestInvitationProfile } from '../../store/visit'
 import { addNotification } from '../../store/action'
 import { identifierCardTypeStrings } from '../../data/enums/IdentifierCardType'
 import { ConsentFormVersionDetails } from '../../data/types/ConsentForm'
+import { GuestInvitationDetails as GuestInvitationDetailsProp, GuestUpdateByUser } from '../../data/types/Visit'
 import { getLocaleDateFormat } from '../../utils'
 
-const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
+type Props = {
+  visitId: number
+  guestProfile: GuestInvitationDetailsProp | null
+}
+
+const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
-  const guestProfile = useSelector(activeGuestProfileSelector)
   const [t] = useTranslation()
 
   const getIdentifierCardTypeIndex = () => {
@@ -46,28 +49,26 @@ const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params
     return 0
   }
 
-  const [nationality, bindNationality, setNationalityRequired] = useInput(guestProfile?.guestDetails.nationality || '', false)
-  const [phoneNumber, bindPhoneNumber, setPhoneNumberRequired] = useInput(
-    guestProfile?.guestDetails.phoneNumber || '',
-    false,
-    REGEXP.PHONE_NUMBER
+  const [nationality, bindNationality] = useInput(guestProfile?.guestDetails.nationality || '', false)
+  const [phoneNumber, bindPhoneNumber] = useInput(guestProfile?.guestDetails.phoneNumber || '', false, REGEXP.PHONE_NUMBER)
+  const [birthplace, bindBirthplace] = useInput(guestProfile?.guestDetails.birthplace || '', false)
+  const [birthDate, setBirthDate] = useState(
+    guestProfile?.guestDetails?.birthDate ? new Date(guestProfile.guestDetails.birthDate) : null
   )
-  const [birthplace, bindBirthplace, setBirthplaceRequired] = useInput(guestProfile?.guestDetails.birthplace || '', false)
-  const [birthDate, setBirthDate] = useState(guestProfile?.guestDetails.birthDate as Date | null)
 
-  const [motherName, bindMotherName, setMotherNameRequired] = useInput(guestProfile?.guestDetails.motherName || '', false)
+  const [motherName, bindMotherName] = useInput(guestProfile?.guestDetails.motherName || '', false)
   const [identifierCardType, setIdentifierCardType] = useState(getIdentifierCardTypeIndex())
   const [identifierCardNumber, bindIdentifierCardNumber] = useInput(guestProfile?.guestDetails.identifierCardNumber || '', false)
 
   const guestAddress = guestProfile?.guestDetails.address?.split(', ')
 
-  const [country, bindCountry, setCountryRequired] = useInput(guestAddress ? guestAddress[0] : '', false)
-  const [zipCode, bindZipCode, setZipCodeRequired] = useInput(guestAddress ? guestAddress[1] : '', false)
-  const [city, bindCity, setCityRequired] = useInput(guestAddress ? guestAddress[2] : '', false)
-  const [streetAddress, bindStreetAddress, setStreetAddressRequired] = useInput(guestAddress ? guestAddress[3] : '', false)
+  const [country, bindCountry] = useInput(guestAddress ? guestAddress[0] : '', false)
+  const [zipCode, bindZipCode] = useInput(guestAddress ? guestAddress[1] : '', false)
+  const [city, bindCity] = useInput(guestAddress ? guestAddress[2] : '', false)
+  const [streetAddress, bindStreetAddress] = useInput(guestAddress ? guestAddress[3] : '', false)
 
-  const [companyName, bindCompanyName, setCompanyNameRequired] = useInput(guestProfile?.guestDetails.company?.name || '', false)
-  const [regNumber, bindRegNumber, setRegNumberRequired] = useInput(
+  const [companyName, bindCompanyName] = useInput(guestProfile?.guestDetails.company?.name || '', false)
+  const [regNumber, bindRegNumber] = useInput(
     guestProfile?.guestDetails.company?.registrationNumber || '',
     false,
     REGEXP.REGISTRATION_NUMBER
@@ -75,13 +76,10 @@ const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params
 
   const companyAddress = guestProfile?.guestDetails.company?.address?.split(', ')
 
-  const [companyCountry, bindCompanyCountry, setCompanyCountryRequired] = useInput(companyAddress ? companyAddress[0] : '', false)
-  const [companyZipCode, bindCompanyZipCode, setCompanyZipCodeRequired] = useInput(companyAddress ? companyAddress[0] : '', false)
-  const [companyCity, bindCompanyCity, setCompanyCityRequired] = useInput(companyAddress ? companyAddress[0] : '', false)
-  const [companyStreetAddress, bindCompanyStreetAddress, setCompanyStreetAddressRequired] = useInput(
-    companyAddress ? companyAddress[0] : '',
-    false
-  )
+  const [companyCountry, bindCompanyCountry] = useInput(companyAddress ? companyAddress[0] : '', false)
+  const [companyZipCode, bindCompanyZipCode] = useInput(companyAddress ? companyAddress[1] : '', false)
+  const [companyCity, bindCompanyCity] = useInput(companyAddress ? companyAddress[2] : '', false)
+  const [companyStreetAddress, bindCompanyStreetAddress] = useInput(companyAddress ? companyAddress[3] : '', false)
 
   const [openedFormVersion, setOpenedFormVersion] = useState(null as ConsentFormVersionDetails | null)
   const [checked, setChecked] = React.useState(guestProfile?.consentFormVersionsAccepted || ([] as number[]))
@@ -115,37 +113,77 @@ const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params
     return !!guestProfile?.companyRegisterConfig.storeBirthDate ? inputFieldsValid && !!birthDate : inputFieldsValid
   }
 
+  const isGuestAddressApproved = (): boolean => {
+    const addressInputs = [country, zipCode, city, streetAddress]
+    if (addressInputs.some(input => !!input.value)) {
+      return addressInputs.every(input => !!input.value)
+    }
+    return true
+  }
+
+  const isCompanyDataApproved = (): boolean => {
+    const companyInputs = [companyName, regNumber, companyCountry, companyZipCode, companyCity, companyStreetAddress]
+    if (companyInputs.some(input => !!input.value)) {
+      return companyInputs.every(input => !!input.value)
+    }
+    return true
+  }
+
   const handleSave = () => {
     if (!isGuestProfileDataValid()) {
       dispatch(addNotification({ type: 'error', message: t('notification.invalidGuestProfileData') }))
       return
     }
 
-    alert('GUEST PROFILE DATA IS SAVED!!!')
+    // Only full guest address data approved
+    if (!isGuestAddressApproved()) {
+      dispatch(addNotification({ type: 'warning', message: t('notification.provideFullAddressDataWarning') }))
+      return
+    }
+
+    // Only full company data approved
+    if (!isCompanyDataApproved()) {
+      dispatch(addNotification({ type: 'warning', message: t('notification.provideFullCompanyDataWarning') }))
+      return
+    }
+
+    const profileData: GuestUpdateByUser = {
+      nationality: !!nationality.value ? nationality.value : null,
+      phoneNumber: !!phoneNumber.value ? phoneNumber.value : null,
+      birthplace: !!birthplace.value ? birthplace.value : null,
+      birthDate: birthDate ? birthDate.toISOString() : null,
+      motherName: !!motherName.value ? motherName.value : null,
+      address: !country.value
+        ? null
+        : {
+            // we already know if all of the address data is provided
+            country: country.value,
+            zipCode: zipCode.value,
+            city: city.value,
+            streetAddress: streetAddress.value
+          },
+      identifierCardType: identifierCardTypeStrings[identifierCardType],
+      identifierCardNumber: !!identifierCardNumber.value ? identifierCardNumber.value : null,
+      company: !companyName.value
+        ? null
+        : {
+            // we already know if all of the company data is provided
+            name: companyName.value,
+            registrationNumber: regNumber.value,
+            address: {
+              country: companyCountry.value,
+              zipCode: companyZipCode.value,
+              city: companyCity.value,
+              streetAddress: companyStreetAddress.value
+            }
+          },
+      imageUrl: null,
+      signatureImageUrl: null,
+      consentFormVersionsAccepted: checked
+    }
+
+    dispatch(updateGuestInvitationProfile(visitId, profileData))
   }
-
-  useEffect(() => {
-    dispatch(fetchGuestInvitationProfile(routeParams['visitId']))
-  }, [])
-
-  useEffect(() => {
-    setNationalityRequired(!!guestProfile?.companyRegisterConfig.storeNationality)
-    setPhoneNumberRequired(!!guestProfile?.companyRegisterConfig.storePhoneNumber)
-    setBirthplaceRequired(!!guestProfile?.companyRegisterConfig.storeBirthplace)
-    setMotherNameRequired(!!guestProfile?.companyRegisterConfig.storeMotherName)
-
-    setCountryRequired(!!guestProfile?.companyRegisterConfig.storeAddress)
-    setZipCodeRequired(!!guestProfile?.companyRegisterConfig.storeAddress)
-    setCityRequired(!!guestProfile?.companyRegisterConfig.storeAddress)
-    setStreetAddressRequired(!!guestProfile?.companyRegisterConfig.storeAddress)
-
-    setCompanyNameRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
-    setRegNumberRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
-    setCompanyCountryRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
-    setCompanyZipCodeRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
-    setCompanyCityRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
-    setCompanyStreetAddressRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
-  }, [guestProfile])
 
   const invitationData = [
     { label: t('visit.organizingCompany'), text: guestProfile?.invitationInfo.companyName || '' },

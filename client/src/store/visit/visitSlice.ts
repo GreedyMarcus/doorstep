@@ -10,7 +10,8 @@ import {
   PlannedVisitInfo,
   VisitDetails,
   GuestInvitationInfo,
-  GuestInvitationDetails
+  GuestInvitationDetails,
+  GuestUpdateByUser
 } from '../../data/types/Visit'
 
 type VisitSliceState = {
@@ -26,7 +27,7 @@ const initialState: VisitSliceState = {
   plannedVisits: [],
   guestInvitations: [],
   activeVisit: null,
-  activeGuestProfile: null
+  activeGuestProfile: {} as GuestInvitationDetails
 }
 
 /**
@@ -51,7 +52,7 @@ const visitSlice = createSlice({
     singleVisitFetched: (state, { payload }: PayloadAction<VisitDetails>) => {
       state.activeVisit = payload
     },
-    guestProfileFetched: (state, { payload }: PayloadAction<GuestInvitationDetails>) => {
+    guestProfileFetched: (state, { payload }: PayloadAction<GuestInvitationDetails | null>) => {
       state.activeGuestProfile = payload
     },
     visitSliceCleared: state => {
@@ -159,6 +160,7 @@ export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch)
 export const fetchGuestInvitationProfile = (visitId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()
 
+  dispatch(guestProfileFetched({} as GuestInvitationDetails))
   dispatch(setLoading(true))
 
   try {
@@ -167,7 +169,31 @@ export const fetchGuestInvitationProfile = (visitId: number) => async (dispatch:
 
     dispatch(guestProfileFetched(guestProfile))
   } catch (err) {
+    dispatch(guestProfileFetched(null))
     dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfileFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls visit service to update the visit guest data for specified guest user.
+ */
+export const updateGuestInvitationProfile = (visitId: number, data: GuestUpdateByUser) => async (
+  dispatch: AppDispatch,
+  getState: () => RootState
+) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const userId = user.activeUser?.id ?? -1
+    await VisitService.updateGuestInvitationProfile(userId, visitId, data)
+
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateGuestInvitationProfileSuccess') }))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGuestInvitationProfileFailure') }))
   }
 
   dispatch(setLoading(false))

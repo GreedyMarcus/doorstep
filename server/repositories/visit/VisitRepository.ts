@@ -167,32 +167,6 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
   }
 
   public async updateVisitGuest(userId: number, visit: Partial<Visit>, data: GuestUpdateByUserDTO): Promise<void> {
-    // Check if guest address data is provided
-    let guestAddress
-    if (data.address) {
-      // Check if address already exists
-      guestAddress = await getRepository(Address)
-        .createQueryBuilder('address')
-        .where('address.country = :country', { country: data.address.country })
-        .andWhere('address.zipCode = :zipCode', { zipCode: data.address.zipCode })
-        .andWhere('address.city = :city', { city: data.address.city })
-        .andWhere('address.streetAddress = :streetAddress', { streetAddress: data.address.streetAddress })
-        .getOne()
-    }
-
-    // Check if guest company address is provided
-    let companyAddress
-    if (data.company) {
-      // Check if address already exists
-      companyAddress = await getRepository(Address)
-        .createQueryBuilder('address')
-        .where('address.country = :country', { country: data.company.address.country })
-        .andWhere('address.zipCode = :zipCode', { zipCode: data.company.address.zipCode })
-        .andWhere('address.city = :city', { city: data.company.address.city })
-        .andWhere('address.streetAddress = :streetAddress', { streetAddress: data.company.address.streetAddress })
-        .getOne()
-    }
-
     await getManager().transaction(async transactionEntityManager => {
       const visitGuest = visit.guests.filter(guest => guest.user.id === userId)[0]
 
@@ -206,7 +180,19 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
       visitGuest.imageUrl = data.imageUrl
       visitGuest.signatureImageUrl = data.signatureImageUrl
 
+      // Check if guest address data is provided
+      let guestAddress
       if (data.address) {
+        // Check if address already exists
+        guestAddress = await transactionEntityManager
+          .getRepository(Address)
+          .createQueryBuilder('address')
+          .where('address.country = :country', { country: data.address.country })
+          .andWhere('address.zipCode = :zipCode', { zipCode: data.address.zipCode })
+          .andWhere('address.city = :city', { city: data.address.city })
+          .andWhere('address.streetAddress = :streetAddress', { streetAddress: data.address.streetAddress })
+          .getOne()
+
         // If address not exists create one for the building
         if (!guestAddress) {
           const newAddress = new Address()
@@ -221,15 +207,24 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
         visitGuest.address = guestAddress
       }
 
-      let newCompanyAddress
+      let companyAddress
       if (data.company) {
+        // Check if guest company address is provided
+        companyAddress = await getRepository(Address)
+          .createQueryBuilder('address')
+          .where('address.country = :country', { country: data.company.address.country })
+          .andWhere('address.zipCode = :zipCode', { zipCode: data.company.address.zipCode })
+          .andWhere('address.city = :city', { city: data.company.address.city })
+          .andWhere('address.streetAddress = :streetAddress', { streetAddress: data.company.address.streetAddress })
+          .getOne()
+
         // Check if guest has a registered company alreay
         if (visitGuest.company) {
           visitGuest.company.name = data.company.name
           visitGuest.company.registrationNumber = data.company.registrationNumber
 
           if (!companyAddress) {
-            newCompanyAddress = new Address()
+            const newCompanyAddress = new Address()
             newCompanyAddress.country = data.address.country
             newCompanyAddress.zipCode = data.address.zipCode
             newCompanyAddress.city = data.address.city
@@ -245,7 +240,7 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
           newGuestCompany.registrationNumber = data.company.registrationNumber
 
           if (!companyAddress) {
-            newCompanyAddress = new Address()
+            const newCompanyAddress = new Address()
             newCompanyAddress.country = data.address.country
             newCompanyAddress.zipCode = data.address.zipCode
             newCompanyAddress.city = data.address.city

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import AuthService from './AuthService'
-import { VisitDetails, GuestInvitationInfo, GuestInvitationDetails } from '../data/types/Visit'
+import { VisitDetails, GuestInvitationInfo, GuestInvitationDetails, GuestUpdateByUser } from '../data/types/Visit'
 
 /**
  * Wrapper class that manages API calls to the visit related endpoints.
@@ -36,6 +36,15 @@ class ConsentFormService {
 
     const result = await axios.get(url, config)
     return result.data as GuestInvitationDetails
+  }
+
+  public static async updateGuestInvitationProfile(userId: number, visitId: number, data: GuestUpdateByUser): Promise<void> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${ConsentFormService.API_BASE}/guest-invitations/${userId}/profiles/${visitId}`
+    const config = { headers: authHeader }
+
+    await axios.put(url, data, config)
   }
 }
 

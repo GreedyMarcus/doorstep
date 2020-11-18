@@ -167,9 +167,13 @@
     "updateBusinessHostSuccess": "Successful business host update",
     "updateBusinessHostFailure": "Could not update business host",
     "updateCompanyConfigSuccess": "Successful company config update",
+    "updateGuestInvitationProfileSuccess": "Successful guest profile update",
+    "updateGuestInvitationProfileFailure": "Could not update guest profil",
     "updateCompanyConfigFailure": "Could not update company config",
     "activateConsentFormVersionSuccess": "Successful consent form version activation",
-    "activateConsentFormVersionFailure": "Could not activate consent form version"
+    "activateConsentFormVersionFailure": "Could not activate consent form version",
+    "provideFullCompanyDataWarning": "Please provide all information about your company.",
+    "provideFullAddressDataWarning": "Please provide all information about your address."
   },
   "action": {
     "add": "add",

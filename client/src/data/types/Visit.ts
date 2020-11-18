@@ -1,6 +1,7 @@
 import { GuestUserRegister, UserShortInfo } from './User'
-import { CompanyConfig, CompanyShortInfo } from './Company'
+import { CompanyConfig, CompanyShortInfo, CompanyShortUpdate } from './Company'
 import { ConsentFormVersionDetails } from './ConsentForm'
+import { Address } from './General'
 
 export type VisitInfo = {
   id: number
@@ -89,4 +90,19 @@ export type GuestInvitationDetails = {
   consentFormVersionsToAccept: ConsentFormVersionDetails[]
   consentFormVersionsAccepted: number[] // To store consent form version ids,
   companyRegisterConfig: CompanyConfig
+}
+
+export type GuestUpdateByUser = {
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: Address | null
+  identifierCardType: string
+  identifierCardNumber: string | null
+  company: CompanyShortUpdate | null
+  imageUrl: string | null
+  signatureImageUrl: string | null
+  consentFormVersionsAccepted: number[] // Consent form version ids
 }

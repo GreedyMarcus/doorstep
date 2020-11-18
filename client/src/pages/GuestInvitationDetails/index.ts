@@ -1,1 +1,1 @@
-export { default } from './GuestInvitationDetails'
+export { default } from './GuestInvitationDetailsContainer'

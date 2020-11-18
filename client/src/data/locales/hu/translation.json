@@ -168,8 +168,12 @@
     "updateConsentFormVersionFailure": "Nem sikerült frissíteni a nyilatkozat verziót.",
     "updateCompanyConfigSuccess": "Sikeresen frissítetted a céges beállításokat.",
     "updateCompanyConfigFailure": "Nem sikerült frissíteni a céges beállításokat.",
+    "updateGuestInvitationProfileSuccess": "Sikeres vendég adatlap frissítés.",
+    "updateGuestInvitationProfileFailure": "Nem sikerült frissíteni a vendég adatlapot.",
     "activateConsentFormVersionSuccess": "Sikeresen aktiváltad a nyilatkozat verziót.",
-    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót."
+    "activateConsentFormVersionFailure": "Nem sikerült aktiválni a nyilatkozat verziót.",
+    "provideFullCompanyDataWarning": "Kérlek a cégedhez tartozó összes adatot biztosítsd.",
+    "provideFullAddressDataWarning": "Kérlek a lakcímedhez tartozó összes adatot biztosítsd."
   },
   "action": {
     "add": "Felvétel",
