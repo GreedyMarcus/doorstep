@@ -66,6 +66,7 @@
     "noScheduledVisitInfo": "There are no scheduled visits yet.",
     "noInvitationInfo": "There are no pending invitations.",
     "filter": "Visit filter",
+    "invitationFilter": "Invitation filter",
     "fromDate": "Visits from date",
     "untilDate": "Visits until date",
     "scheduler": "Visit scheduler",

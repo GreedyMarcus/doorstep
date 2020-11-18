@@ -66,6 +66,7 @@
     "noScheduledVisitInfo": "Még nincsenek beütemezett látogatások.",
     "noInvitationInfo": "Nincsenek folyatban lévő meghívások.",
     "filter": "Látogatás Szűrő",
+    "invitationFilter": "Meghívás Szűrő",
     "fromDate": "Látogatások dátumtól",
     "untilDate": "Látogatások dátumig",
     "scheduler": "Látogatás ütemező",
