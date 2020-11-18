@@ -27,6 +27,7 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { activeGuestProfileSelector, fetchGuestInvitationProfile } from '../../store/visit'
+import { addNotification } from '../../store/action'
 import { identifierCardTypeStrings } from '../../data/enums/IdentifierCardType'
 import { ConsentFormVersionDetails } from '../../data/types/ConsentForm'
 import { getLocaleDateFormat } from '../../utils'
@@ -37,47 +38,114 @@ const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params
   const guestProfile = useSelector(activeGuestProfileSelector)
   const [t] = useTranslation()
 
-  const [nationality, bindNationality] = useInput('', true)
-  const [phoneNumber, bindPhoneNumber] = useInput('', true, REGEXP.PHONE_NUMBER)
-  const [birthplace, bindBirthplace] = useInput('', true)
-  const [birthDate, setBirthDate] = useState(null as Date | null)
+  const getIdentifierCardTypeIndex = () => {
+    if (guestProfile) {
+      const index = identifierCardTypeStrings.indexOf(guestProfile.guestDetails.identifierCardType)
+      return index === -1 ? 0 : index
+    }
+    return 0
+  }
 
-  const [motherName, bindMotherName] = useInput('', true)
-  const [identifierCardType, setIdentifierCardType] = useState(0)
-  const [identifierCardNumber, bindIdentifierCardNumber] = useInput('', true)
+  const [nationality, bindNationality, setNationalityRequired] = useInput(guestProfile?.guestDetails.nationality || '', false)
+  const [phoneNumber, bindPhoneNumber, setPhoneNumberRequired] = useInput(
+    guestProfile?.guestDetails.phoneNumber || '',
+    false,
+    REGEXP.PHONE_NUMBER
+  )
+  const [birthplace, bindBirthplace, setBirthplaceRequired] = useInput(guestProfile?.guestDetails.birthplace || '', false)
+  const [birthDate, setBirthDate] = useState(guestProfile?.guestDetails.birthDate as Date | null)
 
-  const [country, bindCountry] = useInput('', true)
-  const [zipCode, bindZipCode] = useInput('', true)
-  const [city, bindCity] = useInput('', true)
-  const [streetAddress, bindStreetAddress] = useInput('', true)
+  const [motherName, bindMotherName, setMotherNameRequired] = useInput(guestProfile?.guestDetails.motherName || '', false)
+  const [identifierCardType, setIdentifierCardType] = useState(getIdentifierCardTypeIndex())
+  const [identifierCardNumber, bindIdentifierCardNumber] = useInput(guestProfile?.guestDetails.identifierCardNumber || '', false)
 
-  const [companyName, bindCompanyName] = useInput('', true)
-  const [companyRegNumber, bindCompanyRegNumber] = useInput('', true, REGEXP.REGISTRATION_NUMBER)
+  const guestAddress = guestProfile?.guestDetails.address?.split(', ')
 
-  const [companyCountry, bindCompanyCountry] = useInput('', true)
-  const [companyZipCode, bindCompanyZipCode] = useInput('', true)
-  const [companyCity, bindCompanyCity] = useInput('', true)
-  const [companyStreetAddress, bindCompanyStreetAddress] = useInput('', true)
+  const [country, bindCountry, setCountryRequired] = useInput(guestAddress ? guestAddress[0] : '', false)
+  const [zipCode, bindZipCode, setZipCodeRequired] = useInput(guestAddress ? guestAddress[1] : '', false)
+  const [city, bindCity, setCityRequired] = useInput(guestAddress ? guestAddress[2] : '', false)
+  const [streetAddress, bindStreetAddress, setStreetAddressRequired] = useInput(guestAddress ? guestAddress[3] : '', false)
+
+  const [companyName, bindCompanyName, setCompanyNameRequired] = useInput(guestProfile?.guestDetails.company?.name || '', false)
+  const [regNumber, bindRegNumber, setRegNumberRequired] = useInput(
+    guestProfile?.guestDetails.company?.registrationNumber || '',
+    false,
+    REGEXP.REGISTRATION_NUMBER
+  )
+
+  const companyAddress = guestProfile?.guestDetails.company?.address?.split(', ')
+
+  const [companyCountry, bindCompanyCountry, setCompanyCountryRequired] = useInput(companyAddress ? companyAddress[0] : '', false)
+  const [companyZipCode, bindCompanyZipCode, setCompanyZipCodeRequired] = useInput(companyAddress ? companyAddress[0] : '', false)
+  const [companyCity, bindCompanyCity, setCompanyCityRequired] = useInput(companyAddress ? companyAddress[0] : '', false)
+  const [companyStreetAddress, bindCompanyStreetAddress, setCompanyStreetAddressRequired] = useInput(
+    companyAddress ? companyAddress[0] : '',
+    false
+  )
 
   const [openedFormVersion, setOpenedFormVersion] = useState(null as ConsentFormVersionDetails | null)
-  const [checked, setChecked] = React.useState([] as number[])
+  const [checked, setChecked] = React.useState(guestProfile?.consentFormVersionsAccepted || ([] as number[]))
 
   const toggle = (value: number) => {
-    const currentIndex = checked.indexOf(value)
     const newChecked = [...checked]
+    const currentIndex = checked.indexOf(value)
 
-    if (currentIndex === -1) {
-      newChecked.push(value)
-    } else {
-      newChecked.splice(currentIndex, 1)
+    currentIndex === -1 ? newChecked.push(value) : newChecked.splice(currentIndex, 1)
+    setChecked(newChecked)
+  }
+
+  const isGuestProfileDataValid = (): boolean => {
+    const inputFieldsValid = [
+      nationality,
+      phoneNumber,
+      birthplace,
+      motherName,
+      country,
+      zipCode,
+      city,
+      streetAddress,
+      companyName,
+      regNumber,
+      companyCountry,
+      companyZipCode,
+      companyCity,
+      companyStreetAddress
+    ].every(param => param.isValid)
+
+    return !!guestProfile?.companyRegisterConfig.storeBirthDate ? inputFieldsValid && !!birthDate : inputFieldsValid
+  }
+
+  const handleSave = () => {
+    if (!isGuestProfileDataValid()) {
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidGuestProfileData') }))
+      return
     }
 
-    setChecked(newChecked)
+    alert('GUEST PROFILE DATA IS SAVED!!!')
   }
 
   useEffect(() => {
     dispatch(fetchGuestInvitationProfile(routeParams['visitId']))
   }, [])
+
+  useEffect(() => {
+    setNationalityRequired(!!guestProfile?.companyRegisterConfig.storeNationality)
+    setPhoneNumberRequired(!!guestProfile?.companyRegisterConfig.storePhoneNumber)
+    setBirthplaceRequired(!!guestProfile?.companyRegisterConfig.storeBirthplace)
+    setMotherNameRequired(!!guestProfile?.companyRegisterConfig.storeMotherName)
+
+    setCountryRequired(!!guestProfile?.companyRegisterConfig.storeAddress)
+    setZipCodeRequired(!!guestProfile?.companyRegisterConfig.storeAddress)
+    setCityRequired(!!guestProfile?.companyRegisterConfig.storeAddress)
+    setStreetAddressRequired(!!guestProfile?.companyRegisterConfig.storeAddress)
+
+    setCompanyNameRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
+    setRegNumberRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
+    setCompanyCountryRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
+    setCompanyZipCodeRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
+    setCompanyCityRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
+    setCompanyStreetAddressRequired(!!guestProfile?.companyRegisterConfig.storeCompany)
+  }, [guestProfile])
 
   const invitationData = [
     { label: t('visit.organizingCompany'), text: guestProfile?.invitationInfo.companyName || '' },
@@ -107,7 +175,7 @@ const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params
 
   const companyDataSet = [
     { binding: bindCompanyName, label: t('company.name') },
-    { binding: bindCompanyRegNumber, label: t('company.registrationNumber') }
+    { binding: bindRegNumber, label: t('company.registrationNumber') }
   ]
 
   const companyAddressDataSet = [
@@ -247,11 +315,11 @@ const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params
               </Grid>
 
               <List className={classes.list}>
-                {guestProfile.consentFormVersionsToAccept.map((consentFormVersion, index) => (
+                {guestProfile.consentFormVersionsToAccept.map(consentFormVersion => (
                   <ListItem key={consentFormVersion.id}>
-                    <ListItemIcon onClick={() => toggle(index)}>
+                    <ListItemIcon onClick={() => toggle(consentFormVersion.id)}>
                       <Tooltip title={t('action.acceptConsentForm').toString()}>
-                        <Checkbox className={classes.checkbox} checked={checked.indexOf(index) !== -1} />
+                        <Checkbox className={classes.checkbox} checked={checked.indexOf(consentFormVersion.id) !== -1} />
                       </Tooltip>
                     </ListItemIcon>
                     <ListItemText primary={consentFormVersion.title} onClick={() => setOpenedFormVersion(consentFormVersion)} />
@@ -267,15 +335,7 @@ const GuestInvitationDetails: React.FC<RouteComponentProps> = ({ match: { params
               </List>
 
               <Grid className={classes.buttons} container justify="flex-end">
-                <Button className={classes.button} style={{ display: true ? 'inline' : 'none' }}>
-                  {t('action.cancel')}
-                </Button>
-                <Button
-                  className={classes.button}
-                  style={{ display: true ? 'inline' : 'none' }}
-                  variant="contained"
-                  color="primary"
-                >
+                <Button variant="contained" color="primary" onClick={handleSave}>
                   {t('action.save')}
                 </Button>
               </Grid>

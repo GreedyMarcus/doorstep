@@ -45,8 +45,5 @@ export default makeStyles(theme => ({
   },
   buttons: {
     padding: theme.spacing(0, 4, 3)
-  },
-  button: {
-    marginLeft: theme.spacing(2)
   }
 }))

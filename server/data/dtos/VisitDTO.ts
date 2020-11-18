@@ -1,6 +1,6 @@
 import { GuestUserRegisterDTO, UserShortInfoDTO } from './UserDTO'
 import { ConsentFormVersionDetailsDTO } from './ConsentFormDTO'
-import { CompanyShortInfoDTO } from './CompanyDTO'
+import { CompanyRegisterConfigDTO, CompanyShortInfoDTO } from './CompanyDTO'
 
 export interface VisitInfoDTO {
   id: number
@@ -97,4 +97,5 @@ export interface GuestInvitationDetailsDTO {
   guestDetails: VisitGuestDetailsDTO
   consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[]
   consentFormVersionsAccepted: number[] // To store consent form version ids
+  companyRegisterConfig: CompanyRegisterConfigDTO
 }

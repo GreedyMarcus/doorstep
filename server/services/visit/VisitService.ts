@@ -2,6 +2,7 @@ import Boom from '@hapi/boom'
 import TYPES from '../../config/types'
 import VisitServiceInterface from './VisitServiceInterface'
 import { inject, injectable } from 'inversify'
+import { CompanyServiceInterface } from '../company'
 import { VisitRepositoryInterface } from '../../repositories/visit'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { GuestInvitationInfoDTO, VisitDetailsDTO, VisitGuestInfoDTO, GuestInvitationDetailsDTO } from '../../data/dtos/VisitDTO'
@@ -9,13 +10,16 @@ import { ConsentFormVersionDetailsDTO } from '../../data/dtos/ConsentFormDTO'
 
 @injectable()
 class VisitService implements VisitServiceInterface {
+  private readonly companyService: CompanyServiceInterface
   private readonly visitRepository: VisitRepositoryInterface
   private readonly userRepository: UserRepositoryInterface
 
   constructor(
+    @inject(TYPES.CompanyService) companyService: CompanyServiceInterface,
     @inject(TYPES.VisitRepository) visitRepository: VisitRepositoryInterface,
     @inject(TYPES.UserRepository) userRepository: UserRepositoryInterface
   ) {
+    this.companyService = companyService
     this.visitRepository = visitRepository
     this.userRepository = userRepository
   }
@@ -119,6 +123,11 @@ class VisitService implements VisitServiceInterface {
       throw Boom.notFound('Guest user does not exist.')
     }
 
+    const companyRegisterConfig = await this.companyService.getCompanyConfig(foundVisit.company.id)
+    if (!companyRegisterConfig) {
+      throw Boom.notFound('Company register config does not exist.')
+    }
+
     const officeAddress = foundVisit.company.officeBuilding.address
     const visitAddress = visitGuest.address
     const consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[] = foundVisit.consentFormVersions.map(version => ({
@@ -177,7 +186,8 @@ class VisitService implements VisitServiceInterface {
         participationStatus: visitGuest.participationStatus
       },
       consentFormVersionsToAccept,
-      consentFormVersionsAccepted
+      consentFormVersionsAccepted,
+      companyRegisterConfig
     }
 
     return visitDetails

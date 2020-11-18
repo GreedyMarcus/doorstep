@@ -1,5 +1,5 @@
 import { GuestUserRegister, UserShortInfo } from './User'
-import { CompanyShortInfo } from './Company'
+import { CompanyConfig, CompanyShortInfo } from './Company'
 import { ConsentFormVersionDetails } from './ConsentForm'
 
 export type VisitInfo = {
@@ -87,5 +87,6 @@ export type GuestInvitationDetails = {
   invitationInfo: GuestInvitationInfo
   guestDetails: VisitGuestDetails
   consentFormVersionsToAccept: ConsentFormVersionDetails[]
-  consentFormVersionsAccepted: number[] // To store consent form version ids
+  consentFormVersionsAccepted: number[] // To store consent form version ids,
+  companyRegisterConfig: CompanyConfig
 }

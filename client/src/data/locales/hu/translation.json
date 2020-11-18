@@ -128,6 +128,7 @@
     "invalidBusinessHostData": "Érvénytelen céges fogadó adat formátum",
     "invalidGuestData": "Érvénytelen vendég adat formátum",
     "invalidVisitData": "Érvénytelen látogatás adat formátum",
+    "invalidGuestProfileData": "Érvénytelen vendég adat formátum",
     "duplicatedGuest": "A vendég már szerepel a listában.",
     "loginSuccess": "Sikeres bejelentkezés",
     "loginFailure": "Hibás email cím vagy jelszó",
