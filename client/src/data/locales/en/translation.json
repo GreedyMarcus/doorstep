@@ -14,6 +14,7 @@
     "visits": "Visits",
     "plannedVisits": "Planned visits",
     "invitations": "Invitations",
+    "receptionists": "Receptionists",
     "details": "Details",
     "settings": "Settings",
     "unknown": "Unknown",
@@ -21,7 +22,9 @@
     "additionalData": "Additional data"
   },
   "building": {
-    "receptionistDetails": "Receptionist details"
+    "receptionistDetails": "Receptionist details",
+    "noReceptionistsInfo": "You have not added any receptionists yet.",
+    "receptionistName": "Receptionist name"
   },
   "company": {
     "name": "Company name",

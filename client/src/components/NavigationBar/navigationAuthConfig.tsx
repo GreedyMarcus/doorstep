@@ -38,7 +38,8 @@ export const navigationAuthConfig = {
   navigations: {
     [UserRole.ADMIN]: [
       { id: 'ADMIN-NAV-1', route: routes.COMPANIES, label: i18n.t('general.companies') },
-      { id: 'ADMIN-NAV-2', route: routes.CONSENT_FORMS, label: i18n.t('general.consentForms') }
+      { id: 'ADMIN-NAV-2', route: routes.CONSENT_FORMS, label: i18n.t('general.consentForms') },
+      { id: 'ADMIN-NAV-3', route: routes.RECEPTIONISTS, label: i18n.t('general.receptionists') }
     ],
     [UserRole.COMPANY_ADMIN]: [
       { id: 'COMPANY-ADMIN-NAV-1', route: routes.VISITS, label: i18n.t('general.visits') },

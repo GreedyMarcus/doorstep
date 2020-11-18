@@ -14,6 +14,7 @@
     "visits": "Látogatások",
     "plannedVisits": "Tervezett látogatások",
     "invitations": "Meghívások",
+    "receptionists": "Recepciósok",
     "details": "Részletek",
     "settings": "Beállítások",
     "unknown": "Nem ismert",
@@ -21,7 +22,9 @@
     "additionalData": "További adatok"
   },
   "building": {
-    "receptionistDetails": "Recepciós adatai"
+    "receptionistDetails": "Recepciós adatai",
+    "noReceptionistsInfo": "Még nem vettél fel recepciós személyeket.",
+    "receptionistName": "Recepciós neve"
   },
   "company": {
     "name": "Cégnév",
