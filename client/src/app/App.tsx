@@ -14,6 +14,9 @@ import PlannedVisits from '../pages/PlannedVisits'
 import GuestInvitations from '../pages/GuestInvitations'
 import GuestInvitationDetails from '../pages/GuestInvitationDetails'
 import Receptionists from '../pages/Receptionists'
+import Invitations from '../pages/Invitations'
+import InvitationDetails from '../pages/InvitationDetails'
+import VisitGuest from '../pages/VisitGuest'
 import NavigationBar from '../components/NavigationBar'
 import ProtectedRoute from '../components/ProtectedRoute'
 import ActionTracker from '../components/ActionTracker'
@@ -78,6 +81,9 @@ const App = () => {
         <ProtectedRoute exact path={routes.GUEST_INVITATIONS} auth={[UserRole.GUEST]} Component={GuestInvitations} />
         <ProtectedRoute exact path={routes.GUEST_INVITATION_DETAILS} auth={[UserRole.GUEST]} Component={GuestInvitationDetails} />
         <ProtectedRoute exact path={routes.RECEPTIONISTS} auth={[UserRole.ADMIN]} Component={Receptionists} />
+        <ProtectedRoute exact path={routes.INVITATIONS} auth={[UserRole.RECEPTIONIST]} Component={Invitations} />
+        <ProtectedRoute exact path={routes.INVITATION_DETAILS} auth={[UserRole.RECEPTIONIST]} Component={InvitationDetails} />
+        <ProtectedRoute exact path={routes.INVITATION_GUEST} auth={[UserRole.RECEPTIONIST]} Component={VisitGuest} />
         <Redirect from="*" to={routes.LOGIN} />
       </Switch>
       <ActionTracker />

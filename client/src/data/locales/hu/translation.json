@@ -15,6 +15,7 @@
     "plannedVisits": "Tervezett látogatások",
     "invitations": "Meghívások",
     "receptionists": "Recepciósok",
+    "guest": "Vendég",
     "details": "Részletek",
     "settings": "Beállítások",
     "unknown": "Nem ismert",
@@ -54,7 +55,9 @@
     "noConsentFormsInfo": "Még nem vettél fel nyilatkozatokat.",
     "noActiveVersion": "Nincs aktív verzió",
     "openedVersion": "Megnyitott verzió",
-    "notFound": "A nyilatkozat nem létezik."
+    "notFound": "A nyilatkozat nem létezik.",
+    "accepted": "Elfogadott nyilatkozat",
+    "notAccepted": "Nem elfogadott nyilatkozat"
   },
   "visit": {
     "businessHostName": "Céges fogadó neve",
@@ -66,6 +69,7 @@
     "noScheduledVisitInfo": "Még nincsenek beütemezett látogatások.",
     "noInvitationInfo": "Nincsenek folyatban lévő meghívások.",
     "filter": "Látogatás Szűrő",
+    "invitationFilter": "Meghívás Szűrő",
     "fromDate": "Látogatások dátumtól",
     "untilDate": "Látogatások dátumig",
     "scheduler": "Látogatás ütemező",
@@ -101,7 +105,8 @@
     "canceled": "Elutasította a meghívást",
     "participated": "Részt vett a találkozón",
     "missed": "Nem jelent meg",
-    "details": "Vendég adatai"
+    "details": "Vendég adatai",
+    "notFound": "A vendég nem létezik."
   },
   "auth": {
     "email": "Email cím",
@@ -161,6 +166,7 @@
     "fetchGuestInvitationsFailure": "Nem sikerült betölteni a vendéghez tartozó meghívásokat.",
     "fetchGuestInvitationProfileFailure": "Nem sikerült betölteni a vendéghez tartozó adatlapot.",
     "fetchReceptionistsFailure": "Nem sikerült betölteni a recepciós személyeket.",
+    "fetchInvitationsFailure": "Nem sikerült betölteni a meghívásokat.",
     "registerCompanySuccess": "Sikeresen regisztráltad a céget.",
     "registerCompanyFailure": "Nem sikerült regisztrálni a céget.",
     "createConsentFormSuccess": "Sikeresen létrehoztad a nyilatkozatot.",
@@ -209,12 +215,14 @@
     "openConsentForm": "Nyilatkozat megnyitása",
     "openVisit": "Látogatás megnyitása",
     "openInvitation": "Meghívás megnyitása",
+    "openGuest": "Vendég megnyitása",
     "acceptConsentForm": "Nyilatkozat elfogadása",
     "cancel": "Mégse",
     "save": "Mentés",
     "ok": "Ok",
     "activate": "Aktiválás",
-    "clear": "Törlés"
+    "clear": "Törlés",
+    "close": "Bezárás"
   },
   "enum": {
     "identity_card": "Személyi igazolvány",

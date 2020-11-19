@@ -4,6 +4,7 @@ import container from '../config/inversify.config'
 import { Request, Response, NextFunction } from 'express'
 import { VisitRepositoryInterface } from '../repositories/visit'
 import { UserRepositoryInterface } from '../repositories/user'
+import { UserRoleType } from '../data/enums/UserRoleType'
 
 /**
  * Custom middleware that verifies if the user has association with the specified visit.
@@ -20,6 +21,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   }
 
   const user = await userRepository.findUserById(res.locals.userId)
+  if (user.role.name === UserRoleType.RECEPTIONIST) {
+    return next()
+  }
+
   if (!user || user.company.id !== visit.company.id) {
     return next(Boom.forbidden('User does not belong to the visit.'))
   }

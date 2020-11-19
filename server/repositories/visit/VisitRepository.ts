@@ -56,6 +56,15 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
       .getMany()
   }
 
+  public findVisitsByBuildingId(buildingId: number): Promise<Visit[]> {
+    return getRepository(Visit)
+      .createQueryBuilder('visit')
+      .leftJoinAndSelect('visit.businessHost', 'businessHost')
+      .leftJoinAndSelect('visit.company', 'company')
+      .where('company.officeBuilding = :buildingId', { buildingId })
+      .getMany()
+  }
+
   public findVisitsByGuestUserId(userId: number): Promise<Visit[]> {
     return getRepository(Visit)
       .createQueryBuilder('visit')

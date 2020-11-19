@@ -4,6 +4,7 @@ import { OfficeBuildingRegister } from '../data/types/OfficeBuilding'
 import { CompanyInfo, CompanyRegister } from '../data/types/Company'
 import { ConsentFormInfo, ConsentFormCreate } from '../data/types/ConsentForm'
 import { EmployeeInfo, UserRegister, UserUpdate } from '../data/types/User'
+import { InvitationInfo } from '../data/types/Visit'
 
 /**
  * Wrapper class that manages API calls to the office building related endpoints.
@@ -83,6 +84,16 @@ class OfficeBuildingService {
 
     const result = await axios.put(url, data, config)
     return result.data as EmployeeInfo
+  }
+
+  public static async getInvitations(buildingId: number): Promise<InvitationInfo[]> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${OfficeBuildingService.API_BASE}/${buildingId}/invitations`
+    const config = { headers: authHeader }
+
+    const result = await axios.get(url, config)
+    return result.data as InvitationInfo[]
   }
 }
 

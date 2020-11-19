@@ -16,6 +16,11 @@ export const plannedVisitsSelector = (state: RootState) => state.visit.plannedVi
 export const guestInvitationsSelector = (state: RootState) => state.visit.guestInvitations
 
 /**
+ * Returns all visits belong to the current office building.
+ */
+export const invitationsSelector = (state: RootState) => state.visit.invitations
+
+/**
  * Returns the selected visit.
  */
 export const activeVisitSelector = (state: RootState) => state.visit.activeVisit

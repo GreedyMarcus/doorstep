@@ -12,6 +12,7 @@ class UserRepository extends Repository<User> implements UserRepositoryInterface
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.role', 'role')
       .leftJoinAndSelect('user.company', 'company')
+      .leftJoinAndSelect('user.officeBuilding', 'officeBuilding')
       .where('user.id = :userId', { userId })
       .getOne()
   }
@@ -21,6 +22,7 @@ class UserRepository extends Repository<User> implements UserRepositoryInterface
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.role', 'role')
       .leftJoinAndSelect('user.company', 'company')
+      .leftJoinAndSelect('user.officeBuilding', 'officeBuilding')
       .where('user.email = :email', { email })
       .getOne()
   }

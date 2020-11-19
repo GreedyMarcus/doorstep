@@ -39,10 +39,15 @@ class AuthService implements AuthServiceInterface {
       throw Boom.badRequest('Wrong password.')
     }
 
-    // Load building if user is admin
-    let foundBuilding
+    // Get building id if user is admin or receptionist
+    let buildingId
     if (foundUser.role.name === UserRoleType.ADMIN) {
-      foundBuilding = await this.officeBuildingRepository.findBuildingByAdminId(foundUser.id)
+      const foundBuilding = await this.officeBuildingRepository.findBuildingByAdminId(foundUser.id)
+      buildingId = foundBuilding.id
+    }
+
+    if (foundUser.role.name === UserRoleType.RECEPTIONIST) {
+      buildingId = foundUser.officeBuilding.id
     }
 
     // Create new JWT token and assign it to user
@@ -53,7 +58,7 @@ class AuthService implements AuthServiceInterface {
       lastName: foundUser.lastName,
       email: foundUser.email,
       role: foundUser.role.name,
-      buildingId: foundBuilding?.id,
+      buildingId,
       companyId: foundUser.company?.id,
       token
     }
@@ -67,10 +72,15 @@ class AuthService implements AuthServiceInterface {
       throw Boom.notFound('User does not exist.')
     }
 
-    // Load building if user is admin
-    let foundBuilding
+    // Get building id if user is admin or receptionist
+    let buildingId
     if (foundUser.role.name === UserRoleType.ADMIN) {
-      foundBuilding = await this.officeBuildingRepository.findBuildingByAdminId(foundUser.id)
+      const foundBuilding = await this.officeBuildingRepository.findBuildingByAdminId(foundUser.id)
+      buildingId = foundBuilding.id
+    }
+
+    if (foundUser.role.name === UserRoleType.RECEPTIONIST) {
+      buildingId = foundUser.officeBuilding.id
     }
 
     const currentUser: UserInfoDTO = {
@@ -79,7 +89,7 @@ class AuthService implements AuthServiceInterface {
       lastName: foundUser.lastName,
       email: foundUser.email,
       role: foundUser.role.name,
-      buildingId: foundBuilding?.id,
+      buildingId,
       companyId: foundUser.company?.id
     }
 

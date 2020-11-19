@@ -19,6 +19,11 @@ interface VisitRepositoryInterface {
   findPlannedVisitsByHostId(companyId: number): Promise<Visit[]>
 
   /**
+   * Returns all visits that has the specified building id.
+   */
+  findVisitsByBuildingId(buildingId: number): Promise<Visit[]>
+
+  /**
    * Returns all upcoming visits that has the specified guest user id.
    */
   findVisitsByGuestUserId(userId: number): Promise<Visit[]>

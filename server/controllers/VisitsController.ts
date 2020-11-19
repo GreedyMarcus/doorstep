@@ -21,6 +21,17 @@ class VisitsController {
     }
   }
 
+  public getVisitGuestById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const visitId = Number(req.params.visitId)
+      const guestId = Number(req.params.guestId)
+      const visitGuest = await this.visitService.getVisitGuestById(visitId, guestId)
+      res.json(visitGuest)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
   public getGuestInvitations = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = Number(req.params.userId)

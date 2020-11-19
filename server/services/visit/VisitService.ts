@@ -86,6 +86,74 @@ class VisitService implements VisitServiceInterface {
     return visitDetails
   }
 
+  public getVisitGuestById = async (visitId: number, guestId: number): Promise<GuestInvitationDetailsDTO> => {
+    const foundVisit = await this.visitRepository.findVisitById(visitId)
+    if (!foundVisit) {
+      throw Boom.notFound('Visit does not exist.')
+    }
+
+    const visitGuest = foundVisit.guests.filter(guest => guest.id === guestId)[0]
+    if (!visitGuest) {
+      throw Boom.notFound('Guest user does not exist.')
+    }
+
+    const companyRegisterConfig = await this.companyService.getCompanyConfig(foundVisit.company.id)
+    if (!companyRegisterConfig) {
+      throw Boom.notFound('Company register config does not exist.')
+    }
+
+    const visitAddress = visitGuest.address
+    const consentFormVersionsToAccept: ConsentFormVersionDetailsDTO[] = foundVisit.consentFormVersions.map(version => ({
+      id: version.id,
+      title: version.consentForm.title,
+      content: version.content
+    }))
+    const consentFormVersionsAccepted: number[] = visitGuest.consentFormVersions.map(version => version.id)
+
+    const visitDetails: GuestInvitationDetailsDTO = {
+      guestDetails: {
+        id: visitGuest.id,
+        user: {
+          email: visitGuest.user.email,
+          fullName: `${visitGuest.user.firstName} ${visitGuest.user.lastName}`
+        },
+        nationality: visitGuest.nationality,
+        phoneNumber: visitGuest.phoneNumber,
+        birthplace: visitGuest.birthplace,
+        birthDate: visitGuest.birthDate,
+        motherName: visitGuest.motherName,
+        address: visitAddress
+          ? `${visitAddress.country}, ${visitAddress.zipCode}, ${visitAddress.city}, ${visitAddress.streetAddress}`
+          : null,
+        identifierCardType: visitGuest.identifierCardType,
+        identifierCardNumber: visitGuest.identifierCardNumber,
+        company: !visitGuest.company
+          ? null
+          : {
+              name: visitGuest.company.name,
+              registrationNumber: visitGuest.company.registrationNumber,
+              address: visitGuest.company.address
+                ? `${visitGuest.company.address.country}, ${visitGuest.company.address.zipCode}, ${visitGuest.company.address.city}, ${visitGuest.company.address.streetAddress}`
+                : null
+            },
+        imageUrl: visitGuest.imageUrl,
+        signatureImageUrl: visitGuest.signatureImageUrl,
+        actualEntry: visitGuest.actualEntry,
+        actualExit: visitGuest.actualExit,
+        receptionistName: visitGuest.receptionist
+          ? `${visitGuest.receptionist.firstName} ${visitGuest.receptionist.lastName}`
+          : null,
+        guestCardNumber: visitGuest.guestCard ? visitGuest.guestCard.identifierNumber : null,
+        participationStatus: visitGuest.participationStatus
+      },
+      consentFormVersionsToAccept,
+      consentFormVersionsAccepted,
+      companyRegisterConfig
+    }
+
+    return visitDetails
+  }
+
   public getGuestInvitations = async (userId: number): Promise<GuestInvitationInfoDTO[]> => {
     const foundUser = await this.userRepository.findUserById(userId)
     if (!foundUser) {

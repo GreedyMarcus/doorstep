@@ -15,6 +15,7 @@
     "plannedVisits": "Planned visits",
     "invitations": "Invitations",
     "receptionists": "Receptionists",
+    "guest": "Guest",
     "details": "Details",
     "settings": "Settings",
     "unknown": "Unknown",
@@ -54,7 +55,9 @@
     "noConsentFormsInfo": "You have not added any consent forms yet.",
     "noActiveVersion": "No active version",
     "openedVersion": "Opened version",
-    "notFound": "Consent form does not exist."
+    "notFound": "Consent form does not exist.",
+    "accepted": "Accepted consent form",
+    "notAccepted": "Not accepted consent form"
   },
   "visit": {
     "businessHostName": "Business host name",
@@ -66,6 +69,7 @@
     "noScheduledVisitInfo": "There are no scheduled visits yet.",
     "noInvitationInfo": "There are no pending invitations.",
     "filter": "Visit filter",
+    "invitationFilter": "Invitation filter",
     "fromDate": "Visits from date",
     "untilDate": "Visits until date",
     "scheduler": "Visit scheduler",
@@ -101,7 +105,8 @@
     "canceled": "Canceled the invitation",
     "participated": "Participated in the visit",
     "missed": "Missed the visit",
-    "details": "Guest details"
+    "details": "Guest details",
+    "notFound": "Guest does not exist."
   },
   "auth": {
     "email": "Email address",
@@ -161,6 +166,7 @@
     "fetchGuestInvitationsFailure": "Could not load invitations for guest.",
     "fetchGuestInvitationProfileFailure": "Could not load guest profile.",
     "fetchReceptionistsFailure": "Could not load receptionists",
+    "fetchInvitationsFailure": "Could not load invitations",
     "registerCompanySuccess": "Successful company registration",
     "registerCompanyFailure": "Could not register company",
     "createConsentFormSuccess": "Successful consent form creation",
@@ -209,12 +215,14 @@
     "openConsentForm": "Open consent form",
     "openVisit": "Open visit",
     "openInvitation": "Open invitation",
+    "openGuest": "Open guest",
     "acceptConsentForm": "Accept consent form",
     "cancel": "Cancel",
     "save": "Save",
     "ok": "Ok",
     "activate": "Activate",
-    "clear": "Clear"
+    "clear": "Clear",
+    "close": "Close"
   },
   "enum": {
     "identity_card": "Identity card",

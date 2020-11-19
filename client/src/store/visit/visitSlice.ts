@@ -8,16 +8,19 @@ import {
   VisitInfo,
   VisitCreate,
   PlannedVisitInfo,
+  InvitationInfo,
   VisitDetails,
   GuestInvitationInfo,
   GuestInvitationDetails,
   GuestUpdateByUser
 } from '../../data/types/Visit'
+import OfficeBuildingService from '../../services/OfficeBuildingService'
 
 type VisitSliceState = {
   visits: VisitInfo[]
   plannedVisits: PlannedVisitInfo[]
   guestInvitations: GuestInvitationInfo[]
+  invitations: InvitationInfo[]
   activeVisit: VisitDetails | null
   activeGuestProfile: GuestInvitationDetails | null
 }
@@ -26,6 +29,7 @@ const initialState: VisitSliceState = {
   visits: [],
   plannedVisits: [],
   guestInvitations: [],
+  invitations: [],
   activeVisit: null,
   activeGuestProfile: {} as GuestInvitationDetails
 }
@@ -48,6 +52,9 @@ const visitSlice = createSlice({
     },
     guestInvitationsFetched: (state, { payload }: PayloadAction<GuestInvitationInfo[]>) => {
       state.guestInvitations = payload
+    },
+    invitationsFetched: (state, { payload }: PayloadAction<InvitationInfo[]>) => {
+      state.invitations = payload
     },
     singleVisitFetched: (state, { payload }: PayloadAction<VisitDetails>) => {
       state.activeVisit = payload
@@ -72,6 +79,7 @@ const {
   visitCreated,
   plannedVisitsFetched,
   guestInvitationsFetched,
+  invitationsFetched,
   singleVisitFetched,
   guestProfileFetched
 } = visitSlice.actions
@@ -138,6 +146,26 @@ export const fetchGuestInvitations = () => async (dispatch: AppDispatch, getStat
 }
 
 /**
+ * Calls company service to load all scheduled visits for the current business host.
+ */
+export const fetchInvitations = () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    const buildingId = user.activeUser?.buildingId ?? -1
+    const invitations = await OfficeBuildingService.getInvitations(buildingId)
+
+    dispatch(invitationsFetched(invitations))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchInvitationsFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
  * Calls visit service to load the visit specified by id.
  */
 export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch) => {
@@ -155,7 +183,26 @@ export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch)
 }
 
 /**
- * Calls visit service to load the visit specified by id.
+ * Calls visit service to load the guest data specified by the visit.
+ */
+export const fetchVisitGuest = (visitId: number, guestId: number) => async (dispatch: AppDispatch) => {
+  dispatch(guestProfileFetched({} as GuestInvitationDetails))
+  dispatch(setLoading(true))
+
+  try {
+    const visitGuest = await VisitService.getVisitGuestById(visitId, guestId)
+
+    dispatch(guestProfileFetched(visitGuest))
+  } catch (err) {
+    dispatch(guestProfileFetched(null))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfileFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls visit service to load the guest profile specified by the visit.
  */
 export const fetchGuestInvitationProfile = (visitId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()

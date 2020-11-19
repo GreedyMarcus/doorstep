@@ -18,6 +18,15 @@ export type PlannedVisitInfo = {
   plannedEntry: Date
 }
 
+export type InvitationInfo = {
+  id: number
+  companyName: string
+  businessHostName: string
+  purpose: string
+  room: string
+  plannedEntry: Date
+}
+
 export type VisitCreate = {
   businessHostId: number
   purpose: string
@@ -85,7 +94,7 @@ export type GuestInvitationInfo = {
 }
 
 export type GuestInvitationDetails = {
-  invitationInfo: GuestInvitationInfo
+  invitationInfo?: GuestInvitationInfo
   guestDetails: VisitGuestDetails
   consentFormVersionsToAccept: ConsentFormVersionDetails[]
   consentFormVersionsAccepted: number[] // To store consent form version ids,

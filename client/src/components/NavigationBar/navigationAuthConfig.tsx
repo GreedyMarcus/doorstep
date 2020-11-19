@@ -95,9 +95,7 @@ export const navigationAuthConfig = {
         renderComponent: onActionFinish => <VisitSchedulerDialog onClose={onActionFinish} />
       }
     ],
-    [UserRole.RECEPTIONIST]: [
-      { id: 'RECEPTIONIST-ACTION-1', title: i18n.t('action.addVisit'), icon: <InsertInvitationRoundedIcon /> }
-    ],
+    [UserRole.RECEPTIONIST]: [],
     [UserRole.GUEST]: []
   }
 } as NavigationAuthConfig

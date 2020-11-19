@@ -3,6 +3,7 @@ import container from '../config/inversify.config'
 import VisitsController from '../controllers/VisitsController'
 import checkValidNumberParams from '../middlewares/checkValidNumberParams'
 import checkValidToken from '../middlewares/checkValidToken'
+import hasPermission from '../middlewares/hasPermission'
 import hasAnyPermission from '../middlewares/hasAnyPermission'
 import belongsToVisit from '../middlewares/belongsToVisit'
 import ownsAccount from '../middlewares/ownsAccount'
@@ -23,6 +24,18 @@ visitsRouter.get(
   hasAnyPermission([UserPermissionType.READ_VISITS, UserPermissionType.CREATE_VISITS]),
   belongsToVisit,
   visitsController.getVisitById
+)
+
+/**
+ * GET - Returns the guest that belongs to the specified visit.
+ */
+visitsRouter.get(
+  '/:visitId/guests/:guestId',
+  checkValidNumberParams(['visitId', 'guestId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.READ_VISITS]),
+  belongsToVisit,
+  visitsController.getVisitGuestById
 )
 
 /**

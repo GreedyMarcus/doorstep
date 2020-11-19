@@ -2,6 +2,7 @@ import { OfficeBuildingRegisterDTO } from '../../data/dtos/OfficeBuildingDTO'
 import { CompanyInfoDTO, CompanyRegisterDTO, EmployeeInfoDTO } from '../../data/dtos/CompanyDTO'
 import { ConsentFormCreateDTO, ConsentFormInfoDTO } from '../../data/dtos/ConsentFormDTO'
 import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
+import { InvitationInfoDTO } from '../../data/dtos/VisitDTO'
 
 interface OfficeBuildingServiceInterface {
   /**
@@ -43,6 +44,11 @@ interface OfficeBuildingServiceInterface {
    * Updates the specified receptionist with provided data.
    */
   updateReceptionist(buildingId: number, receptionistId: number, data: UserUpdateDTO): Promise<EmployeeInfoDTO>
+
+  /**
+   * Returns all the invitations for the specified building.
+   */
+  getInvitations(buildingId: number): Promise<InvitationInfoDTO[]>
 }
 
 export default OfficeBuildingServiceInterface
