@@ -50,6 +50,7 @@ const Visits: React.FC = () => {
               </Tooltip>
             </Grid>
           </Grid>
+
           {!visits.length ? (
             <InfoBox text={t('visit.noVisitInfo')} type="info" />
           ) : (

@@ -17,6 +17,7 @@ export const routes = {
   PLANNED_VISITS: '/planned-visits',
   INVITATIONS: '/invitations',
   INVITATION_DETAILS: '/invitations/:visitId',
+  INVITATION_GUEST: '/invitations/:visitId/guests/:guestId',
   GUEST_INVITATIONS: '/guest-invitations',
   GUEST_INVITATION_DETAILS: '/guest-invitations/:visitId',
   RECEPTIONISTS: '/receptionists'

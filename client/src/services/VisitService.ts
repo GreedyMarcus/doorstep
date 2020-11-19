@@ -18,6 +18,16 @@ class ConsentFormService {
     return result.data as VisitDetails
   }
 
+  public static async getVisitGuestById(visitId: number, guestId: number): Promise<GuestInvitationDetails> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${ConsentFormService.API_BASE}/${visitId}/guests/${guestId}`
+    const config = { headers: authHeader }
+
+    const result = await axios.get(url, config)
+    return result.data as GuestInvitationDetails
+  }
+
   public static async getGuestInvitations(userId: number): Promise<GuestInvitationInfo[]> {
     const authHeader = AuthService.getAuthHeader()
 

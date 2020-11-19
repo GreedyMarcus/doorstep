@@ -99,7 +99,7 @@ const InvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: rou
                   participationStatus: t(`guest.${guest.participationStatus}`)
                 }))}
                 tooltipLabel={t('action.openGuest')}
-                onOpenClick={guestId => history.push(`/guests/${guestId}`)}
+                onOpenClick={guestId => history.push(`/invitations/${routeParams['visitId']}/guests/${guestId}`)}
               />
 
               <Typography className={classes.listSectionTitle} component="h2">

@@ -183,7 +183,26 @@ export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch)
 }
 
 /**
- * Calls visit service to load the visit specified by id.
+ * Calls visit service to load the guest data specified by the visit.
+ */
+export const fetchVisitGuest = (visitId: number, guestId: number) => async (dispatch: AppDispatch) => {
+  dispatch(guestProfileFetched({} as GuestInvitationDetails))
+  dispatch(setLoading(true))
+
+  try {
+    const visitGuest = await VisitService.getVisitGuestById(visitId, guestId)
+
+    dispatch(guestProfileFetched(visitGuest))
+  } catch (err) {
+    dispatch(guestProfileFetched(null))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfileFailure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls visit service to load the guest profile specified by the visit.
  */
 export const fetchGuestInvitationProfile = (visitId: number) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const { user } = getState()

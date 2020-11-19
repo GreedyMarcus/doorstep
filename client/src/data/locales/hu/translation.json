@@ -15,6 +15,7 @@
     "plannedVisits": "Tervezett látogatások",
     "invitations": "Meghívások",
     "receptionists": "Recepciósok",
+    "guest": "Vendég",
     "details": "Részletek",
     "settings": "Beállítások",
     "unknown": "Nem ismert",
@@ -54,7 +55,9 @@
     "noConsentFormsInfo": "Még nem vettél fel nyilatkozatokat.",
     "noActiveVersion": "Nincs aktív verzió",
     "openedVersion": "Megnyitott verzió",
-    "notFound": "A nyilatkozat nem létezik."
+    "notFound": "A nyilatkozat nem létezik.",
+    "accepted": "Elfogadott nyilatkozat",
+    "notAccepted": "Nem elfogadott nyilatkozat"
   },
   "visit": {
     "businessHostName": "Céges fogadó neve",
@@ -102,7 +105,8 @@
     "canceled": "Elutasította a meghívást",
     "participated": "Részt vett a találkozón",
     "missed": "Nem jelent meg",
-    "details": "Vendég adatai"
+    "details": "Vendég adatai",
+    "notFound": "A vendég nem létezik."
   },
   "auth": {
     "email": "Email cím",
@@ -217,7 +221,8 @@
     "save": "Mentés",
     "ok": "Ok",
     "activate": "Aktiválás",
-    "clear": "Törlés"
+    "clear": "Törlés",
+    "close": "Bezárás"
   },
   "enum": {
     "identity_card": "Személyi igazolvány",

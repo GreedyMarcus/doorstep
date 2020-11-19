@@ -186,16 +186,16 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
   }
 
   const invitationData = [
-    { label: t('visit.organizingCompany'), text: guestProfile?.invitationInfo.companyName || '' },
-    { label: t('visit.location'), text: guestProfile?.invitationInfo.buildingAddress || '' },
-    { label: t('visit.purpose'), text: guestProfile?.invitationInfo.purpose || '' },
-    { label: t('visit.businessHostName'), text: guestProfile?.invitationInfo.businessHost.fullName || '' },
-    { label: t('visit.businessHostEmail'), text: guestProfile?.invitationInfo.businessHost.email || '' },
+    { label: t('visit.organizingCompany'), text: guestProfile?.invitationInfo?.companyName || '' },
+    { label: t('visit.location'), text: guestProfile?.invitationInfo?.buildingAddress || '' },
+    { label: t('visit.purpose'), text: guestProfile?.invitationInfo?.purpose || '' },
+    { label: t('visit.businessHostName'), text: guestProfile?.invitationInfo?.businessHost.fullName || '' },
+    { label: t('visit.businessHostEmail'), text: guestProfile?.invitationInfo?.businessHost.email || '' },
     {
       label: t('visit.plannedEntry'),
-      text: guestProfile ? getLocaleDateFormat(new Date(guestProfile.invitationInfo.plannedEntry)) : ''
+      text: guestProfile?.invitationInfo ? getLocaleDateFormat(new Date(guestProfile.invitationInfo.plannedEntry)) : ''
     },
-    { label: t('visit.room'), text: guestProfile?.invitationInfo.room || '' }
+    { label: t('visit.room'), text: guestProfile?.invitationInfo?.room || '' }
   ]
 
   const basicDataSet = [

@@ -94,7 +94,7 @@ export type GuestInvitationInfo = {
 }
 
 export type GuestInvitationDetails = {
-  invitationInfo: GuestInvitationInfo
+  invitationInfo?: GuestInvitationInfo
   guestDetails: VisitGuestDetails
   consentFormVersionsToAccept: ConsentFormVersionDetails[]
   consentFormVersionsAccepted: number[] // To store consent form version ids,
