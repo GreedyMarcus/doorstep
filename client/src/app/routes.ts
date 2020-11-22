@@ -1,40 +1,161 @@
+import { RouteProps } from 'react-router-dom'
 import { UserRole } from '../data/enums/UserRole'
+import Login from '../pages/Login'
+import Register from '../pages/Register'
+import ForgotPassword from '../pages/ForgotPassword'
+import ResetPassword from '../pages/ResetPassword'
+import Companies from '../pages/Companies'
+import Receptionists from '../pages/Receptionists'
+import BusinessHosts from '../pages/BusinessHosts'
+import ConsentForms from '../pages/ConsentForms'
+import ConsentFormDetails from '../pages/ConsentFormDetails'
+import Visits from '../pages/Visits'
+import VisitDetails from '../pages/VisitDetails'
+import PlannedVisits from '../pages/PlannedVisits'
+import Invitations from '../pages/Invitations'
+import InvitationDetails from '../pages/InvitationDetails'
+import VisitGuest from '../pages/VisitGuest'
+import GuestInvitations from '../pages/GuestInvitations'
+import GuestInvitationDetails from '../pages/GuestInvitationDetails'
 
 /**
- * Client routes object.
+ * Authorized React route props interface.
  */
-export const routes = {
-  LOGIN: '/login',
-  REGISTER: '/register',
-  FORGOT_PASSWORD: '/forgot-password',
-  RESET_PASSWORD: '/reset-password/:token',
-  COMPANIES: '/companies',
-  CONSENT_FORMS: '/consent-forms',
-  CONSENT_FORM_DETAILS: '/consent-forms/:consentFormId',
-  VISITS: '/visits',
-  VISIT_DETAILS: '/visits/:visitId',
-  HOSTS: '/hosts',
-  PLANNED_VISITS: '/planned-visits',
-  INVITATIONS: '/invitations',
-  INVITATION_DETAILS: '/invitations/:visitId',
-  INVITATION_GUEST: '/invitations/:visitId/guests/:guestId',
-  GUEST_INVITATIONS: '/guest-invitations',
-  GUEST_INVITATION_DETAILS: '/guest-invitations/:visitId',
-  RECEPTIONISTS: '/receptionists'
+export interface ProtectedRouteProps extends RouteProps {
+  /**
+   * The React functional Component to render when the route path matches.
+   */
+  Component: React.FC<any>
+
+  /**
+   * The user roles that can access the route.
+   */
+  auth?: UserRole[]
+
+  /**
+   * If present, the route unreachable for authenticated users.
+   */
+  noAuth?: boolean
 }
 
 /**
- * Returns the default route for the authenticated user.
- *
- * @param role - role of the user
+ * Application routes.
  */
-export const getAuthRedirectRoute = (role: string) => {
-  const redirectRoutes = {
-    [UserRole.ADMIN]: routes.COMPANIES,
-    [UserRole.COMPANY_ADMIN]: routes.VISITS,
-    [UserRole.BUSINESS_HOST]: routes.PLANNED_VISITS,
-    [UserRole.RECEPTIONIST]: routes.INVITATIONS,
-    [UserRole.GUEST]: routes.GUEST_INVITATIONS
+export const routes: ProtectedRouteProps[] = [
+  {
+    path: '/login',
+    Component: Login,
+    noAuth: true,
+    exact: true
+  },
+  {
+    path: '/register',
+    Component: Register,
+    noAuth: true,
+    exact: true
+  },
+  {
+    path: '/forgot-password',
+    Component: ForgotPassword,
+    noAuth: true,
+    exact: true
+  },
+  {
+    path: '/reset-password/:token',
+    Component: ResetPassword,
+    noAuth: true,
+    exact: true
+  },
+  {
+    path: '/companies',
+    Component: Companies,
+    auth: [UserRole.ADMIN],
+    exact: true
+  },
+  {
+    path: '/receptionists',
+    Component: Receptionists,
+    auth: [UserRole.ADMIN],
+    exact: true
+  },
+  {
+    path: '/hosts',
+    Component: BusinessHosts,
+    auth: [UserRole.COMPANY_ADMIN],
+    exact: true
+  },
+  {
+    path: '/consent-forms',
+    Component: ConsentForms,
+    auth: [UserRole.ADMIN, UserRole.COMPANY_ADMIN],
+    exact: true
+  },
+  {
+    path: '/consent-forms/:consentFormId',
+    Component: ConsentFormDetails,
+    auth: [UserRole.ADMIN, UserRole.COMPANY_ADMIN],
+    exact: true
+  },
+  {
+    path: '/visits',
+    Component: Visits,
+    auth: [UserRole.COMPANY_ADMIN],
+    exact: true
+  },
+  {
+    path: '/visits/:visitId',
+    Component: VisitDetails,
+    auth: [UserRole.COMPANY_ADMIN, UserRole.BUSINESS_HOST],
+    exact: true
+  },
+  {
+    path: '/planned-visits',
+    Component: PlannedVisits,
+    auth: [UserRole.BUSINESS_HOST],
+    exact: true
+  },
+  {
+    path: '/invitations',
+    Component: Invitations,
+    auth: [UserRole.RECEPTIONIST],
+    exact: true
+  },
+  {
+    path: '/invitations/:visitId',
+    Component: InvitationDetails,
+    auth: [UserRole.RECEPTIONIST],
+    exact: true
+  },
+  {
+    path: '/invitations/:visitId/guests/:guestId',
+    Component: VisitGuest,
+    auth: [UserRole.RECEPTIONIST],
+    exact: true
+  },
+  {
+    path: '/guest-invitations',
+    Component: GuestInvitations,
+    auth: [UserRole.GUEST],
+    exact: true
+  },
+  {
+    path: '/guest-invitations/:visitId',
+    Component: GuestInvitationDetails,
+    auth: [UserRole.GUEST],
+    exact: true
   }
-  return redirectRoutes[role]
+]
+
+/**
+ * Returns the default route path for the specified user role.
+ */
+export const getDefaultRoutePath = (role: UserRole) => {
+  const defaultRoutes = {
+    [UserRole.ADMIN]: '/companies',
+    [UserRole.COMPANY_ADMIN]: '/visits',
+    [UserRole.BUSINESS_HOST]: '/planned-visits',
+    [UserRole.RECEPTIONIST]: '/invitations',
+    [UserRole.GUEST]: '/guest-invitations'
+  }
+  return defaultRoutes[role]
 }

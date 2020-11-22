@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -20,52 +20,62 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { userRoleSelector, userNameSelector, logoutUser } from '../../store/user'
-import { navigationAuthConfig } from './navigationAuthConfig'
+import { getNavigations, getActions } from './navigations'
 
 /**
- * Navigation component for the application,
- * that handles authorization and provides responsive behaviour.
+ * Responsive authorized navigation component for the application.
  */
 const NavigationBar: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
-  const showNavs = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
   const dispatch = useAppDispatch()
-  const userRole = useSelector(userRoleSelector)
-  const userName = useSelector(userNameSelector)
-  const [activeActionId, setActiveActionId] = useState('')
-  const [mobileNav, setMobileNav] = useState(0)
-  const [showProfileDialog, setShowProfileDialog] = useState(false)
   const [t] = useTranslation()
 
-  const getNavigations = useCallback(() => (userRole ? navigationAuthConfig.navigations[userRole] : []), [userRole])
-  const getActions = useCallback(() => (userRole ? navigationAuthConfig.actions[userRole] : []), [userRole])
+  const showNavs = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
+  const userRole = useSelector(userRoleSelector)
+  const userName = useSelector(userNameSelector)
 
+  const [activeAction, setActiveAction] = useState(-1)
+  const [activeMobileNav, setActiveMobileNav] = useState(0)
+  const [showProfileDialog, setShowProfileDialog] = useState(false)
+
+  /**
+   * Logs out the current user.
+   */
   const handleLogout = () => {
     dispatch(logoutUser())
     history.push('/login')
   }
 
+  /**
+   * Handles the navigation events of the mobile view navigation bar.
+   */
   const handleMobileNavChange = (e, value: number) => {
-    setMobileNav(value)
-    history.push(navigations[value].route)
+    setActiveMobileNav(value)
+    history.push(navigations[value].routePath)
   }
 
+  /**
+   * Renders the action component if action fired and component is present.
+   */
   const renderActionComponent = () => {
-    const action = actions.find(action => action.id === activeActionId)
-    if (action && action.renderComponent) {
-      return action.renderComponent(() => setActiveActionId(''))
+    const foundAction = actions[activeAction]
+    if (foundAction && foundAction.renderComponent) {
+      return foundAction.renderComponent(() => setActiveAction(-1))
     }
+    return null
   }
 
-  useEffect(() => {
-    const currentNavIndex = navigations.findIndex(nav => nav.route === history.location.pathname)
-    setMobileNav(currentNavIndex === -1 ? 0 : currentNavIndex)
-  }, [history.location])
+  const navigations = getNavigations(userRole)
+  const actions = getActions(userRole)
 
-  const navigations = getNavigations()
-  const actions = getActions()
-  const actionComponent = renderActionComponent()
+  /**
+   * Synchronizes the mobile navigation view with the history location.
+   */
+  useEffect(() => {
+    const currentNavIndex = navigations.findIndex(nav => nav.routePath === history.location.pathname)
+    setActiveMobileNav(currentNavIndex === -1 ? 0 : currentNavIndex)
+  }, [history.location])
 
   // Show navigation only for authorized users
   if (!userRole) {
@@ -73,11 +83,11 @@ const NavigationBar: React.FC = () => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <AppBar position="static">
         <Container maxWidth="lg" disableGutters>
           <Toolbar>
-            <IconButton color="inherit" aria-label="home" onClick={() => history.push(navigations[0].route)}>
+            <IconButton color="inherit" onClick={() => history.push(navigations[0].routePath)}>
               <MeetingRoomRoundedIcon className={classes.homeIcon} />
               <Typography className={classes.homeTitle} variant="h6">
                 Doorstep
@@ -85,17 +95,17 @@ const NavigationBar: React.FC = () => {
             </IconButton>
 
             {showNavs &&
-              navigations.map(({ id, route, label }) => (
-                <Button key={id} color="inherit" onClick={() => history.push(route)}>
-                  {label}
+              navigations.map(({ routePath, labelLanguageKey }) => (
+                <Button key={labelLanguageKey} color="inherit" onClick={() => history.push(routePath)}>
+                  {t(labelLanguageKey)}
                 </Button>
               ))}
 
             <div className={classes.grow} />
 
-            {actions.map(({ id, title, icon }) => (
-              <Tooltip key={id} title={title}>
-                <IconButton color="inherit" onClick={() => setActiveActionId(id)}>
+            {actions.map(({ titleLanguageKey, icon }, index) => (
+              <Tooltip key={titleLanguageKey} title={t(titleLanguageKey).toString()}>
+                <IconButton color="inherit" onClick={() => setActiveAction(index)}>
                   {icon}
                 </IconButton>
               </Tooltip>
@@ -103,14 +113,14 @@ const NavigationBar: React.FC = () => {
 
             {showNavs && (
               <Tooltip title={userName}>
-                <IconButton onClick={() => setShowProfileDialog(true)} color="inherit" aria-label="profile">
+                <IconButton onClick={() => setShowProfileDialog(true)} color="inherit">
                   <AccountCircleRoundedIcon />
                 </IconButton>
               </Tooltip>
             )}
 
-            <Tooltip title={t('auth.logout').toString()}>
-              <IconButton onClick={handleLogout} color="inherit" aria-label="logout">
+            <Tooltip title={t('common.logout').toString()}>
+              <IconButton onClick={handleLogout} color="inherit">
                 <ExitToAppRoundedIcon />
               </IconButton>
             </Tooltip>
@@ -118,20 +128,20 @@ const NavigationBar: React.FC = () => {
         </Container>
       </AppBar>
 
-      {actionComponent}
+      {renderActionComponent()}
 
       {!showNavs && (
         <AppBar position="static">
-          <Tabs variant="fullWidth" value={mobileNav} onChange={handleMobileNavChange} aria-label="Mobile navigation tabs">
-            {navigations.map(({ id, label }) => (
-              <Tab key={id} label={label} />
+          <Tabs variant="fullWidth" value={activeMobileNav} onChange={handleMobileNavChange}>
+            {navigations.map(({ labelLanguageKey }) => (
+              <Tab key={labelLanguageKey} label={t(labelLanguageKey)} />
             ))}
           </Tabs>
         </AppBar>
       )}
 
       {showProfileDialog && <UserProfileDialog onClose={() => setShowProfileDialog(false)} />}
-    </React.Fragment>
+    </>
   )
 }
 
