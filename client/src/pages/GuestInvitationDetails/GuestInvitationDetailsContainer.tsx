@@ -12,10 +12,14 @@ const GuestInvitationDetailsContainer: React.FC<RouteComponentProps> = ({ match:
   const dispatch = useAppDispatch()
   const guestProfile = useSelector(activeGuestProfileSelector)
 
+  /**
+   * Loads the guest invitation profile for the guest user when the component mounted.
+   */
   useEffect(() => {
     dispatch(fetchGuestInvitationProfile(routeParams['visitId']))
   }, [])
 
+  // Do not show page until profile loaded.
   if (guestProfile !== null && !Object.values(guestProfile).length) {
     return null
   }

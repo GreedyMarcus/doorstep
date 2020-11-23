@@ -22,7 +22,8 @@
     "unknownData": "Unknown data",
     "userRole": "User role",
     "myProfile": "My profile",
-    "room": "Room"
+    "room": "Room",
+    "identifierCardNumber": "Identifier card number"
   },
   "action": {
     "add": "Add",
@@ -39,6 +40,10 @@
     "editReceptionist": "Edit receptionist",
     "editBusinessHost": "Edit business host",
     "openConsentForm": "Open consent form",
+    "openInvitation": "Open invitation",
+    "openVisit": "Open visit",
+    "openGuest": "Open guest",
+    "acceptConsentForm": "Accept consent form",
     "ok": "Ok",
     "save": "Save",
     "cancel": "Cancel",
@@ -46,6 +51,8 @@
   },
   "notification": {
     "invalidData": {
+      "login": "Invalid email address or password format.",
+      "email": "Invalid email format.",
       "company": "Invalid company data format.",
       "consentForm": "Invalid consent form data format.",
       "businessHost": "Invalid business host data format.",
@@ -115,25 +122,75 @@
       "createdDate": "Created date",
       "noConsentFormsInfo": "You have not added any consent forms yet."
     },
+    "forgotPassword": {
+      "pageTitle": "Forgot password",
+      "question": "Forgot your password?",
+      "helper": "Enter your email and we'll send you a link to reset your password.",
+      "submit": "Reset password"
+    },
+    "guestInvitations": {
+      "invitations": "Invitations",
+      "invitationDetails": "Invitation details",
+      "invitationNotFound": "Invitation does not exist.",
+      "invitationData": "Invitation data",
+      "organizingCompany": "Organizing company",
+      "location": "Location",
+      "purpose": "Visit purpose",
+      "businessHostName": "Business host name",
+      "businessHostEmail": "Business host email",
+      "plannedEntry": "Planned entry date",
+      "guestDetails": "Guest details",
+      "companyName": "Company name",
+      "companyRegistrationNumber": "Registration number",
+      "companyDetails": "Company details",
+      "companyAddress": "Company address",
+      "consentFormsToAccept": "Consent forms to accept",
+      "noInvitationInfo": "There are no pending invitations."
+    },
     "invitations": {
       "pageTitle": "Invitations",
       "companyName": "Company name",
       "invitationFilter": "Invitation filter",
       "businessHostName": "Business host name",
+      "businessHostEmail": "Business host email",
       "purpose": "Visit purpose",
       "fromDate": "Invitations from date",
-      "untilDate": "Invitations until date"
+      "untilDate": "Invitations until date",
+      "plannedEntry": "Planned entry date",
+      "invitationDetails": "Invitation details",
+      "invitationNotFound": "Invitation does not exist.",
+      "invitationData": "Invitation data",
+      "invitedGuests": "Invited guests",
+      "guestName": "Guest name",
+      "actualEntry": "Actual entry time",
+      "actualExit": "Acutal exit time",
+      "receptionistName": "Receptionist name",
+      "participationStatus": "Participation status",
+      "consentForms": "Consent forms belong to this visit",
+      "invitations": "Invitations",
+      "noInvitationInfo": "There are no pending invitations."
+    },
+    "login": {
+      "welcome": "Welcome to Doorstep",
+      "welcomeHelper": "Sign in to continue",
+      "submit": "Sign in",
+      "redirect": "Back to login"
     },
     "plannedVisits": {
       "pageTitle": "Planned visits",
       "plannedVisitFilter": "Visit filter",
       "purpose": "Visit purpose",
       "fromDate": "Visits from date",
-      "untilDate": "Visits until date"
+      "untilDate": "Visits until date",
+      "noScheduledVisitInfo": "There are no scheduled visits yet.",
+      "plannedEntry": "Planned entry date"
     },
     "receptionists": {
       "pageTitle": "Receptionists",
-      "receptionistDetails": "Receptionist details"
+      "receptionistDetails": "Receptionist details",
+      "noReceptionistsInfo": "You have not added any receptionists yet.",
+      "receptionistName": "Receptionist name",
+      "joiningDate": "Joining date"
     },
     "visits": {
       "pageTitle": "Visits",

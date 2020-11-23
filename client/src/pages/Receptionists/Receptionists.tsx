@@ -14,32 +14,39 @@ import { receptionistsSelector, fetchReceptionists } from '../../store/building'
 const BusinessHosts: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
-  const receptionists = useSelector(receptionistsSelector)
   const [t, i18n] = useTranslation()
 
+  const receptionists = useSelector(receptionistsSelector)
   const [activeReceptionistIndex, setActiveReceptionistIndex] = useState(-1)
 
+  /**
+   * Sets the specified receptionist to the active receptionist.
+   */
   const handleEditClick = (receptionistId: number) => {
     const receptionistIndex = receptionists.findIndex(receptionist => receptionist.id === receptionistId)
     setActiveReceptionistIndex(receptionistIndex)
   }
 
+  /**
+   * Loads receptionists when component mounted.
+   */
   useEffect(() => {
     dispatch(fetchReceptionists())
   }, [])
 
   return (
-    <React.Fragment>
+    <>
       <Container className={classes.container} component="main" maxWidth="lg">
         <Paper elevation={3}>
           <Typography className={classes.title} variant="h1">
-            {t('general.receptionists')}
+            {t('page.receptionists.pageTitle')}
           </Typography>
+
           {!receptionists.length ? (
-            <InfoBox text={t('building.noReceptionistsInfo')} type="info" />
+            <InfoBox text={t('page.receptionists.noReceptionistsInfo')} type="info" />
           ) : (
             <ResponsiveTable
-              labels={[t('building.receptionistName'), t('auth.email'), t('company.joiningDate')]}
+              labels={[t('page.receptionists.receptionistName'), t('common.email'), t('page.receptionists.joiningDate')]}
               data={receptionists.map(receptionist => ({
                 id: receptionist.id,
                 name: `${receptionist.firstName} ${receptionist.lastName}`,
@@ -52,6 +59,7 @@ const BusinessHosts: React.FC = () => {
           )}
         </Paper>
       </Container>
+
       {activeReceptionistIndex !== -1 && (
         <ReceptionistEditorDialog
           receptionist={receptionists[activeReceptionistIndex]}
@@ -59,7 +67,7 @@ const BusinessHosts: React.FC = () => {
           onClose={() => setActiveReceptionistIndex(-1)}
         />
       )}
-    </React.Fragment>
+    </>
   )
 }
 

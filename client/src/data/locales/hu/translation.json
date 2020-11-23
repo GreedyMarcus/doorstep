@@ -22,7 +22,8 @@
     "unknownData": "Nem ismert adat",
     "userRole": "Felhasználói szerepkör",
     "myProfile": "Saját profil",
-    "room": "Szoba"
+    "room": "Szoba",
+    "identifierCardNumber": "Azonosító kártya száma"
   },
   "action": {
     "add": "Felvétel",
@@ -39,6 +40,10 @@
     "editReceptionist": "Recepciós szerkesztése",
     "editBusinessHost": "Céges fogadó személy szerkesztése",
     "openConsentForm": "Nyilatkozat megnyitása",
+    "openInvitation": "Meghívás megnyitása",
+    "openVisit": "Látogatás megnyitása",
+    "openGuest": "Vendég megnyitása",
+    "acceptConsentForm": "Nyilatkozat elfogadása",
     "ok": "Ok",
     "save": "Mentés",
     "cancel": "Mégse",
@@ -46,6 +51,8 @@
   },
   "notification": {
     "invalidData": {
+      "login": "Érvénytelen email cím vagy jelszó formátum.",
+      "email": "Érvénytelen email cím formátum.",
       "company": "Érvénytelen cég adat formátum.",
       "consentForm": "Érvénytelen nyilatkozat adat formátum.",
       "businessHost": "Érvénytelen céges fogadó adat formátum.",
@@ -115,25 +122,75 @@
       "createdDate": "Létrehozás dátuma",
       "noConsentFormsInfo": "Még nem vettél fel nyilatkozatokat."
     },
+    "forgotPassword": {
+      "pageTitle": "Elfelejtett jelszó",
+      "question": "Elfelejtetted a jelszavad?",
+      "helper": "Add meg az email címed és máris küldünk egy linket a jelszó visszaállításhoz.",
+      "submit": "Jelszó visszaállítása"
+    },
+    "guestInvitations": {
+      "invitations": "Meghívások",
+      "invitationDetails": "Meghívás részletei",
+      "invitationNotFound": "A meghívás nem létezik.",
+      "invitationData": "Meghívás adatai",
+      "organizingCompany": "Szervező cég",
+      "location": "Helyszín",
+      "purpose": "Látogatás célja",
+      "businessHostName": "Céges fogadó neve",
+      "businessHostEmail": "Céges fogadó email címe",
+      "plannedEntry": "Tervezett belépési dátum",
+      "guestDetails": "Vendég adatai",
+      "companyName": "Cégnév",
+      "companyDetails": "Cég adatai",
+      "companyRegistrationNumber": "Cégjegyzékszám",
+      "companyAddress": "Cég címe",
+      "consentFormsToAccept": "Elfogadandó nyilatkozatok",
+      "noInvitationInfo": "Nincsenek folyatban lévő meghívások."
+    },
     "invitations": {
       "pageTitle": "Meghívások",
       "companyName": "Cégnév",
-      "invitationFilter": "Meghívás Szűrő",
+      "invitationFilter": "Meghívás szűrő",
       "businessHostName": "Céges fogadó neve",
+      "businessHostEmail": "Céges fogadó email címe",
       "purpose": "Látogatás célja",
       "fromDate": "Meghívások dátumtól",
-      "untilDate": "Meghívások dátumig"
+      "untilDate": "Meghívások dátumig",
+      "plannedEntry": "Tervezett belépési dátum",
+      "invitationDetails": "Meghívás részletei",
+      "invitationNotFound": "A meghívás nem létezik.",
+      "invitationData": "Meghívás adatai",
+      "invitedGuests": "Meghívott vendégek",
+      "guestName": "Vendég neve",
+      "actualEntry": "Tényleges belépési idő",
+      "actualExit": "Tényleges kilépési idő",
+      "receptionistName": "Recepciós neve",
+      "participationStatus": "Részvétel állapota",
+      "consentForms": "Látogatáshoz tartozó nyilatkozatok",
+      "invitations": "Meghívások",
+      "noInvitationInfo": "Nincsenek folyatban lévő meghívások."
+    },
+    "login": {
+      "welcome": "Üdvözöl a Doorstep",
+      "welcomeHelper": "Jelentkezz be a folytatáshoz",
+      "submit": "Bejelentkezés",
+      "redirect": "Vissza a bejelentkezéshez"
     },
     "plannedVisits": {
       "pageTitle": "Tervezett látogatások",
       "visitFilter": "Látogatás Szűrő",
       "purpose": "Látogatás célja",
       "fromDate": "Látogatások dátumtól",
-      "untilDate": "Látogatások dátumig"
+      "untilDate": "Látogatások dátumig",
+      "noScheduledVisitInfo": "Még nincsenek beütemezett látogatások.",
+      "plannedEntry": "Tervezett belépési dátum"
     },
     "receptionists": {
       "pageTitle": "Recepciósok",
-      "receptionistDetails": "Recepciós adatai"
+      "receptionistDetails": "Recepciós adatai",
+      "noReceptionistsInfo": "Még nem vettél fel recepciós személyeket.",
+      "receptionistName": "Recepciós neve",
+      "joiningDate": "Csatlakozás dátuma"
     },
     "visits": {
       "pageTitle": "Látogatások",

@@ -26,69 +26,75 @@ const InvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: rou
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
-  const activeVisit = useSelector(activeVisitSelector)
   const [t, i18n] = useTranslation()
 
+  const activeVisit = useSelector(activeVisitSelector)
   const [openedFormVersion, setOpenedFormVersion] = useState(null as ConsentFormVersionDetails | null)
 
+  /**
+   * Loads visits when the component mounted.
+   */
   useEffect(() => {
     dispatch(fetchVisitById(routeParams['visitId']))
   }, [])
 
   const visitData = [
-    { label: t('company.name'), text: activeVisit?.companyName || '' },
-    { label: t('visit.businessHostName'), text: activeVisit?.businessHost.fullName || '' },
-    { label: t('visit.businessHostEmail'), text: activeVisit?.businessHost.email || '' },
-    { label: t('visit.purpose'), text: activeVisit?.purpose || '' },
-    { label: t('visit.room'), text: activeVisit?.room || '' },
-    { label: t('visit.plannedEntry'), text: activeVisit ? getLocaleDateFormat(new Date(activeVisit.plannedEntry)) : '' }
+    { labelLanguageKey: 'page.invitations.companyName', value: activeVisit?.companyName || '' },
+    { labelLanguageKey: 'page.invitations.businessHostName', value: activeVisit?.businessHost.fullName || '' },
+    { labelLanguageKey: 'page.invitations.businessHostEmail', value: activeVisit?.businessHost.email || '' },
+    { labelLanguageKey: 'page.invitations.purpose', value: activeVisit?.purpose || '' },
+    { labelLanguageKey: 'common.room', value: activeVisit?.room || '' },
+    {
+      labelLanguageKey: 'page.invitations.plannedEntry',
+      value: activeVisit ? getLocaleDateFormat(new Date(activeVisit.plannedEntry)) : ''
+    }
   ]
-  const unknownText = t('general.unknown')
+  const unknownText = t('common.unknownData')
 
   return (
-    <React.Fragment>
+    <>
       <Container className={classes.container} component="main" maxWidth="lg">
         <Paper elevation={3}>
           <Typography className={classes.title} variant="h1">
-            {t('visit.details')}
+            {t('page.invitations.invitationDetails')}
           </Typography>
 
           {!activeVisit ? (
-            <InfoBox text={t('visit.notFound')} type="error" />
+            <InfoBox text={t('page.invitations.invitationNotFound')} type="error" />
           ) : (
             <React.Fragment>
               <Grid className={classes.grid} container spacing={2}>
                 <Grid item xs={12}>
                   <Typography className={classes.sectionTitle} component="h2">
-                    {t('visit.visitData')}
+                    {t('page.invitations.invitationData')}
                   </Typography>
                 </Grid>
 
-                {visitData.map(({ label, text }, index) => (
-                  <Grid item md={4} sm={6} xs={12} key={index}>
+                {visitData.map(({ labelLanguageKey, value }) => (
+                  <Grid item md={4} sm={6} xs={12} key={labelLanguageKey}>
                     <Typography className={classes.label} component="label">
-                      {label}
+                      {t(labelLanguageKey)}
                     </Typography>
                     <Typography className={classes.text} component="h2">
-                      {text}
+                      {value}
                     </Typography>
                   </Grid>
                 ))}
 
                 <Grid item xs={12}>
                   <Typography className={classes.sectionTitle} component="h2">
-                    {t('visit.guests')}
+                    {t('page.invitations.invitedGuests')}
                   </Typography>
                 </Grid>
               </Grid>
 
               <ResponsiveTable
                 labels={[
-                  t('guest.name'),
-                  t('guest.actualEntry'),
-                  t('guest.actualExit'),
-                  t('guest.receptionistName'),
-                  t('guest.participationStatus')
+                  t('page.invitations.guestName'),
+                  t('page.invitations.actualEntry'),
+                  t('page.invitations.actualExit'),
+                  t('page.invitations.receptionistName'),
+                  t('page.invitations.participationStatus')
                 ]}
                 data={activeVisit.invitedGuests.map(guest => ({
                   id: guest.id,
@@ -103,8 +109,9 @@ const InvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: rou
               />
 
               <Typography className={classes.listSectionTitle} component="h2">
-                {t('visit.consentForms')}
+                {t('page.invitations.consentForms')}
               </Typography>
+
               <List className={classes.list}>
                 {activeVisit.consentFormVersionsToAccept.map(consentFormVersion => (
                   <ListItem key={consentFormVersion.id} button onClick={() => setOpenedFormVersion(consentFormVersion)}>
@@ -123,10 +130,11 @@ const InvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: rou
           )}
         </Paper>
       </Container>
+
       {!!openedFormVersion && (
         <ConsentFormVersionDialog consentFormVersion={openedFormVersion} onClose={() => setOpenedFormVersion(null)} />
       )}
-    </React.Fragment>
+    </>
   )
 }
 

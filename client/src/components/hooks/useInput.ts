@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from 'react'
 
 interface InputProps {
-  initialValue?: string
+  initialValue?: string | null
   required?: boolean
   validator?: RegExp
 }

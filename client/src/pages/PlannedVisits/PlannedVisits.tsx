@@ -22,6 +22,9 @@ const PlannedVisits: React.FC = () => {
 
   const [filteredVisits, setFilteredVisits] = useState(plannedVisits)
 
+  /**
+   * Loads planned visits when component mounted.
+   */
   useEffect(() => {
     dispatch(fetchPlannedVisits())
   }, [])
@@ -30,15 +33,16 @@ const PlannedVisits: React.FC = () => {
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         <Typography className={classes.title} variant="h1">
-          {t('general.plannedVisits')}
+          {t('page.plannedVisits.pageTitle')}
         </Typography>
+
         {!plannedVisits.length ? (
-          <InfoBox text={t('visit.noScheduledVisitInfo')} type="info" />
+          <InfoBox text={t('page.plannedVisits.noScheduledVisitInfo')} type="info" />
         ) : (
-          <React.Fragment>
+          <>
             <PlannedVisitFilter visits={plannedVisits} onFilterChange={visits => setFilteredVisits(visits)} />
             <ResponsiveTable
-              labels={[t('visit.purpose'), t('visit.room'), t('visit.plannedEntry')]}
+              labels={[t('page.plannedVisits.purpose'), t('common.room'), t('page.plannedVisits.plannedEntry')]}
               data={filteredVisits.map(visit => ({
                 id: visit.id,
                 purpose: visit.purpose,
@@ -48,7 +52,7 @@ const PlannedVisits: React.FC = () => {
               tooltipLabel={t('action.openVisit')}
               onOpenClick={visitId => history.push(`/visits/${visitId}`)}
             />
-          </React.Fragment>
+          </>
         )}
       </Paper>
     </Container>

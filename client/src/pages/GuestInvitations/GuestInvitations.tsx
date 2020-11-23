@@ -19,6 +19,9 @@ const GuestInvitations: React.FC = () => {
   const guestInvitations = useSelector(guestInvitationsSelector)
   const [t] = useTranslation()
 
+  /**
+   * Loads guest invitations when the component mounted.
+   */
   useEffect(() => {
     dispatch(fetchGuestInvitations())
   }, [])
@@ -27,13 +30,19 @@ const GuestInvitations: React.FC = () => {
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         <Typography className={classes.title} variant="h1">
-          {t('general.invitations')}
+          {t('page.guestInvitations.invitations')}
         </Typography>
+
         {!guestInvitations.length ? (
-          <InfoBox text={t('visit.noInvitationInfo')} type="info" />
+          <InfoBox text={t('page.guestInvitations.noInvitationInfo')} type="info" />
         ) : (
           <ResponsiveTable
-            labels={[t('company.name'), t('general.address'), t('visit.purpose'), t('visit.plannedEntry')]}
+            labels={[
+              t('page.guestInvitations.companyName'),
+              t('common.address'),
+              t('page.guestInvitations.purpose'),
+              t('page.guestInvitations.plannedEntry')
+            ]}
             data={guestInvitations.map(invitation => ({
               id: invitation.id,
               companyName: invitation.companyName,

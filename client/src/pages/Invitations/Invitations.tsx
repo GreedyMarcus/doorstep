@@ -17,11 +17,14 @@ const Invitations: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
-  const invitations = useSelector(invitationsSelector)
   const [t] = useTranslation()
 
+  const invitations = useSelector(invitationsSelector)
   const [filteredInvitations, setFilteredInvitations] = useState(invitations)
 
+  /**
+   * Loads invitations when the component mounted.
+   */
   useEffect(() => {
     dispatch(fetchInvitations())
   }, [])
@@ -30,20 +33,21 @@ const Invitations: React.FC = () => {
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         <Typography className={classes.title} variant="h1">
-          {t('general.invitations')}
+          {t('page.invitations.invitations')}
         </Typography>
+
         {!invitations.length ? (
-          <InfoBox text={t('visit.noInvitationInfo')} type="info" />
+          <InfoBox text={t('page.invitations.noInvitationInfo')} type="info" />
         ) : (
-          <React.Fragment>
+          <>
             <InvitationFilter invitations={invitations} onFilterChange={invitations => setFilteredInvitations(invitations)} />
             <ResponsiveTable
               labels={[
-                t('company.name'),
-                t('visit.businessHostName'),
-                t('visit.purpose'),
-                t('visit.room'),
-                t('visit.plannedEntry')
+                t('page.invitations.companyName'),
+                t('page.invitations.businessHostName'),
+                t('page.invitations.purpose'),
+                t('common.room'),
+                t('page.invitations.plannedEntry')
               ]}
               data={filteredInvitations.map(invitation => ({
                 id: invitation.id,
@@ -56,7 +60,7 @@ const Invitations: React.FC = () => {
               tooltipLabel={t('action.openInvitation')}
               onOpenClick={visitId => history.push(`/invitations/${visitId}`)}
             />
-          </React.Fragment>
+          </>
         )}
       </Paper>
     </Container>

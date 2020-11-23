@@ -20,7 +20,7 @@ import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded'
 import ConsentFormVersionDialog from '../../components/ConsentFormVersionDialog'
 import Button from '@material-ui/core/Button'
 import useStyles from './useStyles'
-import useInput from '../../components/shared/useInput'
+import useInput from '../../components/hooks/useInput'
 import REGEXP from '../../utils/regexp'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
@@ -31,16 +31,19 @@ import { ConsentFormVersionDetails } from '../../data/types/ConsentForm'
 import { GuestInvitationDetails as GuestInvitationDetailsProp, GuestUpdateByUser } from '../../data/types/Visit'
 import { getLocaleDateFormat } from '../../utils'
 
-type Props = {
+interface GuestInvitationDetailsProps {
   visitId: number
   guestProfile: GuestInvitationDetailsProp | null
 }
 
-const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
+const GuestInvitationDetails: React.FC<GuestInvitationDetailsProps> = ({ visitId, guestProfile }) => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
   const [t] = useTranslation()
 
+  /**
+   * Helper function to get identifier card type index for local state.
+   */
   const getIdentifierCardTypeIndex = () => {
     if (guestProfile) {
       const index = identifierCardTypeStrings.indexOf(guestProfile.guestDetails.identifierCardType)
@@ -49,41 +52,48 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
     return 0
   }
 
-  const [nationality, bindNationality] = useInput(guestProfile?.guestDetails.nationality || '', false)
-  const [phoneNumber, bindPhoneNumber] = useInput(guestProfile?.guestDetails.phoneNumber || '', false, REGEXP.PHONE_NUMBER)
-  const [birthplace, bindBirthplace] = useInput(guestProfile?.guestDetails.birthplace || '', false)
+  const [nationality, bindNationality] = useInput({ initialValue: guestProfile?.guestDetails.nationality })
+  const [phoneNumber, bindPhoneNumber] = useInput({
+    initialValue: guestProfile?.guestDetails.phoneNumber,
+    validator: REGEXP.PHONE_NUMBER
+  })
+  const [birthplace, bindBirthplace] = useInput({ initialValue: guestProfile?.guestDetails.birthplace })
   const [birthDate, setBirthDate] = useState(
     guestProfile?.guestDetails?.birthDate ? new Date(guestProfile.guestDetails.birthDate) : null
   )
 
-  const [motherName, bindMotherName] = useInput(guestProfile?.guestDetails.motherName || '', false)
+  const [motherName, bindMotherName] = useInput({ initialValue: guestProfile?.guestDetails.motherName })
   const [identifierCardType, setIdentifierCardType] = useState(getIdentifierCardTypeIndex())
-  const [identifierCardNumber, bindIdentifierCardNumber] = useInput(guestProfile?.guestDetails.identifierCardNumber || '', false)
+  const [identifierCardNumber, bindIdentifierCardNumber] = useInput({
+    initialValue: guestProfile?.guestDetails.identifierCardNumber
+  })
 
   const guestAddress = guestProfile?.guestDetails.address?.split(', ')
 
-  const [country, bindCountry] = useInput(guestAddress ? guestAddress[0] : '', false)
-  const [zipCode, bindZipCode] = useInput(guestAddress ? guestAddress[1] : '', false)
-  const [city, bindCity] = useInput(guestAddress ? guestAddress[2] : '', false)
-  const [streetAddress, bindStreetAddress] = useInput(guestAddress ? guestAddress[3] : '', false)
+  const [country, bindCountry] = useInput({ initialValue: guestAddress && guestAddress[0] })
+  const [zipCode, bindZipCode] = useInput({ initialValue: guestAddress && guestAddress[1] })
+  const [city, bindCity] = useInput({ initialValue: guestAddress && guestAddress[2] })
+  const [streetAddress, bindStreetAddress] = useInput({ initialValue: guestAddress && guestAddress[3] })
 
-  const [companyName, bindCompanyName] = useInput(guestProfile?.guestDetails.company?.name || '', false)
-  const [regNumber, bindRegNumber] = useInput(
-    guestProfile?.guestDetails.company?.registrationNumber || '',
-    false,
-    REGEXP.REGISTRATION_NUMBER
-  )
+  const [companyName, bindCompanyName] = useInput({ initialValue: guestProfile?.guestDetails.company?.name })
+  const [regNumber, bindRegNumber] = useInput({
+    initialValue: guestProfile?.guestDetails.company?.registrationNumber,
+    validator: REGEXP.REGISTRATION_NUMBER
+  })
 
   const companyAddress = guestProfile?.guestDetails.company?.address?.split(', ')
 
-  const [companyCountry, bindCompanyCountry] = useInput(companyAddress ? companyAddress[0] : '', false)
-  const [companyZipCode, bindCompanyZipCode] = useInput(companyAddress ? companyAddress[1] : '', false)
-  const [companyCity, bindCompanyCity] = useInput(companyAddress ? companyAddress[2] : '', false)
-  const [companyStreetAddress, bindCompanyStreetAddress] = useInput(companyAddress ? companyAddress[3] : '', false)
+  const [companyCountry, bindCompanyCountry] = useInput({ initialValue: companyAddress && companyAddress[0] })
+  const [companyZipCode, bindCompanyZipCode] = useInput({ initialValue: companyAddress && companyAddress[1] })
+  const [companyCity, bindCompanyCity] = useInput({ initialValue: companyAddress && companyAddress[2] })
+  const [companyStreetAddress, bindCompanyStreetAddress] = useInput({ initialValue: companyAddress && companyAddress[4] })
 
   const [openedFormVersion, setOpenedFormVersion] = useState(null as ConsentFormVersionDetails | null)
-  const [checked, setChecked] = React.useState(guestProfile?.consentFormVersionsAccepted || ([] as number[]))
+  const [checked, setChecked] = useState(guestProfile?.consentFormVersionsAccepted || ([] as number[]))
 
+  /**
+   * Switches the state of the checkbox
+   */
   const toggle = (value: number) => {
     const newChecked = [...checked]
     const currentIndex = checked.indexOf(value)
@@ -92,6 +102,9 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
     setChecked(newChecked)
   }
 
+  /**
+   * Validates the guest user data.
+   */
   const isGuestProfileDataValid = (): boolean => {
     const inputFieldsValid = [
       nationality,
@@ -108,11 +121,14 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
       companyZipCode,
       companyCity,
       companyStreetAddress
-    ].every(param => param.isValid)
+    ].every(param => param.valid)
 
     return !!guestProfile?.companyRegisterConfig.storeBirthDate ? inputFieldsValid && !!birthDate : inputFieldsValid
   }
 
+  /**
+   * Validates if guest provided all of the address properties.
+   */
   const isGuestAddressApproved = (): boolean => {
     const addressInputs = [country, zipCode, city, streetAddress]
     if (addressInputs.some(input => !!input.value)) {
@@ -121,6 +137,9 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
     return true
   }
 
+  /**
+   * Validates if guest provided all of the company properties.
+   */
   const isCompanyDataApproved = (): boolean => {
     const companyInputs = [companyName, regNumber, companyCountry, companyZipCode, companyCity, companyStreetAddress]
     if (companyInputs.some(input => !!input.value)) {
@@ -129,6 +148,9 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
     return true
   }
 
+  /**
+   * Saves guest profile data.
+   */
   const handleSave = () => {
     if (!isGuestProfileDataValid()) {
       dispatch(addNotification({ type: 'error', message: t('notification.invalidGuestProfileData') }))
@@ -185,95 +207,96 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
     dispatch(updateGuestInvitationProfile(visitId, profileData))
   }
 
+  const invitationInfo = guestProfile?.invitationInfo
   const invitationData = [
-    { label: t('visit.organizingCompany'), text: guestProfile?.invitationInfo?.companyName || '' },
-    { label: t('visit.location'), text: guestProfile?.invitationInfo?.buildingAddress || '' },
-    { label: t('visit.purpose'), text: guestProfile?.invitationInfo?.purpose || '' },
-    { label: t('visit.businessHostName'), text: guestProfile?.invitationInfo?.businessHost.fullName || '' },
-    { label: t('visit.businessHostEmail'), text: guestProfile?.invitationInfo?.businessHost.email || '' },
+    { labelLanguageKey: 'page.guestInvitations.organizingCompany', value: invitationInfo?.companyName || '' },
+    { labelLanguageKey: 'page.guestInvitations.location', value: invitationInfo?.buildingAddress || '' },
+    { labelLanguageKey: 'page.guestInvitations.purpose', value: invitationInfo?.purpose || '' },
+    { labelLanguageKey: 'page.guestInvitations.businessHostName', value: invitationInfo?.businessHost.fullName || '' },
+    { labelLanguageKey: 'page.guestInvitations.businessHostEmail', value: invitationInfo?.businessHost.email || '' },
     {
-      label: t('visit.plannedEntry'),
-      text: guestProfile?.invitationInfo ? getLocaleDateFormat(new Date(guestProfile.invitationInfo.plannedEntry)) : ''
+      labelLanguageKey: 'page.guestInvitations.plannedEntry',
+      value: invitationInfo ? getLocaleDateFormat(new Date(invitationInfo.plannedEntry)) : ''
     },
-    { label: t('visit.room'), text: guestProfile?.invitationInfo?.room || '' }
+    { labelLanguageKey: 'common.room', value: invitationInfo?.room || '' }
   ]
 
-  const basicDataSet = [
-    { binding: bindNationality, label: t('guest.nationality') },
-    { binding: bindPhoneNumber, label: t('guest.phoneNumber') },
-    { binding: bindBirthplace, label: t('guest.birthplace') }
+  const basicData = [
+    { labelLanguageKey: 'common.nationality', binding: bindNationality },
+    { labelLanguageKey: 'common.phoneNumber', binding: bindPhoneNumber },
+    { labelLanguageKey: 'common.birthplace', binding: bindBirthplace }
   ]
 
-  const addressDataSet = [
-    { binding: bindCountry, label: t('general.country') },
-    { binding: bindZipCode, label: t('general.zipCode') },
-    { binding: bindCity, label: t('general.city') },
-    { binding: bindStreetAddress, label: t('general.streetAddress') }
+  const addressData = [
+    { labelLanguageKey: 'common.country', binding: bindCountry },
+    { labelLanguageKey: 'common.zipCode', binding: bindZipCode },
+    { labelLanguageKey: 'common.city', binding: bindCity },
+    { labelLanguageKey: 'common.streetAddress', binding: bindStreetAddress }
   ]
 
-  const companyDataSet = [
-    { binding: bindCompanyName, label: t('company.name') },
-    { binding: bindRegNumber, label: t('company.registrationNumber') }
+  const companyData = [
+    { labelLanguageKey: 'page.guestInvitations.companyName', binding: bindCompanyName },
+    { labelLanguageKey: 'page.guestInvitations.companyRegistrationNumber', binding: bindRegNumber }
   ]
 
-  const companyAddressDataSet = [
-    { binding: bindCompanyCountry, label: t('general.country') },
-    { binding: bindCompanyZipCode, label: t('general.zipCode') },
-    { binding: bindCompanyCity, label: t('general.city') },
-    { binding: bindCompanyStreetAddress, label: t('general.streetAddress') }
+  const companyAddressData = [
+    { labelLanguageKey: 'common.country', binding: bindCompanyCountry },
+    { labelLanguageKey: 'common.zipCode', binding: bindCompanyZipCode },
+    { labelLanguageKey: 'common.city', binding: bindCompanyCity },
+    { labelLanguageKey: 'common.streetAddress', binding: bindCompanyStreetAddress }
   ]
 
   return (
-    <React.Fragment>
+    <>
       <Container className={classes.container} component="main" maxWidth="lg">
         <Paper elevation={3}>
           <Typography className={classes.title} variant="h1">
-            {t('visit.invitationDetails')}
+            {t('page.guestInvitations.invitationDetails')}
           </Typography>
 
           {!guestProfile ? (
-            <InfoBox text={t('visit.invitationNotFound')} type="error" />
+            <InfoBox text={t('page.guestInvitations.invitationNotFound')} type="error" />
           ) : (
-            <React.Fragment>
+            <>
               <Grid className={classes.grid} container spacing={2}>
                 <Grid item xs={12}>
                   <Typography className={classes.sectionTitle} component="h2">
-                    {t('visit.invitationData')}
+                    {t('page.guestInvitations.invitationData')}
                   </Typography>
                 </Grid>
 
-                {invitationData.map(({ label, text }, index) => (
-                  <Grid item md={4} sm={6} xs={12} key={index}>
+                {invitationData.map(({ labelLanguageKey, value }) => (
+                  <Grid item md={4} sm={6} xs={12} key={labelLanguageKey}>
                     <Typography className={classes.label} component="label">
-                      {label}
+                      {t(labelLanguageKey)}
                     </Typography>
                     <Typography className={classes.text} component="h2">
-                      {text}
+                      {value}
                     </Typography>
                   </Grid>
                 ))}
 
                 <Grid item xs={12}>
                   <Typography className={classes.sectionTitle} component="h2">
-                    {t('guest.details')}
+                    {t('page.guestInvitations.guestDetails')}
                   </Typography>
                 </Grid>
 
                 <Grid item xs={12}>
                   <Typography className={classes.subSectionTitle} component="h3">
-                    {t('general.basicData')}
+                    {t('common.basicData')}
                   </Typography>
                 </Grid>
 
-                {basicDataSet.map(({ binding, label }, index) => (
-                  <Grid item md={3} sm={6} xs={12} key={`basic-set-${index}`}>
-                    <TextField size="small" {...binding} label={label} variant="outlined" fullWidth />
+                {basicData.map(({ labelLanguageKey, binding }) => (
+                  <Grid item md={3} sm={6} xs={12} key={`basic-${labelLanguageKey}`}>
+                    <TextField size="small" {...binding} label={t(labelLanguageKey)} variant="outlined" fullWidth />
                   </Grid>
                 ))}
 
                 <Grid item md={3} sm={6} xs={12}>
                   <LocalizedDateTimePicker
-                    label={t('guest.birthDate')}
+                    label={t('common.birthDate')}
                     value={!!birthDate ? new Date(birthDate) : null}
                     onChange={date => setBirthDate(date)}
                     inputVariant="outlined"
@@ -282,7 +305,7 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
                 </Grid>
 
                 <Grid item md={6} sm={4} xs={12}>
-                  <TextField size="small" {...bindMotherName} label={t('guest.motherName')} variant="outlined" fullWidth />
+                  <TextField size="small" {...bindMotherName} label={t('common.motherName')} variant="outlined" fullWidth />
                 </Grid>
                 <Grid item md={3} sm={4} xs={12}>
                   <Select
@@ -303,7 +326,7 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
                   <TextField
                     size="small"
                     {...bindIdentifierCardNumber}
-                    label={t('guest.identifierCardNumber')}
+                    label={t('common.identifierCardNumber')}
                     variant="outlined"
                     fullWidth
                   />
@@ -311,43 +334,43 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
 
                 <Grid item xs={12}>
                   <Typography className={classes.subSectionTitle} component="h3">
-                    {t('general.address')}
+                    {t('common.address')}
                   </Typography>
                 </Grid>
 
-                {addressDataSet.map(({ binding, label }, index) => (
-                  <Grid item md={3} sm={6} xs={12} key={`address-set-${index}`}>
-                    <TextField size="small" {...binding} label={label} variant="outlined" fullWidth />
+                {addressData.map(({ labelLanguageKey, binding }) => (
+                  <Grid item md={3} sm={6} xs={12} key={`address-${labelLanguageKey}`}>
+                    <TextField size="small" {...binding} label={t(labelLanguageKey)} variant="outlined" fullWidth />
                   </Grid>
                 ))}
 
                 <Grid item xs={12}>
                   <Typography className={classes.subSectionTitle} component="h3">
-                    {t('company.companyDetails')}
+                    {t('page.guestInvitations.companyDetails')}
                   </Typography>
                 </Grid>
 
-                {companyDataSet.map(({ binding, label }, index) => (
-                  <Grid item sm={6} xs={12} key={`company-set-${index}`}>
-                    <TextField size="small" {...binding} label={label} variant="outlined" fullWidth />
+                {companyData.map(({ labelLanguageKey, binding }) => (
+                  <Grid item sm={6} xs={12} key={`company-${labelLanguageKey}`}>
+                    <TextField size="small" {...binding} label={t(labelLanguageKey)} variant="outlined" fullWidth />
                   </Grid>
                 ))}
 
                 <Grid item xs={12}>
                   <Typography className={classes.subSectionTitle} component="h3">
-                    {t('company.address')}
+                    {t('page.guestInvitations.companyAddress')}
                   </Typography>
                 </Grid>
 
-                {companyAddressDataSet.map(({ binding, label }, index) => (
-                  <Grid item md={3} sm={6} xs={12} key={`company-address-set-${index}`}>
-                    <TextField size="small" {...binding} label={label} variant="outlined" fullWidth />
+                {companyAddressData.map(({ labelLanguageKey, binding }) => (
+                  <Grid item md={3} sm={6} xs={12} key={`company-address-${labelLanguageKey}`}>
+                    <TextField size="small" {...binding} label={t(labelLanguageKey)} variant="outlined" fullWidth />
                   </Grid>
                 ))}
 
                 <Grid item xs={12}>
                   <Typography className={classes.sectionTitle} component="h2">
-                    {t('visit.consentFormsToAccept')}
+                    {t('page.guestInvitations.consentFormsToAccept')}
                   </Typography>
                 </Grid>
               </Grid>
@@ -377,14 +400,15 @@ const GuestInvitationDetails: React.FC<Props> = ({ visitId, guestProfile }) => {
                   {t('action.save')}
                 </Button>
               </Grid>
-            </React.Fragment>
+            </>
           )}
         </Paper>
       </Container>
+
       {!!openedFormVersion && (
         <ConsentFormVersionDialog consentFormVersion={openedFormVersion} onClose={() => setOpenedFormVersion(null)} />
       )}
-    </React.Fragment>
+    </>
   )
 }
 
