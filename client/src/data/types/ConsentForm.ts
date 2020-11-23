@@ -1,16 +1,16 @@
-export type ConsentFormInfo = {
+export interface ConsentFormCreate {
+  title: string
+  content: string
+}
+
+export interface ConsentFormInfo {
   id: number
   title: string
   activeVersion: number | null
   createdAt: Date
 }
 
-export type ConsentFormCreate = {
-  title: string
-  content: string
-}
-
-export type ConsentFormDetails = {
+export interface ConsentFormDetails {
   id: number
   title: string
   type: string
@@ -19,7 +19,7 @@ export type ConsentFormDetails = {
   versions: ConsentFormVersionInfo[]
 }
 
-export type ConsentFormVersionInfo = {
+export interface ConsentFormVersionInfo {
   id: number
   content: string
   versionNumber: number

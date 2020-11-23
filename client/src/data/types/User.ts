@@ -1,9 +1,9 @@
-export type UserLogin = {
+export interface UserLogin {
   email: string
   password: string
 }
 
-export type UserInfo = {
+export interface UserInfo {
   id: number
   firstName: string
   lastName: string
@@ -11,43 +11,40 @@ export type UserInfo = {
   role: string
   buildingId?: number
   companyId?: number
-  token: string
+  token?: string
 }
 
-export type UserShortInfo = {
-  email: string
-  fullName: string
-}
-
-export type UserRegister = {
+export interface UserRegister {
   email: string
   password: string
   firstName: string
   lastName: string
 }
 
-export type GuestUserRegister = {
+export interface GuestUserRegister {
   email: string
   firstName: string
   lastName: string
 }
 
-export type UserUpdate = {
+export interface UserShortInfo {
+  email: string
+  fullName: string
+}
+
+export interface UserUpdate {
   id: number
   firstName: string
   lastName: string
 }
 
-export type UserCredentials = {
+export interface UserCredentials {
   firstName: string
   lastName: string
   password?: string
 }
-
-export type EmployeeInfo = {
-  id: number
+export interface UserCredentialsUpdate {
   firstName: string
   lastName: string
-  email: string
-  createdAt: Date
+  password: string
 }

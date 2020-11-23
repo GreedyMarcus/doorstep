@@ -5,49 +5,69 @@ import DialogContent from '@material-ui/core/DialogContent'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
+import PasswordField from '../shared/PasswordField'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
-import useInput from '../../components/shared/useInput'
+import useInput from '../../components/hooks/useInput'
 import REGEXP from '../../utils/regexp'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
-import { EmployeeInfo } from '../../data/types/User'
+import { EmployeeInfo } from '../../data/types/Company'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
 import { createBusinessHost, updateBusinessHost } from '../../store/company'
 
-type Props = {
+interface BusinessHostEditorDialogProps {
   businessHost?: EmployeeInfo
   isEditing?: boolean
   onClose: () => void
 }
 
 /**
- * Custom dialog component to edit business hosts.
+ * Custom dialog component to create or edit business hosts.
  */
-const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, onClose }) => {
+const BusinessHostEditorDialog: React.FC<BusinessHostEditorDialogProps> = ({ businessHost, isEditing, onClose }) => {
   const classes = useStyles()
-  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const dispatch = useAppDispatch()
-  const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
 
-  const [firstName, bindFirstName] = useInput(businessHost?.firstName || '', true)
-  const [lastName, bindLastName] = useInput(businessHost?.lastName || '', true)
-  const [email, bindEmail] = useInput(businessHost?.email || '', true, REGEXP.EMAIL)
-  const [password, bindPassword] = useInput('', true, REGEXP.PASSWORD)
+  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+  const [isOpen, setOpen] = useState(true)
 
+  const [firstName, bindFirstName] = useInput({ initialValue: businessHost?.firstName, required: true })
+  const [lastName, bindLastName] = useInput({ initialValue: businessHost?.lastName, required: true })
+  const [email, bindEmail] = useInput({ initialValue: businessHost?.email, required: true, validator: REGEXP.EMAIL })
+  const [password, bindPassword] = useInput({ required: true, validator: REGEXP.PASSWORD })
+
+  /**
+   * Closes the dialog.
+   */
   const handleClose = () => {
-    // This method provides smooth exit animation for the component
+    // This method provides smooth exit animation for the component.
     setOpen(false)
     setTimeout(() => onClose(), 300)
   }
 
+  /**
+   * Saves the new or modified business host.
+   */
   const handleSave = () => {
-    const isBusinessHostDataValid = [firstName, lastName, email].every(param => param.isValid)
+    const isBusinessHostDataValid = [firstName, lastName, email].every(param => param.valid)
     if (!isBusinessHostDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidBusinessHostData') }))
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.businessHost') }))
+      return
+    }
+
+    if (isEditing) {
+      const modifiedBusinessHostData = {
+        id: businessHost?.id || -1,
+        firstName: firstName.value,
+        lastName: lastName.value
+      }
+
+      dispatch(updateBusinessHost(modifiedBusinessHostData))
+      handleClose()
       return
     }
 
@@ -58,18 +78,7 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
       password: password.value
     }
 
-    if (isEditing) {
-      const updateBusinessHostData = {
-        id: businessHost?.id || -1,
-        firstName: businessHostData.firstName,
-        lastName: businessHostData.lastName
-      }
-
-      dispatch(updateBusinessHost(updateBusinessHostData))
-    } else {
-      dispatch(createBusinessHost(businessHostData))
-    }
-
+    dispatch(createBusinessHost(businessHostData))
     handleClose()
   }
 
@@ -78,41 +87,21 @@ const BusinessHostEditorDialog: React.FC<Props> = ({ businessHost, isEditing, on
       <DialogTitle className={classes.title}>{t(`action.${isEditing ? 'editBusinessHost' : 'addBusinessHost'}`)}</DialogTitle>
       <DialogContent className={classes.content} dividers>
         <Typography className={classes.sectionTitle} component="h1">
-          {t('company.businessHostDetails')}
+          {t('page.businessHosts.hostDetails')}
         </Typography>
+
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField
-              {...bindFirstName}
-              id="business-host-first-name"
-              label={t('auth.firstName')}
-              variant="outlined"
-              fullWidth
-            />
+            <TextField {...bindFirstName} label={t('common.firstName')} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextField {...bindLastName} id="business-host-last-name" label={t('auth.lastName')} variant="outlined" fullWidth />
+            <TextField {...bindLastName} label={t('common.lastName')} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              {...bindEmail}
-              id="business-host-email"
-              label={t('auth.email')}
-              disabled={isEditing}
-              variant="outlined"
-              fullWidth
-            />
+            <TextField {...bindEmail} label={t('common.email')} disabled={isEditing} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              {...bindPassword}
-              id="business-host-password"
-              label={t('auth.password')}
-              disabled={isEditing}
-              type="password"
-              variant="outlined"
-              fullWidth
-            />
+            <PasswordField {...bindPassword} label={t('common.password')} disabled={isEditing} variant="outlined" fullWidth />
           </Grid>
         </Grid>
       </DialogContent>

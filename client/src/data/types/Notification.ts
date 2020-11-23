@@ -3,10 +3,3 @@ export type Notification = {
   message: string
   duration?: number
 }
-
-export type Address = {
-  country: string
-  zipCode: string
-  city: string
-  streetAddress: string
-}

@@ -14,20 +14,21 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { activeCompanyConfigSelector, fetchCompanyConfig, updateCompanyConfig } from '../../store/company'
 
-type Props = {
+interface CompanyConfigDialogProps {
   onClose: () => void
 }
 
 /**
  * Custom dialog component to edit company configs.
  */
-const CompanyConfigDialog: React.FC<Props> = ({ onClose }) => {
+const CompanyConfigDialog: React.FC<CompanyConfigDialogProps> = ({ onClose }) => {
   const classes = useStyles()
-  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const dispatch = useAppDispatch()
+  const [t] = useTranslation()
+
+  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const config = useSelector(activeCompanyConfigSelector)
   const [isOpen, setOpen] = useState(true)
-  const [t] = useTranslation()
 
   const [storeNationality, setStoreNationality] = useState(!!config?.storeNationality)
   const [storeAddress, setStoreAddress] = useState(!!config?.storeAddress)
@@ -39,12 +40,18 @@ const CompanyConfigDialog: React.FC<Props> = ({ onClose }) => {
   const [registerGuestCard, setRegisterGuestCard] = useState(!!config?.registerGuestCard)
   const [trackActualExit, setTrackActualExit] = useState(!!config?.trackActualExit)
 
+  /**
+   * Closes the dialog.
+   */
   const handleClose = () => {
-    // This method provides smooth exit animation for the component
+    // This method provides smooth exit animation for the component.
     setOpen(false)
     setTimeout(() => onClose(), 300)
   }
 
+  /**
+   * Saves the modified company config.
+   */
   const handleSave = () => {
     const configData = {
       storeNationality,
@@ -63,25 +70,64 @@ const CompanyConfigDialog: React.FC<Props> = ({ onClose }) => {
   }
 
   const guestDataSettings = [
-    { label: t('guest.nationality'), checked: storeNationality, onChange: () => setStoreNationality(!storeNationality) },
-    { label: t('general.address'), checked: storeAddress, onChange: () => setStoreAddress(!storeAddress) },
-    { label: t('guest.phoneNumber'), checked: storePhoneNumber, onChange: () => setStorePhoneNumber(!storePhoneNumber) },
-    { label: t('guest.birthplace'), checked: storeBirthplace, onChange: () => setStoreBirthplace(!storeBirthplace) },
-    { label: t('guest.birthDate'), checked: storeBirthDate, onChange: () => setStoreBirthDate(!storeBirthDate) },
-    { label: t('guest.motherName'), checked: storeMotherName, onChange: () => setStoreMotherName(!storeMotherName) },
-    { label: t('company.companyDetails'), checked: storeCompany, onChange: () => setStoreCompany(!storeCompany) }
+    {
+      labelLanguageKey: 'common.nationality',
+      checked: storeNationality,
+      onChange: () => setStoreNationality(!storeNationality)
+    },
+    {
+      labelLanguageKey: 'common.address',
+      checked: storeAddress,
+      onChange: () => setStoreAddress(!storeAddress)
+    },
+    {
+      labelLanguageKey: 'common.phoneNumber',
+      checked: storePhoneNumber,
+      onChange: () => setStorePhoneNumber(!storePhoneNumber)
+    },
+    {
+      labelLanguageKey: 'common.birthplace',
+      checked: storeBirthplace,
+      onChange: () => setStoreBirthplace(!storeBirthplace)
+    },
+    {
+      labelLanguageKey: 'common.birthDate',
+      checked: storeBirthDate,
+      onChange: () => setStoreBirthDate(!storeBirthDate)
+    },
+    {
+      labelLanguageKey: 'common.motherName',
+      checked: storeMotherName,
+      onChange: () => setStoreMotherName(!storeMotherName)
+    },
+    {
+      labelLanguageKey: 'page.companies.companyDetails',
+      checked: storeCompany,
+      onChange: () => setStoreCompany(!storeCompany)
+    }
   ]
 
   const otherSettings = [
-    { label: t('guest.mustRegisterCard'), checked: registerGuestCard, onChange: () => setRegisterGuestCard(!registerGuestCard) },
-    { label: t('guest.mustTrackActualExit'), checked: trackActualExit, onChange: () => setTrackActualExit(!trackActualExit) }
+    {
+      labelLanguageKey: 'page.companies.mustRegisterCard',
+      checked: registerGuestCard,
+      onChange: () => setRegisterGuestCard(!registerGuestCard)
+    },
+    {
+      labelLanguageKey: 'page.companies.mustTrackActualExit',
+      checked: trackActualExit,
+      onChange: () => setTrackActualExit(!trackActualExit)
+    }
   ]
 
+  /**
+   * Loads company config data if not loaded already.
+   */
   useEffect(() => {
     if (!config) {
       dispatch(fetchCompanyConfig())
     } else {
-      // Set initial state
+      // Set initial config states
       setStoreNationality(config.storeNationality)
       setStoreAddress(config.storeAddress)
       setStorePhoneNumber(config.storePhoneNumber)
@@ -96,21 +142,22 @@ const CompanyConfigDialog: React.FC<Props> = ({ onClose }) => {
 
   return (
     <Dialog fullScreen={fullScreen} maxWidth="md" open={isOpen} onClose={handleClose}>
-      <DialogTitle className={classes.title}>{t('general.settings')}</DialogTitle>
+      <DialogTitle className={classes.title}>{t('page.companies.companySettings')}</DialogTitle>
       <DialogContent className={classes.content} dividers>
         <Typography className={classes.sectionTitle} component="h1">
-          {t('company.guestDataSettings')}
+          {t('page.companies.storedGuestData')}
         </Typography>
 
-        {guestDataSettings.map(({ label, checked, onChange }, index) => (
-          <Grid className={classes.grid} container key={`guest-data-${index}`}>
+        {guestDataSettings.map(({ labelLanguageKey, checked, onChange }) => (
+          <Grid className={classes.grid} container key={labelLanguageKey}>
             <Grid item sm={10} xs={9}>
               <Typography className={classes.text} variant="h2">
-                {label}
+                {t(labelLanguageKey)}
               </Typography>
             </Grid>
+
             <Grid item sm={2} xs={3} className={classes.switch}>
-              <Switch checked={checked} onChange={onChange} color="primary" />
+              <Switch checked={checked} onChange={onChange} color="secondary" />
             </Grid>
           </Grid>
         ))}
@@ -119,15 +166,16 @@ const CompanyConfigDialog: React.FC<Props> = ({ onClose }) => {
           {t('company.otherSettings')}
         </Typography>
 
-        {otherSettings.map(({ label, checked, onChange }, index) => (
-          <Grid className={classes.grid} container key={`other-${index}`}>
+        {otherSettings.map(({ labelLanguageKey, checked, onChange }) => (
+          <Grid className={classes.grid} container key={labelLanguageKey}>
             <Grid item sm={10} xs={9}>
               <Typography className={classes.text} variant="h2">
-                {label}
+                {t(labelLanguageKey)}
               </Typography>
             </Grid>
+
             <Grid item sm={2} xs={3} className={classes.switch}>
-              <Switch checked={checked} onChange={onChange} color="primary" />
+              <Switch checked={checked} onChange={onChange} color="secondary" />
             </Grid>
           </Grid>
         ))}
