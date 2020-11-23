@@ -11,19 +11,28 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { businessHostsSelector, fetchBusinessHosts } from '../../store/company'
 
+/**
+ * The business hosts page where the current business hosts are displayed.
+ */
 const BusinessHosts: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
-  const businessHosts = useSelector(businessHostsSelector)
   const [t, i18n] = useTranslation()
 
-  const [activeHostIndex, setActiveHostIndex] = useState(-1)
+  const businessHosts = useSelector(businessHostsSelector)
+  const [activeHost, setActiveHost] = useState(-1)
 
-  const handleEditClick = (businessHostId: number) => {
-    const hostIndex = businessHosts.findIndex(host => host.id === businessHostId)
-    setActiveHostIndex(hostIndex)
+  /**
+   * Sets the specified host to the active host.
+   */
+  const handleEditClick = (hostId: number) => {
+    const hostIndex = businessHosts.findIndex(host => host.id === hostId)
+    setActiveHost(hostIndex)
   }
 
+  /**
+   * Loads business hosts when the component mounted.
+   */
   useEffect(() => {
     dispatch(fetchBusinessHosts())
   }, [])
@@ -33,31 +42,33 @@ const BusinessHosts: React.FC = () => {
       <Container className={classes.container} component="main" maxWidth="lg">
         <Paper elevation={3}>
           <Typography className={classes.title} variant="h1">
-            {t('general.businessHosts')}
+            {t('page.businessHosts.pageTitle')}
           </Typography>
-          {!businessHosts.length ? (
-            <InfoBox text={t('company.noBusinessHostsInfo')} type="info" />
-          ) : (
-            <ResponsiveTable
-              labels={[t('company.businessHostName'), t('auth.email'), t('company.joiningDate')]}
-              data={businessHosts.map(host => ({
-                id: host.id,
-                name: `${host.firstName} ${host.lastName}`,
-                email: host.email,
-                createdAt: new Date(host.createdAt).toLocaleDateString(i18n.language)
-              }))}
-              tooltipLabel={t('action.editBusinessHost')}
-              onEditClick={handleEditClick}
-            />
+
+          {businessHosts && (
+            <>
+              {!businessHosts.length ? (
+                <InfoBox text={t('page.businessHosts.noBusinessHostsInfo')} type="info" />
+              ) : (
+                <ResponsiveTable
+                  labels={[t('page.businessHosts.businessHostName'), t('common.email'), t('page.businessHosts.joiningDate')]}
+                  data={businessHosts.map(host => ({
+                    id: host.id,
+                    name: `${host.firstName} ${host.lastName}`,
+                    email: host.email,
+                    createdAt: new Date(host.createdAt).toLocaleDateString(i18n.language)
+                  }))}
+                  tooltipLabel={t('action.editBusinessHost')}
+                  onEditClick={handleEditClick}
+                />
+              )}
+            </>
           )}
         </Paper>
       </Container>
-      {activeHostIndex !== -1 && (
-        <BusinessHostEditorDialog
-          businessHost={businessHosts[activeHostIndex]}
-          isEditing={true}
-          onClose={() => setActiveHostIndex(-1)}
-        />
+
+      {activeHost !== -1 && (
+        <BusinessHostEditorDialog businessHost={businessHosts[activeHost]} isEditing={true} onClose={() => setActiveHost(-1)} />
       )}
     </React.Fragment>
   )

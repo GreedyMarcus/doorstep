@@ -11,7 +11,7 @@ import InfoBox from '../../components/shared/InfoBox'
 import TextEditor from '../../components/TextEditor'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
-import useInput from '../../components/shared/useInput'
+import useInput from '../../components/hooks/useInput'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -29,11 +29,11 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const classes = useStyles({ fullScreen })
   const dispatch = useAppDispatch()
-  const activeConsentForm = useSelector(activeConsentFormSelector)
   const [t, i18n] = useTranslation()
 
+  const activeConsentForm = useSelector(activeConsentFormSelector)
   const [openedVersion, setOpenedVersion] = useState(1)
-  const [content, bindContent] = useInput('', true)
+  const [content, bindContent] = useInput({ required: true })
 
   // Store active version status in local state
   const [status, setStatus] = useState({
@@ -43,27 +43,39 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
     openedDifferent: false
   })
 
+  /**
+   * Opens the specified consent form version.
+   */
   const openConsentFormVersion = (versionNumber: number) => {
     setOpenedVersion(versionNumber)
     setStatus({ ...status, openedDifferent: true })
 
     if (activeConsentForm) {
-      bindContent.onChange({ target: { value: activeConsentForm.versions[versionNumber - 1].content } })
+      bindContent.change(activeConsentForm.versions[versionNumber - 1].content)
     }
   }
 
+  /**
+   * Drops all changes that made to the consent forms's content.
+   */
   const handleDropContentChanges = () => {
     if (activeConsentForm) {
-      bindContent.onChange({ target: { value: activeConsentForm.versions[openedVersion - 1].content } })
+      bindContent.change(activeConsentForm.versions[openedVersion - 1].content)
     }
     setStatus({ ...status, openedDifferent: true })
   }
 
+  /**
+   * Creates new consent form version with the copy of the last one's content.
+   */
   const handleConsentFormVersionCreation = () => {
     setStatus({ ...status, disabled: false, edited: false, createdNew: true })
     dispatch(createConsentFormVersion(content.value))
   }
 
+  /**
+   * Updates the current consent form version.
+   */
   const handleConsentFormVersionUpdate = () => {
     if (activeConsentForm) {
       dispatch(updateConsentFormVersion(activeConsentForm.versions[openedVersion - 1].id, content.value))
@@ -71,6 +83,9 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
     setStatus({ ...status, disabled: false, edited: false })
   }
 
+  /**
+   * Actives the current consent form version, therefore that will be the version to accept.
+   */
   const handleConsentFormVersionActivation = () => {
     if (activeConsentForm) {
       dispatch(activateConsentFormVersion(activeConsentForm.versions[openedVersion - 1].id))
@@ -78,6 +93,9 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
     setStatus({ ...status, disabled: true, edited: false })
   }
 
+  /**
+   * Reacts to the changes of the consent form.
+   */
   useEffect(() => {
     if (!activeConsentForm) {
       dispatch(fetchConsentFormById(routeParams['consentFormId']))
@@ -88,10 +106,13 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
       const openVersionNumber = activeConsentForm.versions.length
       setOpenedVersion(openVersionNumber)
       setStatus({ ...status, openedDifferent: true })
-      bindContent.onChange({ target: { value: activeConsentForm.versions[openVersionNumber - 1].content } })
+      bindContent.change(activeConsentForm.versions[openVersionNumber - 1].content)
     }
   }, [activeConsentForm])
 
+  /**
+   * Reacts to the changes of the consent form version.
+   */
   useEffect(() => {
     if (content.value) {
       if (status.createdNew) {
@@ -123,16 +144,17 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         {!activeConsentForm ? (
-          <InfoBox text={t('consentForm.notFound')} type="error" />
+          <InfoBox text={t('page.consentForms.notFound')} type="error" />
         ) : (
-          <React.Fragment>
+          <>
             <Typography className={classes.title} variant="h1">
-              {t('consentForm.details')}
+              {t('page.consentForms.formDetails')}
             </Typography>
+
             <Grid className={classes.grid} container spacing={1}>
               <Grid className={classes.gridItemHeader} item md={2} sm={6} xs={12}>
                 <Typography variant="h2" className={classes.label}>
-                  {t('consentForm.title')}
+                  {t('page.consentForms.formTitle')}
                 </Typography>
               </Grid>
               <Grid className={classes.gridItem} item md={4} sm={6} xs={12}>
@@ -143,19 +165,19 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
 
               <Grid className={classes.gridItemHeader} item md={2} sm={6} xs={12}>
                 <Typography variant="h2" className={classes.label}>
-                  {t('consentForm.activeVersion')}
+                  {t('page.consentForms.activeVersion')}
                 </Typography>
               </Grid>
               <Grid className={classes.gridItem} item md={4} sm={6} xs={12}>
                 <Chip
                   className={classes.chip}
-                  label={activeConsentForm.activeVersion?.versionNumber ?? t('consentForm.noActiveVersion')}
+                  label={activeConsentForm.activeVersion?.versionNumber ?? t('page.consentForms.noActiveVersion')}
                 />
               </Grid>
 
               <Grid className={classes.gridItemHeader} item md={2} sm={6} xs={12}>
                 <Typography variant="h2" className={classes.label}>
-                  {t('consentForm.createdDate')}
+                  {t('page.consentForms.createdDate')}
                 </Typography>
               </Grid>
               <Grid className={classes.gridItem} item md={4} sm={6} xs={12}>
@@ -166,7 +188,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
 
               <Grid className={classes.gridItemHeader} item md={2} sm={6} xs={12}>
                 <Typography variant="h2" className={classes.label}>
-                  {t('consentForm.openedVersion')}
+                  {t('page.consentForms.openedVersion')}
                 </Typography>
               </Grid>
               <Grid className={classes.gridItem} item md={4} sm={6} xs={12}>
@@ -187,7 +209,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
             </Grid>
 
             <Typography className={classes.contentTitle} variant="h2">
-              {t('consentForm.content')}
+              {t('page.consentForms.content')}
             </Typography>
             <Grid className={classes.grid} container spacing={2}>
               <Grid item xs={12}>
@@ -241,7 +263,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
                 </Button>
               </div>
             </Grid>
-          </React.Fragment>
+          </>
         )}
       </Paper>
     </Container>

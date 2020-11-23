@@ -7,23 +7,22 @@ import { initReactI18next } from 'react-i18next'
 /**
  * Localization configuration object.
  */
-i18n
-  .use(XHR)
-  .use(initReactI18next)
-  .init({
-    lng: 'hu',
-    interpolation: {
-      escapeValue: false
+const i18nConfig = {
+  lng: 'hu',
+  interpolation: {
+    escapeValue: false
+  },
+  resources: {
+    hu: {
+      translations: translationHun
     },
-    resources: {
-      hu: {
-        translations: translationHun
-      },
-      en: {
-        translations: translationEng
-      }
-    },
-    defaultNS: 'translations'
-  })
+    en: {
+      translations: translationEng
+    }
+  },
+  defaultNS: 'translations'
+}
+
+i18n.use(XHR).use(initReactI18next).init(i18nConfig)
 
 export default i18n

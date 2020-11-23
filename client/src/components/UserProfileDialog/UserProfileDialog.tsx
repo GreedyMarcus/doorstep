@@ -5,6 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
+import PasswordField from '../../components/shared/PasswordField'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
@@ -16,41 +17,47 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
 import { activeUserSelector, updateUserCredentials } from '../../store/user'
-import { UserCredentials } from '../../data/types/User'
 
-type Props = {
+interface UserProfileDialogProps {
   onClose: () => void
 }
 
 /**
  * Custom dialog component to edit user credentials.
  */
-const UserProfileDialog: React.FC<Props> = ({ onClose }) => {
+const UserProfileDialog: React.FC<UserProfileDialogProps> = ({ onClose }) => {
   const classes = useStyles()
-  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const dispatch = useAppDispatch()
+  const [t] = useTranslation()
+
+  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const user = useSelector(activeUserSelector)
   const [isOpen, setOpen] = useState(true)
-  const [t] = useTranslation()
 
   const [firstName, bindFirstName] = useInput(user?.firstName || '', true)
   const [lastName, bindLastName] = useInput(user?.lastName || '', true)
   const [password, bindPassword] = useInput('', false, REGEXP.PASSWORD)
 
+  /**
+   * Closes the dialog.
+   */
   const handleClose = () => {
     // This method provides smooth exit animation for the component
     setOpen(false)
     setTimeout(() => onClose(), 300)
   }
 
+  /**
+   * Saves the modified user credentials.
+   */
   const handleSave = () => {
     const isUserDataValid = [firstName, lastName, password].every(param => param.isValid)
     if (!isUserDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidBusinessHostData') }))
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.user') }))
       return
     }
 
-    const userCredentials: UserCredentials = {
+    const userCredentials = {
       firstName: firstName.value,
       lastName: lastName.value,
       password: !!password.value ? password.value : undefined
@@ -62,10 +69,10 @@ const UserProfileDialog: React.FC<Props> = ({ onClose }) => {
 
   return (
     <Dialog fullScreen={fullScreen} maxWidth="xs" open={isOpen} onClose={handleClose}>
-      <DialogTitle className={classes.title}>{t('general.myProfile')}</DialogTitle>
+      <DialogTitle className={classes.title}>{t('common.myProfile')}</DialogTitle>
       <DialogContent className={classes.content} dividers>
         <Typography className={classes.sectionTitle} component="h1">
-          {t('company.userRole')}
+          {t('common.userRole')}
         </Typography>
 
         <Typography className={classes.role} component="h1">
@@ -73,25 +80,18 @@ const UserProfileDialog: React.FC<Props> = ({ onClose }) => {
         </Typography>
 
         <Typography className={classes.sectionTitle} component="h1">
-          {t('general.basicData')}
+          {t('common.basicData')}
         </Typography>
 
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField {...bindFirstName} id="user-first-name" label={t('auth.firstName')} variant="outlined" fullWidth />
+            <TextField {...bindFirstName} label={t('common.firstName')} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextField {...bindLastName} id="user-last-name" label={t('auth.lastName')} variant="outlined" fullWidth />
+            <TextField {...bindLastName} label={t('common.lastName')} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              {...bindPassword}
-              id="user-password"
-              label={t('auth.password')}
-              type="password"
-              variant="outlined"
-              fullWidth
-            />
+            <PasswordField {...bindPassword} label={t('common.password')} variant="outlined" fullWidth />
           </Grid>
         </Grid>
       </DialogContent>

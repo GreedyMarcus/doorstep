@@ -13,7 +13,7 @@ import DateFnsAdapter from '@date-io/date-fns'
 import { VisitInfo } from '../../data/types/Visit'
 import { useTranslation } from 'react-i18next'
 
-type Props = {
+interface VisitFilterProps {
   visits: VisitInfo[]
   onFilterChange: (visits: VisitInfo[]) => void
 }
@@ -21,9 +21,10 @@ type Props = {
 /**
  * Custom component to filter visit data.
  */
-const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
+const VisitFilter: React.FC<VisitFilterProps> = ({ visits, onFilterChange }) => {
   const classes = useStyles()
   const [t] = useTranslation()
+
   const [isOpen, setOpen] = useState(false)
 
   const [selectedHostNames, setSelectedHostNames] = useState([] as string[])
@@ -41,6 +42,9 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
     { hostNames: new Set<string>(), purposes: new Set<string>() }
   )
 
+  /**
+   * Removes all filtering.
+   */
   const handleClearClick = () => {
     setSelectedHostNames([])
     setSelectedPurposes([])
@@ -48,6 +52,9 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
     setSelectedUntilDate(null)
   }
 
+  /**
+   * Returns filtered visits on input change.
+   */
   useEffect(() => {
     const filteredVisits = visits.filter(({ businessHostName, purpose, plannedEntry }) => {
       // Check host names
@@ -68,14 +75,14 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
     <div className={classes.root}>
       <Accordion className={classes.accordion} expanded={isOpen} onChange={() => setOpen(!isOpen)}>
         <AccordionSummary expandIcon={<TuneRoundedIcon />}>
-          <Typography>{t('visit.filter')}</Typography>
+          <Typography>{t('page.visits.visitFilter')}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={4} className={classes.grid}>
             <Grid item lg={3} md={6} sm={6} xs={12}>
               <MultiSelect
                 id="host-name-label"
-                label={t('visit.businessHostName')}
+                label={t('page.visits.businessHostName')}
                 items={Array.from(hostNames)}
                 selectedItems={selectedHostNames}
                 onChange={value => setSelectedHostNames(value)}
@@ -84,7 +91,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
             <Grid item lg={3} md={6} sm={6} xs={12}>
               <MultiSelect
                 id="purpose-label"
-                label={t('visit.purpose')}
+                label={t('page.visits.purpose')}
                 items={Array.from(purposes)}
                 selectedItems={selectedPurposes}
                 onChange={value => setSelectedPurposes(value)}
@@ -92,7 +99,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
             </Grid>
             <Grid item lg={3} md={6} sm={6} xs={12}>
               <LocalizedDateTimePicker
-                label={t('visit.fromDate')}
+                label={t('page.visits.fromDate')}
                 value={!!selectedFromDate ? new Date(selectedFromDate) : null}
                 maxDate={!!selectedUntilDate ? new Date(selectedUntilDate) : undefined}
                 onChange={date => setSelectedFromDate(date)}
@@ -100,7 +107,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
             </Grid>
             <Grid item lg={3} md={6} sm={6} xs={12}>
               <LocalizedDateTimePicker
-                label={t('visit.untilDate')}
+                label={t('page.visits.untilDate')}
                 value={!!selectedUntilDate ? new Date(selectedUntilDate) : null}
                 minDate={!!selectedFromDate ? new Date(selectedFromDate) : undefined}
                 onChange={date => setSelectedUntilDate(date)}

@@ -11,6 +11,9 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { consentFormsSelector, fetchConsentForms } from '../../store/consentForm'
 
+/**
+ * The consent forms page where the current consent forms are displayed.
+ */
 const ConsentForms: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
@@ -18,6 +21,9 @@ const ConsentForms: React.FC = () => {
   const consentForms = useSelector(consentFormsSelector)
   const [t, i18n] = useTranslation()
 
+  /**
+   * Loads consent forms when the component mounted.
+   */
   useEffect(() => {
     dispatch(fetchConsentForms())
   }, [])
@@ -26,22 +32,31 @@ const ConsentForms: React.FC = () => {
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         <Typography className={classes.title} variant="h1">
-          {t('general.consentForms')}
+          {t('page.consentForms.pageTitle')}
         </Typography>
-        {!consentForms.length ? (
-          <InfoBox text={t('consentForm.noConsentFormsInfo')} type="info" />
-        ) : (
-          <ResponsiveTable
-            labels={[t('consentForm.title'), t('consentForm.activeVersion'), t('consentForm.createdDate')]}
-            data={consentForms.map(form => ({
-              id: form.id,
-              title: form.title,
-              activeVersion: form.activeVersion || t('consentForm.noActiveVersion'),
-              createdAt: new Date(form.createdAt).toLocaleDateString(i18n.language)
-            }))}
-            tooltipLabel={t('action.openConsentForm')}
-            onOpenClick={formId => history.push(`/consent-forms/${formId}`)}
-          />
+
+        {consentForms && (
+          <>
+            {!consentForms.length ? (
+              <InfoBox text={t('page.consentForms.noConsentFormsInfo')} type="info" />
+            ) : (
+              <ResponsiveTable
+                labels={[
+                  t('page.consentForms.formTitle'),
+                  t('page.consentForms.activeVersion'),
+                  t('page.consentForms.createdDate')
+                ]}
+                data={consentForms.map(form => ({
+                  id: form.id,
+                  title: form.title,
+                  activeVersion: form.activeVersion || t('page.consentForms.noActiveVersion'),
+                  createdAt: new Date(form.createdAt).toLocaleDateString(i18n.language)
+                }))}
+                tooltipLabel={t('action.openConsentForm')}
+                onOpenClick={formId => history.push(`/consent-forms/${formId}`)}
+              />
+            )}
+          </>
         )}
       </Paper>
     </Container>

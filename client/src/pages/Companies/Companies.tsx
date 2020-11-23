@@ -18,13 +18,20 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { companiesSelector, fetchCompanies } from '../../store/company'
 
+/**
+ * The companies page where current companies are displayed.
+ */
 const Companies: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
-  const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
-  const companies = useSelector(companiesSelector)
   const [t] = useTranslation()
 
+  const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
+  const companies = useSelector(companiesSelector)
+
+  /**
+   * Loads companies when the component mounted.
+   */
   useEffect(() => {
     dispatch(fetchCompanies())
   }, [])
@@ -33,34 +40,39 @@ const Companies: React.FC = () => {
     <Container className={classes.container} component="main" maxWidth="lg">
       <Paper elevation={3}>
         <Typography className={classes.title} variant="h1">
-          {t('general.companies')}
+          {t('page.companies.pageTitle')}
         </Typography>
-        {!companies.length ? (
-          <InfoBox text={t('company.noCompanyInfo')} type="info" />
-        ) : (
-          <TableContainer>
-            <Table aria-label="companies table">
-              <TableHead>
-                <TableRow>
-                  <TableCell className={classes.emptyCell} />
-                  <TableCell className={classes.tableCell}>{t('company.name')}</TableCell>
-                  {showMore && (
-                    <React.Fragment>
-                      <TableCell className={classes.tableCell}>{t('company.registrationNumber')}</TableCell>
-                      <TableCell className={classes.tableCell}>{t('company.admin')}</TableCell>
-                      <TableCell className={classes.tableCell}>{t('company.joiningDate')}</TableCell>
-                    </React.Fragment>
-                  )}
-                  <TableCell className={classes.emptyCell} />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {companies.map(company => (
-                  <CompanyTableRow key={company.id} company={company} showMore={showMore} />
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+
+        {companies && (
+          <>
+            {!companies.length ? (
+              <InfoBox text={t('page.companies.noCompanyInfo')} type="info" />
+            ) : (
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className={classes.emptyCell} />
+                      <TableCell className={classes.tableCell}>{t('page.companies.companyName')}</TableCell>
+                      {showMore && (
+                        <>
+                          <TableCell className={classes.tableCell}>{t('page.companies.registrationNumber')}</TableCell>
+                          <TableCell className={classes.tableCell}>{t('page.companies.admin')}</TableCell>
+                          <TableCell className={classes.tableCell}>{t('page.companies.joiningDate')}</TableCell>
+                        </>
+                      )}
+                      <TableCell className={classes.emptyCell} />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {companies.map(company => (
+                      <CompanyTableRow key={company.id} company={company} showMore={showMore} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </>
         )}
       </Paper>
     </Container>
