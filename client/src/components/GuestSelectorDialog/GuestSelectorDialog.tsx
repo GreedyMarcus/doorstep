@@ -12,7 +12,7 @@ import useStyles from './useStyles'
 import { GuestUserRegister } from '../../data/types/User'
 import { useTranslation } from 'react-i18next'
 
-type Props = {
+interface GuestSelectorDialogProps {
   guests: GuestUserRegister[]
   onSave: (guests: GuestUserRegister[]) => void
   onClose: () => void
@@ -21,12 +21,16 @@ type Props = {
 /**
  * Custom dialog component to select guest users from list.
  */
-const GuestSelectorDialog: React.FC<Props> = ({ guests, onSave, onClose }) => {
+const GuestSelectorDialog: React.FC<GuestSelectorDialogProps> = ({ guests, onSave, onClose }) => {
   const classes = useStyles()
-  const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
-  const [checked, setChecked] = React.useState([] as number[])
 
+  const [isOpen, setOpen] = useState(true)
+  const [checked, setChecked] = useState([] as number[])
+
+  /**
+   * Switches the state of the checkbox
+   */
   const toggle = (value: number) => {
     const currentIndex = checked.indexOf(value)
     const newChecked = [...checked]
@@ -40,14 +44,20 @@ const GuestSelectorDialog: React.FC<Props> = ({ guests, onSave, onClose }) => {
     setChecked(newChecked)
   }
 
+  /**
+   * Closes the dialog.
+   */
   const handleClose = () => {
     // This method provides smooth exit animation for the component
     setOpen(false)
     setTimeout(() => onClose(), 300)
   }
 
+  /**
+   * Returns the selected guest users with the provided callback function.
+   */
   const handleSave = () => {
-    const selectedGuests = guests.filter((guest, index) => checked.includes(index))
+    const selectedGuests = guests.filter((_guest, index) => checked.includes(index))
     onSave(selectedGuests)
     handleClose()
   }

@@ -13,7 +13,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
 
-type Props = {
+interface ResponsiveTableProps {
   labels: string[]
   data: any[]
   tooltipLabel: string
@@ -24,7 +24,7 @@ type Props = {
 /**
  * Custom component that displays table data with responsive behaviour.
  */
-const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, onOpenClick, onEditClick }) => {
+const ResponsiveTable: React.FC<ResponsiveTableProps> = ({ labels, data, tooltipLabel, onOpenClick, onEditClick }) => {
   const classes = useStyles()
   const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
 
@@ -50,6 +50,7 @@ const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, onOpenClick
           <TableRow>
             <TableCell className={classes.tableHeaderCell}>{firstLabel}</TableCell>
             {showMore && loadAdditionalTableCells(otherLabels, classes.tableHeaderCell)}
+
             {(onOpenClick || onEditClick) && <TableCell className={classes.tableEmptyCell} />}
           </TableRow>
         </TableHead>
@@ -60,6 +61,7 @@ const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, onOpenClick
               <TableRow key={id}>
                 <TableCell className={classes.tableBodyCell}>{firstValue}</TableCell>
                 {showMore && loadAdditionalTableCells(otherValues, classes.tableBodyCell)}
+
                 {onOpenClick && !onEditClick && (
                   <TableCell className={classes.tableEmptyCell}>
                     <Tooltip title={tooltipLabel}>
@@ -69,6 +71,7 @@ const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, onOpenClick
                     </Tooltip>
                   </TableCell>
                 )}
+
                 {onEditClick && !onOpenClick && (
                   <TableCell className={classes.tableEmptyCell}>
                     <Tooltip title={tooltipLabel}>
@@ -87,4 +90,4 @@ const ConsentForms: React.FC<Props> = ({ labels, data, tooltipLabel, onOpenClick
   )
 }
 
-export default ConsentForms
+export default ResponsiveTable

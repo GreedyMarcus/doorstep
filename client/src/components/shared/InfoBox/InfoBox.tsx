@@ -4,7 +4,7 @@ import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded'
 import Typography from '@material-ui/core/Typography'
 import useStyles from './useStyles'
 
-type Props = {
+interface InfoBoxProps {
   text: string
   type: 'error' | 'info'
 }
@@ -12,7 +12,7 @@ type Props = {
 /**
  * Custom component that displays information.
  */
-const InfoBox: React.FC<Props> = ({ text, type }) => {
+const InfoBox: React.FC<InfoBoxProps> = ({ text, type }) => {
   const classes = useStyles({ iconType: type })
 
   return (

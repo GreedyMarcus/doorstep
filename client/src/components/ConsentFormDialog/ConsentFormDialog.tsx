@@ -8,45 +8,51 @@ import TextEditor from '../../components/TextEditor'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
-import useInput from '../../components/shared/useInput'
+import useInput from '../../components/hooks/useInput'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
-import { ConsentFormCreate } from '../../data/types/ConsentForm'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
 import { createConsentForm } from '../../store/consentForm'
 
-type Props = {
+interface ConsentFormDialogProps {
   onClose: () => void
 }
 
 /**
- * Custom dialog component to edit consent forms.
+ * Custom dialog component to create consent forms.
  */
-const ConsentFormDialog: React.FC<Props> = ({ onClose }) => {
+const ConsentFormDialog: React.FC<ConsentFormDialogProps> = ({ onClose }) => {
   const classes = useStyles()
-  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const dispatch = useAppDispatch()
-  const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
 
-  const [title, bindTitle] = useInput('', true)
-  const [content, bindContent] = useInput('', true)
+  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+  const [isOpen, setOpen] = useState(true)
 
+  const [title, bindTitle] = useInput({ required: true })
+  const [content, bindContent] = useInput({ required: true })
+
+  /**
+   * Closes the dialog.
+   */
   const handleClose = () => {
-    // This method provides smooth exit animation for the component
+    // This method provides smooth exit animation for the component.
     setOpen(false)
     setTimeout(() => onClose(), 300)
   }
 
+  /**
+   * Saves the new consent form.
+   */
   const handleSave = () => {
-    const isConsentFormDataValid = [title, content].every(input => input.isValid)
+    const isConsentFormDataValid = [title, content].every(input => input.valid)
     if (!isConsentFormDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidConsentFormData') }))
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.consentForm') }))
       return
     }
 
-    const consentFormData: ConsentFormCreate = {
+    const consentFormData = {
       title: title.value,
       content: content.value
     }
@@ -61,7 +67,7 @@ const ConsentFormDialog: React.FC<Props> = ({ onClose }) => {
       <DialogContent dividers>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField {...bindTitle} id="consent-form-title" label={t('consentForm.title')} variant="outlined" fullWidth />
+            <TextField {...bindTitle} label={t('page.consentForms.formTitle')} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
             <TextEditor {...bindContent} fullScreen={fullScreen} />

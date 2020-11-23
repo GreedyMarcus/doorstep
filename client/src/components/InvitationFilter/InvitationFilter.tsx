@@ -13,7 +13,7 @@ import DateFnsAdapter from '@date-io/date-fns'
 import { InvitationInfo } from '../../data/types/Visit'
 import { useTranslation } from 'react-i18next'
 
-type Props = {
+interface InvitationFilterProps {
   invitations: InvitationInfo[]
   onFilterChange: (invitations: InvitationInfo[]) => void
 }
@@ -21,7 +21,7 @@ type Props = {
 /**
  * Custom component to filter invitation data.
  */
-const InvitationFilter: React.FC<Props> = ({ invitations, onFilterChange }) => {
+const InvitationFilter: React.FC<InvitationFilterProps> = ({ invitations, onFilterChange }) => {
   const classes = useStyles()
   const [t] = useTranslation()
   const [isOpen, setOpen] = useState(false)
@@ -43,6 +43,9 @@ const InvitationFilter: React.FC<Props> = ({ invitations, onFilterChange }) => {
     { companyNames: new Set<string>(), hostNames: new Set<string>(), purposes: new Set<string>() }
   )
 
+  /**
+   * Removes all filtering.
+   */
   const handleClearClick = () => {
     setSelectedCompanyNames([])
     setSelectedHostNames([])
@@ -51,6 +54,9 @@ const InvitationFilter: React.FC<Props> = ({ invitations, onFilterChange }) => {
     setSelectedUntilDate(null)
   }
 
+  /**
+   * Returns filtered invitations on input change.
+   */
   useEffect(() => {
     const filteredInvitations = invitations.filter(({ companyName, businessHostName, purpose, plannedEntry }) => {
       // Check company names
@@ -73,14 +79,14 @@ const InvitationFilter: React.FC<Props> = ({ invitations, onFilterChange }) => {
     <div className={classes.root}>
       <Accordion className={classes.accordion} expanded={isOpen} onChange={() => setOpen(!isOpen)}>
         <AccordionSummary expandIcon={<TuneRoundedIcon />}>
-          <Typography>{t('visit.invitationFilter')}</Typography>
+          <Typography>{t('page.invitations.invitationFilter')}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={4} className={classes.grid}>
             <Grid item md={6} sm={12} xs={12}>
               <MultiSelect
                 id="company-name-label"
-                label={t('company.name')}
+                label={t('page.invitations.companyName')}
                 items={Array.from(companyNames)}
                 selectedItems={selectedCompanyNames}
                 onChange={value => setSelectedCompanyNames(value)}
@@ -89,7 +95,7 @@ const InvitationFilter: React.FC<Props> = ({ invitations, onFilterChange }) => {
             <Grid item md={6} sm={6} xs={12}>
               <MultiSelect
                 id="host-name-label"
-                label={t('visit.businessHostName')}
+                label={t('page.invitations.businessHostName')}
                 items={Array.from(hostNames)}
                 selectedItems={selectedHostNames}
                 onChange={value => setSelectedHostNames(value)}
@@ -98,7 +104,7 @@ const InvitationFilter: React.FC<Props> = ({ invitations, onFilterChange }) => {
             <Grid item md={4} sm={6} xs={12}>
               <MultiSelect
                 id="purpose-label"
-                label={t('visit.purpose')}
+                label={t('page.invitations.purpose')}
                 items={Array.from(purposes)}
                 selectedItems={selectedPurposes}
                 onChange={value => setSelectedPurposes(value)}
@@ -106,7 +112,7 @@ const InvitationFilter: React.FC<Props> = ({ invitations, onFilterChange }) => {
             </Grid>
             <Grid item md={4} sm={6} xs={12}>
               <LocalizedDateTimePicker
-                label={t('visit.fromDate')}
+                label={t('page.invitations.fromDate')}
                 value={!!selectedFromDate ? new Date(selectedFromDate) : null}
                 maxDate={!!selectedUntilDate ? new Date(selectedUntilDate) : undefined}
                 onChange={date => setSelectedFromDate(date)}
@@ -114,7 +120,7 @@ const InvitationFilter: React.FC<Props> = ({ invitations, onFilterChange }) => {
             </Grid>
             <Grid item md={4} sm={6} xs={12}>
               <LocalizedDateTimePicker
-                label={t('visit.untilDate')}
+                label={t('page.invitations.untilDate')}
                 value={!!selectedUntilDate ? new Date(selectedUntilDate) : null}
                 minDate={!!selectedFromDate ? new Date(selectedFromDate) : undefined}
                 onChange={date => setSelectedUntilDate(date)}

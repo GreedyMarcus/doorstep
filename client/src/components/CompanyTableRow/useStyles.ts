@@ -34,5 +34,8 @@ export default makeStyles(theme => ({
   collapseItem: {
     fontSize: 14,
     marginBottom: theme.spacing(0.5)
+  },
+  bold: {
+    fontWeight: 600
   }
 }))

@@ -5,7 +5,7 @@ import EventRoundedIcon from '@material-ui/icons/EventRounded'
 import { DateTimePicker, DateTimePickerProps } from '@material-ui/pickers'
 import { useTranslation } from 'react-i18next'
 
-type Props = {
+interface LocalizedDateTimePickerProps extends DateTimePickerProps {
   label: string
   value: Date | null
   onChange: (date: Date | null) => void
@@ -15,7 +15,7 @@ type Props = {
  * Wrapper component for date time picker that has default values,
  * and handles localization using translation hook.
  */
-const LocalizedDateTimePicker: React.FC<Props & DateTimePickerProps> = ({ label, value, onChange, ...rest }) => {
+const LocalizedDateTimePicker: React.FC<LocalizedDateTimePickerProps> = ({ label, value, onChange, ...rest }) => {
   const [t] = useTranslation()
 
   return (

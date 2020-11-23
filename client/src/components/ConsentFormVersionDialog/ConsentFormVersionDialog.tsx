@@ -10,7 +10,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme'
 import { useTranslation } from 'react-i18next'
 import { ConsentFormVersionDetails } from '../../data/types/ConsentForm'
 
-type Props = {
+interface ConsentFormVersionDialogProps {
   consentFormVersion: ConsentFormVersionDetails
   onClose: () => void
 }
@@ -18,12 +18,16 @@ type Props = {
 /**
  * Custom dialog component to show consent form version content.
  */
-const ConsentFormVersionDialog: React.FC<Props> = ({ consentFormVersion, onClose }) => {
+const ConsentFormVersionDialog: React.FC<ConsentFormVersionDialogProps> = ({ consentFormVersion, onClose }) => {
   const classes = useStyles()
-  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-  const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
 
+  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+  const [isOpen, setOpen] = useState(true)
+
+  /**
+   * Closes the dialog.
+   */
   const handleClose = () => {
     // This method provides smooth exit animation for the component
     setOpen(false)

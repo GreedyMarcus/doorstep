@@ -6,14 +6,14 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useStyles from './useStyles'
-import useInput from '../../components/shared/useInput'
+import useInput from '../../components/hooks/useInput'
 import REGEXP from '../../utils/regexp'
 import { GuestUserRegister } from '../../data/types/User'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from '../../store'
 import { addNotification } from '../../store/action'
 
-type Props = {
+interface GuestDialogProps {
   onSave: (guest: GuestUserRegister) => void
   onClose: () => void
 }
@@ -21,26 +21,33 @@ type Props = {
 /**
  * Custom dialog component to get guest user info.
  */
-const GuestDialog: React.FC<Props> = ({ onSave, onClose }) => {
+const GuestDialog: React.FC<GuestDialogProps> = ({ onSave, onClose }) => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
-  const [isOpen, setOpen] = useState(true)
   const [t] = useTranslation()
 
-  const [email, bindEmail] = useInput('', true, REGEXP.EMAIL)
-  const [firstName, bindFirstName] = useInput('', true)
-  const [lastName, bindLastName] = useInput('', true)
+  const [isOpen, setOpen] = useState(true)
 
+  const [email, bindEmail] = useInput({ required: true, validator: REGEXP.EMAIL })
+  const [firstName, bindFirstName] = useInput({ required: true })
+  const [lastName, bindLastName] = useInput({ required: true })
+
+  /**
+   * Closes the dialog.
+   */
   const handleClose = () => {
     // This method provides smooth exit animation for the component
     setOpen(false)
     setTimeout(() => onClose(), 300)
   }
 
+  /**
+   * Saves the new guest.
+   */
   const handleSave = () => {
-    const isGuestDataValid = [firstName, lastName, email].every(param => param.isValid)
+    const isGuestDataValid = [firstName, lastName, email].every(param => param.valid)
     if (!isGuestDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidGuestData') }))
+      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.guest') }))
       return
     }
 
@@ -60,27 +67,13 @@ const GuestDialog: React.FC<Props> = ({ onSave, onClose }) => {
       <DialogContent className={classes.content} dividers>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField {...bindEmail} id="guest-email" label={t('auth.email')} variant="outlined" size="small" fullWidth />
+            <TextField {...bindEmail} label={t('common.email')} variant="outlined" size="small" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              {...bindFirstName}
-              id="guest-first-name"
-              label={t('auth.firstName')}
-              variant="outlined"
-              size="small"
-              fullWidth
-            />
+            <TextField {...bindFirstName} label={t('common.firstName')} variant="outlined" size="small" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              {...bindLastName}
-              id="guest-last-name"
-              label={t('auth.lastName')}
-              variant="outlined"
-              size="small"
-              fullWidth
-            />
+            <TextField {...bindLastName} label={t('common.lastName')} variant="outlined" size="small" fullWidth />
           </Grid>
         </Grid>
       </DialogContent>
