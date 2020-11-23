@@ -22,6 +22,9 @@ import { activeVisitSelector, fetchVisitById } from '../../store/visit'
 import { ConsentFormVersionDetails } from '../../data/types/ConsentForm'
 import { getLocaleDateFormat } from '../../utils'
 
+/**
+ * The invitation details page where the current invitation is displayed.
+ */
 const InvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
   const classes = useStyles()
   const history = useHistory()

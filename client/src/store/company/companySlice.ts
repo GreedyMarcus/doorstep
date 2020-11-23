@@ -8,14 +8,14 @@ import { CompanyInfo, CompanyRegister, CompanyUpdate, CompanyConfig } from '../.
 import { EmployeeInfo, UserRegister, UserUpdate, GuestUserRegister } from '../../data/types/User'
 
 type CompanySliceState = {
-  companies: CompanyInfo[]
+  companies: CompanyInfo[] | null
   businessHosts: EmployeeInfo[]
   activeCompanyConfig: CompanyConfig | null
   availableGuestUsers: GuestUserRegister[]
 }
 
 const initialState: CompanySliceState = {
-  companies: [],
+  companies: null,
   businessHosts: [],
   activeCompanyConfig: null,
   availableGuestUsers: []
@@ -32,21 +32,29 @@ const companySlice = createSlice({
       state.companies = payload
     },
     companyRegistered: (state, { payload }: PayloadAction<CompanyInfo>) => {
-      state.companies.push(payload)
+      if (state.companies) {
+        state.companies.push(payload)
+      }
     },
     companyUpdated: (state, { payload }: PayloadAction<CompanyInfo>) => {
-      const index = state.companies.findIndex(company => company.id === payload.id)
-      state.companies[index] = payload
+      if (state.companies) {
+        const index = state.companies.findIndex(company => company.id === payload.id)
+        state.companies[index] = payload
+      }
     },
     businessHostsFetched: (state, { payload }: PayloadAction<EmployeeInfo[]>) => {
       state.businessHosts = payload
     },
     businessHostCreated: (state, { payload }: PayloadAction<EmployeeInfo>) => {
-      state.businessHosts.push(payload)
+      if (state.businessHosts) {
+        state.businessHosts.push(payload)
+      }
     },
     businessHostUpdated: (state, { payload }: PayloadAction<EmployeeInfo>) => {
-      const index = state.businessHosts.findIndex(host => host.id === payload.id)
-      state.businessHosts[index] = payload
+      if (state.businessHosts) {
+        const index = state.businessHosts.findIndex(host => host.id === payload.id)
+        state.businessHosts[index] = payload
+      }
     },
     companyConfigFetched: (state, { payload }: PayloadAction<CompanyConfig>) => {
       state.activeCompanyConfig = payload
@@ -55,7 +63,7 @@ const companySlice = createSlice({
       state.availableGuestUsers = payload
     },
     companySliceCleared: state => {
-      state.companies = []
+      state.companies = null
       state.businessHosts = []
       state.activeCompanyConfig = null
       state.availableGuestUsers = []

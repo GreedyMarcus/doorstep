@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 export default makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(4)
+    paddingBottom: theme.spacing(8)
   },
   paper: {
     padding: theme.spacing(3),
@@ -19,7 +19,14 @@ export default makeStyles(theme => ({
   title: {
     fontSize: 24,
     fontWeight: 600,
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 600,
+    marginBottom: theme.spacing(1),
+    alignSelf: 'flex-start'
   },
   stepper: {
     padding: theme.spacing(3, 1, 3)
@@ -32,5 +39,11 @@ export default makeStyles(theme => ({
   },
   button: {
     marginLeft: theme.spacing(1)
+  },
+  item: {
+    fontSize: 14
+  },
+  bold: {
+    fontWeight: 600
   }
 }))

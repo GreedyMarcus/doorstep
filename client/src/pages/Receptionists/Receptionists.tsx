@@ -11,7 +11,10 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
 import { receptionistsSelector, fetchReceptionists } from '../../store/building'
 
-const BusinessHosts: React.FC = () => {
+/**
+ * The receptionists page where the current receptionists are displayed.
+ */
+const Receptionists: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
   const [t, i18n] = useTranslation()
@@ -71,4 +74,4 @@ const BusinessHosts: React.FC = () => {
   )
 }
 
-export default BusinessHosts
+export default Receptionists

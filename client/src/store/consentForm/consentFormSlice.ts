@@ -10,12 +10,12 @@ import { ConsentFormType } from '../../data/enums/ConsentFormType'
 import { ConsentFormInfo, ConsentFormCreate, ConsentFormDetails, ConsentFormVersionInfo } from '../../data/types/ConsentForm'
 
 type ConsentFormSliceState = {
-  consentForms: ConsentFormInfo[]
+  consentForms: ConsentFormInfo[] | null
   activeConsentForm: ConsentFormDetails | null
 }
 
 const initialState: ConsentFormSliceState = {
-  consentForms: [],
+  consentForms: null,
   activeConsentForm: null
 }
 
@@ -30,7 +30,9 @@ const consentFormSlice = createSlice({
       state.consentForms = payload
     },
     consentFormCreated: (state, { payload }: PayloadAction<ConsentFormInfo>) => {
-      state.consentForms.push(payload)
+      if (state.consentForms) {
+        state.consentForms.push(payload)
+      }
     },
     singleConsentFormFetched: (state, { payload }: PayloadAction<ConsentFormDetails>) => {
       state.activeConsentForm = payload
@@ -53,7 +55,7 @@ const consentFormSlice = createSlice({
       }
     },
     consentFormSliceCleared: state => {
-      state.consentForms = []
+      state.consentForms = null
       state.activeConsentForm = null
     }
   }

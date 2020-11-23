@@ -12,6 +12,9 @@ import { useAppDispatch } from '../../store'
 import { guestInvitationsSelector, fetchGuestInvitations } from '../../store/visit'
 import { getLocaleDateFormat } from '../../utils'
 
+/**
+ * The guest invitations page where the current guest invitations are displayed.
+ */
 const GuestInvitations: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()

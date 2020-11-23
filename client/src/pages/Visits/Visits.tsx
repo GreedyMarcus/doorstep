@@ -18,32 +18,38 @@ import { useAppDispatch } from '../../store'
 import { visitsSelector, fetchVisits } from '../../store/visit'
 import { getLocaleDateFormat } from '../../utils'
 
+/**
+ * The visits page where the current visits are displayed.
+ */
 const Visits: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useAppDispatch()
-  const visits = useSelector(visitsSelector)
   const [t] = useTranslation()
 
+  const visits = useSelector(visitsSelector)
   const [showConfig, setShowConfig] = useState(false)
   const [filteredVisits, setFilteredVisits] = useState(visits)
 
+  /**
+   * Loads visits when component mounted.
+   */
   useEffect(() => {
     dispatch(fetchVisits())
   }, [])
 
   return (
-    <React.Fragment>
+    <>
       <Container className={classes.container} component="main" maxWidth="lg">
         <Paper elevation={3}>
           <Grid container>
             <Grid item sm={10} xs={9}>
               <Typography className={classes.title} variant="h1">
-                {t('general.visits')}
+                {t('page.visits.pageTitle')}
               </Typography>
             </Grid>
             <Grid item sm={2} xs={3} className={classes.settings}>
-              <Tooltip title={t('general.settings').toString()}>
+              <Tooltip title={t('common.settings').toString()}>
                 <IconButton onClick={() => setShowConfig(true)}>
                   <SettingsRoundedIcon className={classes.settingsIcon} />
                 </IconButton>
@@ -52,12 +58,17 @@ const Visits: React.FC = () => {
           </Grid>
 
           {!visits.length ? (
-            <InfoBox text={t('visit.noVisitInfo')} type="info" />
+            <InfoBox text={t('page.visits.noVisitInfo')} type="info" />
           ) : (
-            <React.Fragment>
+            <>
               <VisitFilter visits={visits} onFilterChange={visits => setFilteredVisits(visits)} />
               <ResponsiveTable
-                labels={[t('visit.businessHostName'), t('visit.purpose'), t('visit.room'), t('visit.plannedEntry')]}
+                labels={[
+                  t('page.visits.businessHostName'),
+                  t('page.visits.purpose'),
+                  t('common.room'),
+                  t('page.visits.plannedEntry')
+                ]}
                 data={filteredVisits.map(visit => ({
                   id: visit.id,
                   businessHostName: visit.businessHostName,
@@ -68,12 +79,13 @@ const Visits: React.FC = () => {
                 tooltipLabel={t('action.openVisit')}
                 onOpenClick={visitId => history.push(`/visits/${visitId}`)}
               />
-            </React.Fragment>
+            </>
           )}
         </Paper>
       </Container>
+
       {showConfig && <CompanyConfigDialog onClose={() => setShowConfig(false)} />}
-    </React.Fragment>
+    </>
   )
 }
 

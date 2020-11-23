@@ -25,6 +25,9 @@ import {
   activateConsentFormVersion
 } from '../../store/consentForm'
 
+/**
+ * The consent form details page where the current consent form is displayed.
+ */
 const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const classes = useStyles({ fullScreen })

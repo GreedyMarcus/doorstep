@@ -30,77 +30,87 @@ import { activeVisitSelector, fetchVisitById } from '../../store/visit'
 import { ConsentFormVersionDetails } from '../../data/types/ConsentForm'
 import { getLocaleDateFormat } from '../../utils'
 
+/**
+ * The visit details page where the current visit is displayed.
+ */
 const VisitDetails: React.FC<RouteComponentProps> = ({ match: { params: routeParams } }) => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
+  const [t] = useTranslation()
+
   const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
   const activeVisit = useSelector(activeVisitSelector)
-  const [t] = useTranslation()
 
   const [openedFormVersion, setOpenedFormVersion] = useState(null as ConsentFormVersionDetails | null)
 
+  /**
+   * Loads the visits when the component mounted.
+   */
   useEffect(() => {
     dispatch(fetchVisitById(routeParams['visitId']))
   }, [])
 
   const visitData = [
-    { label: t('company.name'), text: activeVisit?.companyName || '' },
-    { label: t('visit.businessHostName'), text: activeVisit?.businessHost.fullName || '' },
-    { label: t('visit.businessHostEmail'), text: activeVisit?.businessHost.email || '' },
-    { label: t('visit.purpose'), text: activeVisit?.purpose || '' },
-    { label: t('visit.room'), text: activeVisit?.room || '' },
-    { label: t('visit.plannedEntry'), text: activeVisit ? getLocaleDateFormat(new Date(activeVisit.plannedEntry)) : '' }
+    { labelLanguageKey: 'page.visitDetails.companyName', value: activeVisit?.companyName || '' },
+    { labelLanguageKey: 'page.visitDetails.businessHostName', value: activeVisit?.businessHost.fullName || '' },
+    { labelLanguageKey: 'page.visitDetails.businessHostEmail', value: activeVisit?.businessHost.email || '' },
+    { labelLanguageKey: 'page.visitDetails.purpose', value: activeVisit?.purpose || '' },
+    { labelLanguageKey: 'common.room', value: activeVisit?.room || '' },
+    {
+      labelLanguageKey: 'page.visitDetails.plannedEntry',
+      value: activeVisit ? getLocaleDateFormat(new Date(activeVisit.plannedEntry)) : ''
+    }
   ]
 
   return (
-    <React.Fragment>
+    <>
       <Container className={classes.container} component="main" maxWidth="lg">
         <Paper elevation={3}>
           <Typography className={classes.title} variant="h1">
-            {t('visit.details')}
+            {t('page.visit.details')}
           </Typography>
 
           {!activeVisit ? (
-            <InfoBox text={t('visit.notFound')} type="error" />
+            <InfoBox text={t('page.visitDetails.notFound')} type="error" />
           ) : (
-            <React.Fragment>
+            <>
               <Grid className={classes.grid} container spacing={2}>
                 <Grid item xs={12}>
                   <Typography className={classes.sectionTitle} component="h2">
-                    {t('visit.visitData')}
+                    {t('page.visitDetails.visitData')}
                   </Typography>
                 </Grid>
 
-                {visitData.map(({ label, text }, index) => (
-                  <Grid item md={4} sm={6} xs={12} key={index}>
+                {visitData.map(({ labelLanguageKey, value }) => (
+                  <Grid item md={4} sm={6} xs={12} key={labelLanguageKey}>
                     <Typography className={classes.label} component="label">
-                      {label}
+                      {t(labelLanguageKey)}
                     </Typography>
                     <Typography className={classes.text} component="h2">
-                      {text}
+                      {value}
                     </Typography>
                   </Grid>
                 ))}
 
                 <Grid item xs={12}>
                   <Typography className={classes.sectionTitle} component="h2">
-                    {t('visit.guests')}
+                    {t('page.visitDetails.guests')}
                   </Typography>
                 </Grid>
               </Grid>
 
               <TableContainer>
-                <Table aria-label="guests table">
+                <Table>
                   <TableHead>
                     <TableRow>
                       <TableCell className={classes.emptyCell} />
-                      <TableCell className={classes.tableCell}>{t('guest.name')}</TableCell>
+                      <TableCell className={classes.tableCell}>{t('page.visitDetails.guestName')}</TableCell>
                       {showMore && (
                         <React.Fragment>
-                          <TableCell className={classes.tableCell}>{t('guest.actualEntry')}</TableCell>
-                          <TableCell className={classes.tableCell}>{t('guest.actualExit')}</TableCell>
-                          <TableCell className={classes.tableCell}>{t('guest.receptionistName')}</TableCell>
-                          <TableCell className={classes.tableCell}>{t('guest.participationStatus')}</TableCell>
+                          <TableCell className={classes.tableCell}>{t('page.visitDetails.actualEntry')}</TableCell>
+                          <TableCell className={classes.tableCell}>{t('page.visitDetails.actualExit')}</TableCell>
+                          <TableCell className={classes.tableCell}>{t('page.visitDetails.receptionistName')}</TableCell>
+                          <TableCell className={classes.tableCell}>{t('page.visitDetails.participationStatus')}</TableCell>
                         </React.Fragment>
                       )}
                     </TableRow>
@@ -114,7 +124,7 @@ const VisitDetails: React.FC<RouteComponentProps> = ({ match: { params: routePar
               </TableContainer>
 
               <Typography className={classes.listSectionTitle} component="h2">
-                {t('visit.consentForms')}
+                {t('page.visitDetails.consentForms')}
               </Typography>
               <List className={classes.list}>
                 {activeVisit.consentFormVersionsToAccept.map(consentFormVersion => (
@@ -130,14 +140,15 @@ const VisitDetails: React.FC<RouteComponentProps> = ({ match: { params: routePar
                   </ListItem>
                 ))}
               </List>
-            </React.Fragment>
+            </>
           )}
         </Paper>
       </Container>
+
       {!!openedFormVersion && (
         <ConsentFormVersionDialog consentFormVersion={openedFormVersion} onClose={() => setOpenedFormVersion(null)} />
       )}
-    </React.Fragment>
+    </>
   )
 }
 

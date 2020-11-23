@@ -36,6 +36,9 @@ interface GuestInvitationDetailsProps {
   guestProfile: GuestInvitationDetailsProp | null
 }
 
+/**
+ * The guest invitation details page where the current guest invitation is displayed.
+ */
 const GuestInvitationDetails: React.FC<GuestInvitationDetailsProps> = ({ visitId, guestProfile }) => {
   const classes = useStyles()
   const dispatch = useAppDispatch()

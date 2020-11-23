@@ -13,6 +13,9 @@ import { useAppDispatch } from '../../store'
 import { plannedVisitsSelector, fetchPlannedVisits } from '../../store/visit'
 import { getLocaleDateFormat } from '../../utils'
 
+/**
+ * The planned visits page where the current planned visits are displayed.
+ */
 const PlannedVisits: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()

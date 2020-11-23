@@ -23,6 +23,7 @@
     "userRole": "Felhasználói szerepkör",
     "myProfile": "Saját profil",
     "room": "Szoba",
+    "identifierCardType": "Azonosító kártya típusa",
     "identifierCardNumber": "Azonosító kártya száma"
   },
   "action": {
@@ -47,12 +48,17 @@
     "ok": "Ok",
     "save": "Mentés",
     "cancel": "Mégse",
-    "clear": "Törlés"
+    "clear": "Törlés",
+    "back": "Vissza",
+    "next": "Tovább",
+    "close": "Bezárás"
   },
   "notification": {
     "invalidData": {
       "login": "Érvénytelen email cím vagy jelszó formátum.",
       "email": "Érvénytelen email cím formátum.",
+      "password": "Érvénytelen jelszó formátum.",
+      "building": "Érvénytelen irodaház adat formátum.",
       "company": "Érvénytelen cég adat formátum.",
       "consentForm": "Érvénytelen nyilatkozat adat formátum.",
       "businessHost": "Érvénytelen céges fogadó adat formátum.",
@@ -60,6 +66,126 @@
       "guest": "Érvénytelen vendég adat formátum.",
       "visit": "Érvénytelen látogatás adat formátum.",
       "duplicatedGuest": "A vendég már szerepel a listában."
+    },
+    "login": {
+      "success": "Sikeres bejelentkezés.",
+      "failure": "Nem sikerült bejelentkezni."
+    },
+    "logout": {
+      "success": "Sikeres kijelentkezés."
+    },
+    "register": {
+      "success": "Sikeres regisztráció.",
+      "failure": "Nem sikerült regisztrálni."
+    },
+    "passwordForget": {
+      "success": "Kiküldtük a linket a jelszó visszaállításhoz. Hamarosan megérkezik az email fiókodba.",
+      "failure": "Nem sikerült elküldeni a jelszó visszaállításhoz szükséges emailt."
+    },
+    "passwordReset": {
+      "success": "Sikeresen megváltoztattad a jelszavad.",
+      "failure": "Nem sikerült megváltoztatni a jelszót."
+    },
+    "fetchCompanies": {
+      "failure": "Nem sikerült betölteni a cégeket."
+    },
+    "fetchConsentForms": {
+      "failure": "Nem sikerült betölteni a nyilatkozatokat."
+    },
+    "fetchConsentFormById": {
+      "failure": "Nem sikerült betölteni a kiválasztott nyilatkozatot."
+    },
+    "fetchVisits": {
+      "failure": "Nem sikerült betölteni a látogatásokat."
+    },
+    "fetchVisitById": {
+      "failure": "Nem sikerült betölteni a látogatást."
+    },
+    "fetchPlannedVisits": {
+      "failure": "Nem sikerült betölteni a tervezett látogatásokat."
+    },
+    "fetchBusinessHosts": {
+      "failure": "Nem sikerült betölteni a céges fogadó személyeket."
+    },
+    "fetchCompanyConfig": {
+      "failure": "Nem sikerült betölteni a céges beállításokat."
+    },
+    "fetchAvailableGuestUsers": {
+      "failure": "Nem sikerült betölteni a céghez regisztrált vendégeket."
+    },
+    "fetchGuestInvitations": {
+      "failure": "Nem sikerült betölteni a vendéghez tartozó meghívásokat."
+    },
+    "fetchGuestInvitationProfile": {
+      "failure": "Nem sikerült betölteni a vendéghez tartozó adatlapot."
+    },
+    "fetchReceptionists": {
+      "failure": "Nem sikerült betölteni a recepciós személyeket."
+    },
+    "fetchInvitations": {
+      "failure": "Nem sikerült betölteni a meghívásokat."
+    },
+    "registerCompany": {
+      "success": "Sikeresen regisztráltad a céget.",
+      "failure": "Nem sikerült regisztrálni a céget."
+    },
+    "createConsentForm": {
+      "success": "Sikeresen létrehoztad a nyilatkozatot.",
+      "failure": "Nem sikerült létrehozni a nyilatkozatot."
+    },
+    "createConsentFormVersion": {
+      "success": "Sikeresen létrehoztad a nyilatkozat verziót.",
+      "failure": "Nem sikerült létrehozni a nyilatkozat verziót."
+    },
+    "createBusinessHost": {
+      "success": "Sikeresen létrehoztad a céges fogadót.",
+      "failure": "Nem sikerült létrehozni a céges fogadót."
+    },
+    "createVisit": {
+      "success": "Sikeresen létrehoztad a látogatás eseményét.",
+      "failure": "Nem sikerült létrehozni a látogatás eseményét."
+    },
+    "createReceptionist": {
+      "success": "Sikeresen létrehoztad a recepcióst.",
+      "failure": "Nem sikerült létrehozni a recepcióst."
+    },
+    "updateCompany": {
+      "success": "Sikeresen frissítetted a cég adatait.",
+      "failure": "Nem sikerült frissíteni a cég adatait."
+    },
+    "updateConsentFormVersion": {
+      "success": "Sikeresen frissítetted a nyilatkozat verziót.",
+      "failure": "Nem sikerült frissíteni a nyilatkozat verziót."
+    },
+    "updateBusinessHost": {
+      "success": "Sikeresen frissítetted a céges fogadó adatait.",
+      "failure": "Nem sikerült frissíteni a céges fogadó adatait."
+    },
+    "updateCompanyConfig": {
+      "success": "Sikeresen frissítetted a céges beállításokat.",
+      "failure": "Nem sikerült frissíteni a céges beállításokat."
+    },
+    "updateGuestInvitationProfile": {
+      "success": "Sikeres vendég adatlap frissítés.",
+      "failure": "Nem sikerült frissíteni a vendég adatlapot."
+    },
+    "updateUserCredentials": {
+      "success": "Sikeresen frissítetted az adataidat.",
+      "failure": "Nem sikerült frissíteni az adataidat."
+    },
+    "updateReceptionist": {
+      "success": "Sikeresen frissítetted a recepciós adatait.",
+      "failure": "Nem sikerült frissíteni a recepciós adatait."
+    },
+    "activateConsentFormVersion": {
+      "success": "Sikeresen aktiváltad a nyilatkozat verziót.",
+      "failure": "Nem sikerült aktiválni a nyilatkozat verziót."
+    },
+    "provideFullCompanyData": {
+      "warning": "Kérlek a cégedhez tartozó összes adatot biztosítsd."
+    },
+    "provideFullAddressData": {
+      "warning": "Kérlek a lakcímedhez tartozó összes adatot biztosítsd."
     }
   },
   "enum": {
@@ -192,6 +318,18 @@
       "receptionistName": "Recepciós neve",
       "joiningDate": "Csatlakozás dátuma"
     },
+    "register": {
+      "pageTitle": "Irodaház regisztrálása",
+      "adminDetails": "Admin adatai",
+      "buildingDetails": "Irodaház adatai",
+      "review": "Adatok ellenőrzése",
+      "submit": "Regisztrálás"
+    },
+    "resetPassword": {
+      "pageTitle": "Jelszó visszaállítás",
+      "helper": "Add meg az új jelszavad és jelentkezz be.",
+      "submit": "Mentés és bejelentkezés"
+    },
     "visits": {
       "pageTitle": "Látogatások",
       "visitFilter": "Látogatás Szűrő",
@@ -202,9 +340,11 @@
       "scheduler": "Látogatás ütemező",
       "details": "Látogatás részletei",
       "plannedEntry": "Tervezett belépési dátum",
-      "guests": "Vendégek"
+      "guests": "Vendégek",
+      "noVisitInfo": "Még nincsenek befejezett látogatások."
     },
     "visitDetails": {
+      "guest": "Vendég",
       "guestDetails": "Vendég adatai",
       "guestName": "Vendég neve",
       "actualEntry": "Tényleges belépési idő",
@@ -213,7 +353,20 @@
       "participationStatus": "Részvétel állapota",
       "companyName": "Cégnév",
       "companyRegistrationNumber": "Cégjegyzékszám",
-      "companyAddress": "Cég címe"
+      "companyDetails": "Cég adatai",
+      "companyAddress": "Cég címe",
+      "notFound": "A látogatás nem létezik.",
+      "visitData": "Látogatás adatai",
+      "guests": "Vendégek",
+      "businessHostName": "Céges fogadó neve",
+      "businessHostEmail": "Céges fogadó email címe",
+      "purpose": "Látogatás célja",
+      "plannedEntry": "Tervezett belépési dátum",
+      "consentForms": "Látogatáshoz tartozó nyilatkozatok",
+      "guestNotFound": "A vendég nem létezik.",
+      "consentFormsToAccept": "Elfogadandó nyilatkozatok",
+      "consentFormAccepted": "Elfogadott nyilatkozat",
+      "consentFormNotAccepted": "Nem elfogadott nyilatkozat"
     }
   }
 }
