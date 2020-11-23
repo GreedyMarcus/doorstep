@@ -29,7 +29,9 @@ const userSlice = createSlice({
   reducers: {
     userLoginSucceed: (state, { payload }: PayloadAction<UserInfo>) => {
       state.activeUser = payload
-      state.activeUserToken = payload.token
+      if (payload.token) {
+        state.activeUserToken = payload.token
+      }
     },
     userLogoutSucceed: state => {
       state.activeUser = null

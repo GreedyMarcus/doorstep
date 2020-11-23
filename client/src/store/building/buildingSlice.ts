@@ -3,7 +3,8 @@ import OfficeBuildingService from '../../services/OfficeBuildingService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { EmployeeInfo, UserRegister, UserUpdate } from '../../data/types/User'
+import { EmployeeInfo } from '../../data/types/Company'
+import { UserRegister, UserUpdate } from '../../data/types/User'
 
 type CompanySliceState = {
   receptionists: EmployeeInfo[]

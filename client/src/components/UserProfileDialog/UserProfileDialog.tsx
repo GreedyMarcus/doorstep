@@ -9,7 +9,7 @@ import PasswordField from '../../components/shared/PasswordField'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
-import useInput from '../../components/shared/useInput'
+import useInput from '../../components/hooks/useInput'
 import REGEXP from '../../utils/regexp'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
 import { useTranslation } from 'react-i18next'
@@ -34,9 +34,9 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({ onClose }) => {
   const user = useSelector(activeUserSelector)
   const [isOpen, setOpen] = useState(true)
 
-  const [firstName, bindFirstName] = useInput(user?.firstName || '', true)
-  const [lastName, bindLastName] = useInput(user?.lastName || '', true)
-  const [password, bindPassword] = useInput('', false, REGEXP.PASSWORD)
+  const [firstName, bindFirstName] = useInput({ initialValue: user?.firstName, required: true })
+  const [lastName, bindLastName] = useInput({ initialValue: user?.lastName, required: true })
+  const [password, bindPassword] = useInput({ validator: REGEXP.PASSWORD })
 
   /**
    * Closes the dialog.
@@ -51,7 +51,7 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({ onClose }) => {
    * Saves the modified user credentials.
    */
   const handleSave = () => {
-    const isUserDataValid = [firstName, lastName, password].every(param => param.isValid)
+    const isUserDataValid = [firstName, lastName, password].every(param => param.valid)
     if (!isUserDataValid) {
       dispatch(addNotification({ type: 'error', message: t('notification.invalidData.user') }))
       return
