@@ -98,7 +98,7 @@ export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () =
 
     dispatch(companiesFetched(companies))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompaniesFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompanies.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -117,9 +117,9 @@ export const registerCompany = (company: CompanyRegister) => async (dispatch: Ap
     const registeredCompany = await OfficeBuildingService.registerCompanyInBuilding(buildingId, company)
 
     dispatch(companyRegistered(registeredCompany))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerCompanySuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerCompany.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerCompanyFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerCompany.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -135,9 +135,9 @@ export const updateCompany = (company: CompanyUpdate) => async (dispatch: AppDis
     const updatedCompany = await CompanyService.updateCompany(company.id, company)
 
     dispatch(companyUpdated(updatedCompany))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanySuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompany.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompany.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -157,7 +157,7 @@ export const fetchBusinessHosts = () => async (dispatch: AppDispatch, getState: 
 
     dispatch(businessHostsFetched(businessHosts))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchBusinessHostsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchBusinessHosts.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -176,9 +176,9 @@ export const createBusinessHost = (data: UserRegister) => async (dispatch: AppDi
     const businessHost = await CompanyService.createBusinessHost(companyId, data)
 
     dispatch(businessHostCreated(businessHost))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createBusinessHostSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createBusinessHost.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createBusinessHostFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createBusinessHost.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -197,9 +197,9 @@ export const updateBusinessHost = (host: UserUpdate) => async (dispatch: AppDisp
     const updatedBusinessHost = await CompanyService.updateBusinessHost(companyId, host.id, host)
 
     dispatch(businessHostUpdated(updatedBusinessHost))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateBusinessHostSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateBusinessHost.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateBusinessHostFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateBusinessHost.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -219,7 +219,7 @@ export const fetchCompanyConfig = () => async (dispatch: AppDispatch, getState: 
 
     dispatch(companyConfigFetched(companyConfig))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompanyConfigFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompanyConfig.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -238,9 +238,9 @@ export const updateCompanyConfig = (data: CompanyConfig) => async (dispatch: App
     await CompanyService.updateCompanyConfig(companyId, data)
 
     dispatch(companyConfigFetched(data))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanyConfigSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanyConfig.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyConfigFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyConfig.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -260,7 +260,7 @@ export const fetchAvailableGuestUsers = () => async (dispatch: AppDispatch, getS
 
     dispatch(availableGuestUsersFetched(guestUsers))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchAvailableGuestUsersFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchAvailableGuestUsers.failure') }))
   }
 
   dispatch(setLoading(false))

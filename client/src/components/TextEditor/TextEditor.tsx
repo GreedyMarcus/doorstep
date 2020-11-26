@@ -9,13 +9,13 @@ interface TextEditorProps {
   disabled?: boolean
   heightMultiplier?: number
   fullScreen: boolean
-  change: (value: string) => void
+  onValueChange: (value: string) => void
 }
 
 /**
  * Custom rich text editor component.
  */
-const TextEditor: React.FC<TextEditorProps> = ({ value, error, disabled, heightMultiplier, fullScreen, change }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ value, error, disabled, heightMultiplier, fullScreen, onValueChange }) => {
   const [hasFocus, setFocus] = useState(false)
   const classes = useStyles({ error, hasFocus, disabled: !!disabled })
 
@@ -41,7 +41,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ value, error, disabled, heightM
         onBlur={() => setFocus(false)}
         onEditorChange={(content, editor) => {
           editor.save()
-          change(content)
+          onValueChange(content)
         }}
       />
     </div>

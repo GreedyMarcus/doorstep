@@ -36,7 +36,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
 
   const activeConsentForm = useSelector(activeConsentFormSelector)
   const [openedVersion, setOpenedVersion] = useState(1)
-  const [content, bindContent] = useInput({ required: true })
+  const [content, bindContent, changeContent] = useInput({ required: true })
 
   // Store active version status in local state
   const [status, setStatus] = useState({
@@ -54,7 +54,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
     setStatus({ ...status, openedDifferent: true })
 
     if (activeConsentForm) {
-      bindContent.change(activeConsentForm.versions[versionNumber - 1].content)
+      changeContent(activeConsentForm.versions[versionNumber - 1].content)
     }
   }
 
@@ -63,7 +63,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
    */
   const handleDropContentChanges = () => {
     if (activeConsentForm) {
-      bindContent.change(activeConsentForm.versions[openedVersion - 1].content)
+      changeContent(activeConsentForm.versions[openedVersion - 1].content)
     }
     setStatus({ ...status, openedDifferent: true })
   }
@@ -109,7 +109,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
       const openVersionNumber = activeConsentForm.versions.length
       setOpenedVersion(openVersionNumber)
       setStatus({ ...status, openedDifferent: true })
-      bindContent.change(activeConsentForm.versions[openVersionNumber - 1].content)
+      changeContent(activeConsentForm.versions[openVersionNumber - 1].content)
     }
   }, [activeConsentForm])
 
@@ -216,7 +216,7 @@ const ConsentFormDetails: React.FC<RouteComponentProps> = ({ match: { params: ro
             </Typography>
             <Grid className={classes.grid} container spacing={2}>
               <Grid item xs={12}>
-                <TextEditor {...bindContent} heightMultiplier={0.3} disabled={status.disabled} fullScreen={fullScreen} />
+                <TextEditor {...bindContent} onValueChange={changeContent} heightMultiplier={0.3} disabled={status.disabled} fullScreen={fullScreen} />
               </Grid>
             </Grid>
 

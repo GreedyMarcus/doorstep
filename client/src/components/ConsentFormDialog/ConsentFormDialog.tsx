@@ -31,7 +31,7 @@ const ConsentFormDialog: React.FC<ConsentFormDialogProps> = ({ onClose }) => {
   const [isOpen, setOpen] = useState(true)
 
   const [title, bindTitle] = useInput({ required: true })
-  const [content, bindContent] = useInput({ required: true })
+  const [content, bindContent, changeContent] = useInput({ required: true })
 
   /**
    * Closes the dialog.
@@ -70,7 +70,7 @@ const ConsentFormDialog: React.FC<ConsentFormDialogProps> = ({ onClose }) => {
             <TextField {...bindTitle} label={t('page.consentForms.formTitle')} variant="outlined" fullWidth />
           </Grid>
           <Grid item xs={12}>
-            <TextEditor {...bindContent} fullScreen={fullScreen} />
+            <TextEditor {...bindContent} onValueChange={changeContent} fullScreen={fullScreen} />
           </Grid>
         </Grid>
       </DialogContent>

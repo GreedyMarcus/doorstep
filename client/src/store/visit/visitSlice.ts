@@ -98,7 +98,7 @@ export const fetchVisits = () => async (dispatch: AppDispatch, getState: () => R
 
     dispatch(visitsFetched(visits))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchVisitsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchVisits.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -119,7 +119,7 @@ export const fetchPlannedVisits = () => async (dispatch: AppDispatch, getState: 
 
     dispatch(plannedVisitsFetched(plannedVisits))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchPlannedVisitsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchPlannedVisits.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -139,7 +139,7 @@ export const fetchGuestInvitations = () => async (dispatch: AppDispatch, getStat
 
     dispatch(guestInvitationsFetched(guestInvitations))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitations.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -159,7 +159,7 @@ export const fetchInvitations = () => async (dispatch: AppDispatch, getState: ()
 
     dispatch(invitationsFetched(invitations))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchInvitationsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchInvitations.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -176,7 +176,7 @@ export const fetchVisitById = (visitId: number) => async (dispatch: AppDispatch)
 
     dispatch(singleVisitFetched(visit))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchVisitByIdFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchVisitById.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -195,7 +195,7 @@ export const fetchVisitGuest = (visitId: number, guestId: number) => async (disp
     dispatch(guestProfileFetched(visitGuest))
   } catch (err) {
     dispatch(guestProfileFetched(null))
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfileFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfile.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -217,7 +217,7 @@ export const fetchGuestInvitationProfile = (visitId: number) => async (dispatch:
     dispatch(guestProfileFetched(guestProfile))
   } catch (err) {
     dispatch(guestProfileFetched(null))
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfileFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchGuestInvitationProfile.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -238,9 +238,9 @@ export const updateGuestInvitationProfile = (visitId: number, data: GuestUpdateB
     const userId = user.activeUser?.id ?? -1
     await VisitService.updateGuestInvitationProfile(userId, visitId, data)
 
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateGuestInvitationProfileSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateGuestInvitationProfile.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGuestInvitationProfileFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGuestInvitationProfile.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -260,9 +260,9 @@ export const createVisit = (data: VisitCreate) => async (dispatch: AppDispatch, 
     const visit = await CompanyService.createVisit(companyId, { ...data, businessHostId })
 
     dispatch(visitCreated(visit))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createVisitSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createVisit.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createVisitFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createVisit.failure') }))
   }
 
   dispatch(setLoading(false))

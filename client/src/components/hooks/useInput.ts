@@ -27,7 +27,7 @@ const useInput = ({ initialValue, required, validator }: InputProps) => {
   })
 
   /**
-   * Saves validated input data.
+   * Changes the input state based on the validated input value.
    */
   const change = (value: string): void => {
     const isValid = validator ? validator.test(value) : true
@@ -37,7 +37,7 @@ const useInput = ({ initialValue, required, validator }: InputProps) => {
   }
 
   /**
-   * Changes the input value based on the specified event.
+   * Changes the input state based on the specified event.
    */
   const onChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
     change(event.currentTarget.value)
@@ -58,11 +58,10 @@ const useInput = ({ initialValue, required, validator }: InputProps) => {
     value: input.value,
     error: input.error,
     required,
-    onChange,
-    change
+    onChange
   }
 
-  return [input, bind, reset] as const
+  return [input, bind, change, reset] as const
 }
 
 export default useInput
