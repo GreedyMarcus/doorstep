@@ -1,16 +1,13 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
-import PasswordField from '../../components/shared/PasswordField'
+import PasswordField from '../../../components/shared/PasswordField'
 import Button from '@material-ui/core/Button'
-import useStyles from './useStyles'
-import useInput from '../../components/hooks/useInput'
-import REGEXP from '../../utils/regexp'
-import { UserRegister } from '../../data/types/User'
+import useStyles from '../useStyles'
+import useRegisterAdmin from './useRegisterAdmin'
+import { UserRegister } from '../../../data/types/User'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../store'
-import { addNotification } from '../../store/action'
 
 interface RegisterAdminProps {
   visible: boolean
@@ -23,35 +20,8 @@ interface RegisterAdminProps {
  */
 const RegisterAdmin: React.FC<RegisterAdminProps> = ({ visible, onNextClick }) => {
   const classes = useStyles()
-  const dispatch = useAppDispatch()
   const [t] = useTranslation()
-
-  const [email, bindEmail] = useInput({ initialValue: '', required: true, validator: REGEXP.EMAIL })
-  const [password, bindPassword] = useInput({ initialValue: '', required: true, validator: REGEXP.PASSWORD })
-  const [firstName, bindFirstName] = useInput({ initialValue: '', required: true })
-  const [lastName, bindLastName] = useInput({ initialValue: '', required: true })
-
-  /**
-   * Submits the admin data to the register form.
-   */
-  const handleNextClick = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const isAdminDataValid = [email, password, firstName, lastName].every(param => param.valid)
-    if (!isAdminDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalid.adminData') }))
-      return
-    }
-
-    const adminData = {
-      email: email.value,
-      password: password.value,
-      firstName: firstName.value,
-      lastName: lastName.value
-    }
-
-    onNextClick(adminData)
-  }
+  const [bindEmail, bindPassword, bindFirstName, bindLastName, handleNextClick] = useRegisterAdmin({ onNextClick })
 
   return (
     <div style={{ display: visible ? 'block' : 'none' }}>

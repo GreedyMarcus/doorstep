@@ -1,5 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
+/**
+ * Represents the configurations belong to the Company entity.
+ */
 @Entity('company_register_configs')
 class CompanyRegisterConfig {
   @PrimaryGeneratedColumn()

@@ -4,6 +4,7 @@ import OfficeBuildingService from '../../services/OfficeBuildingService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch } from '..'
 import { setLoading, addNotification } from '../action'
+import { buildingSliceCleared } from '../building'
 import { companySliceCleared } from '../company'
 import { consentFormSliceCleared } from '../consentForm'
 import { visitSliceCleared } from '../visit'
@@ -59,9 +60,9 @@ export const loginUser = (data: UserLogin) => async (dispatch: AppDispatch) => {
     const user = await AuthService.loginUser(data)
 
     dispatch(userLoginSucceed(user))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.loginSuccess') }))
-  } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.loginFailure') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.login.success') }))
+  } catch ({ response: { status } }) {
+    dispatch(addNotification({ type: 'error', message: i18n.t(`notification.login.error.${status}`) }))
   }
 
   dispatch(setLoading(false))
@@ -75,11 +76,12 @@ export const logoutUser = () => (dispatch: AppDispatch) => {
   dispatch(userLogoutSucceed())
 
   // Reset store slices to initial values
+  dispatch(buildingSliceCleared())
   dispatch(companySliceCleared())
   dispatch(consentFormSliceCleared())
   dispatch(visitSliceCleared())
 
-  dispatch(addNotification({ type: 'success', message: i18n.t('notification.logoutSuccess') }))
+  dispatch(addNotification({ type: 'success', message: i18n.t('notification.logout.success') }))
 }
 
 /**
@@ -91,9 +93,9 @@ export const registerAccount = (data: OfficeBuildingRegister) => async (dispatch
   try {
     await OfficeBuildingService.registerBuilding(data)
 
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerSuccess') }))
-  } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerFailure') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.register.success') }))
+  } catch ({ response: { status } }) {
+    dispatch(addNotification({ type: 'error', message: i18n.t(`notification.register.error.${status}`) }))
   }
 
   dispatch(setLoading(false))
@@ -125,9 +127,9 @@ export const sendForgotPassword = (email: string) => async (dispatch: AppDispatc
   try {
     await AuthService.sendForgotPassword(email)
 
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordForgetSuccess') }))
-  } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordForgetFailure') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordForget.success') }))
+  } catch ({ response: { status } }) {
+    dispatch(addNotification({ type: 'error', message: i18n.t(`notification.passwordForget.error.${status}`) }))
   }
 
   dispatch(setLoading(false))
@@ -136,16 +138,16 @@ export const sendForgotPassword = (email: string) => async (dispatch: AppDispatc
 /**
  * Calls auth service to reset user password.
  */
-export const resetUserPassword = (token: string, email: string) => async (dispatch: AppDispatch) => {
+export const resetUserPassword = (token: string, password: string) => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true))
 
   try {
-    const user = await AuthService.resetPassword(token, email)
+    const user = await AuthService.resetPassword(token, password)
 
     dispatch(userLoginSucceed(user))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordResetSuccess') }))
-  } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.passwordResetFailure') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.passwordReset.success') }))
+  } catch ({ response: { status } }) {
+    dispatch(addNotification({ type: 'error', message: i18n.t(`notification.passwordReset.error.${status}`) }))
   }
 
   dispatch(setLoading(false))
@@ -161,9 +163,9 @@ export const updateUserCredentials = (data: UserCredentials) => async (dispatch:
     await AuthService.updateUserCredentials(data)
 
     dispatch(userCredentialsUpdated(data))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateUserCredentialsSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateUserCredentials.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateUserCredentialsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateUserCredentials.failure') }))
   }
 
   dispatch(setLoading(false))

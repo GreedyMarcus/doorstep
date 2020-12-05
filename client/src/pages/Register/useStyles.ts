@@ -1,10 +1,13 @@
 import blueGrey from '@material-ui/core/colors/blueGrey'
 import { makeStyles } from '@material-ui/core/styles'
 
+/**
+ * Custom React hook that spearates the Register page styling.
+ */
 export default makeStyles(theme => ({
   container: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3)
   },
   paper: {
     padding: theme.spacing(3),

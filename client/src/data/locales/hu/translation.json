@@ -54,11 +54,14 @@
     "close": "Bezárás"
   },
   "notification": {
-    "invalidData": {
+    "invalid": {
       "login": "Érvénytelen email cím vagy jelszó formátum.",
-      "email": "Érvénytelen email cím formátum.",
-      "password": "Érvénytelen jelszó formátum.",
+      "admin": "Érvénytelen admin adat formátum.",
       "building": "Érvénytelen irodaház adat formátum.",
+      "email": "Érvénytelen email cím formátum.",
+      "password": "Érvénytelen jelszó formátum."
+    },
+    "invalidData": {
       "company": "Érvénytelen cég adat formátum.",
       "consentForm": "Érvénytelen nyilatkozat adat formátum.",
       "businessHost": "Érvénytelen céges fogadó adat formátum.",
@@ -69,22 +72,36 @@
     },
     "login": {
       "success": "Sikeres bejelentkezés.",
-      "failure": "Nem sikerült bejelentkezni."
+      "error": {
+        "400": "Hibás email cím vagy jelszó.",
+        "404": "Nem tartozik felhasználó a megadott email címhez.",
+        "500": "Nem sikerült bejelentkezni."
+      }
     },
     "logout": {
       "success": "Sikeres kijelentkezés."
     },
     "register": {
       "success": "Sikeres regisztráció.",
-      "failure": "Nem sikerült regisztrálni."
+      "failure": "Nem sikerült regisztrálni.",
+      "error": {
+        "400": "A megadott admin vagy irodaház már létezik.",
+        "500": "Nem sikerült regisztrálni."
+      }
     },
     "passwordForget": {
       "success": "Kiküldtük a linket a jelszó visszaállításhoz. Hamarosan megérkezik az email fiókodba.",
-      "failure": "Nem sikerült elküldeni a jelszó visszaállításhoz szükséges emailt."
+      "error": {
+        "404": "Nem tartozik felhasználó a megadott email címhez.",
+        "500": "Nem sikerült elküldeni a jelszó visszaállításhoz szükséges emailt."
+      }
     },
     "passwordReset": {
       "success": "Sikeresen megváltoztattad a jelszavad.",
-      "failure": "Nem sikerült megváltoztatni a jelszót."
+      "error": {
+        "404": "Nem tartozik felhasználó a megadott email címhez.",
+        "500": "Nem sikerült megváltoztatni a jelszót."
+      }
     },
     "fetchCompanies": {
       "failure": "Nem sikerült betölteni a cégeket."
@@ -210,6 +227,34 @@
     }
   },
   "page": {
+    "login": {
+      "welcome": "Üdvözöl a Doorstep",
+      "welcomeHelper": "Jelentkezz be a folytatáshoz",
+      "forgotPassword": "Elfelejtetted a jelszavad?",
+      "submit": "Bejelentkezés",
+      "registerBuilding": "Irodaház regisztrálása"
+    },
+    "register": {
+      "pageTitle": "Irodaház regisztrálása",
+      "adminDetails": "Admin adatai",
+      "buildingDetails": "Irodaház adatai",
+      "review": "Adatok ellenőrzése",
+      "submit": "Regisztrálás",
+      "loginRedirect": "Vissza a bejelentkezéshez"
+    },
+    "forgotPassword": {
+      "pageTitle": "Elfelejtett jelszó",
+      "question": "Elfelejtetted a jelszavad?",
+      "helper": "Add meg az email címed és máris küldünk egy linket a jelszó visszaállításhoz.",
+      "submit": "Jelszó visszaállítása",
+      "loginRedirect": "Vissza a bejelentkezéshez"
+    },
+    "resetPassword": {
+      "pageTitle": "Jelszó visszaállítás",
+      "helper": "Add meg az új jelszavad és jelentkezz be.",
+      "submit": "Mentés és bejelentkezés",
+      "loginRedirect": "Vissza a bejelentkezéshez"
+    },
     "businessHosts": {
       "pageTitle": "Céges fogadók",
       "hostDetails": "Céges fogadó adatai",
@@ -247,12 +292,6 @@
       "openedVersion": "Megnyitott verzió",
       "createdDate": "Létrehozás dátuma",
       "noConsentFormsInfo": "Még nem vettél fel nyilatkozatokat."
-    },
-    "forgotPassword": {
-      "pageTitle": "Elfelejtett jelszó",
-      "question": "Elfelejtetted a jelszavad?",
-      "helper": "Add meg az email címed és máris küldünk egy linket a jelszó visszaállításhoz.",
-      "submit": "Jelszó visszaállítása"
     },
     "guestInvitations": {
       "invitations": "Meghívások",
@@ -296,12 +335,6 @@
       "invitations": "Meghívások",
       "noInvitationInfo": "Nincsenek folyatban lévő meghívások."
     },
-    "login": {
-      "welcome": "Üdvözöl a Doorstep",
-      "welcomeHelper": "Jelentkezz be a folytatáshoz",
-      "submit": "Bejelentkezés",
-      "redirect": "Vissza a bejelentkezéshez"
-    },
     "plannedVisits": {
       "pageTitle": "Tervezett látogatások",
       "visitFilter": "Látogatás Szűrő",
@@ -317,18 +350,6 @@
       "noReceptionistsInfo": "Még nem vettél fel recepciós személyeket.",
       "receptionistName": "Recepciós neve",
       "joiningDate": "Csatlakozás dátuma"
-    },
-    "register": {
-      "pageTitle": "Irodaház regisztrálása",
-      "adminDetails": "Admin adatai",
-      "buildingDetails": "Irodaház adatai",
-      "review": "Adatok ellenőrzése",
-      "submit": "Regisztrálás"
-    },
-    "resetPassword": {
-      "pageTitle": "Jelszó visszaállítás",
-      "helper": "Add meg az új jelszavad és jelentkezz be.",
-      "submit": "Mentés és bejelentkezés"
     },
     "visits": {
       "pageTitle": "Látogatások",

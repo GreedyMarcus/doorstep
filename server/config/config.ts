@@ -1,6 +1,9 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
+/**
+ * Server configuration object.
+ */
 export default {
   server: {
     env: process.env.NODE_ENV || 'development',

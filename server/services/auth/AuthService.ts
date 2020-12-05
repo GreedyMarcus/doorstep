@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import Boom from '@hapi/boom'
 import config from '../../config'
 import TYPES from '../../config/types'
+import ERROR from '../../utils/error'
 import AuthServiceInterface from './AuthServiceInterface'
 import { v4 as uuidv4 } from 'uuid'
 import { inject, injectable } from 'inversify'
@@ -12,6 +13,9 @@ import { OfficeBuildingRepositoryInterface } from '../../repositories/officeBuil
 import { UserRoleType } from '../../data/enums/UserRoleType'
 import { UserLoginDTO, UserInfoDTO, UserCredentialsUpdateDTO } from '../../data/dtos/UserDTO'
 
+/**
+ * Service that handles auth business logic.
+ */
 @injectable()
 class AuthService implements AuthServiceInterface {
   private readonly emailService: EmailServiceInterface
@@ -31,16 +35,16 @@ class AuthService implements AuthServiceInterface {
   public loginUser = async ({ email, password }: UserLoginDTO): Promise<UserInfoDTO> => {
     const foundUser = await this.userRepository.findUserByEmail(email)
     if (!foundUser) {
-      throw Boom.notFound('User does not exist.')
+      throw Boom.notFound(ERROR.USER_DOES_NOT_EXIST)
     }
 
     const isPasswordValid = await bcrypt.compare(password, foundUser.password)
     if (!isPasswordValid) {
-      throw Boom.badRequest('Wrong password.')
+      throw Boom.badRequest(ERROR.WRONG_PASSWORD)
     }
 
     // Get building id if user is admin or receptionist
-    let buildingId
+    let buildingId: number
     if (foundUser.role.name === UserRoleType.ADMIN) {
       const foundBuilding = await this.officeBuildingRepository.findBuildingByAdminId(foundUser.id)
       buildingId = foundBuilding.id
@@ -69,11 +73,11 @@ class AuthService implements AuthServiceInterface {
   public getCurrentUser = async (userId: number): Promise<UserInfoDTO> => {
     const foundUser = await this.userRepository.findUserById(userId)
     if (!foundUser) {
-      throw Boom.notFound('User does not exist.')
+      throw Boom.notFound(ERROR.USER_DOES_NOT_EXIST)
     }
 
     // Get building id if user is admin or receptionist
-    let buildingId
+    let buildingId: number
     if (foundUser.role.name === UserRoleType.ADMIN) {
       const foundBuilding = await this.officeBuildingRepository.findBuildingByAdminId(foundUser.id)
       buildingId = foundBuilding.id
@@ -99,7 +103,7 @@ class AuthService implements AuthServiceInterface {
   public forgotUserPassword = async (email: string, language: string): Promise<void> => {
     const foundUser = await this.userRepository.findUserByEmail(email)
     if (!foundUser) {
-      throw Boom.notFound('User does not exist.')
+      throw Boom.notFound(ERROR.USER_DOES_NOT_EXIST)
     }
 
     // Generate and save password token
@@ -113,7 +117,7 @@ class AuthService implements AuthServiceInterface {
   public resetUserPassword = async (token: string, password: string): Promise<UserInfoDTO> => {
     const foundUser = await this.userRepository.findUserByPasswordToken(token)
     if (!foundUser) {
-      throw Boom.notFound('User does not exist.')
+      throw Boom.notFound(ERROR.USER_DOES_NOT_EXIST)
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -129,7 +133,7 @@ class AuthService implements AuthServiceInterface {
   public updateUserCredentials = async (userId: number, data: UserCredentialsUpdateDTO): Promise<void> => {
     const foundUser = await this.userRepository.findUserById(userId)
     if (!foundUser) {
-      throw Boom.notFound('User does not exist.')
+      throw Boom.notFound(ERROR.USER_DOES_NOT_EXIST)
     }
 
     foundUser.firstName = data.firstName

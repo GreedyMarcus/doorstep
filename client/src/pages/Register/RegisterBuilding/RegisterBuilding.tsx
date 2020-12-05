@@ -1,14 +1,12 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import useStyles from './useStyles'
-import useInput from '../../components/hooks/useInput'
-import { Address } from '../../data/types/Address'
+import useStyles from '../useStyles'
+import useRegisterBuilding from './useRegisterBuilding'
+import { Address } from '../../../data/types/Address'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../store'
-import { addNotification } from '../../store/action'
 
 interface RegisterBuildingProps {
   visible: boolean
@@ -22,35 +20,8 @@ interface RegisterBuildingProps {
  */
 const RegisterBuilding: React.FC<RegisterBuildingProps> = ({ visible, onBackClick, onNextClick }) => {
   const classes = useStyles()
-  const dispatch = useAppDispatch()
   const [t] = useTranslation()
-
-  const [country, bindCountry] = useInput({ initialValue: '', required: true })
-  const [zipCode, bindZipCode] = useInput({ initialValue: '', required: true })
-  const [city, bindCity] = useInput({ initialValue: '', required: true })
-  const [streetAddress, bindStreetAddress] = useInput({ initialValue: '', required: true })
-
-  /**
-   * Submits the office building address data to the register form.
-   */
-  const handleNextClick = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const isBuildingAddressDataValid = [country, zipCode, city, streetAddress].every(param => param.valid)
-    if (!isBuildingAddressDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.building') }))
-      return
-    }
-
-    const buildingAddressData = {
-      country: country.value,
-      zipCode: zipCode.value,
-      city: city.value,
-      streetAddress: streetAddress.value
-    }
-
-    onNextClick(buildingAddressData)
-  }
+  const [bindCountry, bindZipCode, bindCity, bindStreetAddress, handleNextClick] = useRegisterBuilding({ onNextClick })
 
   return (
     <div style={{ display: visible ? 'block' : 'none' }}>

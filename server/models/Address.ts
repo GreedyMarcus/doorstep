@@ -3,6 +3,9 @@ import OfficeBuilding from './OfficeBuilding'
 import Company from './Company'
 import Guest from './Guest'
 
+/**
+ * Represents the Address entity.
+ */
 @Entity('addresses')
 class Address {
   @PrimaryGeneratedColumn()

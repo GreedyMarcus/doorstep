@@ -1,4 +1,7 @@
-const TYPES = {
+/**
+ * Types for Dependency Injection.
+ */
+export default {
   Controller: Symbol.for('Controller'),
   AuthService: Symbol.for('AuthService'),
   EmailService: Symbol.for('EmailService'),
@@ -12,5 +15,3 @@ const TYPES = {
   ConsentFormRepository: Symbol.for('ConsentFormRepository'),
   VisitRepository: Symbol.for('VisitRepository')
 }
-
-export default TYPES
