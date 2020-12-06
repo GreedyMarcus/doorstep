@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody'
 import ResponsiveTableRow from '../../components/shared/ResponsiveTableRow'
 import EditTableCell from '../../components/shared/EditTableCell'
 import BusinessHostEditorDialog from '../../components/BusinessHostEditorDialog'
+import useStyles from './useStyles'
 import useBusinessHosts from './useBusinessHosts'
 import { useTranslation } from 'react-i18next'
 
@@ -14,6 +15,7 @@ import { useTranslation } from 'react-i18next'
  * The business hosts page where the current business hosts are displayed.
  */
 const BusinessHosts: React.FC = () => {
+  const classes = useStyles()
   const [t, i18n] = useTranslation()
   const [businessHosts, editingBusinessHost, handleBusinessHostEditClick, handleBusinessHostEditFinish] = useBusinessHosts()
 
@@ -25,7 +27,7 @@ const BusinessHosts: React.FC = () => {
         hasContent={!!businessHosts?.length}
         infoText={t('page.businessHosts.noBusinessHostsInfo')}
       >
-        <TableContainer>
+        <TableContainer className={classes.tableContainer}>
           <Table>
             <ResponsiveTableHead
               labels={[t('page.businessHosts.businessHostName'), t('common.email'), t('page.businessHosts.joiningDate')]}

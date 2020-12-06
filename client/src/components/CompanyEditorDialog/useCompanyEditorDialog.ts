@@ -41,7 +41,7 @@ const useCompanyEditorDialog = ({ company, isEditing, onClose }: CompanyEditorDi
 
   const [firstName, bindFirstName] = useInput({ initialValue: adminName && adminName[0], required: true })
   const [lastName, bindLastName] = useInput({ initialValue: adminName && adminName[1], required: true })
-  const [email, bindEmail] = useInput({ initialValue: company?.adminEmail, required: true })
+  const [email, bindEmail] = useInput({ initialValue: company?.adminEmail, required: true, validator: REGEXP.EMAIL })
   const [password, bindPassword] = useInput({ required: true, validator: REGEXP.PASSWORD })
 
   /**

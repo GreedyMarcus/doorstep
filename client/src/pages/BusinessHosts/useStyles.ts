@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 /**
- * Custom React hook that spearates the Consent forms page styling.
+ * Custom React hook that spearates the Business hosts page styling.
  */
 export default makeStyles(theme => ({
   tableContainer: {

@@ -36,7 +36,7 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({ onClose }) => {
         </Typography>
 
         <Typography className={classes.role} component="h1">
-          {user ? t(`enum.${user.role}`) : ''}
+          {user ? t(`enum.userRole.${user.role}`) : ''}
         </Typography>
 
         <Typography className={classes.sectionTitle} component="h1">

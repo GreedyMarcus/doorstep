@@ -53,7 +53,8 @@
     "clear": "Clear",
     "back": "Back",
     "next": "Next",
-    "close": "Close"
+    "close": "Close",
+    "activate": "Activate"
   },
   "notification": {
     "invalid": {
@@ -65,10 +66,10 @@
       "businessHost": "Invalid business host data format.",
       "receptionist": "Invalid receptionist data format.",
       "building": "Invalid building data format.",
-      "company": "Invalid company data format."
+      "company": "Invalid company data format.",
+      "consentForm": "Invalid consent form data format."
     },
     "invalidData": {
-      "consentForm": "Invalid consent form data format.",
       "guest": "Invalid guest data format.",
       "visit": "Invalid visit data format.",
       "duplicatedGuest": "Guest is already in the list."
@@ -86,7 +87,6 @@
     },
     "register": {
       "success": "Successful registration.",
-      "failure": "Registration failed.",
       "error": {
         "400": "The specified admin or office building already exists.",
         "500": "Registration failed."

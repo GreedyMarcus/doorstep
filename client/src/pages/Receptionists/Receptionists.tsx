@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody'
 import ResponsiveTableRow from '../../components/shared/ResponsiveTableRow'
 import EditTableCell from '../../components/shared/EditTableCell'
 import ReceptionistEditorDialog from '../../components/ReceptionistEditorDialog'
+import useStyles from './useStyles'
 import useReceptionists from './useReceptionists'
 import { useTranslation } from 'react-i18next'
 
@@ -14,6 +15,7 @@ import { useTranslation } from 'react-i18next'
  * The receptionists page where the current receptionists are displayed.
  */
 const Receptionists: React.FC = () => {
+  const classes = useStyles()
   const [t, i18n] = useTranslation()
   const [receptionists, editingReceptionist, handleReceptionistEditClick, handleReceptionistEditFinish] = useReceptionists()
 
@@ -25,7 +27,7 @@ const Receptionists: React.FC = () => {
         hasContent={!!receptionists?.length}
         infoText={t('page.receptionists.noReceptionistsInfo')}
       >
-        <TableContainer>
+        <TableContainer className={classes.tableContainer}>
           <Table>
             <ResponsiveTableHead
               labels={[t('page.receptionists.receptionistName'), t('common.email'), t('page.receptionists.joiningDate')]}

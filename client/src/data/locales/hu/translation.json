@@ -53,7 +53,8 @@
     "clear": "Törlés",
     "back": "Vissza",
     "next": "Tovább",
-    "close": "Bezárás"
+    "close": "Bezárás",
+    "activate": "Aktiválás"
   },
   "notification": {
     "invalid": {
@@ -65,10 +66,10 @@
       "businessHost": "Érvénytelen céges fogadó adat formátum.",
       "receptionist": "Érvénytelen recepciós adat formátum.",
       "building": "Érvénytelen irodaház adat formátum.",
-      "company": "Érvénytelen cég adat formátum."
+      "company": "Érvénytelen cég adat formátum.",
+      "consentForm": "Érvénytelen nyilatkozat adat formátum."
     },
     "invalidData": {
-      "consentForm": "Érvénytelen nyilatkozat adat formátum.",
       "guest": "Érvénytelen vendég adat formátum.",
       "visit": "Érvénytelen látogatás adat formátum.",
       "duplicatedGuest": "A vendég már szerepel a listában."
@@ -86,10 +87,9 @@
     },
     "register": {
       "success": "Sikeres regisztráció.",
-      "failure": "Nem sikerült regisztrálni.",
       "error": {
         "400": "A megadott admin vagy irodaház már létezik.",
-        "500": "Nem sikerült regisztrálni."
+        "500": "Sikertelen regisztráció."
       }
     },
     "passwordForget": {

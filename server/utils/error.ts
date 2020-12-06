@@ -15,6 +15,13 @@ export default {
   OFFICE_BUILDING_ADMIN_ALREADY_EXISTS: 'Office building admin already exists.',
   COMPANY_DOES_NOT_EXIST: 'Company does not exist.',
   CONSENT_FORM_DOES_NOT_EXIST: 'Consent form does not exist.',
+  CONSENT_FORM_VERSION_DOES_NOT_EXIST: 'Consent form version does not exist.',
+  CONSENT_FORM_VERSION_DOES_NOT_BELONG_TO_CONSENT_FORM: 'Consent form version does not belong to the provided consent form.',
+  CONSENT_FORM_VERSION_ALREADY_ACTIVATED: 'Cannot edit or activate consent form version content because it is already activated.',
+  CONSENT_FORM_VERSION_ALREADY_ACTIVATED_NEWER:
+    'Cannot edit or activate consent form version content because a newer version is already activated.',
+  CONSENT_FORM_VERSION_ALREADY_EXISTS_NEWER:
+    'Cannot edit or activate consent form version content because a newer version is already exists.',
   VISIT_DOES_NOT_EXIST: 'Visit does not exist.',
   BUSINESS_HOST_DOES_NOT_EXIST: 'Business host does not exist.',
   RECEPTIONIST_DOES_NOT_EXIST: 'Receptionist does not exist.',

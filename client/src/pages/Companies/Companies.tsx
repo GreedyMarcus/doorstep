@@ -36,7 +36,7 @@ const Companies: React.FC = () => {
         hasContent={!!companies?.length}
         infoText={t('page.companies.noCompanyInfo')}
       >
-        <TableContainer>
+        <TableContainer className={classes.tableContainer}>
           <Table>
             <ResponsiveTableHead
               labels={[
