@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express'
 import Boom from '@hapi/boom'
+import { Request, Response, NextFunction } from 'express'
 
 /**
  * Custom middleware for error handling in the application.

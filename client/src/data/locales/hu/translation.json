@@ -44,6 +44,8 @@
     "openInvitation": "Meghívás megnyitása",
     "openVisit": "Látogatás megnyitása",
     "openGuest": "Vendég megnyitása",
+    "showMore": "Továbbiak megjelenítése",
+    "showLess": "Kevesebb megjelenítése",
     "acceptConsentForm": "Nyilatkozat elfogadása",
     "ok": "Ok",
     "save": "Mentés",
@@ -56,16 +58,17 @@
   "notification": {
     "invalid": {
       "login": "Érvénytelen email cím vagy jelszó formátum.",
-      "admin": "Érvénytelen admin adat formátum.",
-      "building": "Érvénytelen irodaház adat formátum.",
       "email": "Érvénytelen email cím formátum.",
-      "password": "Érvénytelen jelszó formátum."
+      "password": "Érvénytelen jelszó formátum.",
+      "user": "Érvénytelen felhasználói adat formátum.",
+      "admin": "Érvénytelen admin adat formátum.",
+      "businessHost": "Érvénytelen céges fogadó adat formátum.",
+      "receptionist": "Érvénytelen recepciós adat formátum.",
+      "building": "Érvénytelen irodaház adat formátum.",
+      "company": "Érvénytelen cég adat formátum."
     },
     "invalidData": {
-      "company": "Érvénytelen cég adat formátum.",
       "consentForm": "Érvénytelen nyilatkozat adat formátum.",
-      "businessHost": "Érvénytelen céges fogadó adat formátum.",
-      "user": "Érvénytelen felhasználói adat formátum.",
       "guest": "Érvénytelen vendég adat formátum.",
       "visit": "Érvénytelen látogatás adat formátum.",
       "duplicatedGuest": "A vendég már szerepel a listában."

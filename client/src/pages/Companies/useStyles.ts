@@ -1,21 +1,27 @@
 import { makeStyles } from '@material-ui/core/styles'
 
+/**
+ * Custom React hook that spearates the Companies page styling.
+ */
 export default makeStyles(theme => ({
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
+  tableRowGrid: {
+    padding: theme.spacing(1, 3, 2)
   },
-  title: {
-    fontSize: 26,
-    fontWeight: 500,
-    padding: theme.spacing(3, 3, 2)
+  contentTitle: {
+    fontSize: 20,
+    fontWeight: 600
   },
-  tableCell: {
+  sectionTitle: {
     fontSize: 16,
     fontWeight: 600,
-    textAlign: 'left'
+    marginTop: theme.spacing(2),
+    paddingBottom: theme.spacing(1.5)
   },
-  emptyCell: {
-    width: theme.spacing(5)
+  item: {
+    fontSize: 14,
+    marginBottom: theme.spacing(0.5)
+  },
+  bold: {
+    fontWeight: 600
   }
 }))

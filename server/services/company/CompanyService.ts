@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 import Boom from '@hapi/boom'
 import TYPES from '../../config/types'
+import ERROR from '../../utils/error'
 import CompanyServiceInterface from './CompanyServiceInterface'
 import { inject, injectable } from 'inversify'
 import { EmailServiceInterface } from '../../services/email'
@@ -15,6 +16,9 @@ import { UserRegisterDTO, UserUpdateDTO, GuestUserRegisterDTO } from '../../data
 import { VisitInfoDTO, VisitCreateDTO, PlannedVisitInfoDTO, VisitNotificationDTO } from '../../data/dtos/VisitDTO'
 import { VisitPurpose } from '../../data/enums/VisitPurpose'
 
+/**
+ * Service that handles company business logic.
+ */
 @injectable()
 class CompanyService implements CompanyServiceInterface {
   private readonly emailService: EmailServiceInterface
@@ -40,7 +44,7 @@ class CompanyService implements CompanyServiceInterface {
   public updateCompany = async (companyId: number, data: CompanyUpdateDTO): Promise<CompanyInfoDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     // Check if admin changed
@@ -78,7 +82,7 @@ class CompanyService implements CompanyServiceInterface {
   public getVisits = async (companyId: number): Promise<VisitInfoDTO[]> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const foundVisits = await this.visitRepository.findVisitsByCompanyId(companyId)
@@ -96,19 +100,19 @@ class CompanyService implements CompanyServiceInterface {
   public createVisit = async (companyId: number, data: VisitCreateDTO, language: string): Promise<VisitInfoDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const foundBusinessHost = await this.userRepository.findUserById(data.businessHostId)
     if (!foundBusinessHost) {
-      throw Boom.notFound('Business host does not exist.')
+      throw Boom.notFound(ERROR.BUSINESS_HOST_DOES_NOT_EXIST)
     }
 
     // Check for email duplications
     const emails = data.invitedGuests.map(guest => guest.email)
     const uniqueEmails = new Set(emails)
     if (emails.length !== uniqueEmails.size) {
-      throw Boom.badRequest('Duplicated guest email.')
+      throw Boom.badRequest(ERROR.DUPLICATED_GUEST_EMAIL)
     }
 
     // Generate hashed password for all invited guests
@@ -163,7 +167,7 @@ class CompanyService implements CompanyServiceInterface {
   public getBusinessHosts = async (companyId: number): Promise<EmployeeInfoDTO[]> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const businessHosts = await this.companyRepository.findCompanyEmployees(companyId, UserRoleType.BUSINESS_HOST)
@@ -181,7 +185,7 @@ class CompanyService implements CompanyServiceInterface {
   public createBusinessHost = async (companyId: number, data: UserRegisterDTO): Promise<EmployeeInfoDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -204,12 +208,12 @@ class CompanyService implements CompanyServiceInterface {
   public updateBusinessHost = async (companyId: number, hostId: number, data: UserUpdateDTO): Promise<EmployeeInfoDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const foundBusinessHost = await this.userRepository.findUserById(hostId)
     if (!foundBusinessHost || foundBusinessHost.company.id !== foundCompany.id) {
-      throw Boom.notFound('Business host does not exist.')
+      throw Boom.notFound(ERROR.BUSINESS_HOST_DOES_NOT_EXIST)
     }
 
     const updatedBusinessHost = await this.companyRepository.updateBusinessHost(hostId, data)
@@ -227,12 +231,12 @@ class CompanyService implements CompanyServiceInterface {
   public getPlannedVisits = async (companyId: number, hostId: number): Promise<PlannedVisitInfoDTO[]> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const foundBusinessHost = await this.userRepository.findUserById(hostId)
     if (!foundBusinessHost || foundBusinessHost.company.id !== foundCompany.id) {
-      throw Boom.notFound('Business host does not exist.')
+      throw Boom.notFound(ERROR.BUSINESS_HOST_DOES_NOT_EXIST)
     }
 
     const foundPlannedVisits = await this.visitRepository.findPlannedVisitsByHostId(hostId)
@@ -249,7 +253,7 @@ class CompanyService implements CompanyServiceInterface {
   public getConsentForms = async (companyId: number): Promise<ConsentFormInfoDTO[]> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const foundConsentForms = await this.consentFormRepository.findConsentFormsByCompanyId(companyId)
@@ -266,7 +270,7 @@ class CompanyService implements CompanyServiceInterface {
   public createConsentForm = async (companyId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const createdConsentForm = await this.consentFormRepository.createLocalConsentForm(companyId, data.title, data.content)
@@ -283,7 +287,7 @@ class CompanyService implements CompanyServiceInterface {
   public getCompanyConfig = async (companyId: number): Promise<CompanyRegisterConfigDTO> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const registerConfigInfo: CompanyRegisterConfigDTO = {
@@ -304,7 +308,7 @@ class CompanyService implements CompanyServiceInterface {
   public updateCompanyConfig = async (companyId: number, data: CompanyRegisterConfigDTO): Promise<void> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     await this.companyRepository.updateCompanyConfig(companyId, data)
@@ -313,7 +317,7 @@ class CompanyService implements CompanyServiceInterface {
   public getAvailableGuestUsers = async (companyId: number): Promise<GuestUserRegisterDTO[]> => {
     const foundCompany = await this.companyRepository.findCompanyById(companyId)
     if (!foundCompany) {
-      throw Boom.notFound('Company does not exist.')
+      throw Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST)
     }
 
     const guestUsers = await this.companyRepository.findCompanyGuestUsers(companyId)

@@ -1,5 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
 
+/**
+ * Custom React hook that spearates the Navigation bar component styling.
+ */
 export default makeStyles(theme => ({
   homeIcon: {
     marginRight: theme.spacing(0.5)

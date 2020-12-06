@@ -14,5 +14,7 @@ export default {
   COMPANY_DOES_NOT_EXIST: 'Company does not exist.',
   CONSENT_FORM_DOES_NOT_EXIST: 'Consent form does not exist.',
   VISIT_DOES_NOT_EXIST: 'Visit does not exist.',
-  WRONG_PASSWORD: 'Wrong password.'
+  BUSINESS_HOST_DOES_NOT_EXIST: 'Business host does not exist.',
+  WRONG_PASSWORD: 'Wrong password.',
+  DUPLICATED_GUEST_EMAIL: 'Duplicated guest email.'
 }

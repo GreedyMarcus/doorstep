@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -14,68 +14,32 @@ import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import UserProfileDialog from '../UserProfileDialog'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
+import useNavigationBar from './useNavigationBar'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
-import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../store'
-import { userRoleSelector, userNameSelector, logoutUser } from '../../store/user'
-import { getNavigations, getActions } from './navigations'
+import { useHistory } from 'react-router-dom'
 
 /**
  * Responsive authorized navigation component for the application.
  */
 const NavigationBar: React.FC = () => {
   const classes = useStyles()
+  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const history = useHistory()
-  const dispatch = useAppDispatch()
+
   const [t] = useTranslation()
-
-  const showNavs = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
-  const userRole = useSelector(userRoleSelector)
-  const userName = useSelector(userNameSelector)
-
-  const [activeAction, setActiveAction] = useState(-1)
-  const [activeMobileNav, setActiveMobileNav] = useState(0)
   const [showProfileDialog, setShowProfileDialog] = useState(false)
-
-  /**
-   * Logs out the current user.
-   */
-  const handleLogout = () => {
-    dispatch(logoutUser())
-    history.push('/login')
-  }
-
-  /**
-   * Handles the navigation events of the mobile view navigation bar.
-   */
-  const handleMobileNavChange = (e, value: number) => {
-    setActiveMobileNav(value)
-    history.push(navigations[value].routePath)
-  }
-
-  /**
-   * Renders the action component if action fired and component is present.
-   */
-  const renderActionComponent = () => {
-    const foundAction = actions[activeAction]
-    if (foundAction && foundAction.renderComponent) {
-      return foundAction.renderComponent(() => setActiveAction(-1))
-    }
-    return null
-  }
-
-  const navigations = getNavigations(userRole)
-  const actions = getActions(userRole)
-
-  /**
-   * Synchronizes the mobile navigation view with the history location.
-   */
-  useEffect(() => {
-    const currentNavIndex = navigations.findIndex(nav => nav.routePath === history.location.pathname)
-    setActiveMobileNav(currentNavIndex === -1 ? 0 : currentNavIndex)
-  }, [history.location])
+  const [
+    userRole,
+    userName,
+    navigations,
+    actions,
+    activeMobileNav,
+    setActiveAction,
+    renderActionComponent,
+    handleMobileNavChange,
+    handleLogout
+  ] = useNavigationBar()
 
   // Show navigation only for authorized users
   if (!userRole) {
@@ -94,7 +58,7 @@ const NavigationBar: React.FC = () => {
               </Typography>
             </IconButton>
 
-            {showNavs &&
+            {!fullScreen &&
               navigations.map(({ routePath, labelLanguageKey }) => (
                 <Button key={labelLanguageKey} color="inherit" onClick={() => history.push(routePath)}>
                   {t(labelLanguageKey)}
@@ -111,7 +75,7 @@ const NavigationBar: React.FC = () => {
               </Tooltip>
             ))}
 
-            {showNavs && (
+            {!fullScreen && (
               <Tooltip title={userName}>
                 <IconButton onClick={() => setShowProfileDialog(true)} color="inherit">
                   <AccountCircleRoundedIcon />
@@ -130,7 +94,7 @@ const NavigationBar: React.FC = () => {
 
       {renderActionComponent()}
 
-      {!showNavs && (
+      {fullScreen && (
         <AppBar position="static">
           <Tabs variant="fullWidth" value={activeMobileNav} onChange={handleMobileNavChange}>
             {navigations.map(({ labelLanguageKey }) => (
