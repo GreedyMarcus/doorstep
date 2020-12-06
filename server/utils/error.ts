@@ -11,10 +11,13 @@ export default {
   USER_DOES_NOT_HAVE_ANY_OF_THE_REQUIRED_PERMISSIONS: 'User does not have any of the required permissions for this operation',
   USER_DOES_NOT_OWN_THE_ACCOUNT: 'User does not own the account.',
   OFFICE_BUILDING_DOES_NOT_EXIST: 'Office building does not exist.',
+  OFFICE_BUILDING_ALREADY_EXISTS: 'Office building already exists with provided address.',
+  OFFICE_BUILDING_ADMIN_ALREADY_EXISTS: 'Office building admin already exists.',
   COMPANY_DOES_NOT_EXIST: 'Company does not exist.',
   CONSENT_FORM_DOES_NOT_EXIST: 'Consent form does not exist.',
   VISIT_DOES_NOT_EXIST: 'Visit does not exist.',
   BUSINESS_HOST_DOES_NOT_EXIST: 'Business host does not exist.',
+  RECEPTIONIST_DOES_NOT_EXIST: 'Receptionist does not exist.',
   WRONG_PASSWORD: 'Wrong password.',
   DUPLICATED_GUEST_EMAIL: 'Duplicated guest email.'
 }

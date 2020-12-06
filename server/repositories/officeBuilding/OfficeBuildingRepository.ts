@@ -7,6 +7,9 @@ import { injectable } from 'inversify'
 import { EntityRepository, getManager, getRepository, Repository } from 'typeorm'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 
+/**
+ * Repository that handles office building data manipulation.
+ */
 @injectable()
 @EntityRepository(OfficeBuilding)
 class OfficeBuildingRepository extends Repository<OfficeBuilding> implements OfficeBuildingRepositoryInterface {
