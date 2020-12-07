@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 
 interface CollapsibleTableRowProps {
   labels: string[]
-  extraCell: JSX.Element
+  extraCell?: JSX.Element
 }
 
 /**

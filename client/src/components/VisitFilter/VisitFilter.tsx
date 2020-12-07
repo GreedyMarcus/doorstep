@@ -36,7 +36,7 @@ const VisitFilter: React.FC<VisitFilterProps> = ({ visits, onFilterChange }) => 
   const { hostNames, purposes } = visits.reduce(
     (acc, visit) => {
       acc.hostNames.add(visit.businessHostName)
-      acc.purposes.add(visit.purpose)
+      acc.purposes.add(t(`enum.visitPurpose.${visit.purpose}`))
       return acc
     },
     { hostNames: new Set<string>(), purposes: new Set<string>() }
@@ -60,7 +60,7 @@ const VisitFilter: React.FC<VisitFilterProps> = ({ visits, onFilterChange }) => 
       // Check host names
       if (selectedHostNames.length && !selectedHostNames.includes(businessHostName)) return false
       // Check purposes
-      if (selectedPurposes.length && !selectedPurposes.includes(purpose)) return false
+      if (selectedPurposes.length && !selectedPurposes.includes(t(`enum.visitPurpose.${purpose}`))) return false
       // Check from date
       if (selectedFromDate && dateAdapter.isBefore(new Date(plannedEntry), selectedFromDate)) return false
       // Check until date

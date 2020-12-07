@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
+import Widget from '../../components/shared/Widget'
+import TableContainer from '@material-ui/core/TableContainer'
+import Table from '@material-ui/core/Table'
+import ResponsiveTableHead from '../../components/shared/ResponsiveTableHead'
+import TableBody from '@material-ui/core/TableBody'
+import ResponsiveTableRow from '../../components/shared/ResponsiveTableRow'
+import OpenTableCell from '../../components/shared/OpenTableCell'
 import Typography from '@material-ui/core/Typography'
-import InfoBox from '../../components/shared/InfoBox'
 import Grid from '@material-ui/core/Grid'
-import ResponsiveTable from '../../components/shared/ResponsiveTable'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
@@ -56,42 +59,40 @@ const InvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: rou
 
   return (
     <>
-      <Container className={classes.container} component="main" maxWidth="lg">
-        <Paper elevation={3}>
-          <Typography className={classes.title} variant="h1">
-            {t('page.invitations.invitationDetails')}
-          </Typography>
+      <Widget
+        title={t('page.invitations.invitationDetails')}
+        showContent={!!activeVisit}
+        hasContent={!!activeVisit}
+        infoText={t('page.invitations.invitationNotFound')}
+      >
+        <>
+          <Grid className={classes.grid} container spacing={2}>
+            <Grid item xs={12}>
+              <Typography className={classes.sectionTitle} component="h2">
+                {t('page.invitations.invitationData')}
+              </Typography>
+            </Grid>
 
-          {!activeVisit ? (
-            <InfoBox text={t('page.invitations.invitationNotFound')} type="error" />
-          ) : (
-            <React.Fragment>
-              <Grid className={classes.grid} container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography className={classes.sectionTitle} component="h2">
-                    {t('page.invitations.invitationData')}
-                  </Typography>
-                </Grid>
-
-                {visitData.map(({ labelLanguageKey, value }) => (
-                  <Grid item md={4} sm={6} xs={12} key={labelLanguageKey}>
-                    <Typography className={classes.label} component="label">
-                      {t(labelLanguageKey)}
-                    </Typography>
-                    <Typography className={classes.text} component="h2">
-                      {value}
-                    </Typography>
-                  </Grid>
-                ))}
-
-                <Grid item xs={12}>
-                  <Typography className={classes.sectionTitle} component="h2">
-                    {t('page.invitations.invitedGuests')}
-                  </Typography>
-                </Grid>
+            {visitData.map(({ labelLanguageKey, value }) => (
+              <Grid item md={4} sm={6} xs={12} key={labelLanguageKey}>
+                <Typography className={classes.label} component="label">
+                  {t(labelLanguageKey)}
+                </Typography>
+                <Typography className={classes.text} component="h2">
+                  {value}
+                </Typography>
               </Grid>
+            ))}
 
-              <ResponsiveTable
+            <Grid item xs={12}>
+              <Typography className={classes.sectionTitle} component="h2">
+                {t('page.invitations.invitedGuests')}
+              </Typography>
+            </Grid>
+          </Grid>
+          <TableContainer className={classes.tableContainer}>
+            <Table>
+              <ResponsiveTableHead
                 labels={[
                   t('page.invitations.guestName'),
                   t('page.invitations.actualEntry'),
@@ -99,40 +100,51 @@ const InvitationDetails: React.FC<RouteComponentProps> = ({ match: { params: rou
                   t('page.invitations.receptionistName'),
                   t('page.invitations.participationStatus')
                 ]}
-                data={activeVisit.invitedGuests.map(guest => ({
-                  id: guest.id,
-                  name: guest.user.fullName,
-                  actualEntry: guest.actualEntry ? new Date(guest.actualEntry).toLocaleDateString(i18n.language) : unknownText,
-                  actualExit: guest.actualExit ? new Date(guest.actualExit).toLocaleDateString(i18n.language) : unknownText,
-                  receptionistName: guest.receptionistName ?? unknownText,
-                  participationStatus: t(`guest.${guest.participationStatus}`)
-                }))}
-                tooltipLabel={t('action.openGuest')}
-                onOpenClick={guestId => history.push(`/invitations/${routeParams['visitId']}/guests/${guestId}`)}
+                emptyEnd
               />
-
-              <Typography className={classes.listSectionTitle} component="h2">
-                {t('page.invitations.consentForms')}
-              </Typography>
-
-              <List className={classes.list}>
-                {activeVisit.consentFormVersionsToAccept.map(consentFormVersion => (
-                  <ListItem key={consentFormVersion.id} button onClick={() => setOpenedFormVersion(consentFormVersion)}>
-                    <ListItemText primary={consentFormVersion.title} />
-                    <ListItemSecondaryAction>
-                      <Tooltip title={t('action.openConsentForm').toString()}>
-                        <IconButton edge="end" onClick={() => setOpenedFormVersion(consentFormVersion)}>
-                          <OpenInNewRoundedIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </ListItemSecondaryAction>
-                  </ListItem>
+              <TableBody>
+                {activeVisit?.invitedGuests.map(guest => (
+                  <ResponsiveTableRow
+                    key={guest.id}
+                    labels={[
+                      guest.user.fullName,
+                      guest.actualEntry ? new Date(guest.actualEntry).toLocaleDateString(i18n.language) : unknownText,
+                      guest.actualExit ? new Date(guest.actualExit).toLocaleDateString(i18n.language) : unknownText,
+                      guest.receptionistName ?? unknownText,
+                      t(`enum.guestParticipationStatus.${guest.participationStatus}`)
+                    ]}
+                    extraCell={
+                      <OpenTableCell
+                        tooltip={t('action.openGuest')}
+                        onOpen={() => history.push(`/invitations/${routeParams['visitId']}/guests/${guest.id}`)}
+                      />
+                    }
+                  />
                 ))}
-              </List>
-            </React.Fragment>
-          )}
-        </Paper>
-      </Container>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Typography className={classes.listSectionTitle} component="h2">
+            {t('page.invitations.consentForms')}
+          </Typography>
+
+          <List className={classes.list}>
+            {activeVisit?.consentFormVersionsToAccept.map(consentFormVersion => (
+              <ListItem key={consentFormVersion.id} button onClick={() => setOpenedFormVersion(consentFormVersion)}>
+                <ListItemText primary={consentFormVersion.title} />
+                <ListItemSecondaryAction>
+                  <Tooltip title={t('action.openConsentForm').toString()}>
+                    <IconButton edge="end" onClick={() => setOpenedFormVersion(consentFormVersion)}>
+                      <OpenInNewRoundedIcon />
+                    </IconButton>
+                  </Tooltip>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      </Widget>
 
       {!!openedFormVersion && (
         <ConsentFormVersionDialog consentFormVersion={openedFormVersion} onClose={() => setOpenedFormVersion(null)} />

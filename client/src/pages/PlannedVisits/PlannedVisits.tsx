@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import InfoBox from '../../components/shared/InfoBox'
+import Widget from '../../components/shared/Widget'
 import PlannedVisitFilter from '../../components/PlannedVisitFilter'
-import ResponsiveTable from '../../components/shared/ResponsiveTable'
+import TableContainer from '@material-ui/core/TableContainer'
+import Table from '@material-ui/core/Table'
+import ResponsiveTableHead from '../../components/shared/ResponsiveTableHead'
+import TableBody from '@material-ui/core/TableBody'
+import ResponsiveTableRow from '../../components/shared/ResponsiveTableRow'
+import OpenTableCell from '../../components/shared/OpenTableCell'
 import useStyles from './useStyles'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -33,32 +35,37 @@ const PlannedVisits: React.FC = () => {
   }, [])
 
   return (
-    <Container className={classes.container} component="main" maxWidth="lg">
-      <Paper elevation={3}>
-        <Typography className={classes.title} variant="h1">
-          {t('page.plannedVisits.pageTitle')}
-        </Typography>
-
-        {!plannedVisits.length ? (
-          <InfoBox text={t('page.plannedVisits.noScheduledVisitInfo')} type="info" />
-        ) : (
-          <>
-            <PlannedVisitFilter visits={plannedVisits} onFilterChange={visits => setFilteredVisits(visits)} />
-            <ResponsiveTable
+    <Widget
+      title={t('page.plannedVisits.pageTitle')}
+      showContent={!!plannedVisits}
+      hasContent={!!plannedVisits?.length}
+      infoText={t('page.plannedVisits.noScheduledVisitInfo')}
+    >
+      <>
+        <PlannedVisitFilter visits={plannedVisits} onFilterChange={visits => setFilteredVisits(visits)} />
+        <TableContainer className={classes.tableContainer}>
+          <Table>
+            <ResponsiveTableHead
               labels={[t('page.plannedVisits.purpose'), t('common.room'), t('page.plannedVisits.plannedEntry')]}
-              data={filteredVisits.map(visit => ({
-                id: visit.id,
-                purpose: visit.purpose,
-                room: visit.room,
-                plannedEntry: getLocaleDateFormat(new Date(visit.plannedEntry))
-              }))}
-              tooltipLabel={t('action.openVisit')}
-              onOpenClick={visitId => history.push(`/visits/${visitId}`)}
+              emptyEnd
             />
-          </>
-        )}
-      </Paper>
-    </Container>
+            <TableBody>
+              {filteredVisits?.map(visit => (
+                <ResponsiveTableRow
+                  key={visit.id}
+                  labels={[
+                    t(`enum.visitPurpose.${visit.purpose}`),
+                    visit.room,
+                    getLocaleDateFormat(new Date(visit.plannedEntry))
+                  ]}
+                  extraCell={<OpenTableCell tooltip={t('action.openVisit')} onOpen={() => history.push(`/visits/${visit.id}`)} />}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </>
+    </Widget>
   )
 }
 

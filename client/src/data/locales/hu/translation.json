@@ -65,14 +65,12 @@
       "admin": "Érvénytelen admin adat formátum.",
       "businessHost": "Érvénytelen céges fogadó adat formátum.",
       "receptionist": "Érvénytelen recepciós adat formátum.",
+      "guest": "Érvénytelen vendég adat formátum.",
+      "duplicatedGuest": "A vendég már szerepel a listában.",
       "building": "Érvénytelen irodaház adat formátum.",
       "company": "Érvénytelen cég adat formátum.",
-      "consentForm": "Érvénytelen nyilatkozat adat formátum."
-    },
-    "invalidData": {
-      "guest": "Érvénytelen vendég adat formátum.",
-      "visit": "Érvénytelen látogatás adat formátum.",
-      "duplicatedGuest": "A vendég már szerepel a listában."
+      "consentForm": "Érvénytelen nyilatkozat adat formátum.",
+      "visit": "Érvénytelen látogatás adat formátum."
     },
     "login": {
       "success": "Sikeres bejelentkezés.",
@@ -227,6 +225,10 @@
       "identity_card": "Személyi igazolvány",
       "student_card": "Diákigazolvány",
       "driving_license": "Jogosítvány"
+    },
+    "visitPurpose": {
+      "meeting": "Találkozó",
+      "interview": "Interjú"
     }
   },
   "page": {

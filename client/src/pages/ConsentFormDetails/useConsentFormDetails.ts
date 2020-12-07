@@ -83,6 +83,13 @@ const useConsentFormDetails = ({ consentFormId }: ConsentFormDetailsHookProps) =
   }
 
   /**
+   * Loads consent form when component mounted.
+   */
+  useEffect(() => {
+    dispatch(fetchConsentFormById(consentFormId))
+  }, [])
+
+  /**
    * Reacts to the changes of the consent form.
    */
   useEffect(() => {

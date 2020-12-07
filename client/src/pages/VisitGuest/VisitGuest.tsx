@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
+import Widget from '../../components/shared/Widget'
 import Typography from '@material-ui/core/Typography'
-import InfoBox from '../../components/shared/InfoBox'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -52,7 +50,7 @@ const VisitGuest: React.FC<RouteComponentProps> = ({ match: { params: routeParam
   const guestDetails = activeGuest?.guestDetails
 
   const guestBasicData = [
-    { labelLanguageKey: 'page.visitsDetails.guestName', value: guestDetails?.user.fullName },
+    { labelLanguageKey: 'page.visitDetails.guestName', value: guestDetails?.user.fullName },
     { labelLanguageKey: 'common.email', value: guestDetails?.user.email },
     { labelLanguageKey: 'common.phoneNumber', value: guestDetails?.phoneNumber || unknownText },
     { labelLanguageKey: 'common.nationality', value: guestDetails?.nationality || unknownText },
@@ -65,7 +63,7 @@ const VisitGuest: React.FC<RouteComponentProps> = ({ match: { params: routeParam
     { labelLanguageKey: 'common.address', value: guestDetails?.address || unknownText },
     {
       labelLanguageKey: 'common.identifierCardType',
-      value: guestDetails?.identifierCardType ? t(`enum.${guestDetails.identifierCardType}`) : unknownText
+      value: guestDetails?.identifierCardType ? t(`enum.identifierCardType.${guestDetails.identifierCardType}`) : unknownText
     },
     { labelLanguageKey: t('common.identifierCardNumber'), value: guestDetails?.identifierCardNumber || unknownText }
   ]
@@ -91,14 +89,16 @@ const VisitGuest: React.FC<RouteComponentProps> = ({ match: { params: routeParam
     { labelLanguageKey: 'page.visitDetails.receptionistName', value: guestDetails?.receptionistName || unknownText },
     {
       labelLanguageKey: 'page.visitDetails.participationStatus',
-      value: guestDetails?.participationStatus ? t(`enum.${guestDetails.participationStatus}`) : unknownText
+      value: guestDetails?.participationStatus
+        ? t(`enum.guestParticipationStatus.${guestDetails.participationStatus}`)
+        : unknownText
     }
   ]
 
   return (
     <>
-      <Container className={classes.container} component="main" maxWidth="lg">
-        <Paper elevation={3}>
+      <Widget
+        titleComponent={
           <Grid container>
             <Grid item sm={10} xs={9}>
               <Typography className={classes.title} variant="h1">
@@ -113,116 +113,117 @@ const VisitGuest: React.FC<RouteComponentProps> = ({ match: { params: routeParam
               </Tooltip>
             </Grid>
           </Grid>
+        }
+        showContent={!!activeGuest}
+        hasContent={!!activeGuest && !!Object.values(activeGuest).length}
+        infoText={t('page.visitDetails.guestNotFound')}
+      >
+        <>
+          <Grid className={classes.grid} container spacing={2}>
+            <Grid item xs={12}>
+              <Typography className={classes.sectionTitle} component="h2">
+                {t('page.visitDetails.guestDetails')}
+              </Typography>
+            </Grid>
 
-          {!activeGuest || !Object.values(activeGuest).length ? (
-            <InfoBox text={t('page.visitDetails.guestNotFound')} type="error" />
-          ) : (
-            <>
-              <Grid className={classes.grid} container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography className={classes.sectionTitle} component="h2">
-                    {t('page.visitDetails.guestDetails')}
-                  </Typography>
-                </Grid>
+            <Grid item xs={12}>
+              <Typography className={classes.subSectionTitle} component="h3">
+                {t('common.basicData')}
+              </Typography>
+              <Divider />
+            </Grid>
 
-                <Grid item xs={12}>
-                  <Typography className={classes.subSectionTitle} component="h3">
-                    {t('common.basicData')}
-                  </Typography>
-                  <Divider />
-                </Grid>
-
-                {guestBasicData.map(({ labelLanguageKey, value }) => (
-                  <Grid item md={3} sm={6} xs={12} key={labelLanguageKey}>
-                    <Typography className={classes.label} component="label">
-                      {t(labelLanguageKey)}
-                    </Typography>
-                    <Typography className={classes.text} component="h2">
-                      {value}
-                    </Typography>
-                  </Grid>
-                ))}
-
-                <Divider />
-
-                <Grid item xs={12}>
-                  <Typography className={classes.subSectionTitle} component="h3">
-                    {t('page.visitDetails.companyDetails')}
-                  </Typography>
-                  <Divider />
-                </Grid>
-
-                {guestCompanyData.map(({ labelLanguageKey, value }) => (
-                  <Grid item md={3} sm={6} xs={12} key={labelLanguageKey}>
-                    <Typography className={classes.label} component="label">
-                      {t(labelLanguageKey)}
-                    </Typography>
-                    <Typography className={classes.text} component="h2">
-                      {value}
-                    </Typography>
-                  </Grid>
-                ))}
-
-                <Grid item xs={12}>
-                  <Typography className={classes.subSectionTitle} component="h3">
-                    {t('page.visitDetails.visitData')}
-                  </Typography>
-                  <Divider />
-                </Grid>
-
-                {guestVisitData.map(({ labelLanguageKey, value }) => (
-                  <Grid item md={3} sm={6} xs={12} key={labelLanguageKey}>
-                    <Typography className={classes.label} component="label">
-                      {t(labelLanguageKey)}
-                    </Typography>
-                    <Typography className={classes.text} component="h2">
-                      {value}
-                    </Typography>
-                  </Grid>
-                ))}
-
-                <Grid item xs={12}>
-                  <Typography className={classes.sectionTitle} component="h2">
-                    {t('page.visitDetails.consentFormsToAccept')}
-                  </Typography>
-                </Grid>
+            {guestBasicData.map(({ labelLanguageKey, value }) => (
+              <Grid item md={3} sm={6} xs={12} key={labelLanguageKey}>
+                <Typography className={classes.label} component="label">
+                  {t(labelLanguageKey)}
+                </Typography>
+                <Typography className={classes.text} component="h2">
+                  {value}
+                </Typography>
               </Grid>
+            ))}
 
-              <List className={classes.list}>
-                {activeGuest.consentFormVersionsToAccept.map(consentFormVersion => (
-                  <ListItem key={consentFormVersion.id} button onClick={() => setOpenedFormVersion(consentFormVersion)}>
-                    <ListItemIcon>
-                      {isFormAccepted(consentFormVersion.id) ? (
-                        <Tooltip title={t('page.visitDetails.consentFormAccepted').toString()}>
-                          <CheckCircleRoundedIcon color="secondary" />
-                        </Tooltip>
-                      ) : (
-                        <Tooltip title={t('page.visitDetails.consentFormNotAccepted').toString()}>
-                          <CancelRoundedIcon color="error" />
-                        </Tooltip>
-                      )}
-                    </ListItemIcon>
-                    <ListItemText primary={consentFormVersion.title} />
-                    <ListItemSecondaryAction>
-                      <Tooltip title={t('action.openConsentForm').toString()}>
-                        <IconButton edge="end" onClick={() => setOpenedFormVersion(consentFormVersion)}>
-                          <OpenInNewRoundedIcon />
-                        </IconButton>
+            <Divider />
+
+            <Grid item xs={12}>
+              <Typography className={classes.subSectionTitle} component="h3">
+                {t('page.visitDetails.companyDetails')}
+              </Typography>
+              <Divider />
+            </Grid>
+
+            {guestCompanyData.map(({ labelLanguageKey, value }) => (
+              <Grid item md={3} sm={6} xs={12} key={labelLanguageKey}>
+                <Typography className={classes.label} component="label">
+                  {t(labelLanguageKey)}
+                </Typography>
+                <Typography className={classes.text} component="h2">
+                  {value}
+                </Typography>
+              </Grid>
+            ))}
+
+            <Grid item xs={12}>
+              <Typography className={classes.subSectionTitle} component="h3">
+                {t('page.visitDetails.visitData')}
+              </Typography>
+              <Divider />
+            </Grid>
+
+            {guestVisitData.map(({ labelLanguageKey, value }) => (
+              <Grid item md={3} sm={6} xs={12} key={labelLanguageKey}>
+                <Typography className={classes.label} component="label">
+                  {t(labelLanguageKey)}
+                </Typography>
+                <Typography className={classes.text} component="h2">
+                  {value}
+                </Typography>
+              </Grid>
+            ))}
+
+            <Grid item xs={12}>
+              <Typography className={classes.sectionTitle} component="h2">
+                {t('page.visitDetails.consentFormsToAccept')}
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <List className={classes.list}>
+            {activeGuest &&
+              Object.values(activeGuest).length &&
+              activeGuest.consentFormVersionsToAccept.map(consentFormVersion => (
+                <ListItem key={consentFormVersion.id} button onClick={() => setOpenedFormVersion(consentFormVersion)}>
+                  <ListItemIcon>
+                    {isFormAccepted(consentFormVersion.id) ? (
+                      <Tooltip title={t('page.visitDetails.consentFormAccepted').toString()}>
+                        <CheckCircleRoundedIcon color="secondary" />
                       </Tooltip>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-              </List>
+                    ) : (
+                      <Tooltip title={t('page.visitDetails.consentFormNotAccepted').toString()}>
+                        <CancelRoundedIcon color="error" />
+                      </Tooltip>
+                    )}
+                  </ListItemIcon>
+                  <ListItemText primary={consentFormVersion.title} />
+                  <ListItemSecondaryAction>
+                    <Tooltip title={t('action.openConsentForm').toString()}>
+                      <IconButton edge="end" onClick={() => setOpenedFormVersion(consentFormVersion)}>
+                        <OpenInNewRoundedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+          </List>
 
-              <Grid className={classes.buttons} container justify="flex-end">
-                <Button variant="contained" color="primary">
-                  {t('action.save')}
-                </Button>
-              </Grid>
-            </>
-          )}
-        </Paper>
-      </Container>
+          <Grid className={classes.buttons} container justify="flex-end">
+            <Button variant="contained" color="primary">
+              {t('action.save')}
+            </Button>
+          </Grid>
+        </>
+      </Widget>
 
       {!!openedFormVersion && (
         <ConsentFormVersionDialog consentFormVersion={openedFormVersion} onClose={() => setOpenedFormVersion(null)} />

@@ -49,7 +49,7 @@ const CompanyConfigDialog: React.FC<CompanyConfigDialogProps> = ({ onClose }) =>
         ))}
 
         <Typography className={classes.sectionTitle} component="h1">
-          {t('company.otherSettings')}
+          {t('page.companies.otherSettings')}
         </Typography>
 
         {otherSettings.map(({ labelLanguageKey, checked, onChange }) => (

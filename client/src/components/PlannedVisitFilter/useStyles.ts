@@ -1,5 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
 
+/**
+ * Custom React hook that spearates the Planned visit filter component styling.
+ */
 export default makeStyles(theme => ({
   root: {
     padding: theme.spacing(1, 3, 2)

@@ -14,6 +14,9 @@ import {
 } from '../../data/dtos/VisitDTO'
 import { ConsentFormVersionDetailsDTO } from '../../data/dtos/ConsentFormDTO'
 
+/**
+ * Service that handles visit business logic.
+ */
 @injectable()
 class VisitService implements VisitServiceInterface {
   private readonly companyService: CompanyServiceInterface

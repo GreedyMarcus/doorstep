@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import InfoBox from '../../components/shared/InfoBox'
-import ResponsiveTable from '../../components/shared/ResponsiveTable'
+import Widget from '../../components/shared/Widget'
+import TableContainer from '@material-ui/core/TableContainer'
+import Table from '@material-ui/core/Table'
+import ResponsiveTableHead from '../../components/shared/ResponsiveTableHead'
+import TableBody from '@material-ui/core/TableBody'
+import ResponsiveTableRow from '../../components/shared/ResponsiveTableRow'
+import OpenTableCell from '../../components/shared/OpenTableCell'
 import useStyles from './useStyles'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -30,35 +32,45 @@ const GuestInvitations: React.FC = () => {
   }, [])
 
   return (
-    <Container className={classes.container} component="main" maxWidth="lg">
-      <Paper elevation={3}>
-        <Typography className={classes.title} variant="h1">
-          {t('page.guestInvitations.invitations')}
-        </Typography>
-
-        {!guestInvitations.length ? (
-          <InfoBox text={t('page.guestInvitations.noInvitationInfo')} type="info" />
-        ) : (
-          <ResponsiveTable
+    <Widget
+      title={t('page.guestInvitations.invitations')}
+      showContent={!!guestInvitations}
+      hasContent={!!guestInvitations?.length}
+      infoText={t('page.guestInvitations.noInvitationInfo')}
+    >
+      <TableContainer className={classes.tableContainer}>
+        <Table>
+          <ResponsiveTableHead
             labels={[
               t('page.guestInvitations.companyName'),
               t('common.address'),
               t('page.guestInvitations.purpose'),
               t('page.guestInvitations.plannedEntry')
             ]}
-            data={guestInvitations.map(invitation => ({
-              id: invitation.id,
-              companyName: invitation.companyName,
-              buildingAddress: invitation.buildingAddress,
-              purpose: invitation.purpose,
-              plannedEntry: getLocaleDateFormat(new Date(invitation.plannedEntry))
-            }))}
-            tooltipLabel={t('action.openInvitation')}
-            onOpenClick={invitationId => history.push(`/guest-invitations/${invitationId}`)}
+            emptyEnd
           />
-        )}
-      </Paper>
-    </Container>
+          <TableBody>
+            {guestInvitations?.map(invitation => (
+              <ResponsiveTableRow
+                key={invitation.id}
+                labels={[
+                  invitation.companyName,
+                  invitation.buildingAddress,
+                  t(`enum.visitPurpose.${invitation.purpose}`),
+                  getLocaleDateFormat(new Date(invitation.plannedEntry))
+                ]}
+                extraCell={
+                  <OpenTableCell
+                    tooltip={t('action.openInvitation')}
+                    onOpen={() => history.push(`/guest-invitations/${invitation.id}`)}
+                  />
+                }
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Widget>
   )
 }
 

@@ -1,10 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles'
 
+/**
+ * Custom React hook that spearates the Visit guest page styling.
+ */
 export default makeStyles(theme => ({
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
-  },
   title: {
     fontSize: 26,
     fontWeight: 500,

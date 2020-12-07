@@ -65,14 +65,12 @@
       "admin": "Invalid admin data format.",
       "businessHost": "Invalid business host data format.",
       "receptionist": "Invalid receptionist data format.",
+      "guest": "Invalid guest data format.",
+      "duplicatedGuest": "Guest is already in the list.",
       "building": "Invalid building data format.",
       "company": "Invalid company data format.",
-      "consentForm": "Invalid consent form data format."
-    },
-    "invalidData": {
-      "guest": "Invalid guest data format.",
-      "visit": "Invalid visit data format.",
-      "duplicatedGuest": "Guest is already in the list."
+      "consentForm": "Invalid consent form data format.",
+      "visit": "Invalid visit data format."
     },
     "login": {
       "success": "Successful login.",
@@ -227,6 +225,10 @@
       "identity_card": "Identity card",
       "student_card": "Student card",
       "driving_license": "Driving license"
+    },
+    "visitPurpose": {
+      "meeting": "Meeting",
+      "interview": "Interview"
     }
   },
   "page": {
@@ -340,7 +342,7 @@
     },
     "plannedVisits": {
       "pageTitle": "Planned visits",
-      "plannedVisitFilter": "Visit filter",
+      "visitFilter": "Visit filter",
       "purpose": "Visit purpose",
       "fromDate": "Visits from date",
       "untilDate": "Visits until date",
