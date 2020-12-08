@@ -267,3 +267,43 @@ export const createVisit = (data: VisitCreate) => async (dispatch: AppDispatch, 
 
   dispatch(setLoading(false))
 }
+
+/**
+ * Calls visit service to update the visit guest data for specified guest user.
+ */
+export const updateGuestByReceptionist = (visitId: number, guestId: number, data: GuestUpdateByUser) => async (
+  dispatch: AppDispatch,
+  getState: () => RootState
+) => {
+  const { user } = getState()
+
+  dispatch(setLoading(true))
+
+  try {
+    data.receptionistId = user.activeUser?.id ?? -1
+    await VisitService.updateGuestByReceptionist(visitId, guestId, data)
+
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateGuestInvitationProfile.success') }))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateGuestInvitationProfile.failure') }))
+  }
+
+  dispatch(setLoading(false))
+}
+
+/**
+ * Calls visit service to update the visit guest data for specified guest user.
+ */
+export const trackGuestExit = (visitId: number, guestId: number) => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true))
+
+  try {
+    await VisitService.trackGuestExit(visitId, guestId)
+
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.trackGuestExit.success') }))
+  } catch (err) {
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.trackGuestExit.failure') }))
+  }
+
+  dispatch(setLoading(false))
+}

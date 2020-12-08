@@ -32,17 +32,29 @@ const useGuestInvitationDetails = ({ visitId, guestProfile }: GuestInvitationDet
     return 0
   }
 
-  const [nationality, bindNationality] = useInput({ initialValue: guestProfile?.guestDetails.nationality })
+  const registerConfig = guestProfile?.companyRegisterConfig
+
+  const [nationality, bindNationality] = useInput({
+    initialValue: guestProfile?.guestDetails.nationality,
+    required: !!registerConfig?.storeNationality
+  })
   const [phoneNumber, bindPhoneNumber] = useInput({
     initialValue: guestProfile?.guestDetails.phoneNumber,
+    required: !!registerConfig?.storePhoneNumber,
     validator: REGEXP.PHONE_NUMBER
   })
-  const [birthplace, bindBirthplace] = useInput({ initialValue: guestProfile?.guestDetails.birthplace })
+  const [birthplace, bindBirthplace] = useInput({
+    initialValue: guestProfile?.guestDetails.birthplace,
+    required: !!registerConfig?.storeBirthplace
+  })
   const [birthDate, setBirthDate] = useState(
     guestProfile?.guestDetails?.birthDate ? new Date(guestProfile.guestDetails.birthDate) : null
   )
 
-  const [motherName, bindMotherName] = useInput({ initialValue: guestProfile?.guestDetails.motherName })
+  const [motherName, bindMotherName] = useInput({
+    initialValue: guestProfile?.guestDetails.motherName,
+    required: !!registerConfig?.storeMotherName
+  })
   const [identifierCardType, setIdentifierCardType] = useState(getIdentifierCardTypeIndex())
   const [identifierCardNumber, bindIdentifierCardNumber] = useInput({
     initialValue: guestProfile?.guestDetails.identifierCardNumber
@@ -50,23 +62,51 @@ const useGuestInvitationDetails = ({ visitId, guestProfile }: GuestInvitationDet
 
   const guestAddress = guestProfile?.guestDetails.address?.split(', ')
 
-  const [country, bindCountry] = useInput({ initialValue: guestAddress && guestAddress[0] })
-  const [zipCode, bindZipCode] = useInput({ initialValue: guestAddress && guestAddress[1] })
-  const [city, bindCity] = useInput({ initialValue: guestAddress && guestAddress[2] })
-  const [streetAddress, bindStreetAddress] = useInput({ initialValue: guestAddress && guestAddress[3] })
+  const [country, bindCountry] = useInput({
+    initialValue: guestAddress && guestAddress[0],
+    required: !!registerConfig?.storeAddress
+  })
+  const [zipCode, bindZipCode] = useInput({
+    initialValue: guestAddress && guestAddress[1],
+    required: !!registerConfig?.storeAddress
+  })
+  const [city, bindCity] = useInput({
+    initialValue: guestAddress && guestAddress[2],
+    required: !!registerConfig?.storeAddress
+  })
+  const [streetAddress, bindStreetAddress] = useInput({
+    initialValue: guestAddress && guestAddress[3],
+    required: !!registerConfig?.storeAddress
+  })
 
-  const [companyName, bindCompanyName] = useInput({ initialValue: guestProfile?.guestDetails.company?.name })
+  const [companyName, bindCompanyName] = useInput({
+    initialValue: guestProfile?.guestDetails.company?.name,
+    required: !!registerConfig?.storeCompany
+  })
   const [regNumber, bindRegNumber] = useInput({
     initialValue: guestProfile?.guestDetails.company?.registrationNumber,
+    required: !!registerConfig?.storeCompany,
     validator: REGEXP.REGISTRATION_NUMBER
   })
 
   const companyAddress = guestProfile?.guestDetails.company?.address?.split(', ')
 
-  const [companyCountry, bindCompanyCountry] = useInput({ initialValue: companyAddress && companyAddress[0] })
-  const [companyZipCode, bindCompanyZipCode] = useInput({ initialValue: companyAddress && companyAddress[1] })
-  const [companyCity, bindCompanyCity] = useInput({ initialValue: companyAddress && companyAddress[2] })
-  const [companyStreetAddress, bindCompanyStreetAddress] = useInput({ initialValue: companyAddress && companyAddress[4] })
+  const [companyCountry, bindCompanyCountry] = useInput({
+    initialValue: companyAddress && companyAddress[0],
+    required: !!registerConfig?.storeCompany
+  })
+  const [companyZipCode, bindCompanyZipCode] = useInput({
+    initialValue: companyAddress && companyAddress[1],
+    required: !!registerConfig?.storeCompany
+  })
+  const [companyCity, bindCompanyCity] = useInput({
+    initialValue: companyAddress && companyAddress[2],
+    required: !!registerConfig?.storeCompany
+  })
+  const [companyStreetAddress, bindCompanyStreetAddress] = useInput({
+    initialValue: companyAddress && companyAddress[4],
+    required: !!registerConfig?.storeCompany
+  })
 
   const [checked, setChecked] = useState(guestProfile?.consentFormVersionsAccepted || ([] as number[]))
 
@@ -179,7 +219,7 @@ const useGuestInvitationDetails = ({ visitId, guestProfile }: GuestInvitationDet
             }
           },
       imageUrl: null,
-      signatureImageUrl: null,
+      signature: null,
       consentFormVersionsAccepted: checked
     }
 

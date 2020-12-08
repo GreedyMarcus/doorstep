@@ -16,6 +16,7 @@ export const VisitCreateSchema = Joi.object({
 })
 
 export const GuestUpdateByUserSchema = Joi.object({
+  receptionistId: Joi.number().optional(),
   nationality: Joi.string().allow(null),
   phoneNumber: Joi.string().allow(null),
   birthplace: Joi.string().allow(null),
@@ -32,6 +33,6 @@ export const GuestUpdateByUserSchema = Joi.object({
     address: AddressSchema
   }).allow(null),
   imageUrl: Joi.string().allow(null),
-  signatureImageUrl: Joi.string().allow(null),
+  signature: Joi.string().allow(null),
   consentFormVersionsAccepted: Joi.array().items(Joi.number()).required()
 })

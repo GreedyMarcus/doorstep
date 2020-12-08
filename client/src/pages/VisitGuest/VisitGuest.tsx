@@ -21,8 +21,9 @@ import { RouteComponentProps, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store'
-import { activeGuestProfileSelector, fetchVisitGuest } from '../../store/visit'
+import { activeGuestProfileSelector, fetchVisitGuest, trackGuestExit } from '../../store/visit'
 import { ConsentFormVersionDetails } from '../../data/types/ConsentForm'
+import { GuestParticipationStatus } from '../../data/enums/GuestParticipationStatus'
 import { getLocaleDateFormat } from '../../utils'
 
 /**
@@ -38,6 +39,11 @@ const VisitGuest: React.FC<RouteComponentProps> = ({ match: { params: routeParam
   const [openedFormVersion, setOpenedFormVersion] = useState(null as ConsentFormVersionDetails | null)
 
   const isFormAccepted = (formId: number) => !!activeGuest?.consentFormVersionsAccepted.includes(formId)
+
+  const trackGuestExitTime = async () => {
+    await dispatch(trackGuestExit(routeParams['visitId'], routeParams['guestId']))
+    await dispatch(fetchVisitGuest(routeParams['visitId'], routeParams['guestId']))
+  }
 
   /**
    * Loads the visit guest when the component mounted.
@@ -67,6 +73,12 @@ const VisitGuest: React.FC<RouteComponentProps> = ({ match: { params: routeParam
     },
     { labelLanguageKey: t('common.identifierCardNumber'), value: guestDetails?.identifierCardNumber || unknownText }
   ]
+
+  const showStartEntryButton =
+    guestDetails?.participationStatus === GuestParticipationStatus.INVITED ||
+    guestDetails?.participationStatus === GuestParticipationStatus.CONFIRMED
+  const showGuestLeavingButton =
+    guestDetails?.participationStatus === GuestParticipationStatus.PARTICIPATED && !guestDetails?.actualExit
 
   const guestCompanyData = [
     { labelLanguageKey: 'page.visitDetails.companyName', value: guestDetails?.company?.name || unknownText },
@@ -218,9 +230,20 @@ const VisitGuest: React.FC<RouteComponentProps> = ({ match: { params: routeParam
           </List>
 
           <Grid className={classes.buttons} container justify="flex-end">
-            <Button variant="contained" color="primary">
-              {t('action.save')}
-            </Button>
+            {showStartEntryButton && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push(`/invitations/${routeParams['visitId']}/guests/${routeParams['guestId']}/entry`)}
+              >
+                {t('action.startEntryProcess')}
+              </Button>
+            )}
+            {showGuestLeavingButton && (
+              <Button variant="contained" color="primary" onClick={trackGuestExitTime}>
+                {t('action.guestLeaving')}
+              </Button>
+            )}
           </Grid>
         </>
       </Widget>

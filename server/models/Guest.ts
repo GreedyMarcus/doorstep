@@ -48,8 +48,8 @@ class Guest {
   @Column({ name: 'identifier_card_number', nullable: true })
   identifierCardNumber: string
 
-  @Column({ name: 'signature_image_url', nullable: true })
-  signatureImageUrl: string
+  @Column({ name: 'signature', type: 'text', nullable: true })
+  signature: string
 
   @Column({ name: 'participation_status', type: 'enum', enum: GuestParticipationStatus })
   participationStatus: GuestParticipationStatus

@@ -54,7 +54,9 @@
     "back": "Back",
     "next": "Next",
     "close": "Close",
-    "activate": "Activate"
+    "activate": "Activate",
+    "startEntryProcess": "Start entry process",
+    "guestLeaving": "Guest leaving"
   },
   "notification": {
     "invalid": {
@@ -204,6 +206,16 @@
     },
     "provideFullAddressData": {
       "warning": "Please provide all information about your address."
+    },
+    "consentFormsAcceptance": {
+      "warning": "Acceptance of the consent forms is mandatory."
+    },
+    "provideSignature": {
+      "warning": "Providing a signature is mandatory."
+    },
+    "trackGuestExit": {
+      "success": "Successful exit.",
+      "failure": "Unsuccessful exit."
     }
   },
   "enum": {
@@ -315,7 +327,8 @@
       "companyDetails": "Company details",
       "companyAddress": "Company address",
       "consentFormsToAccept": "Consent forms to accept",
-      "noInvitationInfo": "There are no pending invitations."
+      "noInvitationInfo": "There are no pending invitations.",
+      "notFound": "Guest does not exist."
     },
     "invitations": {
       "pageTitle": "Invitations",
@@ -393,6 +406,12 @@
       "consentFormsToAccept": "Consent forms to accept",
       "consentFormAccepted": "Accepted consent form",
       "consentFormNotAccepted": "Not accepted consent form"
+    },
+    "entryProcess": {
+      "pageTitle": "Entry process",
+      "companyDetails": "Company details",
+      "consentFormsToAccept": "Consent forms to accept",
+      "signature": "Signature"
     }
   }
 }

@@ -56,6 +56,24 @@ class ConsentFormService {
 
     await axios.put(url, data, config)
   }
+
+  public static async updateGuestByReceptionist(visitId: number, guestId: number, data: GuestUpdateByUser): Promise<void> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${ConsentFormService.API_BASE}/${visitId}/guests/${guestId}`
+    const config = { headers: authHeader }
+
+    await axios.put(url, data, config)
+  }
+
+  public static async trackGuestExit(visitId: number, guestId: number): Promise<void> {
+    const authHeader = AuthService.getAuthHeader()
+
+    const url = `${ConsentFormService.API_BASE}/${visitId}/guests/${guestId}/exit`
+    const config = { headers: authHeader }
+
+    await axios.post(url, {}, config)
+  }
 }
 
 export default ConsentFormService

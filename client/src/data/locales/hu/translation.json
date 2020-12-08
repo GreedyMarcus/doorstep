@@ -54,7 +54,9 @@
     "back": "Vissza",
     "next": "Tovább",
     "close": "Bezárás",
-    "activate": "Aktiválás"
+    "activate": "Aktiválás",
+    "startEntryProcess": "Beléptetési folyamat indítása",
+    "guestLeaving": "A vendég távozik"
   },
   "notification": {
     "invalid": {
@@ -204,6 +206,16 @@
     },
     "provideFullAddressData": {
       "warning": "Kérlek a lakcímedhez tartozó összes adatot biztosítsd."
+    },
+    "consentFormsAcceptance": {
+      "warning": "A nyilatkozatok elfogadása kötelező."
+    },
+    "provideSignature": {
+      "warning": "Az aláírás megadása kötelező."
+    },
+    "trackGuestExit": {
+      "success": "Sikeres kiléptetés.",
+      "failure": "Sikertelen kiléptetés."
     }
   },
   "enum": {
@@ -315,7 +327,8 @@
       "companyRegistrationNumber": "Cégjegyzékszám",
       "companyAddress": "Cég címe",
       "consentFormsToAccept": "Elfogadandó nyilatkozatok",
-      "noInvitationInfo": "Nincsenek folyatban lévő meghívások."
+      "noInvitationInfo": "Nincsenek folyatban lévő meghívások.",
+      "notFound": "A vendég nem létezik."
     },
     "invitations": {
       "pageTitle": "Meghívások",
@@ -393,6 +406,12 @@
       "consentFormsToAccept": "Elfogadandó nyilatkozatok",
       "consentFormAccepted": "Elfogadott nyilatkozat",
       "consentFormNotAccepted": "Nem elfogadott nyilatkozat"
+    },
+    "entryProcess": {
+      "pageTitle": "Beléptetési folyamat",
+      "companyDetails": "Cég adatai",
+      "consentFormsToAccept": "Elfogadandó nyilatkozatok",
+      "signature": "Aláírás"
     }
   }
 }

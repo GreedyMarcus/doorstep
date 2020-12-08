@@ -38,6 +38,6 @@ export default makeStyles(theme => ({
     padding: theme.spacing(4, 3, 1)
   },
   list: {
-    padding: theme.spacing(1, 2)
+    padding: theme.spacing(1, 2, 3)
   }
 }))

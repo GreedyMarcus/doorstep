@@ -63,6 +63,28 @@ class VisitsController {
       return next(err)
     }
   }
+
+  public updateGuestByReceptionist = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const visitId = Number(req.params.visitId)
+      const guestId = Number(req.params.guestId)
+      await this.visitService.updateGuestByReceptionist(visitId, guestId, req.body)
+      res.sendStatus(204)
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  public trackGuestExitTime = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const visitId = Number(req.params.visitId)
+      const guestId = Number(req.params.guestId)
+      await this.visitService.trackGuestExitTime(visitId, guestId)
+      res.sendStatus(204)
+    } catch (err) {
+      return next(err)
+    }
+  }
 }
 
 export default VisitsController

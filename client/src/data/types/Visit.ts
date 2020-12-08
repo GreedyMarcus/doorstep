@@ -75,7 +75,7 @@ export interface VisitGuestDetails {
   identifierCardNumber: string | null
   company: CompanyShortInfo
   imageUrl: string | null
-  signatureImageUrl: string | null
+  signature: string | null
   actualEntry: Date | null
   actualExit: Date | null
   receptionistName: string | null
@@ -102,6 +102,7 @@ export interface GuestInvitationDetails {
 }
 
 export interface GuestUpdateByUser {
+  receptionistId?: number
   nationality: string | null
   phoneNumber: string | null
   birthplace: string | null
@@ -112,6 +113,17 @@ export interface GuestUpdateByUser {
   identifierCardNumber: string | null
   company: CompanyShortUpdate | null
   imageUrl: string | null
-  signatureImageUrl: string | null
+  signature: string | null
   consentFormVersionsAccepted: number[] // Consent form version ids
+}
+
+export type GuestBasicFormData = {
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: Address | null
+  identifierCardType: string
+  identifierCardNumber: string | null
 }

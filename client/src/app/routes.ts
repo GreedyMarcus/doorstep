@@ -15,6 +15,7 @@ import PlannedVisits from '../pages/PlannedVisits'
 import Invitations from '../pages/Invitations'
 import InvitationDetails from '../pages/InvitationDetails'
 import VisitGuest from '../pages/VisitGuest'
+import EntryProcess from '../pages/EntryProcess'
 import GuestInvitations from '../pages/GuestInvitations'
 import GuestInvitationDetails from '../pages/GuestInvitationDetails'
 
@@ -129,6 +130,12 @@ export const routes: ProtectedRouteProps[] = [
   {
     path: '/invitations/:visitId/guests/:guestId',
     Component: VisitGuest,
+    auth: [UserRole.RECEPTIONIST],
+    exact: true
+  },
+  {
+    path: '/invitations/:visitId/guests/:guestId/entry',
+    Component: EntryProcess,
     auth: [UserRole.RECEPTIONIST],
     exact: true
   },

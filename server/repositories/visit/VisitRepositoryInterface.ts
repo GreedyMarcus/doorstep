@@ -1,5 +1,6 @@
 import Visit from '../../models/Visit'
 import User from '../../models/User'
+import Guest from '../../models/Guest'
 import { GuestUpdateByUserDTO } from '../../data/dtos/VisitDTO'
 
 interface VisitRepositoryInterface {
@@ -37,6 +38,11 @@ interface VisitRepositoryInterface {
    * Updates the visit guest data that belongs to the specified guest user.
    */
   updateVisitGuest(userId: number, visit: Partial<Visit>, data: GuestUpdateByUserDTO): Promise<void>
+
+  /**
+   * Saves the specified visit guest.
+   */
+  saveVisitGuest(guest: Guest): Promise<Guest>
 }
 
 export default VisitRepositoryInterface

@@ -13,6 +13,9 @@ import { GuestParticipationStatus } from '../../data/enums/GuestParticipationSta
 import { UserRoleType } from '../../data/enums/UserRoleType'
 import { IdentifierCardType } from '../../data/enums/IdentifierCardType'
 
+/**
+ * Repository that handles visit data manipulation.
+ */
 @injectable()
 @EntityRepository(Visit)
 class VisitRepository extends Repository<Visit> implements VisitRepositoryInterface {
@@ -157,7 +160,7 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
           newGuest.imageUrl = foundGuest.imageUrl
           newGuest.identifierCardType = foundGuest.identifierCardType
           newGuest.identifierCardNumber = foundGuest.identifierCardNumber
-          newGuest.signatureImageUrl = foundGuest.signatureImageUrl
+          newGuest.signature = foundGuest.signature
           newGuest.user = foundGuestUser
         }
 
@@ -187,7 +190,7 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
       visitGuest.identifierCardType = IdentifierCardType[data.identifierCardType.toUpperCase()]
       visitGuest.identifierCardNumber = data.identifierCardNumber
       visitGuest.imageUrl = data.imageUrl
-      visitGuest.signatureImageUrl = data.signatureImageUrl
+      visitGuest.signature = data.signature
 
       // Check if guest address data is provided
       let guestAddress
@@ -270,8 +273,24 @@ class VisitRepository extends Repository<Visit> implements VisitRepositoryInterf
         return data.consentFormVersionsAccepted.includes(version.id)
       })
 
+      if (data.receptionistId) {
+        const receptionist = await transactionEntityManager
+          .getRepository(User)
+          .createQueryBuilder('receptionist')
+          .where('receptionist.id = :receptionistId', { receptionistId: data.receptionistId })
+          .getOne()
+
+        visitGuest.receptionist = receptionist
+        visitGuest.actualEntry = new Date(new Date().toISOString())
+        visitGuest.participationStatus = GuestParticipationStatus.PARTICIPATED
+      }
+
       await transactionEntityManager.getRepository(Guest).save(visitGuest)
     })
+  }
+
+  public saveVisitGuest(guest: Guest): Promise<Guest> {
+    return getRepository(Guest).save(guest)
   }
 }
 

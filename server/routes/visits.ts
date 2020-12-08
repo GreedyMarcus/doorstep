@@ -39,6 +39,31 @@ visitsRouter.get(
 )
 
 /**
+ * PUT - Updates the guest that belongs to the specified visit by receptionist.
+ */
+visitsRouter.put(
+  '/:visitId/guests/:guestId',
+  checkValidNumberParams(['visitId', 'guestId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.EDIT_VISITS]),
+  belongsToVisit,
+  validationMiddleware(GuestUpdateByUserSchema),
+  visitsController.updateGuestByReceptionist
+)
+
+/**
+ * POST - Tracks guest exit time.
+ */
+visitsRouter.post(
+  '/:visitId/guests/:guestId/exit',
+  checkValidNumberParams(['visitId', 'guestId']),
+  checkValidToken,
+  hasPermission([UserPermissionType.EDIT_VISITS]),
+  belongsToVisit,
+  visitsController.trackGuestExitTime
+)
+
+/**
  * GET - Returns the upcoming visits belong to the specified guest user.
  */
 visitsRouter.get(
