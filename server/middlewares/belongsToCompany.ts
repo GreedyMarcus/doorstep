@@ -1,4 +1,5 @@
 import TYPES from '../config/types'
+import ERROR from '../utils/error'
 import Boom from '@hapi/boom'
 import container from '../config/inversify.config'
 import { Request, Response, NextFunction } from 'express'
@@ -14,7 +15,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const company = await companyRepository.findCompanyById(Number(req.params.companyId))
 
   if (!company) {
-    return next(Boom.notFound('Company does not exist.'))
+    return next(Boom.notFound(ERROR.COMPANY_DOES_NOT_EXIST))
   }
 
   // User is the admin of the building associated with company
@@ -27,5 +28,5 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     return next()
   }
 
-  next(Boom.forbidden('User does not belong to the company.'))
+  next(Boom.forbidden(ERROR.USER_DOES_NOT_BELONG_TO_THE_COMPANY))
 }

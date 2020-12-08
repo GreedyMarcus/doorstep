@@ -4,6 +4,9 @@ import UserRepositoryInterface from './UserRepositoryInterface'
 import { EntityRepository, getRepository, Repository } from 'typeorm'
 import { injectable } from 'inversify'
 
+/**
+ * Repository that handles user data manipulation.
+ */
 @injectable()
 @EntityRepository(User)
 class UserRepository extends Repository<User> implements UserRepositoryInterface {

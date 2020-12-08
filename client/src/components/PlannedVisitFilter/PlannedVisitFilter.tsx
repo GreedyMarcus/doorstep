@@ -70,7 +70,7 @@ const VisitFilter: React.FC<VisitFilterProps> = ({ visits, onFilterChange }) => 
     <div className={classes.root}>
       <Accordion className={classes.accordion} expanded={isOpen} onChange={() => setOpen(!isOpen)}>
         <AccordionSummary expandIcon={<TuneRoundedIcon />}>
-          <Typography>{t('page.plannedVisits.plannedVisitFilter')}</Typography>
+          <Typography>{t('page.plannedVisits.visitFilter')}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={4} className={classes.grid}>

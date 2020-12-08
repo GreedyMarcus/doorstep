@@ -6,6 +6,9 @@ type Props = {
   disabled: boolean
 }
 
+/**
+ * Custom React hook that spearates the Text editor component styling.
+ */
 export default makeStyles(theme => ({
   container: ({ error, hasFocus, disabled }: Props) => {
     const grey = theme.palette.grey[400]

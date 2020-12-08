@@ -1,4 +1,5 @@
 import TYPES from '../config/types'
+import ERROR from '../utils/error'
 import Boom from '@hapi/boom'
 import container from '../config/inversify.config'
 import { Request, Response, NextFunction } from 'express'
@@ -14,7 +15,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const building = await buildingRepository.findBuildingById(Number(req.params.buildingId))
 
   if (!building) {
-    return next(Boom.notFound('Office building does not exist.'))
+    return next(Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST))
   }
 
   if (building.admin.id === res.locals.userId) {
@@ -25,5 +26,5 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     return next()
   }
 
-  next(Boom.forbidden('User does not belong to the office building.'))
+  next(Boom.forbidden(ERROR.USER_DOES_NOT_BELONG_TO_THE_OFFICE_BUILDING))
 }

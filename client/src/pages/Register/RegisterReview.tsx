@@ -47,7 +47,7 @@ const RegisterReview: React.FC<RegisterReviewProps> = ({ visible, reviewData, on
           </Typography>
 
           {adminData.map(({ labelLanguageKey, value }) => (
-            <Typography className={classes.item} gutterBottom>
+            <Typography className={classes.item} gutterBottom key={labelLanguageKey}>
               <span className={classes.bold}>{t(labelLanguageKey)}:</span> {value}
             </Typography>
           ))}
@@ -59,7 +59,7 @@ const RegisterReview: React.FC<RegisterReviewProps> = ({ visible, reviewData, on
           </Typography>
 
           {buildingAddressData.map(({ labelLanguageKey, value }) => (
-            <Typography className={classes.item} gutterBottom>
+            <Typography className={classes.item} gutterBottom key={labelLanguageKey}>
               <span className={classes.bold}>{t(labelLanguageKey)}:</span> {value}
             </Typography>
           ))}

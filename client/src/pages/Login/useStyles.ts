@@ -1,6 +1,9 @@
 import blueGrey from '@material-ui/core/colors/blueGrey'
 import { makeStyles } from '@material-ui/core/styles'
 
+/**
+ * Custom React hook that spearates the Login page styling.
+ */
 export default makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(8),

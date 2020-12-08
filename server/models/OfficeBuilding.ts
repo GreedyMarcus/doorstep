@@ -4,6 +4,9 @@ import User from './User'
 import Company from './Company'
 import ConsentForm from './ConsentForm'
 
+/**
+ * Represents the Office building entity.
+ */
 @Entity('office_buildings')
 class OfficeBuilding {
   @PrimaryGeneratedColumn()
@@ -17,11 +20,7 @@ class OfficeBuilding {
   @JoinColumn({ name: 'admin_id' })
   admin: User
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)'
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date
 
   @CreateDateColumn({ name: 'deleted_at', type: 'timestamp', default: null })

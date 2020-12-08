@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
+import Widget from '../../components/shared/Widget'
+import VisitFilter from '../../components/VisitFilter'
+import TableContainer from '@material-ui/core/TableContainer'
+import Table from '@material-ui/core/Table'
+import ResponsiveTableHead from '../../components/shared/ResponsiveTableHead'
+import TableBody from '@material-ui/core/TableBody'
+import ResponsiveTableRow from '../../components/shared/ResponsiveTableRow'
+import OpenTableCell from '../../components/shared/OpenTableCell'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded'
-import InfoBox from '../../components/shared/InfoBox'
-import VisitFilter from '../../components/VisitFilter'
-import ResponsiveTable from '../../components/shared/ResponsiveTable'
 import CompanyConfigDialog from '../../components/CompanyConfigDialog'
 import useStyles from './useStyles'
 import { useHistory } from 'react-router-dom'
@@ -40,8 +43,8 @@ const Visits: React.FC = () => {
 
   return (
     <>
-      <Container className={classes.container} component="main" maxWidth="lg">
-        <Paper elevation={3}>
+      <Widget
+        titleComponent={
           <Grid container>
             <Grid item sm={10} xs={9}>
               <Typography className={classes.title} variant="h1">
@@ -56,34 +59,44 @@ const Visits: React.FC = () => {
               </Tooltip>
             </Grid>
           </Grid>
-
-          {!visits.length ? (
-            <InfoBox text={t('page.visits.noVisitInfo')} type="info" />
-          ) : (
-            <>
-              <VisitFilter visits={visits} onFilterChange={visits => setFilteredVisits(visits)} />
-              <ResponsiveTable
+        }
+        showContent={!!visits}
+        hasContent={!!visits?.length}
+        infoText={t('page.visits.noVisitInfo')}
+      >
+        <>
+          <VisitFilter visits={visits} onFilterChange={visits => setFilteredVisits(visits)} />
+          <TableContainer className={classes.tableContainer}>
+            <Table>
+              <ResponsiveTableHead
                 labels={[
                   t('page.visits.businessHostName'),
                   t('page.visits.purpose'),
                   t('common.room'),
                   t('page.visits.plannedEntry')
                 ]}
-                data={filteredVisits.map(visit => ({
-                  id: visit.id,
-                  businessHostName: visit.businessHostName,
-                  purpose: visit.purpose,
-                  room: visit.room,
-                  plannedEntry: getLocaleDateFormat(new Date(visit.plannedEntry))
-                }))}
-                tooltipLabel={t('action.openVisit')}
-                onOpenClick={visitId => history.push(`/visits/${visitId}`)}
+                emptyEnd
               />
-            </>
-          )}
-        </Paper>
-      </Container>
-
+              <TableBody>
+                {filteredVisits?.map(visit => (
+                  <ResponsiveTableRow
+                    key={visit.id}
+                    labels={[
+                      visit.businessHostName,
+                      t(`enum.visitPurpose.${visit.purpose}`),
+                      visit.room,
+                      getLocaleDateFormat(new Date(visit.plannedEntry))
+                    ]}
+                    extraCell={
+                      <OpenTableCell tooltip={t('action.openVisit')} onOpen={() => history.push(`/visits/${visit.id}`)} />
+                    }
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      </Widget>
       {showConfig && <CompanyConfigDialog onClose={() => setShowConfig(false)} />}
     </>
   )

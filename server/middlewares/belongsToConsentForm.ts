@@ -1,4 +1,5 @@
 import TYPES from '../config/types'
+import ERROR from '../utils/error'
 import Boom from '@hapi/boom'
 import container from '../config/inversify.config'
 import { Request, Response, NextFunction } from 'express'
@@ -15,7 +16,7 @@ export default (formType: ConsentFormType) => async (req: Request, res: Response
   const consentForm = await consentFormRepository.findConsentFormById(Number(req.params.consentFormId))
 
   if (!consentForm) {
-    return next(Boom.notFound('Consent form does not exist.'))
+    return next(Boom.notFound(ERROR.CONSENT_FORM_DOES_NOT_EXIST))
   }
 
   if (formType === ConsentFormType.GLOBAL && consentForm.officeBuilding.admin.id === res.locals.userId) {
@@ -26,5 +27,5 @@ export default (formType: ConsentFormType) => async (req: Request, res: Response
     return next()
   }
 
-  next(Boom.forbidden('User does not belong to the consent form.'))
+  next(Boom.forbidden(ERROR.USER_DOES_NOT_BELONG_TO_THE_CONSENT_FORM))
 }

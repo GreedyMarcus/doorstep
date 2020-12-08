@@ -8,8 +8,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { inject, injectable } from 'inversify'
 import { UserRepositoryInterface } from '../../repositories/user'
 import { VisitNotificationDTO } from '../../data/dtos/VisitDTO'
-import { subjects } from '../../utils/email'
+import { localizedSubjects, localizedVisitPurpose } from '../../utils/email'
 
+/**
+ * Service that handles email logic.
+ */
 @injectable()
 class EmailService implements EmailServiceInterface {
   private readonly userRepository: UserRepositoryInterface
@@ -29,7 +32,7 @@ class EmailService implements EmailServiceInterface {
     const message = {
       from: config.email.noreplyEmail,
       to: email,
-      subject: subjects.passwordReset[language],
+      subject: localizedSubjects.passwordReset[language],
       html: renderedHtml
     }
 
@@ -52,7 +55,7 @@ class EmailService implements EmailServiceInterface {
       // Generate data for email
       const templateData = {
         link: `${config.server.baseUrl}/reset-password/${generatedToken}`,
-        purpose: visitData.purpose,
+        purpose: localizedVisitPurpose[visitData.purpose][language],
         companyName: visitData.companyName,
         buildingAddress: visitData.buildingAddress,
         hostName: visitData.businessHost.fullName,
@@ -65,7 +68,7 @@ class EmailService implements EmailServiceInterface {
       const message = {
         from: config.email.noreplyEmail,
         to: guestUser.email,
-        subject: subjects.visitNotification[language],
+        subject: localizedSubjects.visitNotification[language],
         html: renderedHtml
       }
       messages.push(message)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import BusinessRoundedIcon from '@material-ui/icons/BusinessRounded'
@@ -12,61 +12,26 @@ import RegisterAdmin from './RegisterAdmin'
 import RegisterBuilding from './RegisterBuilding'
 import RegisterReview from './RegisterReview'
 import useStyles from './useStyles'
-import { Link as RouteLink, useHistory } from 'react-router-dom'
-import { UserRegister } from '../../data/types/User'
-import { Address } from '../../data/types/Address'
+import useRegister from './useRegister'
+import { Link as RouteLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../store'
-import { registerAccount } from '../../store/user'
 
 /**
- * Register page where office buildings with admin accounts can be registered.
+ * The Register page where office buildings with admin accounts can be registered.
  */
 const Register: React.FC = () => {
   const classes = useStyles()
-  const history = useHistory()
-  const dispatch = useAppDispatch()
   const [t] = useTranslation()
-
-  const [adminData, setAdminData] = useState({} as UserRegister)
-  const [buildingAddressData, setBuildingAddressData] = useState({} as Address)
-  const [activeStep, setActiveStep] = useState(0)
+  const [
+    activeStep,
+    reviewData,
+    handleAdminNextClick,
+    handleBuildingAddressNextClick,
+    handleBackClick,
+    handleRegister
+  ] = useRegister()
 
   const steps = ['page.register.adminDetails', 'page.register.buildingDetails', 'page.register.review']
-
-  const isFormFinished = activeStep === steps.length - 1
-  const reviewData = { admin: adminData, address: buildingAddressData }
-
-  /**
-   * Registers account with the already validated data.
-   */
-  const handleSubmit = async () => {
-    if (isFormFinished) {
-      await dispatch(registerAccount(reviewData))
-      history.push('/login')
-    }
-  }
-
-  /**
-   * Handles the finished action of the admin form sub-component.
-   */
-  const handleAdminNextClick = (adminData: UserRegister) => {
-    setAdminData(adminData)
-    setActiveStep(activeStep + 1)
-  }
-
-  /**
-   * Handles the finished action of the building form sub-component.
-   */
-  const handleBuildingAddressNextClick = (buildingAddressData: Address) => {
-    setBuildingAddressData(buildingAddressData)
-    setActiveStep(activeStep + 1)
-  }
-
-  /**
-   * Steps back to the previous sub-component.
-   */
-  const handleBackClick = () => setActiveStep(activeStep - 1)
 
   return (
     <Container className={classes.container} component="main" maxWidth="sm">
@@ -94,14 +59,14 @@ const Register: React.FC = () => {
           <RegisterReview
             visible={activeStep === 2}
             reviewData={reviewData}
-            onRegisterClick={handleSubmit}
+            onRegisterClick={handleRegister}
             onBackClick={handleBackClick}
           />
         </>
 
         <Grid container justify="center">
           <Link component={RouteLink} to="/login">
-            {t('page.login.redirect')}
+            {t('page.register.loginRedirect')}
           </Link>
         </Grid>
       </Paper>

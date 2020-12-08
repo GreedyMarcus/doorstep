@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -6,12 +6,9 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useStyles from './useStyles'
-import useInput from '../../components/hooks/useInput'
-import REGEXP from '../../utils/regexp'
+import useGuestDialog from './useGuestDialog'
 import { GuestUserRegister } from '../../data/types/User'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../store'
-import { addNotification } from '../../store/action'
 
 interface GuestDialogProps {
   onSave: (guest: GuestUserRegister) => void
@@ -23,43 +20,9 @@ interface GuestDialogProps {
  */
 const GuestDialog: React.FC<GuestDialogProps> = ({ onSave, onClose }) => {
   const classes = useStyles()
-  const dispatch = useAppDispatch()
+
   const [t] = useTranslation()
-
-  const [isOpen, setOpen] = useState(true)
-
-  const [email, bindEmail] = useInput({ required: true, validator: REGEXP.EMAIL })
-  const [firstName, bindFirstName] = useInput({ required: true })
-  const [lastName, bindLastName] = useInput({ required: true })
-
-  /**
-   * Closes the dialog.
-   */
-  const handleClose = () => {
-    // This method provides smooth exit animation for the component
-    setOpen(false)
-    setTimeout(() => onClose(), 300)
-  }
-
-  /**
-   * Saves the new guest.
-   */
-  const handleSave = () => {
-    const isGuestDataValid = [firstName, lastName, email].every(param => param.valid)
-    if (!isGuestDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.guest') }))
-      return
-    }
-
-    const guestData = {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      email: email.value
-    }
-
-    onSave(guestData)
-    handleClose()
-  }
+  const [isOpen, bindEmail, bindFirstName, bindLastName, handleSave, handleClose] = useGuestDialog({ onSave, onClose })
 
   return (
     <Dialog maxWidth="xs" open={isOpen} onClose={handleClose}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -8,12 +8,9 @@ import TextEditor from '../../components/TextEditor'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
-import useInput from '../../components/hooks/useInput'
+import useConsentFormDialog from './useConsentFormDialog'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../store'
-import { addNotification } from '../../store/action'
-import { createConsentForm } from '../../store/consentForm'
 
 interface ConsentFormDialogProps {
   onClose: () => void
@@ -24,42 +21,10 @@ interface ConsentFormDialogProps {
  */
 const ConsentFormDialog: React.FC<ConsentFormDialogProps> = ({ onClose }) => {
   const classes = useStyles()
-  const dispatch = useAppDispatch()
-  const [t] = useTranslation()
-
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-  const [isOpen, setOpen] = useState(true)
 
-  const [title, bindTitle] = useInput({ required: true })
-  const [content, bindContent, changeContent] = useInput({ required: true })
-
-  /**
-   * Closes the dialog.
-   */
-  const handleClose = () => {
-    // This method provides smooth exit animation for the component.
-    setOpen(false)
-    setTimeout(() => onClose(), 300)
-  }
-
-  /**
-   * Saves the new consent form.
-   */
-  const handleSave = () => {
-    const isConsentFormDataValid = [title, content].every(input => input.valid)
-    if (!isConsentFormDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.consentForm') }))
-      return
-    }
-
-    const consentFormData = {
-      title: title.value,
-      content: content.value
-    }
-
-    dispatch(createConsentForm(consentFormData))
-    handleClose()
-  }
+  const [t] = useTranslation()
+  const [isOpen, bindTitle, bindContent, changeContent, handleSave, handleClose] = useConsentFormDialog({ onClose })
 
   return (
     <Dialog fullScreen={fullScreen} maxWidth="md" open={isOpen} onClose={handleClose}>

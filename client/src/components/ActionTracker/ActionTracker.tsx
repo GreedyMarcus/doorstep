@@ -25,7 +25,7 @@ const ActionTracker: React.FC = () => {
   const handleNotificationRemoval = () => dispatch(removeNotification())
 
   /**
-   * Displays notification is value in the action store changed.
+   * Displays notification if value in the action store changed.
    */
   useEffect(() => {
     if (action.notification) {

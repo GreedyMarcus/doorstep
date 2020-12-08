@@ -30,7 +30,7 @@ authRouter.post('/login', validationMiddleware(UserLoginSchema), authController.
 authRouter.post('/forgot-password', validationMiddleware(ForgotPasswordSchema), getClientLanguage, authController.forgotPassword)
 
 /**
- * POST - Create a new password for the specified user with the provided credentials.
+ * POST - Creates a new password for the specified user with the provided credentials.
  */
 authRouter.post('/reset-password', validationMiddleware(ResetPasswordSchema), authController.resetPassword)
 

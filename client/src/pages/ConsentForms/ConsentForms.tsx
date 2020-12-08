@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import InfoBox from '../../components/shared/InfoBox'
-import ResponsiveTable from '../../components/shared/ResponsiveTable'
+import Widget from '../../components/shared/Widget'
+import TableContainer from '@material-ui/core/TableContainer'
+import Table from '@material-ui/core/Table'
+import ResponsiveTableHead from '../../components/shared/ResponsiveTableHead'
+import TableBody from '@material-ui/core/TableBody'
+import ResponsiveTableRow from '../../components/shared/ResponsiveTableRow'
+import OpenTableCell from '../../components/shared/OpenTableCell'
 import useStyles from './useStyles'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -29,37 +31,36 @@ const ConsentForms: React.FC = () => {
   }, [])
 
   return (
-    <Container className={classes.container} component="main" maxWidth="lg">
-      <Paper elevation={3}>
-        <Typography className={classes.title} variant="h1">
-          {t('page.consentForms.pageTitle')}
-        </Typography>
-
-        {consentForms && (
-          <>
-            {!consentForms.length ? (
-              <InfoBox text={t('page.consentForms.noConsentFormsInfo')} type="info" />
-            ) : (
-              <ResponsiveTable
+    <Widget
+      title={t('page.consentForms.pageTitle')}
+      showContent={!!consentForms}
+      hasContent={!!consentForms?.length}
+      infoText={t('page.consentForms.noConsentFormsInfo')}
+    >
+      <TableContainer className={classes.tableContainer}>
+        <Table>
+          <ResponsiveTableHead
+            labels={[t('page.consentForms.formTitle'), t('page.consentForms.activeVersion'), t('page.consentForms.createdDate')]}
+            emptyEnd
+          />
+          <TableBody>
+            {consentForms?.map(form => (
+              <ResponsiveTableRow
+                key={form.id}
                 labels={[
-                  t('page.consentForms.formTitle'),
-                  t('page.consentForms.activeVersion'),
-                  t('page.consentForms.createdDate')
+                  form.title,
+                  form.activeVersion?.toString() || t('page.consentForms.noActiveVersion'),
+                  new Date(form.createdAt).toLocaleDateString(i18n.language)
                 ]}
-                data={consentForms.map(form => ({
-                  id: form.id,
-                  title: form.title,
-                  activeVersion: form.activeVersion || t('page.consentForms.noActiveVersion'),
-                  createdAt: new Date(form.createdAt).toLocaleDateString(i18n.language)
-                }))}
-                tooltipLabel={t('action.openConsentForm')}
-                onOpenClick={formId => history.push(`/consent-forms/${formId}`)}
+                extraCell={
+                  <OpenTableCell tooltip={t('action.openConsentForm')} onOpen={() => history.push(`/consent-forms/${form.id}`)} />
+                }
               />
-            )}
-          </>
-        )}
-      </Paper>
-    </Container>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Widget>
   )
 }
 

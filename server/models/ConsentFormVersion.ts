@@ -3,6 +3,9 @@ import ConsentForm from './ConsentForm'
 import Visit from './Visit'
 import Guest from './Guest'
 
+/**
+ * Represents the Consent form version entity.
+ */
 @Entity('consent_form_versions')
 class ConsentFormVersion {
   @PrimaryGeneratedColumn()
@@ -14,18 +17,10 @@ class ConsentFormVersion {
   @Column({ name: 'version_number', nullable: false })
   versionNumber: number
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)'
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date
 
-  @ManyToOne(() => ConsentForm, form => form.versions, {
-    nullable: false,
-    cascade: true,
-    onDelete: 'CASCADE'
-  })
+  @ManyToOne(() => ConsentForm, form => form.versions, { nullable: false, cascade: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'consent_form_id' })
   consentForm: ConsentForm
 

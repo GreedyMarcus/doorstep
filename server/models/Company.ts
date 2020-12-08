@@ -17,6 +17,9 @@ import User from './User'
 import Visit from './Visit'
 import Guest from './Guest'
 
+/**
+ * Represents the Company entity.
+ */
 @Entity('companies')
 class Company {
   @PrimaryGeneratedColumn()
@@ -44,11 +47,7 @@ class Company {
   @JoinColumn({ name: 'admin_id' })
   admin: User
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)'
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', default: null })

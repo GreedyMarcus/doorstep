@@ -13,7 +13,7 @@ interface InputState {
 }
 
 /**
- * Custom hook to store text input data. It also handles input changes and validation.
+ * Custom hook to handle text input data storage, changes and validation.
  *
  * @param initialValue - the initial value of the input
  * @param required - if the value of the input is required

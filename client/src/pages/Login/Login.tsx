@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded'
@@ -9,41 +9,17 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 import useStyles from './useStyles'
-import useInput from '../../components/hooks/useInput'
-import REGEXP from '../../utils/regexp'
-import { Link as RouteLink, useHistory } from 'react-router-dom'
+import useLogin from './useLogin'
+import { Link as RouteLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../store'
-import { loginUser } from '../../store/user'
-import { addNotification } from '../../store/action'
 
 /**
- * The login page where users can be authenticated.
+ * The Login page where users can authenticate themselves.
  */
 const Login: React.FC = () => {
   const classes = useStyles()
-  const history = useHistory()
-  const dispatch = useAppDispatch()
   const [t] = useTranslation()
-
-  const [email, bindEmail] = useInput({ initialValue: '', required: true, validator: REGEXP.EMAIL })
-  const [password, bindPassword] = useInput({ initialValue: '' })
-
-  /**
-   * Authenticates user with the validated credentials.
-   */
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const isLoginDataValid = [email, password].every(param => param.valid)
-    if (!isLoginDataValid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.login') }))
-      return
-    }
-
-    dispatch(loginUser({ email: email.value, password: password.value }))
-    history.push('/')
-  }
+  const [bindEmail, bindPassword, handleLogin] = useLogin()
 
   return (
     <Container className={classes.container} component="main" maxWidth="xs">
@@ -56,7 +32,7 @@ const Login: React.FC = () => {
           {t('page.login.welcomeHelper')}
         </Typography>
 
-        <form className={classes.form} onSubmit={handleSubmit} noValidate>
+        <form className={classes.form} onSubmit={handleLogin} noValidate>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField {...bindEmail} label={t('common.email')} autoComplete="email" variant="outlined" fullWidth />
@@ -68,7 +44,7 @@ const Login: React.FC = () => {
             <Grid item xs={12} className={classes.forgotPasswordLink}>
               <Grid container justify="flex-end">
                 <Link component={RouteLink} to="/forgot-password">
-                  {t('page.forgotPassword.question')}
+                  {t('page.login.forgotPassword')}
                 </Link>
               </Grid>
             </Grid>
@@ -79,7 +55,7 @@ const Login: React.FC = () => {
               </Button>
               <Grid container justify="center">
                 <Link component={RouteLink} to="/register">
-                  {t('page.register.pageTitle')}
+                  {t('page.login.registerBuilding')}
                 </Link>
               </Grid>
             </Grid>

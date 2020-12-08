@@ -20,9 +20,9 @@ interface ConsentFormVersionDialogProps {
  */
 const ConsentFormVersionDialog: React.FC<ConsentFormVersionDialogProps> = ({ consentFormVersion, onClose }) => {
   const classes = useStyles()
+  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const [t] = useTranslation()
 
-  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const [isOpen, setOpen] = useState(true)
 
   /**

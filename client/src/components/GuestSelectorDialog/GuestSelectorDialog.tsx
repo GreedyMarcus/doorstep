@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Checkbox from '@material-ui/core/Checkbox'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useStyles from './useStyles'
+import useGuestSelectorDialog from './useGuestSelectorDialog'
 import { GuestUserRegister } from '../../data/types/User'
 import { useTranslation } from 'react-i18next'
 
@@ -23,44 +24,9 @@ interface GuestSelectorDialogProps {
  */
 const GuestSelectorDialog: React.FC<GuestSelectorDialogProps> = ({ guests, onSave, onClose }) => {
   const classes = useStyles()
+
   const [t] = useTranslation()
-
-  const [isOpen, setOpen] = useState(true)
-  const [checked, setChecked] = useState([] as number[])
-
-  /**
-   * Switches the state of the checkbox
-   */
-  const toggle = (value: number) => {
-    const currentIndex = checked.indexOf(value)
-    const newChecked = [...checked]
-
-    if (currentIndex === -1) {
-      newChecked.push(value)
-    } else {
-      newChecked.splice(currentIndex, 1)
-    }
-
-    setChecked(newChecked)
-  }
-
-  /**
-   * Closes the dialog.
-   */
-  const handleClose = () => {
-    // This method provides smooth exit animation for the component
-    setOpen(false)
-    setTimeout(() => onClose(), 300)
-  }
-
-  /**
-   * Returns the selected guest users with the provided callback function.
-   */
-  const handleSave = () => {
-    const selectedGuests = guests.filter((_guest, index) => checked.includes(index))
-    onSave(selectedGuests)
-    handleClose()
-  }
+  const [isOpen, checked, toggle, handleSave, handleClose] = useGuestSelectorDialog({ guests, onSave, onClose })
 
   return (
     <Dialog maxWidth="xs" open={isOpen} onClose={handleClose}>

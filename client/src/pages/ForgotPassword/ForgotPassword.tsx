@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import LockRoundedIcon from '@material-ui/icons/LockRounded'
@@ -8,39 +8,17 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 import useStyles from './useStyles'
-import useInput from '../../components/hooks/useInput'
-import REGEXP from '../../utils/regexp'
-import { Link as RouteLink, useHistory } from 'react-router-dom'
+import useForgotPassword from './useForgotPassword'
+import { Link as RouteLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../store'
-import { sendForgotPassword } from '../../store/user'
-import { addNotification } from '../../store/action'
 
 /**
- * The forgot password page where users can request password reset.
+ * The Forgot Password page where users can request password reset.
  */
 const ForgotPassword: React.FC = () => {
   const classes = useStyles()
-  const history = useHistory()
-  const dispatch = useAppDispatch()
   const [t] = useTranslation()
-
-  const [email, bindEmail] = useInput({ initialValue: '', required: true, validator: REGEXP.EMAIL })
-
-  /**
-   * Sends password reset requst to the specified email address.
-   */
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    if (!email.valid) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidData.email') }))
-      return
-    }
-
-    await dispatch(sendForgotPassword(email.value))
-    history.push('/login')
-  }
+  const [bindEmail, handlePasswordReset] = useForgotPassword()
 
   return (
     <Container className={classes.container} component="main" maxWidth="xs">
@@ -53,7 +31,7 @@ const ForgotPassword: React.FC = () => {
           {t('page.forgotPassword.helper')}
         </Typography>
 
-        <form className={classes.form} onSubmit={handleSubmit} noValidate>
+        <form className={classes.form} onSubmit={handlePasswordReset} noValidate>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField {...bindEmail} label={t('common.email')} autoComplete="email" variant="outlined" fullWidth />
@@ -65,7 +43,7 @@ const ForgotPassword: React.FC = () => {
               </Button>
               <Grid container justify="center">
                 <Link component={RouteLink} to="/login">
-                  {t('page.login.redirect')}
+                  {t('page.forgotPassword.loginRedirect')}
                 </Link>
               </Grid>
             </Grid>

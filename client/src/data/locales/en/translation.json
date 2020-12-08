@@ -44,6 +44,8 @@
     "openInvitation": "Open invitation",
     "openVisit": "Open visit",
     "openGuest": "Open guest",
+    "showMore": "Show more",
+    "showLess": "Show less",
     "acceptConsentForm": "Accept consent form",
     "ok": "Ok",
     "save": "Save",
@@ -51,40 +53,56 @@
     "clear": "Clear",
     "back": "Back",
     "next": "Next",
-    "close": "Close"
+    "close": "Close",
+    "activate": "Activate"
   },
   "notification": {
-    "invalidData": {
+    "invalid": {
       "login": "Invalid email address or password format.",
       "email": "Invalid email format.",
       "password": "Invalid password format.",
+      "user": "Invalid user data format.",
+      "admin": "Invalid admin data format.",
+      "businessHost": "Invalid business host data format.",
+      "receptionist": "Invalid receptionist data format.",
+      "guest": "Invalid guest data format.",
+      "duplicatedGuest": "Guest is already in the list.",
       "building": "Invalid building data format.",
       "company": "Invalid company data format.",
       "consentForm": "Invalid consent form data format.",
-      "businessHost": "Invalid business host data format.",
-      "user": "Invalid user data format.",
-      "guest": "Invalid guest data format.",
-      "visit": "Invalid visit data format.",
-      "duplicatedGuest": "Guest is already in the list."
+      "visit": "Invalid visit data format."
     },
     "login": {
       "success": "Successful login.",
-      "failure": "Login failed."
+      "error": {
+        "400": "Wrong email or password.",
+        "404": "There is no user associated with the provided email address.",
+        "500": "Login failed."
+      }
     },
     "logout": {
       "success": "Successful logout."
     },
     "register": {
       "success": "Successful registration.",
-      "failure": "Registration failed."
+      "error": {
+        "400": "The specified admin or office building already exists.",
+        "500": "Registration failed."
+      }
     },
     "passwordForget": {
       "success": "We've sent you a link to reset your password. You will receive an email shortly.",
-      "failure": "Failed to send password reset email."
+      "error": {
+        "404": "There is no user associated with the provided email address.",
+        "500": "Failed to send password reset email."
+      }
     },
     "passwordReset": {
       "success": "Successful password update.",
-      "failure": "Failed to update password."
+      "error": {
+        "404": "There is no user associated with the provided email address.",
+        "500": "Failed to update password."
+      }
     },
     "fetchCompanies": {
       "failure": "Failed to load companies."
@@ -207,9 +225,41 @@
       "identity_card": "Identity card",
       "student_card": "Student card",
       "driving_license": "Driving license"
+    },
+    "visitPurpose": {
+      "meeting": "Meeting",
+      "interview": "Interview"
     }
   },
   "page": {
+    "login": {
+      "welcome": "Welcome to Doorstep",
+      "welcomeHelper": "Sign in to continue",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign in",
+      "registerBuilding": "Register office building"
+    },
+    "register": {
+      "pageTitle": "Register office building",
+      "adminDetails": "Admin details",
+      "buildingDetails": "Office building details",
+      "review": "Review registration",
+      "submit": "Sign up",
+      "loginRedirect": "Back to login"
+    },
+    "forgotPassword": {
+      "pageTitle": "Forgot password",
+      "question": "Forgot your password?",
+      "helper": "Enter your email and we'll send you a link to reset your password.",
+      "submit": "Reset password",
+      "loginRedirect": "Back to login"
+    },
+    "resetPassword": {
+      "pageTitle": "Reset password",
+      "helper": "Enter your new password and login.",
+      "submit": "Save and login",
+      "loginRedirect": "Back to login"
+    },
     "businessHosts": {
       "pageTitle": "Business hosts",
       "hostDetails": "Business host details",
@@ -247,12 +297,6 @@
       "openedVersion": "Opened version",
       "createdDate": "Created date",
       "noConsentFormsInfo": "You have not added any consent forms yet."
-    },
-    "forgotPassword": {
-      "pageTitle": "Forgot password",
-      "question": "Forgot your password?",
-      "helper": "Enter your email and we'll send you a link to reset your password.",
-      "submit": "Reset password"
     },
     "guestInvitations": {
       "invitations": "Invitations",
@@ -296,15 +340,9 @@
       "invitations": "Invitations",
       "noInvitationInfo": "There are no pending invitations."
     },
-    "login": {
-      "welcome": "Welcome to Doorstep",
-      "welcomeHelper": "Sign in to continue",
-      "submit": "Sign in",
-      "redirect": "Back to login"
-    },
     "plannedVisits": {
       "pageTitle": "Planned visits",
-      "plannedVisitFilter": "Visit filter",
+      "visitFilter": "Visit filter",
       "purpose": "Visit purpose",
       "fromDate": "Visits from date",
       "untilDate": "Visits until date",
@@ -317,18 +355,6 @@
       "noReceptionistsInfo": "You have not added any receptionists yet.",
       "receptionistName": "Receptionist name",
       "joiningDate": "Joining date"
-    },
-    "register": {
-      "pageTitle": "Register office building",
-      "adminDetails": "Admin details",
-      "buildingDetails": "Office building details",
-      "review": "Review registration",
-      "submit": "Sign up"
-    },
-    "resetPassword": {
-      "pageTitle": "Reset password",
-      "helper": "Enter your new password and login.",
-      "submit": "Save and login"
     },
     "visits": {
       "pageTitle": "Visits",

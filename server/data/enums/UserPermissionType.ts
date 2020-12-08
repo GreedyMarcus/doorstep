@@ -1,3 +1,6 @@
+/**
+ * The possible permissions that can be assigned to roles.
+ */
 export enum UserPermissionType {
   CREATE_COMPANIES = 'create_companies',
   CREATE_COMPANY_ADMINS = 'create_company_admins',

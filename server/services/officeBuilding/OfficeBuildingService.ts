@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 import Boom from '@hapi/boom'
 import TYPES from '../../config/types'
+import ERROR from '../../utils/error'
 import OfficeBuildingServiceInterface from './OfficeBuildingServiceInterface'
 import { inject, injectable } from 'inversify'
 import { UserRepositoryInterface } from '../../repositories/user'
@@ -15,6 +16,9 @@ import { UserRegisterDTO, UserUpdateDTO } from '../../data/dtos/UserDTO'
 import { InvitationInfoDTO } from '../../data/dtos/VisitDTO'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 
+/**
+ * Service that handles office building business logic.
+ */
 @injectable()
 class OfficeBuildingService implements OfficeBuildingServiceInterface {
   private readonly userRepository: UserRepositoryInterface
@@ -40,12 +44,12 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   public registerBuilding = async ({ admin, address }: OfficeBuildingRegisterDTO): Promise<void> => {
     const foundBuildingAdmin = await this.userRepository.findUserByEmail(admin.email)
     if (foundBuildingAdmin) {
-      throw Boom.badRequest('Building admin already exists.')
+      throw Boom.badRequest(ERROR.OFFICE_BUILDING_ADMIN_ALREADY_EXISTS)
     }
 
     const foundBuilding = await this.officeBuildingRepository.findBuildingByAddress(address)
     if (foundBuilding) {
-      throw Boom.badRequest('Office building already exists with provided address.')
+      throw Boom.badRequest(ERROR.OFFICE_BUILDING_ALREADY_EXISTS)
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -59,7 +63,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   public getCompanies = async (buildingId: number): Promise<CompanyInfoDTO[]> => {
     const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
     if (!foundBuilding) {
-      throw Boom.notFound('Office building does not exists.')
+      throw Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST)
     }
 
     const foundCompanies = await this.companyRepository.findCompaniesByBuildingId(buildingId)
@@ -84,7 +88,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   public registerCompany = async (buildingId: number, data: CompanyRegisterDTO): Promise<CompanyInfoDTO> => {
     const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
     if (!foundBuilding) {
-      throw Boom.notFound('Office building does not exists.')
+      throw Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST)
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -113,7 +117,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   public getConsentForms = async (buildingId: number): Promise<ConsentFormInfoDTO[]> => {
     const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
     if (!foundBuilding) {
-      throw Boom.notFound('Office building does not exists.')
+      throw Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST)
     }
 
     const consentForms = await this.consentFormRepository.findConsentFormsByBuildingId(buildingId)
@@ -130,7 +134,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   public createConsentForm = async (buildingId: number, data: ConsentFormCreateDTO): Promise<ConsentFormInfoDTO> => {
     const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
     if (!foundBuilding) {
-      throw Boom.notFound('Building does not exists')
+      throw Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST)
     }
 
     const consentForm = await this.consentFormRepository.createGlobalConsentForm(buildingId, data.title, data.content)
@@ -147,7 +151,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   public getReceptionists = async (buildingId: number): Promise<EmployeeInfoDTO[]> => {
     const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
     if (!foundBuilding) {
-      throw Boom.notFound('Building does not exists')
+      throw Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST)
     }
 
     const receptionists = await this.officeBuildingRepository.findBuildingEmployees(buildingId, UserRoleType.RECEPTIONIST)
@@ -165,7 +169,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   public createReceptionist = async (buildingId: number, data: UserRegisterDTO): Promise<EmployeeInfoDTO> => {
     const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
     if (!foundBuilding) {
-      throw Boom.notFound('Building does not exists')
+      throw Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST)
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -192,12 +196,12 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   ): Promise<EmployeeInfoDTO> => {
     const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
     if (!foundBuilding) {
-      throw Boom.notFound('Building does not exists')
+      throw Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST)
     }
 
     const foundReceptionist = await this.userRepository.findUserById(receptionistId)
     if (!foundReceptionist || foundReceptionist.officeBuilding.id !== foundBuilding.id) {
-      throw Boom.notFound('Receptionist does not exist.')
+      throw Boom.notFound(ERROR.RECEPTIONIST_DOES_NOT_EXIST)
     }
 
     const updatedReceptionist = await this.officeBuildingRepository.updateReceptionist(receptionistId, data)
@@ -215,7 +219,7 @@ class OfficeBuildingService implements OfficeBuildingServiceInterface {
   public getInvitations = async (buildingId: number): Promise<InvitationInfoDTO[]> => {
     const foundBuilding = await this.officeBuildingRepository.findBuildingById(buildingId)
     if (!foundBuilding) {
-      throw Boom.notFound('Building does not exists')
+      throw Boom.notFound(ERROR.OFFICE_BUILDING_DOES_NOT_EXIST)
     }
 
     const foundInvitations = await this.visitRepository.findVisitsByBuildingId(buildingId)
