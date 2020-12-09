@@ -42,6 +42,11 @@ export interface ProtectedRouteProps extends RouteProps {
    * The relative route path.
    */
   path: string
+
+  /**
+   * If present, strict route matching is applied.
+   */
+  exact: boolean
 }
 
 /**
