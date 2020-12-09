@@ -48,14 +48,7 @@ const App = () => {
       <NavigationBar />
       <Switch>
         {routes.map(route => (
-          <ProtectedRoute
-            key={route.Component.name}
-            path={route.path}
-            Component={route.Component}
-            auth={route.auth}
-            noAuth={route.noAuth}
-            exact={route.exact}
-          />
+          <ProtectedRoute {...route} key={route.Component.name} />
         ))}
         <Redirect from="*" to="/login" />
       </Switch>
