@@ -84,7 +84,7 @@ export interface VisitGuestDetailsDTO {
   identifierCardNumber: string | null
   company: CompanyShortInfoDTO
   imageUrl: string | null
-  signatureImageUrl: string | null
+  signature: string | null
   actualEntry: Date | null
   actualExit: Date | null
   receptionistName: string | null
@@ -111,6 +111,7 @@ export interface GuestInvitationDetailsDTO {
 }
 
 export interface GuestUpdateByUserDTO {
+  receptionistId?: number
   nationality: string | null
   phoneNumber: string | null
   birthplace: string | null
@@ -121,6 +122,6 @@ export interface GuestUpdateByUserDTO {
   identifierCardNumber: string | null
   company: CompanyShortUpdateDTO | null
   imageUrl: string | null
-  signatureImageUrl: string | null
+  signature: string | null
   consentFormVersionsAccepted: number[] // Consent form version ids
 }

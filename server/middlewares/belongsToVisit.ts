@@ -1,4 +1,5 @@
 import TYPES from '../config/types'
+import ERROR from '../utils/error'
 import Boom from '@hapi/boom'
 import container from '../config/inversify.config'
 import { Request, Response, NextFunction } from 'express'
@@ -17,7 +18,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   const visit = await visitRepository.findVisitById(Number(req.params.visitId))
   if (!visit) {
-    return next(Boom.notFound('Visit does not exist.'))
+    return next(Boom.notFound(ERROR.VISIT_DOES_NOT_EXIST))
   }
 
   const user = await userRepository.findUserById(res.locals.userId)
@@ -26,7 +27,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   }
 
   if (!user || user.company.id !== visit.company.id) {
-    return next(Boom.forbidden('User does not belong to the visit.'))
+    return next(Boom.forbidden(ERROR.USER_DOES_NOT_BELONG_TO_THE_VISIT))
   }
   next()
 }

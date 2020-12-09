@@ -1,3 +1,6 @@
+/**
+ * Application configuration object.
+ */
 export default {
   app: {
     env: process.env.NODE_ENV,

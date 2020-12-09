@@ -12,7 +12,7 @@ interface UserRepositoryInterface {
   findUserByEmail(email: string): Promise<User>
 
   /**
-   * Returns all users whose email are included in the specified email list.
+   * Returns all users whose emails are included in the specified email list.
    */
   findAllUsersByEmails(emails: string[]): Promise<User[]>
 

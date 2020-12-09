@@ -1,237 +1,417 @@
 {
-  "general": {
-    "myProfile": "My profile",
-    "back": "Back",
-    "next": "Next",
+  "common": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email address",
+    "password": "Password",
     "address": "Address",
     "country": "Country",
     "zipCode": "Zip code",
     "city": "City",
     "streetAddress": "Street address",
-    "companies": "Companies",
-    "consentForms": "Consent forms",
-    "businessHosts": "Business hosts",
-    "visits": "Visits",
-    "plannedVisits": "Planned visits",
-    "invitations": "Invitations",
-    "receptionists": "Receptionists",
-    "guest": "Guest",
-    "details": "Details",
-    "settings": "Settings",
-    "unknown": "Unknown",
-    "basicData": "Basic data",
-    "additionalData": "Additional data"
-  },
-  "building": {
-    "receptionistDetails": "Receptionist details",
-    "noReceptionistsInfo": "You have not added any receptionists yet.",
-    "receptionistName": "Receptionist name"
-  },
-  "company": {
-    "name": "Company name",
-    "registrationNumber": "Registration number",
-    "admin": "Admin",
-    "joiningDate": "Joining date",
-    "address": "Company address",
-    "companyDetails": "Company details",
-    "adminDetails": "Company admin details",
-    "adminName": "Admin name",
-    "adminEmail": "Admin email",
-    "noCompanyInfo": "You have not added any companies yet.",
-    "changeAdminText": "I would like to replace the current admin.",
-    "businessHostName": "Business host name",
-    "noBusinessHostsInfo": "You have not added any business hosts yet.",
-    "businessHostDetails": "Business host details",
-    "guestDataSettings": "Stored guest data",
-    "otherSettings": "Other settings",
-    "userRole": "User role"
-  },
-  "consentForm": {
-    "title": "Consent form title",
-    "content": "Consent form content",
-    "details": "Consent form details",
-    "activeVersion": "Active version",
-    "createdDate": "Created date",
-    "noConsentFormsInfo": "You have not added any consent forms yet.",
-    "noActiveVersion": "No active version",
-    "openedVersion": "Opened version",
-    "notFound": "Consent form does not exist.",
-    "accepted": "Accepted consent form",
-    "notAccepted": "Not accepted consent form"
-  },
-  "visit": {
-    "businessHostName": "Business host name",
-    "businessHostEmail": "Business host email",
-    "purpose": "Purpose of visit",
-    "room": "Room",
-    "plannedEntry": "Planned entry date",
-    "noVisitInfo": "There are no finished visits yet.",
-    "noScheduledVisitInfo": "There are no scheduled visits yet.",
-    "noInvitationInfo": "There are no pending invitations.",
-    "filter": "Visit filter",
-    "invitationFilter": "Invitation filter",
-    "fromDate": "Visits from date",
-    "untilDate": "Visits until date",
-    "scheduler": "Visit scheduler",
-    "details": "Visit details",
-    "guests": "Guests",
-    "notFound": "Visit does not exist.",
-    "visitData": "Visit data",
-    "consentForms": "Consent forms belong to this visit",
-    "consentFormsToAccept": "Consent forms to accept",
-    "invitationDetails": "Invitation details",
-    "invitationNotFound": "Invitation does not exist.",
-    "invitationData": "Invitation data",
-    "organizingCompany": "Organizing company",
-    "location": "Location"
-  },
-  "guest": {
-    "name": "Guest name",
     "nationality": "Nationality",
     "phoneNumber": "Phone number",
     "birthplace": "Birthplace",
     "birthDate": "Birth date",
     "motherName": "Mother's name",
-    "identifierCardType": "Identifier card type",
-    "identifierCardNumber": "Identifier card number",
-    "mustRegisterCard": "It is necessary to register a guest card.",
-    "mustTrackActualExit": "It is necessary to track the actual exit time.",
-    "actualEntry": "Actual entry time",
-    "actualExit": "Acutal exit time",
-    "receptionistName": "Receptionist name",
-    "participationStatus": "Participation status",
-    "invited": "Received the invitation",
-    "confirmed": "Accepted the invitation",
-    "canceled": "Canceled the invitation",
-    "participated": "Participated in the visit",
-    "missed": "Missed the visit",
-    "details": "Guest details",
-    "notFound": "Guest does not exist."
-  },
-  "auth": {
-    "email": "Email address",
-    "password": "Password",
-    "firstName": "First name",
-    "lastName": "Last name",
-    "loginWelcome": "Welcome to Doorstep",
-    "loginWelcomeHelper": "Sign in to continue",
-    "loginSubmit": "Sign in",
-    "loginRedirect": "Back to login",
-    "registerTitle": "Register office building",
-    "registerAdminDetails": "Admin details",
-    "registerBuildingDetails": "Office building details",
-    "registerReview": "Review registration",
-    "registerSubmit": "Sign up",
     "logout": "Logout",
-    "forgotPasswordQuestion": "Forgot your password?",
-    "forgotPasswordTitle": "Forgot password",
-    "forgotPasswordHelper": "Enter your email and we'll send you a link to reset your password.",
-    "forgotPasswordSubmit": "Reset password",
-    "resetPasswordTitle": "Reset password",
-    "resetPasswordHelper": "Enter your new password and login.",
-    "resetPasswordSubmit": "Save and login"
-  },
-  "notification": {
-    "invalidLoginData": "Invalid email address or password format",
-    "invalidAdminData": "Invalid admin details format",
-    "invalidBuildingData": "Invalid building details format",
-    "invalidEmailFormat": "Invalid email format",
-    "invalidCompanyData": "Invalid company details format",
-    "invalidConsentFormData": "Invalid consent form details format",
-    "invalidBusinessHostData": "Invalid business host details format",
-    "invalidReceptionistData": "Invalid receptionist details format",
-    "invalidGuestData": "Invalid guest details format",
-    "invalidVisitData": "Invalid visit details format",
-    "invalidGuestProfileData": "Invalid guest data format",
-    "invalidUserData": "Invalid user data format",
-    "duplicatedGuest": "Guest is already in the list",
-    "loginSuccess": "Successful login",
-    "loginFailure": "Incorrect email address or password",
-    "logoutSuccess": "Successful logout",
-    "registerSuccess": "Successful registration",
-    "registerFailure": "Registration failed (it is possible that a user account already exists with these credentials).",
-    "passwordForgetSuccess": "We've sent you a link to reset your password. You will receive an email shortly.",
-    "passwordForgetFailure": "Could not send password reset email.",
-    "passwordResetSuccess": "You've successfully updated your password.",
-    "passwordResetFailure": "Password reset failed",
-    "fetchCompaniesFailure": "Could not load companies.",
-    "fetchConsentFormsFailure": "Could not load consent forms",
-    "fetchConsentFormByIdFailure": "Could not load selected consent form",
-    "fetchVisitsFailure": "Could not load visits",
-    "fetchPlannedVisitsFailure": "Could not load planned visits",
-    "fetchBusinessHostsFailure": "Could not load business hosts",
-    "fetchCompanyConfigFailure": "Could not load company config",
-    "fetchAvailableGuestUsersFailure": "Could not load already registered guest users data",
-    "fetchVisitByIdFailure": "Could not load visit.",
-    "fetchGuestInvitationsFailure": "Could not load invitations for guest.",
-    "fetchGuestInvitationProfileFailure": "Could not load guest profile.",
-    "fetchReceptionistsFailure": "Could not load receptionists",
-    "fetchInvitationsFailure": "Could not load invitations",
-    "registerCompanySuccess": "Successful company registration",
-    "registerCompanyFailure": "Could not register company",
-    "createConsentFormSuccess": "Successful consent form creation",
-    "createConsentFormFailure": "Could not create consent form",
-    "createConsentFormVersionSuccess": "Successful consent form version creation",
-    "createConsentFormVersionFailure": "Could not create consent form version",
-    "createBusinessHostSuccess": "Successful business host creation",
-    "createBusinessHostFailure": "Could not create business host",
-    "createVisitSuccess": "Successful company visit creation",
-    "createVisitFailure": "Could not create company visit",
-    "createReceptionistSuccess": "Successful receptionist creation",
-    "createReceptionistFailure": "Could not create receptionist",
-    "updateCompanySuccess": "Successful company update",
-    "updateCompanyFailure": "Could not update company",
-    "updateConsentFormVersionSuccess": "Successful consent form version update",
-    "updateConsentFormVersionFailure": "Could not update consent form version",
-    "updateBusinessHostSuccess": "Successful business host update",
-    "updateBusinessHostFailure": "Could not update business host",
-    "updateCompanyConfigSuccess": "Successful company config update",
-    "updateGuestInvitationProfileSuccess": "Successful guest profile update",
-    "updateGuestInvitationProfileFailure": "Could not update guest profil",
-    "updateCompanyConfigFailure": "Could not update company config",
-    "updateUserCredentialsSuccess": "Successful user credentials update",
-    "updateUserCredentialsFailure": "Could not update user credentials",
-    "updateReceptionistSuccess": "Successful receptionist update",
-    "updateReceptionistFailure": "Could not update receptionist",
-    "activateConsentFormVersionSuccess": "Successful consent form version activation",
-    "activateConsentFormVersionFailure": "Could not activate consent form version",
-    "provideFullCompanyDataWarning": "Please provide all information about your company.",
-    "provideFullAddressDataWarning": "Please provide all information about your address."
+    "details": "Details",
+    "settings": "Settings",
+    "basicData": "Basic data",
+    "additionalData": "Additional data",
+    "unknownData": "Unknown data",
+    "userRole": "User role",
+    "myProfile": "My profile",
+    "room": "Room",
+    "identifierCardType": "Identifier card type",
+    "identifierCardNumber": "Identifier card number"
   },
   "action": {
-    "add": "add",
+    "add": "Add",
     "addFromList": "Add from list",
     "addCompany": "Add company",
     "addConsentForm": "Add consent form",
     "addConsentFormVersion": "Add new version",
-    "addBusinessHost": "Add business host",
     "addReceptionist": "Add receptionist",
+    "addBusinessHost": "Add business host",
     "addVisit": "Add visit",
     "addGuest": "Add guest",
     "addGuestFromList": "Add guest from list",
     "editCompany": "Edit company",
-    "editBusinessHost": "Edit business host",
     "editReceptionist": "Edit receptionist",
+    "editBusinessHost": "Edit business host",
     "openConsentForm": "Open consent form",
-    "openVisit": "Open visit",
     "openInvitation": "Open invitation",
+    "openVisit": "Open visit",
     "openGuest": "Open guest",
+    "showMore": "Show more",
+    "showLess": "Show less",
     "acceptConsentForm": "Accept consent form",
-    "cancel": "Cancel",
-    "save": "Save",
     "ok": "Ok",
-    "activate": "Activate",
+    "save": "Save",
+    "cancel": "Cancel",
     "clear": "Clear",
-    "close": "Close"
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "activate": "Activate",
+    "startEntryProcess": "Start entry process",
+    "guestLeaving": "Guest leaving"
+  },
+  "notification": {
+    "invalid": {
+      "login": "Invalid email address or password format.",
+      "email": "Invalid email format.",
+      "password": "Invalid password format.",
+      "user": "Invalid user data format.",
+      "admin": "Invalid admin data format.",
+      "businessHost": "Invalid business host data format.",
+      "receptionist": "Invalid receptionist data format.",
+      "guest": "Invalid guest data format.",
+      "duplicatedGuest": "Guest is already in the list.",
+      "building": "Invalid building data format.",
+      "company": "Invalid company data format.",
+      "consentForm": "Invalid consent form data format.",
+      "visit": "Invalid visit data format."
+    },
+    "login": {
+      "success": "Successful login.",
+      "error": {
+        "400": "Wrong email or password.",
+        "404": "There is no user associated with the provided email address.",
+        "500": "Login failed."
+      }
+    },
+    "logout": {
+      "success": "Successful logout."
+    },
+    "register": {
+      "success": "Successful registration.",
+      "error": {
+        "400": "The specified admin or office building already exists.",
+        "500": "Registration failed."
+      }
+    },
+    "passwordForget": {
+      "success": "We've sent you a link to reset your password. You will receive an email shortly.",
+      "error": {
+        "404": "There is no user associated with the provided email address.",
+        "500": "Failed to send password reset email."
+      }
+    },
+    "passwordReset": {
+      "success": "Successful password update.",
+      "error": {
+        "404": "There is no user associated with the provided email address.",
+        "500": "Failed to update password."
+      }
+    },
+    "fetchCompanies": {
+      "failure": "Failed to load companies."
+    },
+    "fetchConsentForms": {
+      "failure": "Failed to load consent forms."
+    },
+    "fetchConsentFormById": {
+      "failure": "Failed to load selected consent form."
+    },
+    "fetchVisits": {
+      "failure": "Failed to load visits."
+    },
+    "fetchVisitById": {
+      "failure": "Failed to load visit."
+    },
+    "fetchPlannedVisits": {
+      "failure": "Failed to load planned visits."
+    },
+    "fetchBusinessHosts": {
+      "failure": "Failed to load business hosts."
+    },
+    "fetchCompanyConfig": {
+      "failure": "Failed to load company config."
+    },
+    "fetchAvailableGuestUsers": {
+      "failure": "Failed to load registered guest users."
+    },
+    "fetchGuestInvitations": {
+      "failure": "Failed to load invitations for guest."
+    },
+    "fetchGuestInvitationProfile": {
+      "failure": "Failed to load guest profile."
+    },
+    "fetchReceptionists": {
+      "failure": "Failed to load receptionists."
+    },
+    "fetchInvitations": {
+      "failure": "Failed to load invitations."
+    },
+    "registerCompany": {
+      "success": "Successful company registration.",
+      "failure": "Failed to register company."
+    },
+    "createConsentForm": {
+      "success": "Successful consent form creation.",
+      "failure": "Failed to create consent form."
+    },
+    "createConsentFormVersion": {
+      "success": "Successful consent form version creation.",
+      "failure": "Failed to create consent form version."
+    },
+    "createBusinessHost": {
+      "success": "Successful business host creation.",
+      "failure": "Failed to create business host."
+    },
+    "createVisit": {
+      "success": "Successful company visit creation.",
+      "failure": "Failed to create company visit."
+    },
+    "createReceptionist": {
+      "success": "Successful receptionist creation.",
+      "failure": "Failed to create receptionist."
+    },
+    "updateCompany": {
+      "success": "Successful company update.",
+      "failure": "Failed to update company."
+    },
+    "updateConsentFormVersion": {
+      "success": "Successful consent form version update.",
+      "failure": "Failed to update consent form version."
+    },
+    "updateBusinessHost": {
+      "success": "Successful business host update.",
+      "failure": "Failed to update business host."
+    },
+    "updateCompanyConfig": {
+      "success": "Successful company config update.",
+      "failure": "Failed to update company config."
+    },
+    "updateGuestInvitationProfile": {
+      "success": "Successful guest profile update.",
+      "failure": "Failed to update guest profil."
+    },
+    "updateUserCredentials": {
+      "success": "Successful user credentials update.",
+      "failure": "Failed to update user credentials."
+    },
+    "updateReceptionist": {
+      "success": "Successful receptionist update.",
+      "failure": "Failed to update receptionist."
+    },
+    "activateConsentFormVersion": {
+      "success": "Successful consent form version activation.",
+      "failure": "Failed to activate consent form version."
+    },
+    "provideFullCompanyData": {
+      "warning": "Please provide all information about your company."
+    },
+    "provideFullAddressData": {
+      "warning": "Please provide all information about your address."
+    },
+    "consentFormsAcceptance": {
+      "warning": "Acceptance of the consent forms is mandatory."
+    },
+    "provideSignature": {
+      "warning": "Providing a signature is mandatory."
+    },
+    "trackGuestExit": {
+      "success": "Successful exit.",
+      "failure": "Unsuccessful exit."
+    }
   },
   "enum": {
-    "identity_card": "Identity card",
-    "student_card": "Student card",
-    "driving_license": "Driving license",
-    "admin": "Admin",
-    "company_admin": "Company admin",
-    "business_host": "Business host",
-    "receptionist": "Receptionist",
-    "guest": "Guest"
+    "userRole": {
+      "admin": "Admin",
+      "company_admin": "Company admin",
+      "business_host": "Business host",
+      "receptionist": "Receptionist",
+      "guest": "Guest"
+    },
+    "guestParticipationStatus": {
+      "invited": "Received the invitation",
+      "confirmed": "Accepted the invitation",
+      "canceled": "Canceled the invitation",
+      "participated": "Participated in the visit",
+      "missed": "Missed the visit"
+    },
+    "identifierCardType": {
+      "identity_card": "Identity card",
+      "student_card": "Student card",
+      "driving_license": "Driving license"
+    },
+    "visitPurpose": {
+      "meeting": "Meeting",
+      "interview": "Interview"
+    }
+  },
+  "page": {
+    "login": {
+      "welcome": "Welcome to Doorstep",
+      "welcomeHelper": "Sign in to continue",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign in",
+      "registerBuilding": "Register office building"
+    },
+    "register": {
+      "pageTitle": "Register office building",
+      "adminDetails": "Admin details",
+      "buildingDetails": "Office building details",
+      "review": "Review registration",
+      "submit": "Sign up",
+      "loginRedirect": "Back to login"
+    },
+    "forgotPassword": {
+      "pageTitle": "Forgot password",
+      "question": "Forgot your password?",
+      "helper": "Enter your email and we'll send you a link to reset your password.",
+      "submit": "Reset password",
+      "loginRedirect": "Back to login"
+    },
+    "resetPassword": {
+      "pageTitle": "Reset password",
+      "helper": "Enter your new password and login.",
+      "submit": "Save and login",
+      "loginRedirect": "Back to login"
+    },
+    "businessHosts": {
+      "pageTitle": "Business hosts",
+      "hostDetails": "Business host details",
+      "noBusinessHostsInfo": "You have not added any business hosts yet.",
+      "businessHostName": "Business host name",
+      "joiningDate": "Joining date"
+    },
+    "companies": {
+      "pageTitle": "Companies",
+      "companyName": "Company name",
+      "companyDetails": "Company details",
+      "companyAddress": "Company address",
+      "registrationNumber": "Registration number",
+      "joiningDate": "Joining date",
+      "adminDetails": "Company admin details",
+      "adminName": "Admin name",
+      "adminEmail": "Admin email",
+      "changeAdminCheck": "I would like to replace the current admin.",
+      "mustRegisterCard": "It is necessary to register a guest card.",
+      "mustTrackActualExit": "It is necessary to track the actual exit time.",
+      "companySettings": "Company settings",
+      "storedGuestData": "Stored guest data",
+      "otherSettings": "Other settings",
+      "noCompanyInfo": "You have not added any companies yet.",
+      "admin": "Admin"
+    },
+    "consentForms": {
+      "pageTitle": "Consent forms",
+      "formTitle": "Consent form title",
+      "formDetails": "Consent form details",
+      "content": "Consent form content",
+      "notFound": "Consent form does not exist.",
+      "activeVersion": "Active version",
+      "noActiveVersion": "No active version",
+      "openedVersion": "Opened version",
+      "createdDate": "Created date",
+      "noConsentFormsInfo": "You have not added any consent forms yet."
+    },
+    "guestInvitations": {
+      "invitations": "Invitations",
+      "invitationDetails": "Invitation details",
+      "invitationNotFound": "Invitation does not exist.",
+      "invitationData": "Invitation data",
+      "organizingCompany": "Organizing company",
+      "location": "Location",
+      "purpose": "Visit purpose",
+      "businessHostName": "Business host name",
+      "businessHostEmail": "Business host email",
+      "plannedEntry": "Planned entry date",
+      "guestDetails": "Guest details",
+      "companyName": "Company name",
+      "companyRegistrationNumber": "Registration number",
+      "companyDetails": "Company details",
+      "companyAddress": "Company address",
+      "consentFormsToAccept": "Consent forms to accept",
+      "noInvitationInfo": "There are no pending invitations.",
+      "notFound": "Guest does not exist."
+    },
+    "invitations": {
+      "pageTitle": "Invitations",
+      "companyName": "Company name",
+      "invitationFilter": "Invitation filter",
+      "businessHostName": "Business host name",
+      "businessHostEmail": "Business host email",
+      "purpose": "Visit purpose",
+      "fromDate": "Invitations from date",
+      "untilDate": "Invitations until date",
+      "plannedEntry": "Planned entry date",
+      "invitationDetails": "Invitation details",
+      "invitationNotFound": "Invitation does not exist.",
+      "invitationData": "Invitation data",
+      "invitedGuests": "Invited guests",
+      "guestName": "Guest name",
+      "actualEntry": "Actual entry time",
+      "actualExit": "Acutal exit time",
+      "receptionistName": "Receptionist name",
+      "participationStatus": "Participation status",
+      "consentForms": "Consent forms belong to this visit",
+      "invitations": "Invitations",
+      "noInvitationInfo": "There are no pending invitations."
+    },
+    "plannedVisits": {
+      "pageTitle": "Planned visits",
+      "visitFilter": "Visit filter",
+      "purpose": "Visit purpose",
+      "fromDate": "Visits from date",
+      "untilDate": "Visits until date",
+      "noScheduledVisitInfo": "There are no scheduled visits yet.",
+      "plannedEntry": "Planned entry date"
+    },
+    "receptionists": {
+      "pageTitle": "Receptionists",
+      "receptionistDetails": "Receptionist details",
+      "noReceptionistsInfo": "You have not added any receptionists yet.",
+      "receptionistName": "Receptionist name",
+      "joiningDate": "Joining date"
+    },
+    "visits": {
+      "pageTitle": "Visits",
+      "visitFilter": "Visit filter",
+      "businessHostName": "Business host name",
+      "purpose": "Visit purpose",
+      "fromDate": "Visits from date",
+      "untilDate": "Visits until date",
+      "scheduler": "Visit scheduler",
+      "details": "Visit details",
+      "plannedEntry": "Planned entry date",
+      "guests": "Guests",
+      "noVisitInfo": "There are no finished visits yet."
+    },
+    "visitDetails": {
+      "guest": "Guest",
+      "guestDetails": "Guest details",
+      "guestName": "Guest name",
+      "actualEntry": "Actual entry time",
+      "actualExit": "Acutal exit time",
+      "receptionistName": "Receptionist name",
+      "participationStatus": "Participation status",
+      "companyName": "Company name",
+      "companyRegistrationNumber": "Registration number",
+      "companyDetails": "Company details",
+      "companyAddress": "Company address",
+      "notFound": "Visit does not exist.",
+      "visitData": "Visit data",
+      "guests": "Guests",
+      "businessHostName": "Business host name",
+      "businessHostEmail": "Business host email",
+      "purpose": "Visit purpose",
+      "plannedEntry": "Planned entry date",
+      "consentForms": "Consent forms belong to this visit",
+      "guestNotFound": "Guest does not exist.",
+      "consentFormsToAccept": "Consent forms to accept",
+      "consentFormAccepted": "Accepted consent form",
+      "consentFormNotAccepted": "Not accepted consent form"
+    },
+    "entryProcess": {
+      "pageTitle": "Entry process",
+      "companyDetails": "Company details",
+      "consentFormsToAccept": "Consent forms to accept",
+      "signature": "Signature"
+    }
   }
 }

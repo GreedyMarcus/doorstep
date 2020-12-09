@@ -9,6 +9,9 @@ import { injectable } from 'inversify'
 import { EntityRepository, getManager, getRepository, Repository } from 'typeorm'
 import { UserRoleType } from '../../data/enums/UserRoleType'
 
+/**
+ * Repository that handles company data manipulation.
+ */
 @injectable()
 @EntityRepository(Company)
 class CompanyRepository extends Repository<Company> implements CompanyRepositoryInterface {

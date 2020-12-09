@@ -1,8 +1,11 @@
 import TYPES from '../config/types'
-import { inject, injectable } from 'inversify'
 import { Request, Response, NextFunction } from 'express'
+import { inject, injectable } from 'inversify'
 import { CompanyServiceInterface } from '../services/company'
 
+/**
+ * Controller that handles the company requests.
+ */
 @injectable()
 class CompaniesController {
   private readonly companyService: CompanyServiceInterface

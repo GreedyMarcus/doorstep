@@ -30,6 +30,16 @@ interface VisitServiceInterface {
    * Updates the guest profile that belongs to the specified invitation.
    */
   updateGuestInvitationProfile(userId: number, visitId: number, data: GuestUpdateByUserDTO): Promise<void>
+
+  /**
+   * Updates the guest that belongs to the specified invitation by receptionist.
+   */
+  updateGuestByReceptionist(visitId: number, guestId: number, data: GuestUpdateByUserDTO): Promise<void>
+
+  /**
+   * Tracks guest exit time.
+   */
+  trackGuestExitTime(visitId: number, guestId: number): Promise<void>
 }
 
 export default VisitServiceInterface

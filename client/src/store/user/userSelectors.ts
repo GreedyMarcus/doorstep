@@ -1,4 +1,5 @@
 import { RootState } from '..'
+import { UserRole } from '../../data/enums/UserRole'
 
 /**
  * Returns the JWT token that belongs to the current user if present.
@@ -8,7 +9,7 @@ export const userTokenSelector = (state: RootState) => state.user.activeUserToke
 /**
  * Returns the role of the current user if present.
  */
-export const userRoleSelector = (state: RootState) => state.user.activeUser?.role
+export const userRoleSelector = (state: RootState) => state.user.activeUser?.role as UserRole
 
 /**
  * Returns the full name of the current user if present.

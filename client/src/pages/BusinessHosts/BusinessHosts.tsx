@@ -1,65 +1,60 @@
-import React, { useEffect, useState } from 'react'
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import InfoBox from '../../components/shared/InfoBox'
-import ResponsiveTable from '../../components/shared/ResponsiveTable'
+import React from 'react'
+import Widget from '../../components/shared/Widget'
+import TableContainer from '@material-ui/core/TableContainer'
+import Table from '@material-ui/core/Table'
+import ResponsiveTableHead from '../../components/shared/ResponsiveTableHead'
+import TableBody from '@material-ui/core/TableBody'
+import ResponsiveTableRow from '../../components/shared/ResponsiveTableRow'
+import EditTableCell from '../../components/shared/EditTableCell'
 import BusinessHostEditorDialog from '../../components/BusinessHostEditorDialog'
 import useStyles from './useStyles'
+import useBusinessHosts from './useBusinessHosts'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../store'
-import { businessHostsSelector, fetchBusinessHosts } from '../../store/company'
 
+/**
+ * The business hosts page where the current business hosts are displayed.
+ */
 const BusinessHosts: React.FC = () => {
   const classes = useStyles()
-  const dispatch = useAppDispatch()
-  const businessHosts = useSelector(businessHostsSelector)
   const [t, i18n] = useTranslation()
-
-  const [activeHostIndex, setActiveHostIndex] = useState(-1)
-
-  const handleEditClick = (businessHostId: number) => {
-    const hostIndex = businessHosts.findIndex(host => host.id === businessHostId)
-    setActiveHostIndex(hostIndex)
-  }
-
-  useEffect(() => {
-    dispatch(fetchBusinessHosts())
-  }, [])
+  const [businessHosts, editingBusinessHost, handleBusinessHostEditClick, handleBusinessHostEditFinish] = useBusinessHosts()
 
   return (
-    <React.Fragment>
-      <Container className={classes.container} component="main" maxWidth="lg">
-        <Paper elevation={3}>
-          <Typography className={classes.title} variant="h1">
-            {t('general.businessHosts')}
-          </Typography>
-          {!businessHosts.length ? (
-            <InfoBox text={t('company.noBusinessHostsInfo')} type="info" />
-          ) : (
-            <ResponsiveTable
-              labels={[t('company.businessHostName'), t('auth.email'), t('company.joiningDate')]}
-              data={businessHosts.map(host => ({
-                id: host.id,
-                name: `${host.firstName} ${host.lastName}`,
-                email: host.email,
-                createdAt: new Date(host.createdAt).toLocaleDateString(i18n.language)
-              }))}
-              tooltipLabel={t('action.editBusinessHost')}
-              onEditClick={handleEditClick}
+    <>
+      <Widget
+        title={t('page.businessHosts.pageTitle')}
+        showContent={!!businessHosts}
+        hasContent={!!businessHosts?.length}
+        infoText={t('page.businessHosts.noBusinessHostsInfo')}
+      >
+        <TableContainer className={classes.tableContainer}>
+          <Table>
+            <ResponsiveTableHead
+              labels={[t('page.businessHosts.businessHostName'), t('common.email'), t('page.businessHosts.joiningDate')]}
+              emptyEnd
             />
-          )}
-        </Paper>
-      </Container>
-      {activeHostIndex !== -1 && (
-        <BusinessHostEditorDialog
-          businessHost={businessHosts[activeHostIndex]}
-          isEditing={true}
-          onClose={() => setActiveHostIndex(-1)}
-        />
+            <TableBody>
+              {businessHosts?.map(host => (
+                <ResponsiveTableRow
+                  key={host.id}
+                  labels={[
+                    `${host.firstName} ${host.lastName}`,
+                    host.email,
+                    new Date(host.createdAt).toLocaleDateString(i18n.language)
+                  ]}
+                  extraCell={
+                    <EditTableCell tooltip={t('action.editBusinessHost')} onEdit={() => handleBusinessHostEditClick(host)} />
+                  }
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Widget>
+      {editingBusinessHost && (
+        <BusinessHostEditorDialog businessHost={editingBusinessHost} isEditing={true} onClose={handleBusinessHostEditFinish} />
       )}
-    </React.Fragment>
+    </>
   )
 }
 

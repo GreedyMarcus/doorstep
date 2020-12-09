@@ -3,7 +3,8 @@ import OfficeBuildingService from '../../services/OfficeBuildingService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { EmployeeInfo, UserRegister, UserUpdate } from '../../data/types/User'
+import { EmployeeInfo } from '../../data/types/Company'
+import { UserRegister, UserUpdate } from '../../data/types/User'
 
 type CompanySliceState = {
   receptionists: EmployeeInfo[]
@@ -54,7 +55,7 @@ export const fetchReceptionists = () => async (dispatch: AppDispatch, getState: 
 
     dispatch(receptionistsFetched(receptionists))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchReceptionistsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchReceptionists.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -73,9 +74,9 @@ export const createReceptionist = (data: UserRegister) => async (dispatch: AppDi
     const receptionist = await OfficeBuildingService.createReceptionist(buildingId, data)
 
     dispatch(receptionistCreated(receptionist))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createReceptionistSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createReceptionist.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createReceptionistFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createReceptionist.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -94,9 +95,9 @@ export const updateReceptionist = (receptionist: UserUpdate) => async (dispatch:
     const updatedReceptionist = await OfficeBuildingService.updateReceptionist(buildingId, receptionist.id, receptionist)
 
     dispatch(receptionistUpdated(updatedReceptionist))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateReceptionistSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateReceptionist.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateReceptionistFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateReceptionist.failure') }))
   }
 
   dispatch(setLoading(false))

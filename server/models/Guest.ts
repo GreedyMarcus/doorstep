@@ -8,6 +8,9 @@ import Visit from './Visit'
 import ConsentFormVersion from './ConsentFormVersion'
 import Company from './Company'
 
+/**
+ * Represents the Guest entity.
+ */
 @Entity('guests')
 class Guest {
   @PrimaryGeneratedColumn()
@@ -45,8 +48,8 @@ class Guest {
   @Column({ name: 'identifier_card_number', nullable: true })
   identifierCardNumber: string
 
-  @Column({ name: 'signature_image_url', nullable: true })
-  signatureImageUrl: string
+  @Column({ name: 'signature', type: 'text', nullable: true })
+  signature: string
 
   @Column({ name: 'participation_status', type: 'enum', enum: GuestParticipationStatus })
   participationStatus: GuestParticipationStatus
@@ -57,11 +60,7 @@ class Guest {
   @Column({ name: 'actual_exit', type: 'timestamp', nullable: true })
   actualExit: Date
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)'
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date
 
   @ManyToOne(() => User, receptionist => receptionist.guests, { onDelete: 'SET NULL' })
@@ -79,11 +78,7 @@ class Guest {
   @ManyToMany(() => Visit, visit => visit.guests)
   visits: Visit[]
 
-  @ManyToMany(() => ConsentFormVersion, version => version.guests, {
-    nullable: false,
-    cascade: true,
-    onDelete: 'CASCADE'
-  })
+  @ManyToMany(() => ConsentFormVersion, version => version.guests, { nullable: false, cascade: true, onDelete: 'CASCADE' })
   @JoinTable({
     name: 'guest_consent_forms_acceptance',
     joinColumn: { name: 'guest_id' },

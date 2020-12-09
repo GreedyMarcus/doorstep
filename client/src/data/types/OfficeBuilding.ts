@@ -1,7 +1,7 @@
 import { UserRegister } from './User'
-import { Address } from './General'
+import { Address } from './Address'
 
-export type OfficeBuildingRegister = {
+export interface OfficeBuildingRegister {
   admin: UserRegister
   address: Address
 }

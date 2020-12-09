@@ -2,22 +2,20 @@ import React, { useState } from 'react'
 import useStyles from './useStyles'
 import config from '../../app/config'
 import { Editor } from '@tinymce/tinymce-react'
-import { InputChangeEvent } from '../../data/types/Event'
 
-type Props = {
+interface TextEditorProps {
   value: string
   error: boolean
-  required: boolean
   disabled?: boolean
   heightMultiplier?: number
   fullScreen: boolean
-  onChange: (event: InputChangeEvent) => void
+  onValueChange: (value: string) => void
 }
 
 /**
  * Custom rich text editor component.
  */
-const TextEditor: React.FC<Props> = ({ value, error, required, disabled, heightMultiplier, fullScreen, onChange }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ value, error, disabled, heightMultiplier, fullScreen, onValueChange }) => {
   const [hasFocus, setFocus] = useState(false)
   const classes = useStyles({ error, hasFocus, disabled: !!disabled })
 
@@ -43,7 +41,7 @@ const TextEditor: React.FC<Props> = ({ value, error, required, disabled, heightM
         onBlur={() => setFocus(false)}
         onEditorChange={(content, editor) => {
           editor.save()
-          onChange({ target: { value: content } })
+          onValueChange(content)
         }}
       />
     </div>

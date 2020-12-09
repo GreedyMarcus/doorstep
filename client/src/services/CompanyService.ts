@@ -1,8 +1,8 @@
 import axios from 'axios'
 import AuthService from './AuthService'
-import { CompanyInfo, CompanyUpdate, CompanyConfig } from '../data/types/Company'
+import { CompanyInfo, CompanyUpdate, CompanyConfig, EmployeeInfo } from '../data/types/Company'
 import { VisitInfo, VisitCreate, PlannedVisitInfo } from '../data/types/Visit'
-import { EmployeeInfo, UserRegister, UserUpdate, GuestUserRegister } from '../data/types/User'
+import { UserRegister, UserUpdate, GuestUserRegister } from '../data/types/User'
 import { ConsentFormInfo, ConsentFormCreate } from '../data/types/ConsentForm'
 
 /**

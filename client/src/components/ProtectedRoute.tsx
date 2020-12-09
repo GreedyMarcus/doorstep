@@ -1,61 +1,36 @@
-import React, { useEffect } from 'react'
-import { routes, getAuthRedirectRoute } from '../app/routes'
-import { Route, RouteProps, RouteComponentProps, Redirect } from 'react-router-dom'
+import React from 'react'
+import { Route, RouteComponentProps, Redirect } from 'react-router-dom'
+import { ProtectedRouteProps, getDefaultRoutePath } from '../app/routes'
 import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../store'
-import { userTokenSelector, userRoleSelector, loadCurrentUser } from '../store/user'
-
-type Props = {
-  /**
-   * The component to render when the route match.
-   */
-  Component: React.ElementType
-
-  /**
-   * The user permissions needed to access the route.
-   */
-  auth?: string[]
-
-  /**
-   * Makes the route unreachable for authenticated users.
-   */
-  noAuth?: boolean
-}
+import { userRoleSelector, userTokenSelector } from '../store/user'
 
 /**
- * Custom route component that allows only authorized users to access the specified route path.
+ * Customized React route component that allows only authorized users to access the specified route.
  */
-const ProtectedRoute: React.FC<Props & RouteProps> = ({ Component, auth, noAuth, ...rest }) => {
-  const dispatch = useAppDispatch()
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ Component, path, noAuth, auth, exact }) => {
   const userToken = useSelector(userTokenSelector)
   const userRole = useSelector(userRoleSelector)
-
-  useEffect(() => {
-    if (userToken) {
-      dispatch(loadCurrentUser(userToken))
-    }
-  }, [userToken])
 
   const renderComponent = (routeProps: RouteComponentProps) => {
     const state = { from: routeProps.location }
     const hasAccess = auth ? userRole && auth.includes(userRole) : true
 
     if (!userToken && !noAuth) {
-      return <Redirect to={{ pathname: routes.LOGIN, state }} />
+      return <Redirect to={{ pathname: '/login', state }} />
     }
 
     if (userToken && (noAuth || !hasAccess)) {
-      // Show empty screen for user as long as the user role is undefined
+      // No rendering as long as the user role is undefined
       if (!userRole) {
         return null
       }
-      return <Redirect to={{ pathname: getAuthRedirectRoute(userRole), state }} />
+      return <Redirect to={{ pathname: getDefaultRoutePath(userRole), state }} />
     }
 
     return <Component {...routeProps} />
   }
 
-  return <Route {...rest} render={routeProps => renderComponent(routeProps)} />
+  return <Route path={path} exact={exact} render={routeProps => renderComponent(routeProps)} />
 }
 
 export default ProtectedRoute

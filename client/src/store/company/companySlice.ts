@@ -4,18 +4,18 @@ import OfficeBuildingService from '../../services/OfficeBuildingService'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from '..'
 import { setLoading, addNotification } from '../action'
-import { CompanyInfo, CompanyRegister, CompanyUpdate, CompanyConfig } from '../../data/types/Company'
-import { EmployeeInfo, UserRegister, UserUpdate, GuestUserRegister } from '../../data/types/User'
+import { CompanyInfo, CompanyRegister, CompanyUpdate, CompanyConfig, EmployeeInfo } from '../../data/types/Company'
+import { UserRegister, UserUpdate, GuestUserRegister } from '../../data/types/User'
 
 type CompanySliceState = {
-  companies: CompanyInfo[]
+  companies: CompanyInfo[] | null
   businessHosts: EmployeeInfo[]
   activeCompanyConfig: CompanyConfig | null
   availableGuestUsers: GuestUserRegister[]
 }
 
 const initialState: CompanySliceState = {
-  companies: [],
+  companies: null,
   businessHosts: [],
   activeCompanyConfig: null,
   availableGuestUsers: []
@@ -32,21 +32,29 @@ const companySlice = createSlice({
       state.companies = payload
     },
     companyRegistered: (state, { payload }: PayloadAction<CompanyInfo>) => {
-      state.companies.push(payload)
+      if (state.companies) {
+        state.companies.push(payload)
+      }
     },
     companyUpdated: (state, { payload }: PayloadAction<CompanyInfo>) => {
-      const index = state.companies.findIndex(company => company.id === payload.id)
-      state.companies[index] = payload
+      if (state.companies) {
+        const index = state.companies.findIndex(company => company.id === payload.id)
+        state.companies[index] = payload
+      }
     },
     businessHostsFetched: (state, { payload }: PayloadAction<EmployeeInfo[]>) => {
       state.businessHosts = payload
     },
     businessHostCreated: (state, { payload }: PayloadAction<EmployeeInfo>) => {
-      state.businessHosts.push(payload)
+      if (state.businessHosts) {
+        state.businessHosts.push(payload)
+      }
     },
     businessHostUpdated: (state, { payload }: PayloadAction<EmployeeInfo>) => {
-      const index = state.businessHosts.findIndex(host => host.id === payload.id)
-      state.businessHosts[index] = payload
+      if (state.businessHosts) {
+        const index = state.businessHosts.findIndex(host => host.id === payload.id)
+        state.businessHosts[index] = payload
+      }
     },
     companyConfigFetched: (state, { payload }: PayloadAction<CompanyConfig>) => {
       state.activeCompanyConfig = payload
@@ -55,7 +63,7 @@ const companySlice = createSlice({
       state.availableGuestUsers = payload
     },
     companySliceCleared: state => {
-      state.companies = []
+      state.companies = null
       state.businessHosts = []
       state.activeCompanyConfig = null
       state.availableGuestUsers = []
@@ -90,7 +98,7 @@ export const fetchCompanies = () => async (dispatch: AppDispatch, getState: () =
 
     dispatch(companiesFetched(companies))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompaniesFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompanies.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -109,9 +117,9 @@ export const registerCompany = (company: CompanyRegister) => async (dispatch: Ap
     const registeredCompany = await OfficeBuildingService.registerCompanyInBuilding(buildingId, company)
 
     dispatch(companyRegistered(registeredCompany))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerCompanySuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.registerCompany.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerCompanyFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.registerCompany.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -127,9 +135,9 @@ export const updateCompany = (company: CompanyUpdate) => async (dispatch: AppDis
     const updatedCompany = await CompanyService.updateCompany(company.id, company)
 
     dispatch(companyUpdated(updatedCompany))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanySuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompany.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompany.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -149,7 +157,7 @@ export const fetchBusinessHosts = () => async (dispatch: AppDispatch, getState: 
 
     dispatch(businessHostsFetched(businessHosts))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchBusinessHostsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchBusinessHosts.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -168,9 +176,9 @@ export const createBusinessHost = (data: UserRegister) => async (dispatch: AppDi
     const businessHost = await CompanyService.createBusinessHost(companyId, data)
 
     dispatch(businessHostCreated(businessHost))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createBusinessHostSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createBusinessHost.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createBusinessHostFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createBusinessHost.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -189,9 +197,9 @@ export const updateBusinessHost = (host: UserUpdate) => async (dispatch: AppDisp
     const updatedBusinessHost = await CompanyService.updateBusinessHost(companyId, host.id, host)
 
     dispatch(businessHostUpdated(updatedBusinessHost))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateBusinessHostSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateBusinessHost.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateBusinessHostFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateBusinessHost.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -211,7 +219,7 @@ export const fetchCompanyConfig = () => async (dispatch: AppDispatch, getState: 
 
     dispatch(companyConfigFetched(companyConfig))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompanyConfigFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchCompanyConfig.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -230,9 +238,9 @@ export const updateCompanyConfig = (data: CompanyConfig) => async (dispatch: App
     await CompanyService.updateCompanyConfig(companyId, data)
 
     dispatch(companyConfigFetched(data))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanyConfigSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateCompanyConfig.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyConfigFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateCompanyConfig.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -252,7 +260,7 @@ export const fetchAvailableGuestUsers = () => async (dispatch: AppDispatch, getS
 
     dispatch(availableGuestUsersFetched(guestUsers))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchAvailableGuestUsersFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchAvailableGuestUsers.failure') }))
   }
 
   dispatch(setLoading(false))

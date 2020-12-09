@@ -3,6 +3,9 @@ import { Request, Response, NextFunction } from 'express'
 import { inject, injectable } from 'inversify'
 import { AuthServiceInterface } from '../services/auth'
 
+/**
+ * Controller that handles the auth requests.
+ */
 @injectable()
 class AuthController {
   private readonly authService: AuthServiceInterface

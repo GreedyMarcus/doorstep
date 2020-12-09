@@ -3,7 +3,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 import { useTranslation } from 'react-i18next'
 
-type Props = {
+interface DefaultDialogActionsProps {
   onSave: () => void
   onClose: () => void
 }
@@ -11,7 +11,7 @@ type Props = {
 /**
  * Custom component to provide default save and cancel actions for dialogs.
  */
-const DefaultDialogActions: React.FC<Props> = ({ onSave, onClose }) => {
+const DefaultDialogActions: React.FC<DefaultDialogActionsProps> = ({ onSave, onClose }) => {
   const [t] = useTranslation()
 
   return (

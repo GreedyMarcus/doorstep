@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -14,58 +14,32 @@ import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import UserProfileDialog from '../UserProfileDialog'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
+import useNavigationBar from './useNavigationBar'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
-import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../store'
-import { userRoleSelector, userNameSelector, logoutUser } from '../../store/user'
-import { navigationAuthConfig } from './navigationAuthConfig'
+import { useHistory } from 'react-router-dom'
 
 /**
- * Navigation component for the application,
- * that handles authorization and provides responsive behaviour.
+ * Responsive authorized navigation component for the application.
  */
 const NavigationBar: React.FC = () => {
   const classes = useStyles()
+  const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const history = useHistory()
-  const showNavs = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
-  const dispatch = useAppDispatch()
-  const userRole = useSelector(userRoleSelector)
-  const userName = useSelector(userNameSelector)
-  const [activeActionId, setActiveActionId] = useState('')
-  const [mobileNav, setMobileNav] = useState(0)
-  const [showProfileDialog, setShowProfileDialog] = useState(false)
+
   const [t] = useTranslation()
-
-  const getNavigations = useCallback(() => (userRole ? navigationAuthConfig.navigations[userRole] : []), [userRole])
-  const getActions = useCallback(() => (userRole ? navigationAuthConfig.actions[userRole] : []), [userRole])
-
-  const handleLogout = () => {
-    dispatch(logoutUser())
-    history.push('/login')
-  }
-
-  const handleMobileNavChange = (e, value: number) => {
-    setMobileNav(value)
-    history.push(navigations[value].route)
-  }
-
-  const renderActionComponent = () => {
-    const action = actions.find(action => action.id === activeActionId)
-    if (action && action.renderComponent) {
-      return action.renderComponent(() => setActiveActionId(''))
-    }
-  }
-
-  useEffect(() => {
-    const currentNavIndex = navigations.findIndex(nav => nav.route === history.location.pathname)
-    setMobileNav(currentNavIndex === -1 ? 0 : currentNavIndex)
-  }, [history.location])
-
-  const navigations = getNavigations()
-  const actions = getActions()
-  const actionComponent = renderActionComponent()
+  const [showProfileDialog, setShowProfileDialog] = useState(false)
+  const [
+    userRole,
+    userName,
+    navigations,
+    actions,
+    activeMobileNav,
+    setActiveAction,
+    renderActionComponent,
+    handleMobileNavChange,
+    handleLogout
+  ] = useNavigationBar()
 
   // Show navigation only for authorized users
   if (!userRole) {
@@ -73,44 +47,44 @@ const NavigationBar: React.FC = () => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <AppBar position="static">
         <Container maxWidth="lg" disableGutters>
           <Toolbar>
-            <IconButton color="inherit" aria-label="home" onClick={() => history.push(navigations[0].route)}>
+            <IconButton color="inherit" onClick={() => history.push(navigations[0].routePath)}>
               <MeetingRoomRoundedIcon className={classes.homeIcon} />
               <Typography className={classes.homeTitle} variant="h6">
                 Doorstep
               </Typography>
             </IconButton>
 
-            {showNavs &&
-              navigations.map(({ id, route, label }) => (
-                <Button key={id} color="inherit" onClick={() => history.push(route)}>
-                  {label}
+            {!fullScreen &&
+              navigations.map(({ routePath, labelLanguageKey }) => (
+                <Button key={labelLanguageKey} color="inherit" onClick={() => history.push(routePath)}>
+                  {t(labelLanguageKey)}
                 </Button>
               ))}
 
             <div className={classes.grow} />
 
-            {actions.map(({ id, title, icon }) => (
-              <Tooltip key={id} title={title}>
-                <IconButton color="inherit" onClick={() => setActiveActionId(id)}>
+            {actions.map(({ titleLanguageKey, icon }, index) => (
+              <Tooltip key={titleLanguageKey} title={t(titleLanguageKey).toString()}>
+                <IconButton color="inherit" onClick={() => setActiveAction(index)}>
                   {icon}
                 </IconButton>
               </Tooltip>
             ))}
 
-            {showNavs && (
+            {!fullScreen && (
               <Tooltip title={userName}>
-                <IconButton onClick={() => setShowProfileDialog(true)} color="inherit" aria-label="profile">
+                <IconButton onClick={() => setShowProfileDialog(true)} color="inherit">
                   <AccountCircleRoundedIcon />
                 </IconButton>
               </Tooltip>
             )}
 
-            <Tooltip title={t('auth.logout').toString()}>
-              <IconButton onClick={handleLogout} color="inherit" aria-label="logout">
+            <Tooltip title={t('common.logout').toString()}>
+              <IconButton onClick={handleLogout} color="inherit">
                 <ExitToAppRoundedIcon />
               </IconButton>
             </Tooltip>
@@ -118,20 +92,20 @@ const NavigationBar: React.FC = () => {
         </Container>
       </AppBar>
 
-      {actionComponent}
+      {renderActionComponent()}
 
-      {!showNavs && (
+      {fullScreen && (
         <AppBar position="static">
-          <Tabs variant="fullWidth" value={mobileNav} onChange={handleMobileNavChange} aria-label="Mobile navigation tabs">
-            {navigations.map(({ id, label }) => (
-              <Tab key={id} label={label} />
+          <Tabs variant="fullWidth" value={activeMobileNav} onChange={handleMobileNavChange}>
+            {navigations.map(({ labelLanguageKey }) => (
+              <Tab key={labelLanguageKey} label={t(labelLanguageKey)} />
             ))}
           </Tabs>
         </AppBar>
       )}
 
       {showProfileDialog && <UserProfileDialog onClose={() => setShowProfileDialog(false)} />}
-    </React.Fragment>
+    </>
   )
 }
 

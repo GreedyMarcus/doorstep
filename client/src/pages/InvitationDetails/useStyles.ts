@@ -1,14 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles'
 
+/**
+ * Custom React hook that spearates the Invitation details page styling.
+ */
 export default makeStyles(theme => ({
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: 500,
-    padding: theme.spacing(3, 3, 0)
+  tableContainer: {
+    padding: theme.spacing(0, 1)
   },
   sectionTitle: {
     fontSize: 20,
@@ -41,6 +38,6 @@ export default makeStyles(theme => ({
     padding: theme.spacing(4, 3, 1)
   },
   list: {
-    padding: theme.spacing(1, 2)
+    padding: theme.spacing(1, 2, 3)
   }
 }))

@@ -1,5 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
+/**
+ * Represents the User permission entity.
+ */
 @Entity('user_permissions')
 class UserPermission {
   @PrimaryGeneratedColumn()

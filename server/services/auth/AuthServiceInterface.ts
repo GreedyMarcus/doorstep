@@ -2,7 +2,7 @@ import { UserLoginDTO, UserInfoDTO, UserCredentialsUpdateDTO } from '../../data/
 
 interface AuthServiceInterface {
   /**
-   * Authenticates user with the provided credentials.
+   * Authenticates the user with the provided credentials.
    */
   loginUser(data: UserLoginDTO): Promise<UserInfoDTO>
 
@@ -15,7 +15,7 @@ interface AuthServiceInterface {
    * Sends forgotten password link to the user via email.
    *
    * @param email - the email address of the user
-   * @param language - the language of the email content
+   * @param language - the language of the content
    */
   forgotUserPassword(email: string, language: string): Promise<void>
 

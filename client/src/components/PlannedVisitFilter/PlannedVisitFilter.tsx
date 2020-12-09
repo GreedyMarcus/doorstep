@@ -13,7 +13,7 @@ import DateFnsAdapter from '@date-io/date-fns'
 import { PlannedVisitInfo } from '../../data/types/Visit'
 import { useTranslation } from 'react-i18next'
 
-type Props = {
+interface VisitFilterProps {
   visits: PlannedVisitInfo[]
   onFilterChange: (visits: PlannedVisitInfo[]) => void
 }
@@ -21,9 +21,10 @@ type Props = {
 /**
  * Custom component to filter planned visit data.
  */
-const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
+const VisitFilter: React.FC<VisitFilterProps> = ({ visits, onFilterChange }) => {
   const classes = useStyles()
   const [t] = useTranslation()
+
   const [isOpen, setOpen] = useState(false)
 
   const [selectedPurposes, setSelectedPurposes] = useState([] as string[])
@@ -39,12 +40,18 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
     { purposes: new Set<string>() }
   )
 
+  /**
+   * Removes all filtering.
+   */
   const handleClearClick = () => {
     setSelectedPurposes([])
     setSelectedFromDate(null)
     setSelectedUntilDate(null)
   }
 
+  /**
+   * Returns filtered visits on input change.
+   */
   useEffect(() => {
     const filteredVisits = visits.filter(({ purpose, plannedEntry }) => {
       // Check purposes
@@ -63,14 +70,14 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
     <div className={classes.root}>
       <Accordion className={classes.accordion} expanded={isOpen} onChange={() => setOpen(!isOpen)}>
         <AccordionSummary expandIcon={<TuneRoundedIcon />}>
-          <Typography>{t('visit.filter')}</Typography>
+          <Typography>{t('page.plannedVisits.visitFilter')}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={4} className={classes.grid}>
             <Grid item md={4} sm={6} xs={12}>
               <MultiSelect
                 id="purpose-label"
-                label={t('visit.purpose')}
+                label={t('page.plannedVisits.purpose')}
                 items={Array.from(purposes)}
                 selectedItems={selectedPurposes}
                 onChange={value => setSelectedPurposes(value)}
@@ -78,7 +85,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
             </Grid>
             <Grid item md={4} sm={6} xs={12}>
               <LocalizedDateTimePicker
-                label={t('visit.fromDate')}
+                label={t('page.plannedVisits.fromDate')}
                 value={!!selectedFromDate ? new Date(selectedFromDate) : null}
                 maxDate={!!selectedUntilDate ? new Date(selectedUntilDate) : undefined}
                 onChange={date => setSelectedFromDate(date)}
@@ -86,7 +93,7 @@ const VisitFilter: React.FC<Props> = ({ visits, onFilterChange }) => {
             </Grid>
             <Grid item md={4} sm={6} xs={12}>
               <LocalizedDateTimePicker
-                label={t('visit.untilDate')}
+                label={t('page.plannedVisits.untilDate')}
                 value={!!selectedUntilDate ? new Date(selectedUntilDate) : null}
                 minDate={!!selectedFromDate ? new Date(selectedFromDate) : undefined}
                 onChange={date => setSelectedUntilDate(date)}

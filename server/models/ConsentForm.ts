@@ -4,6 +4,9 @@ import ConsentFormVersion from './ConsentFormVersion'
 import OfficeBuilding from './OfficeBuilding'
 import Company from './Company'
 
+/**
+ * Represents the Consent form entity.
+ */
 @Entity('consent_forms')
 class ConsentForm {
   @PrimaryGeneratedColumn()
@@ -27,11 +30,7 @@ class ConsentForm {
   @JoinColumn({ name: 'company_id' })
   company: Company
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)'
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date
 
   @OneToMany(() => ConsentFormVersion, version => version.consentForm)

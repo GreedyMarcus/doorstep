@@ -14,6 +14,9 @@ import {
 } from '../../data/dtos/VisitDTO'
 import { ConsentFormVersionDetailsDTO } from '../../data/dtos/ConsentFormDTO'
 
+/**
+ * Service that handles visit business logic.
+ */
 @injectable()
 class VisitService implements VisitServiceInterface {
   private readonly companyService: CompanyServiceInterface
@@ -137,7 +140,7 @@ class VisitService implements VisitServiceInterface {
                 : null
             },
         imageUrl: visitGuest.imageUrl,
-        signatureImageUrl: visitGuest.signatureImageUrl,
+        signature: visitGuest.signature,
         actualEntry: visitGuest.actualEntry,
         actualExit: visitGuest.actualExit,
         receptionistName: visitGuest.receptionist
@@ -250,7 +253,7 @@ class VisitService implements VisitServiceInterface {
                 : null
             },
         imageUrl: visitGuest.imageUrl,
-        signatureImageUrl: visitGuest.signatureImageUrl,
+        signature: visitGuest.signature,
         actualEntry: visitGuest.actualEntry,
         actualExit: visitGuest.actualExit,
         receptionistName: visitGuest.receptionist
@@ -284,6 +287,35 @@ class VisitService implements VisitServiceInterface {
     }
 
     await this.visitRepository.updateVisitGuest(userId, foundVisit, data)
+  }
+
+  public updateGuestByReceptionist = async (visitId: number, guestId: number, data: GuestUpdateByUserDTO): Promise<void> => {
+    const foundVisit = await this.visitRepository.findVisitById(visitId)
+    if (!foundVisit) {
+      throw Boom.notFound('Visit does not exist.')
+    }
+
+    const visitGuest = foundVisit.guests.filter(guest => guest.id === guestId)[0]
+    if (!visitGuest) {
+      throw Boom.notFound('Guest user does not exist.')
+    }
+
+    await this.visitRepository.updateVisitGuest(visitGuest.user.id, foundVisit, data)
+  }
+
+  public trackGuestExitTime = async (visitId: number, guestId: number): Promise<void> => {
+    const foundVisit = await this.visitRepository.findVisitById(visitId)
+    if (!foundVisit) {
+      throw Boom.notFound('Visit does not exist.')
+    }
+
+    const visitGuest = foundVisit.guests.filter(guest => guest.id === guestId)[0]
+    if (!visitGuest) {
+      throw Boom.notFound('Guest user does not exist.')
+    }
+
+    visitGuest.actualExit = new Date(new Date().toISOString())
+    await this.visitRepository.saveVisitGuest(visitGuest)
   }
 }
 

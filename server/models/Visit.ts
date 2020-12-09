@@ -5,6 +5,9 @@ import Guest from './Guest'
 import User from './User'
 import Company from './Company'
 
+/**
+ * Represents the Visit entity.
+ */
 @Entity('visits')
 class Visit {
   @PrimaryGeneratedColumn()
@@ -26,22 +29,14 @@ class Visit {
   @Column({ type: 'timestamp', nullable: true })
   expiration: Date
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)'
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date
 
   @ManyToOne(() => Company, company => company.consentForms, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'company_id' })
   company: Company
 
-  @ManyToMany(() => Guest, guest => guest.visits, {
-    nullable: false,
-    cascade: true,
-    onDelete: 'CASCADE'
-  })
+  @ManyToMany(() => Guest, guest => guest.visits, { nullable: false, cascade: true, onDelete: 'CASCADE' })
   @JoinTable({
     name: 'visit_participation',
     joinColumn: { name: 'visit_id' },
@@ -49,11 +44,7 @@ class Visit {
   })
   guests: Guest[]
 
-  @ManyToMany(() => ConsentFormVersion, version => version.visits, {
-    nullable: false,
-    cascade: true,
-    onDelete: 'CASCADE'
-  })
+  @ManyToMany(() => ConsentFormVersion, version => version.visits, { nullable: false, cascade: true, onDelete: 'CASCADE' })
   @JoinTable({
     name: 'visit_consent_forms_log',
     joinColumn: { name: 'visit_id' },

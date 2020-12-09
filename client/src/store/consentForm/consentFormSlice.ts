@@ -10,12 +10,12 @@ import { ConsentFormType } from '../../data/enums/ConsentFormType'
 import { ConsentFormInfo, ConsentFormCreate, ConsentFormDetails, ConsentFormVersionInfo } from '../../data/types/ConsentForm'
 
 type ConsentFormSliceState = {
-  consentForms: ConsentFormInfo[]
+  consentForms: ConsentFormInfo[] | null
   activeConsentForm: ConsentFormDetails | null
 }
 
 const initialState: ConsentFormSliceState = {
-  consentForms: [],
+  consentForms: null,
   activeConsentForm: null
 }
 
@@ -30,7 +30,9 @@ const consentFormSlice = createSlice({
       state.consentForms = payload
     },
     consentFormCreated: (state, { payload }: PayloadAction<ConsentFormInfo>) => {
-      state.consentForms.push(payload)
+      if (state.consentForms) {
+        state.consentForms.push(payload)
+      }
     },
     singleConsentFormFetched: (state, { payload }: PayloadAction<ConsentFormDetails>) => {
       state.activeConsentForm = payload
@@ -53,7 +55,7 @@ const consentFormSlice = createSlice({
       }
     },
     consentFormSliceCleared: state => {
-      state.consentForms = []
+      state.consentForms = null
       state.activeConsentForm = null
     }
   }
@@ -95,7 +97,7 @@ export const fetchConsentForms = () => async (dispatch: AppDispatch, getState: (
       dispatch(consentFormsFetched(localConsentForms))
     }
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchConsentFormsFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchConsentForms.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -115,7 +117,7 @@ export const fetchConsentFormById = (consentFormId: number) => async (dispatch: 
 
     dispatch(singleConsentFormFetched(consentForm))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchConsentFormByIdFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.fetchConsentFormById.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -146,9 +148,9 @@ export const createConsentForm = (data: ConsentFormCreate) => async (dispatch: A
       dispatch(consentFormCreated(createdLocalConsentForm))
     }
 
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentFormSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentForm.success') }))
   } catch (err) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createConsentFormFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createConsentForm.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -168,9 +170,9 @@ export const createConsentFormVersion = (content: string) => async (dispatch: Ap
     const createdVersion = await ConsentFormService.createConsentFormVersion(formId, consentFormType, content)
 
     dispatch(consentFormVersionCreated(createdVersion))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.createConsentFormVersion.success') }))
   } catch (error) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createConsentFormVersionFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.createConsentFormVersion.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -193,9 +195,9 @@ export const updateConsentFormVersion = (versionId: number, content: string) => 
     const updatedVersion = await ConsentFormService.updateConsentFormVersion(formId, versionId, consentFormType, content)
 
     dispatch(consentFormVersionUpdated(updatedVersion))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.updateConsentFormVersion.success') }))
   } catch (error) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateConsentFormVersionFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.updateConsentFormVersion.failure') }))
   }
 
   dispatch(setLoading(false))
@@ -215,9 +217,9 @@ export const activateConsentFormVersion = (versionId: number) => async (dispatch
     await ConsentFormService.activateConsentFormVersion(formId, consentFormType, versionId)
 
     dispatch(consentFormVersionActivated(versionId))
-    dispatch(addNotification({ type: 'success', message: i18n.t('notification.activateConsentFormVersionSuccess') }))
+    dispatch(addNotification({ type: 'success', message: i18n.t('notification.activateConsentFormVersion.success') }))
   } catch (error) {
-    dispatch(addNotification({ type: 'error', message: i18n.t('notification.activateConsentFormVersionFailure') }))
+    dispatch(addNotification({ type: 'error', message: i18n.t('notification.activateConsentFormVersion.failure') }))
   }
 
   dispatch(setLoading(false))

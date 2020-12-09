@@ -7,6 +7,9 @@ import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware'
 import { createConnection } from 'typeorm'
 import { isProduction } from './utils'
 
+/**
+ * Customized Express application.
+ */
 class Server {
   private app: express.Application
   private port: number

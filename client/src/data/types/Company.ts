@@ -1,7 +1,7 @@
-import { Address } from './General'
+import { Address } from './Address'
 import { UserRegister } from './User'
 
-export type CompanyInfo = {
+export interface CompanyInfo {
   id: number
   name: string
   registrationNumber: string
@@ -12,33 +12,26 @@ export type CompanyInfo = {
   adminJoinedAt: Date
 }
 
-export type CompanyInfoFormatted = {
-  name: string
-  registrationNumber: string
-  address: Address
-  admin: UserRegister
-}
-
-export type CompanyShortInfo = {
+export interface CompanyShortInfo {
   name: string
   registrationNumber: string
   address: string
 }
 
-export type CompanyShortUpdate = {
+export interface CompanyShortUpdate {
   name: string
   registrationNumber: string
   address: Address
 }
 
-export type CompanyRegister = {
+export interface CompanyRegister {
   name: string
   registrationNumber: string
   address: Address
   admin: UserRegister
 }
 
-export type CompanyUpdate = {
+export interface CompanyUpdate {
   id: number
   name: string
   registrationNumber: string
@@ -46,7 +39,15 @@ export type CompanyUpdate = {
   admin?: UserRegister
 }
 
-export type CompanyConfig = {
+export interface EmployeeInfo {
+  id: number
+  firstName: string
+  lastName: string
+  email: string
+  createdAt: Date
+}
+
+export interface CompanyConfig {
   storeNationality: boolean
   storeAddress: boolean
   storePhoneNumber: boolean

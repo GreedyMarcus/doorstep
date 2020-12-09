@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -20,19 +20,13 @@ import GuestSelectorDialog from '../GuestSelectorDialog'
 import DefaultDialogActions from '../shared/DefaultDialogActions'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import useStyles from './useStyles'
-import useInput from '../../components/shared/useInput'
+import useVisitSchedulerDialog from './useVisitSchedulerDialog'
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
 import { VisitCreate } from '../../data/types/Visit'
-import { GuestUserRegister } from '../../data/types/User'
 import { visitPurposeStrings } from '../../data/enums/VisitPurpose'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../store'
-import { addNotification } from '../../store/action'
-import { availableGuestUsersSelector, fetchAvailableGuestUsers } from '../../store/company'
-import { createVisit } from '../../store/visit'
 
-type Props = {
+interface VisitSchedulerDialogProps {
   visit?: VisitCreate
   isEditing?: boolean
   onClose: () => void
@@ -41,85 +35,42 @@ type Props = {
 /**
  * Custom dialog component to schedule visits.
  */
-const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) => {
+const VisitSchedulerDialog: React.FC<VisitSchedulerDialogProps> = ({ visit, isEditing, onClose }) => {
   const classes = useStyles()
   const fullScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-  const dispatch = useAppDispatch()
-  const availableGuests = useSelector(availableGuestUsersSelector)
-  const [isOpen, setOpen] = useState(true)
-  const [t] = useTranslation()
-
-  const [purpose, setPurpose] = useState(0)
-  const [room, bindRoom] = useInput('', true)
-  const [plannedEntry, setPlannedEntry] = useState(null as Date | null)
-  const [guests, setGuests] = useState([] as GuestUserRegister[])
 
   const [isGuestDialogOpen, setGuestDialogOpen] = useState(false)
   const [isGuestSelectorOpen, setGuestSelectorOpen] = useState(false)
 
-  const addGuest = (newGuest: GuestUserRegister) => {
-    if (guests.some(guest => guest.email === newGuest.email)) {
-      dispatch(addNotification({ type: 'error', message: t('notification.duplicatedGuest') }))
-      return
-    }
-
-    setGuests([...guests, newGuest])
-  }
-
-  const addMultipleGuests = (newGuests: GuestUserRegister[]) => {
-    setGuests([...guests, ...newGuests])
-  }
-
-  const deleteGuest = (index: number) => {
-    const items = [...guests]
-    items.splice(index, 1)
-    setGuests(items)
-  }
-
-  const handleClose = () => {
-    // This method provides smooth exit animation for the component
-    setOpen(false)
-    setTimeout(() => onClose(), 300)
-  }
-
-  const handleSave = () => {
-    if (!room.isValid || !plannedEntry || !guests.length) {
-      dispatch(addNotification({ type: 'error', message: t('notification.invalidVisitData') }))
-      return
-    }
-
-    const visitData: VisitCreate = {
-      businessHostId: -1,
-      purpose: visitPurposeStrings[purpose],
-      room: room.value,
-      plannedEntry: plannedEntry.toISOString(),
-      invitedGuests: guests
-    }
-
-    dispatch(createVisit(visitData))
-    handleClose()
-  }
-
-  useEffect(() => {
-    if (!availableGuests.length) {
-      dispatch(fetchAvailableGuestUsers())
-    }
-  }, [])
-
-  const availables = availableGuests.filter(available => guests.every(guest => guest.email !== available.email))
+  const [t] = useTranslation()
+  const [
+    isOpen,
+    purpose,
+    setPurpose,
+    bindRoom,
+    plannedEntry,
+    setPlannedEntry,
+    guests,
+    availables,
+    addGuest,
+    addMultipleGuests,
+    deleteGuest,
+    handleSave,
+    handleClose
+  ] = useVisitSchedulerDialog({ visit, isEditing, onClose })
 
   return (
-    <React.Fragment>
+    <>
       <Dialog fullScreen={fullScreen} maxWidth="sm" open={isOpen} onClose={handleClose}>
-        <DialogTitle className={classes.title}>{t('visit.scheduler')}</DialogTitle>
+        <DialogTitle className={classes.title}>{t('page.visits.scheduler')}</DialogTitle>
         <DialogContent className={classes.content} dividers>
           <Typography className={classes.sectionTitle} component="h1">
-            {t('visit.details')}
+            {t('page.visits.details')}
           </Typography>
 
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography className={classes.label}>{t('visit.purpose')}</Typography>
+              <Typography className={classes.label}>{t('page.visits.purpose')}</Typography>
               <Select
                 className={classes.select}
                 fullWidth={fullScreen}
@@ -129,17 +80,17 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
               >
                 {visitPurposeStrings.map((value, index) => (
                   <MenuItem key={value} value={index}>
-                    {value}
+                    {t(`enum.visitPurpose.${value}`)}
                   </MenuItem>
                 ))}
               </Select>
             </Grid>
             <Grid item sm={6} xs={12}>
-              <TextField {...bindRoom} id="visit-room" label={t('visit.room')} variant="outlined" fullWidth />
+              <TextField {...bindRoom} label={t('common.room')} variant="outlined" fullWidth />
             </Grid>
             <Grid item sm={6} xs={12}>
               <LocalizedDateTimePicker
-                label={t('visit.plannedEntry')}
+                label={t('page.visits.plannedEntry')}
                 value={!!plannedEntry ? new Date(plannedEntry) : null}
                 minDate={new Date()}
                 onChange={date => setPlannedEntry(date)}
@@ -149,7 +100,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
           </Grid>
 
           <Typography className={classes.guestSectionTitle} component="h1">
-            {t('visit.guests')}
+            {t('page.visits.guests')}
           </Typography>
 
           <Grid container>
@@ -196,7 +147,7 @@ const VisitSchedulerDialog: React.FC<Props> = ({ visit, isEditing, onClose }) =>
       {isGuestSelectorOpen && (
         <GuestSelectorDialog guests={availables} onSave={addMultipleGuests} onClose={() => setGuestSelectorOpen(false)} />
       )}
-    </React.Fragment>
+    </>
   )
 }
 

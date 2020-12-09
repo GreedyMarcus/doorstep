@@ -3,7 +3,7 @@ import REGEXP from '../../utils/regexp'
 
 export const UserLoginSchema = Joi.object({
   email: Joi.string().pattern(REGEXP.EMAIL).required(),
-  password: Joi.string().pattern(REGEXP.PASSWORD).required()
+  password: Joi.string().required().allow('')
 })
 
 export const UserRegisterSchema = Joi.object({

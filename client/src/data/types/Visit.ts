@@ -1,9 +1,9 @@
 import { GuestUserRegister, UserShortInfo } from './User'
 import { CompanyConfig, CompanyShortInfo, CompanyShortUpdate } from './Company'
 import { ConsentFormVersionDetails } from './ConsentForm'
-import { Address } from './General'
+import { Address } from './Address'
 
-export type VisitInfo = {
+export interface VisitInfo {
   id: number
   businessHostName: string
   purpose: string
@@ -11,14 +11,14 @@ export type VisitInfo = {
   plannedEntry: Date
 }
 
-export type PlannedVisitInfo = {
+export interface PlannedVisitInfo {
   id: number
   purpose: string
   room: string
   plannedEntry: Date
 }
 
-export type InvitationInfo = {
+export interface InvitationInfo {
   id: number
   companyName: string
   businessHostName: string
@@ -27,7 +27,7 @@ export type InvitationInfo = {
   plannedEntry: Date
 }
 
-export type VisitCreate = {
+export interface VisitCreate {
   businessHostId: number
   purpose: string
   room: string
@@ -35,7 +35,7 @@ export type VisitCreate = {
   invitedGuests: GuestUserRegister[]
 }
 
-export type VisitDetails = {
+export interface VisitDetails {
   id: number
   companyName: string
   businessHost: UserShortInfo
@@ -46,7 +46,7 @@ export type VisitDetails = {
   consentFormVersionsToAccept: ConsentFormVersionDetails[]
 }
 
-export type VisitGuestInfo = {
+export interface VisitGuestInfo {
   id: number
   user: UserShortInfo
   nationality: string | null
@@ -62,7 +62,7 @@ export type VisitGuestInfo = {
   participationStatus: string
 }
 
-export type VisitGuestDetails = {
+export interface VisitGuestDetails {
   id: number
   user: UserShortInfo
   nationality: string | null
@@ -75,7 +75,7 @@ export type VisitGuestDetails = {
   identifierCardNumber: string | null
   company: CompanyShortInfo
   imageUrl: string | null
-  signatureImageUrl: string | null
+  signature: string | null
   actualEntry: Date | null
   actualExit: Date | null
   receptionistName: string | null
@@ -83,7 +83,7 @@ export type VisitGuestDetails = {
   participationStatus: string
 }
 
-export type GuestInvitationInfo = {
+export interface GuestInvitationInfo {
   id: number
   companyName: string
   buildingAddress: string
@@ -93,7 +93,7 @@ export type GuestInvitationInfo = {
   plannedEntry: Date
 }
 
-export type GuestInvitationDetails = {
+export interface GuestInvitationDetails {
   invitationInfo?: GuestInvitationInfo
   guestDetails: VisitGuestDetails
   consentFormVersionsToAccept: ConsentFormVersionDetails[]
@@ -101,7 +101,8 @@ export type GuestInvitationDetails = {
   companyRegisterConfig: CompanyConfig
 }
 
-export type GuestUpdateByUser = {
+export interface GuestUpdateByUser {
+  receptionistId?: number
   nationality: string | null
   phoneNumber: string | null
   birthplace: string | null
@@ -112,6 +113,17 @@ export type GuestUpdateByUser = {
   identifierCardNumber: string | null
   company: CompanyShortUpdate | null
   imageUrl: string | null
-  signatureImageUrl: string | null
+  signature: string | null
   consentFormVersionsAccepted: number[] // Consent form version ids
+}
+
+export type GuestBasicFormData = {
+  nationality: string | null
+  phoneNumber: string | null
+  birthplace: string | null
+  birthDate: string | null
+  motherName: string | null
+  address: Address | null
+  identifierCardType: string
+  identifierCardNumber: string | null
 }

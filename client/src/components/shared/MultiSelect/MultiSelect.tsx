@@ -5,18 +5,18 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import useStyles from './useStyles'
 
-type Props = {
+interface MultiSelectProps {
   id: string
   label: string
   items: string[]
   selectedItems: string[]
-  onChange: (value: string[]) => void
+  onChange: (values: string[]) => void
 }
 
 /**
  * Custom container component to encapsulate multi select input behaviour.
  */
-const MultiSelect: React.FC<Props> = ({ id, label, items, selectedItems, onChange }) => {
+const MultiSelect: React.FC<MultiSelectProps> = ({ id, label, items, selectedItems, onChange }) => {
   const classes = useStyles()
 
   return (

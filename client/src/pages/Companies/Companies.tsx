@@ -1,69 +1,104 @@
-import React, { useEffect } from 'react'
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
+import React from 'react'
+import Widget from '../../components/shared/Widget'
 import TableContainer from '@material-ui/core/TableContainer'
 import Table from '@material-ui/core/Table'
-import TableHead from '@material-ui/core/TableHead'
+import ResponsiveTableHead from '../../components/shared/ResponsiveTableHead'
 import TableBody from '@material-ui/core/TableBody'
-import TableRow from '@material-ui/core/TableRow'
-import TableCell from '@material-ui/core/TableCell'
+import CollapsibleTableRow from '../../components/shared/CollapsibleTableRow'
+import EditTableCell from '../../components/shared/EditTableCell'
+import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import InfoBox from '../../components/shared/InfoBox'
-import CompanyTableRow from '../../components/CompanyTableRow'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import CompanyEditorDialog from '../../components/CompanyEditorDialog'
 import useStyles from './useStyles'
-import { Theme } from '@material-ui/core/styles/createMuiTheme'
+import useCompanies from './useCompanies'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from '../../store'
-import { companiesSelector, fetchCompanies } from '../../store/company'
 
+/**
+ * The companies page where current companies are displayed.
+ */
 const Companies: React.FC = () => {
   const classes = useStyles()
-  const dispatch = useAppDispatch()
-  const showMore = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
-  const companies = useSelector(companiesSelector)
-  const [t] = useTranslation()
-
-  useEffect(() => {
-    dispatch(fetchCompanies())
-  }, [])
+  const [t, i18n] = useTranslation()
+  const [
+    companies,
+    editingCompany,
+    getCompanyDetails,
+    getCompanyAdminDetails,
+    handleCompanyEditClick,
+    handleCompanyEditFinish
+  ] = useCompanies()
 
   return (
-    <Container className={classes.container} component="main" maxWidth="lg">
-      <Paper elevation={3}>
-        <Typography className={classes.title} variant="h1">
-          {t('general.companies')}
-        </Typography>
-        {!companies.length ? (
-          <InfoBox text={t('company.noCompanyInfo')} type="info" />
-        ) : (
-          <TableContainer>
-            <Table aria-label="companies table">
-              <TableHead>
-                <TableRow>
-                  <TableCell className={classes.emptyCell} />
-                  <TableCell className={classes.tableCell}>{t('company.name')}</TableCell>
-                  {showMore && (
-                    <React.Fragment>
-                      <TableCell className={classes.tableCell}>{t('company.registrationNumber')}</TableCell>
-                      <TableCell className={classes.tableCell}>{t('company.admin')}</TableCell>
-                      <TableCell className={classes.tableCell}>{t('company.joiningDate')}</TableCell>
-                    </React.Fragment>
-                  )}
-                  <TableCell className={classes.emptyCell} />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {companies.map(company => (
-                  <CompanyTableRow key={company.id} company={company} showMore={showMore} />
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-      </Paper>
-    </Container>
+    <>
+      <Widget
+        title={t('page.companies.pageTitle')}
+        showContent={!!companies}
+        hasContent={!!companies?.length}
+        infoText={t('page.companies.noCompanyInfo')}
+      >
+        <TableContainer className={classes.tableContainer}>
+          <Table>
+            <ResponsiveTableHead
+              labels={[
+                t('page.companies.companyName'),
+                t('page.companies.registrationNumber'),
+                t('page.companies.admin'),
+                t('page.companies.joiningDate')
+              ]}
+              emptyStart
+              emptyEnd
+            />
+            <TableBody>
+              {companies?.map(company => (
+                <CollapsibleTableRow
+                  key={company.id}
+                  labels={[
+                    company.name,
+                    company.registrationNumber,
+                    company.adminName,
+                    new Date(company.createdAt).toLocaleDateString(i18n.language)
+                  ]}
+                  extraCell={<EditTableCell tooltip={t('action.editCompany')} onEdit={() => handleCompanyEditClick(company)} />}
+                >
+                  <Grid container className={classes.tableRowGrid}>
+                    <Grid item xs={12}>
+                      <Typography className={classes.contentTitle} component="h1">
+                        {t('common.details')}
+                      </Typography>
+                    </Grid>
+
+                    <Grid className={classes.item} item sm={6} xs={12}>
+                      <Typography variant="h2" className={classes.sectionTitle}>
+                        {t('page.companies.companyDetails')}
+                      </Typography>
+
+                      {getCompanyDetails(company).map(({ labelLanguageKey, value }) => (
+                        <Typography className={classes.item} gutterBottom key={labelLanguageKey}>
+                          <span className={classes.bold}>{t(labelLanguageKey)}:</span> {value}
+                        </Typography>
+                      ))}
+                    </Grid>
+
+                    <Grid item sm={6} xs={12}>
+                      <Typography variant="h2" className={classes.sectionTitle}>
+                        {t('page.companies.adminDetails')}
+                      </Typography>
+
+                      {getCompanyAdminDetails(company).map(({ labelLanguageKey, value }) => (
+                        <Typography className={classes.item} gutterBottom key={labelLanguageKey}>
+                          <span className={classes.bold}>{t(labelLanguageKey)}:</span> {value}
+                        </Typography>
+                      ))}
+                    </Grid>
+                  </Grid>
+                </CollapsibleTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Widget>
+      {editingCompany && <CompanyEditorDialog company={editingCompany} isEditing={true} onClose={handleCompanyEditFinish} />}
+    </>
   )
 }
 
