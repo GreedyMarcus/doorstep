@@ -37,6 +37,11 @@ export interface ProtectedRouteProps extends RouteProps {
    * If present, the route unreachable for authenticated users.
    */
   noAuth?: boolean
+
+  /**
+   * The relative route path.
+   */
+  path: string
 }
 
 /**
