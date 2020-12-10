@@ -1,7 +1,15 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import config from './config'
+import ormconfig from './ormconfig'
+import apiRouter from './routes'
+import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware'
+import { createConnection } from 'typeorm'
+import { isProduction } from './utils'
 
+/**
+ * Customized Express application.
+ */
 class Server {
   private app: express.Application
   private port: number
@@ -9,11 +17,14 @@ class Server {
 
   constructor() {
     this.app = express()
-    this.port = config.PORT
-    this.env = config.NODE_ENV
+    this.port = config.server.port
+    this.env = config.server.env
   }
 
-  configure() {
+  /**
+   * Configures the different middlewares and routes for the Express application.
+   */
+  public configure(): void {
     this.app.use(
       cors({
         origin: true,
@@ -22,14 +33,30 @@ class Server {
       })
     )
     this.app.use(express.json())
+    this.app.use('/api', apiRouter)
 
-    this.app.get('/', (req: Request, res: Response) => res.send('Doorstep'))
+    // Serve static assets in production
+    if (isProduction()) {
+      this.app.use(express.static(__dirname.replace('build/server', 'client/build')))
+      this.app.get('*', (req: Request, res: Response) => {
+        res.sendFile(__dirname.replace('build/server', 'client/build/index.html'))
+      })
+    }
+
+    this.app.use(errorHandlerMiddleware)
   }
 
-  start() {
-    this.app.listen(this.port, () => {
-      console.log(`Server running in ${this.env} mode on port ${this.port}!`)
-    })
+  /**
+   * Starts the Express application.
+   */
+  public start(): void {
+    createConnection(ormconfig)
+      .then(() => {
+        this.app.listen(this.port, () => {
+          console.log(`Server running in ${this.env} mode on port ${this.port}!`)
+        })
+      })
+      .catch(error => console.log(error))
   }
 }
 
